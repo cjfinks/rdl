@@ -1,0 +1,1076 @@
+
+%% bare_jrnl.tex
+%% V1.3
+%% 2007/01/11
+%% by Michael Shell
+%% see http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.7 or later) with an IEEE journal paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% and
+%% http://www.ieee.org/
+
+
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices can trigger bugs that do  ***
+% *** not appear when using other class files.                            ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or 
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
+%%*************************************************************************
+
+% Note that the a4paper option is mainly intended so that authors in
+% countries using A4 can easily print to A4 and see how their papers will
+% look in print - the typesetting of the document will not typically be
+% affected with changes in paper size (but the bottom and side margins will).
+% Use the testflow package mentioned above to verify correct handling of
+% both paper sizes by the user's LaTeX system.
+%
+% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
+% should be used if it is desired that the figures are to be displayed in
+% draft mode.
+%
+\documentclass[journal,onecolumn]{IEEEtran}
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[journal]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+%\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 4.0 (2003-05-27) and later if using hyperref.sty. cite.sty does
+% not currently provide for hyperlinked citations.
+% The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
+% The documentation is contained in the cite.sty file itself.
+
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+   \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+   \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at: 
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
+% epslatex.pdf at: http://www.ctan.org/tex-archive/info/
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+\usepackage[cmex10]{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics. If using
+% it, be sure to load this package with the cmex10 option to ensure that
+% only type 1 fonts will utilized at all point sizes. Without this option,
+% it is possible that some math symbols, particularly those within
+% footnotes, will be rendered in bitmap form which will result in a
+% document that can not be IEEE Xplore compliant!
+%
+% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
+\usepackage{amssymb,amsmath}
+
+%\usepackage{multicol}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{problem}{Problem}
+\newtheorem{question}{Question}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+
+%\linespread{1.6}
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
+% There is also a support site at:
+% http://algorithms.berlios.de/index.html
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/tools/
+
+
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+% Also highly recommended is Mark Wooding's extremely powerful MDW tools,
+% especially mdwmath.sty and mdwtab.sty which are used to format equations
+% and tables, respectively. The MDWtools set is already installed on most
+% LaTeX systems. The lastest version and documentation is available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+%\usepackage{eqparbox}
+% Also of notable interest is Scott Pakin's eqparbox package for creating
+% (automatically sized) equal width boxes - aka "natural width parboxes".
+% Available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
+
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\usepackage[tight,footnotesize]{subfigure}
+% subfigure.sty was written by Steven Douglas Cochran. This package makes it
+% easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
+% work, it is a good idea to load it with the tight package option to reduce
+% the amount of white space around the subfigures. subfigure.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at:
+% http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
+% subfigure.sty has been superceeded by subfig.sty.
+
+
+
+%\usepackage[caption=false]{caption}
+%\usepackage[font=footnotesize]{subfig}
+% subfig.sty, also written by Steven Douglas Cochran, is the modern
+% replacement for subfigure.sty. However, subfig.sty requires and
+% automatically loads Axel Sommerfeldt's caption.sty which will override
+% IEEEtran.cls handling of captions and this will result in nonIEEE style
+% figure/table captions. To prevent this problem, be sure and preload
+% caption.sty with its "caption=false" package option. This is will preserve
+% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later 
+% (recommended due to many improvements over 1.2) of subfig.sty supports
+% the caption=false option directly:
+%\usepackage[caption=false,font=footnotesize]{subfig}
+%
+% The latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
+% The latest version and documentation of caption.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure. The latest version and documentation can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
+% Documentation is contained in the stfloats.sty comments as well as in the
+% presfull.pdf file. Do not use the stfloats baselinefloat ability as IEEE
+% does not allow \baselineskip to stretch. Authors submitting work to the
+% IEEE should note that IEEE rarely uses double column equations and
+% that authors should try to avoid such use. Do not be tempted to use the
+% cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
+% not format its papers in such ways.
+
+
+%\ifCLASSOPTIONcaptionsoff
+%  \usepackage[nomarkers]{endfloat}
+% \let\MYoriglatexcaption\caption
+% \renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
+%\fi
+% endfloat.sty was written by James Darrell McCauley and Jeff Goldberg.
+% This package may be useful when used in conjunction with IEEEtran.cls'
+% captionsoff option. Some IEEE journals/societies require that submissions
+% have lists of figures/tables at the end of the paper and that
+% figures/tables without any captions are placed on a page by themselves at
+% the end of the document. If needed, the draftcls IEEEtran class option or
+% \CLASSINPUTbaselinestretch interface can be used to increase the line
+% spacing as well. Be sure and use the nomarkers option of endfloat to
+% prevent endfloat from "marking" where the figures would have been placed
+% in the text. The two hack lines of code above are a slight modification of
+% that suggested by in the endfloat docs (section 8.3.1) to ensure that
+% the full captions always appear in the list of figures/tables - even if
+% the user used the short optional argument of \caption[]{}.
+% IEEE papers do not typically make use of \caption[]'s optional argument,
+% so this should not be an issue. A similar trick can be used to disable
+% captions of packages such as subfig.sty that lack options to turn off
+% the subcaptions:
+% For subfig.sty:
+% \let\MYorigsubfloat\subfloat
+% \renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
+% For subfigure.sty:
+% \let\MYorigsubfigure\subfigure
+% \renewcommand{\subfigure}[2][\relax]{\MYorigsubfigure[]{#2}}
+% However, the above trick will not work if both optional arguments of
+% the \subfloat/subfig command are used. Furthermore, there needs to be a
+% description of each subfigure *somewhere* and endfloat does not add
+% subfigure captions to its list of figures. Thus, the best approach is to
+% avoid the use of subfigure captions (many IEEE journals avoid them anyway)
+% and instead reference/explain all the subfigures within the main caption.
+% The latest version of endfloat.sty and its documentation can obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/endfloat/
+%
+% The IEEEtran \ifCLASSOPTIONcaptionsoff conditional can also be used
+% later in the document, say, to conditionally put the References on a 
+% page by themselves.
+
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
+% Read the url.sty source comments for usage information. Basically,
+% \url{my_url_here}.
+
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+% \hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{Chaz's Theorem}
+%
+%
+% author names and IEEE memberships
+% note positions of commas and nonbreaking spaces ( ~ ) LaTeX will not break
+% a structure at a ~ so this keeps an author's name from being broken across
+% two lines.
+% use \thanks{} to gain access to the first footnote area
+% a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
+% was not built to handle multiple paragraphs
+%
+
+
+%\author{Christopher~J.~Hillar,
+%       Friedrich~T.~Sommer% <-this % stops a space
+%\thanks{The research of Hillar was conducted while at the Mathematical Sciences Research Institute (MSRI), Berkeley, CA, USA and the Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA, e-mail: chillar@berkeley.edu.  F. Sommer is also with the Redwood Center, e-mail: fsommer@berkeley.edu.
+%}}% <-this % stops a space
+
+
+% note the % following the last \IEEEmembership and also \thanks - 
+% these prevent an unwanted space from occurring between the last author name
+% and the end of the author line. i.e., if you had this:
+% 
+% \author{....lastname \thanks{...} \thanks{...} }
+%                     ^------------^------------^----Do not want these spaces!
+%
+% a space would be appended to the last name and could cause every name on that
+% line to be shifted left slightly. This is one of those "LaTeX things". For
+% instance, "\textbf{A} \textbf{B}" will typeset as "A B" not "AB". To get
+% "AB" then you have to do: "\textbf{A}\textbf{B}"
+% \thanks is no different in this regard, so shield the last } of each \thanks
+% that ends a line with a % and do not let a space in before the next \thanks.
+% Spaces after \IEEEmembership other than the last one are OK (and needed) as
+% you are supposed to have spaces between the names. For what it is worth,
+% this is a minor point as most people would not even notice if the said evil
+% space somehow managed to creep in.
+
+
+
+% The paper headers
+%\markboth{Journal of \LaTeX\ Class Files,~Vol.~6, No.~1, January~2007}%
+%{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for Journals}
+% The only time the second header will appear is for the odd numbered pages
+% after the title page when using the twoside option.
+% 
+% *** Note that you probably will NOT want to include the author's ***
+% *** name in the headers of peer review papers.                   ***
+% You can use \ifCLASSOPTIONpeerreview for conditional compilation here if
+% you desire.
+
+
+
+
+% If you want to put a publisher's ID mark on the page you can do it like
+% this:
+%\IEEEpubid{0000--0000/00\$00.00~\copyright~2007 IEEE}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark.
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+
+\begin{abstract}
+Extension of theorems in HS2011 to noisy measurements of approximately sparse vectors.
+\end{abstract}
+
+% IEEEtran.cls defaults to using nonbold math in the Abstract.
+% This preserves the distinction between vectors and scalars. However,
+% if the journal you are submitting to favors bold math in the abstract,
+% then you can use LaTeX's standard command \boldmath at the very start
+% of the abstract to achieve this. Many IEEE journals frown on math
+% in the abstract anyway.
+
+% Note that keywords are not normally used for peerreview papers.
+\begin{IEEEkeywords}
+Dictionary learning, sparse coding, sparse matrix factorization, uniqueness, compressed sensing, combinatorial matrix theory
+\end{IEEEkeywords}
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+% \IEEEpeerreviewmaketitle
+
+\section{Introduction}
+% The very first letter is a 2 line initial drop letter followed
+% by the rest of the first word in caps.
+% 
+% form to use if the first word consists of a single letter:
+% \IEEEPARstart{A}{demo} file is ....
+% 
+% form to use if you need the single drop letter followed by
+% normal text (unknown if ever used by IEEE):
+% \IEEEPARstart{A}{}demo file is ....
+% 
+% Some journals put the first two words in caps:
+% \IEEEPARstart{T}{his demo} file is ....
+% 
+% Here we have the typical use of a "T" for an initial drop letter
+% and "HIS" in caps to complete the first word.
+
+\IEEEPARstart{I}{ntroductory} sentence. 
+
+\section{Definitions}
+
+In what follows, we will use the notation $[m]$ for the set $\{1, ..., m\}$, and ${[m] \choose k}$ for the subsets of $[m]$ of cardinality $k$. For a subset $S \subseteq [m]$ and matrix $A$ with columns $\{A_1,...,A_m\}$ we define
+\begin{equation*}
+\text{Span}\{A_S\} = \text{Span}\{A_s: s \in S\}.
+\end{equation*}
+
+\begin{definition}
+Let $V, W$ be subspaces of $\mathbb{R}^m$ and let $d(v,W) := \inf\{\|v-w\|_2: w \in W\}$. Denote by $\mathcal{S}$ the unit sphere in $\mathbb{R}^m$. The \emph{gap} metric $\Theta$ defined on [see Theory of Linear Operators in a Hilbert Space p. 69 who cites first reference] closed linear subspaces of $\mathbb{R}^{m}$ is defined as
+\begin{equation}\label{SubspaceMetric}
+\Theta(V,W) := \max\left( \sup_{\substack{v \in \mathcal{S} \cap V}} d(v,W), \sup_{\substack{w \in \mathcal{S} \cap W}} d(w,V) \right).
+\end{equation}
+
+We note the following useful fact [ref: Morris, Lemma 3.3]: If we know a priori that $\dim(W) = \dim(V)$ then 
+\begin{equation}\label{SubspaceMetricSameDim}
+\Theta(V,W) = \sup_{\substack{v \in \mathcal{S} \cap V}} d(v,W)  = \sup_{\substack{w \in \mathcal{S} \cap W}} d(w,V).
+\end{equation}
+\end{definition}
+
+\begin{definition}\label{RestrictedIsometryProperty}
+We say that $A \in  \mathbb R^{n \times m}$ satisfies the \emph{$(\ell,\alpha)$-lower-RIP} [ref: Restricted Isometry Property first introduced in "Decoding by linear programming" by Candes and Tao] when for some $\alpha \in (0,1]$,
+\begin{align*}
+\|Aa\|_2 \geq  \alpha \|a\|_2 \indent \text{ for all $\ell$-sparse } a \in \mathbb{R}^m.
+\end{align*}
+\end{definition}
+
+We note here the following useful relationship between the gap metric and the lower-RIP, the proof of which is contained  in Lemma \ref{RIPImpliesGapLemma}: If a matrix $A$ satisfies an $(\ell+1,\alpha)$-lower-RIP, then for all $S \neq S' \in {[m] \choose \ell}$, we have $\Theta(\text{Span}\{A_S\},\text{Span}\{A_{S'}\}) \geq \alpha$.
+
+\begin{definition}
+The \emph{Friedrichs angle} $\theta_F \in [0,\frac{\pi}{2}]$ between two subspaces $V$ and $W$, is the minimal angle between $V \cap (V \cap W)^\perp$ and $W \cap (W \cap V)^\perp$:
+\begin{align}
+\cos\theta_F := \max\left\{ \frac{ \langle v, w \rangle }{\|v\|\|w\|}: v \in V \cap (V \cap W)^\perp, w \in W \cap (V \cap W)^\perp \right\}
+\end{align}
+\end{definition}
+
+
+%---ROBUST DETERMINISTIC UNIQUENESS THEOEM---%%%
+
+\section{Robust Deterministic Uniqueness Theorem}
+\begin{definition} 
+We say a dataset $Y = \{y_1, ..., y_N \}$ has a \emph{sparse representation} with respect to some matrix $A$ when for some 
+\end{definition}
+
+\begin{definition}
+We say a dataset $Y = \{y_1, ..., y_N \}$ has a \emph{$C$-stable sparse representation} when it satisfies the following property: there exists some $C > 0$  such that any pair of matrices $A, B \in \mathbb{R}^{n \times m}$, $A$ having unit norm columns, for which $\|y_i - Aa_i\|\leq \varepsilon$ and $\|y_i - Bb_i\| \leq \varepsilon$ for some $k$-sparse $a_i, b_i \in \mathbb{R}^m$ for all $i \in 1, \ldots, N$ are such that $\|(A - BPD)e_i\| \leq C\varepsilon$ for some permutation matrix $P \in \mathbb{R}^m$ and invertible diagonal matrix $D \in \mathbb{R}^m$, provided $\varepsilon$ is small enough.
+\end{definition}
+
+\begin{theorem}\label{RobustDUT}
+Fix $k \leq n < m$ and $\alpha \in (0,1]$. There exist sets of $N = k {m \choose k}^2$ $k$-sparse $a_i \in \mathbb{R}^m$ and $C > 0$ with the following property: if $Y = \{y_1, ..., y_N \}$ is a dataset for which, for some $A \in \mathbb{R}^{n \times m}$ with unit norm columns satisfying a $(2k, \alpha)$-lower-RIP, $\|y_i - Aa_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$, then $Y$ has a $C$-stable spare representation.
+\end{theorem}
+
+\begin{corollary}\label{corollary}
+Theorem 1 in HS2011. \emph{Proof:} The spark condition implies $(2k,\alpha)$-lower-RIP for some $\alpha > 0$. Set $\varepsilon = 0$.
+\end{corollary}
+
+\emph{Proof of Theorem \ref{RobustDUT}:} First, we produce a set of $N = k{m \choose k}^2$ vectors in general linear position (i.e. any set of $k$ of them are linearly independent). Specifically, let $\sigma_1, ..., \sigma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\sigma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\sigma_j$ are distinct, any $k \times k$ "Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $a_1, ..., a_N \in \mathbb{R}^m$ by setting the nonzero values of vector $a_i$ to be those contained in the $i$th column of $V$ while partitioning the $a_i$ evenly among the ${m \choose k}$ possible supports.
+
+We will demonstrate that the existence of these $a_i$ proves the theorem. First, we claim that there exists some $\delta > 0$ such that for any set of $k$ vectors $a_{i_1}, ..., a_{i_k}$, the following is true:
+\begin{align}\label{DataSpread}
+\|\sum_{j = 1}^k c_j a_{i_j}\|_2 \geq \delta \|c\|_1 \indent \text{for all} \indent c = (c_1, ..., c_k) \in \mathbb{R}^m.
+\end{align}
+
+To see why, consider the compact set $\mathcal{C} = \{c: \|c\|_1 = 1\}$ and the continuous map
+\begin{align*}
+\phi: \mathcal{C} &\to \mathbb{R} \\
+(c_1, ..., c_k) &\mapsto \|\sum_{j = 1}^k c_j a_{i_j}\|_2.
+\end{align*}
+
+By general linear position of the $a_i$, we know that $0 \notin \phi(\mathcal{C})$. Since $\mathcal{C}$ is compact, we have by continuity of $\phi$ that $\phi(\mathcal{C})$ is also compact; hence it is closed and bounded. Therefore $0$ can't be a limit point of $\phi(\mathcal{C})$ and there must be some $\delta > 0$ such that the neighbourhood $\{x: x < \delta\} \subseteq \mathbb{R} \setminus \phi(\mathcal{C})$. Hence $\phi(c) \geq \delta$ for all $c \in \mathcal{C}$. The property \eqref{DataSpread} follows by the association $c \mapsto \frac{c}{\|c\|_1}$ and the fact that there are only finitely many subsets of $k$ vectors $a_i$, hence there is some minimal $\delta$ satisfying \eqref{DataSpread} for all of them.
+
+Now suppose that $Y = \{y_1, ..., y_N\}$ is a dataset for which $\forall i \in [N], \|y_i - Aa_i\| \leq \varepsilon$ for some $A \in \mathbb{R}^{n \times m}$ satisfying the properties stated in the statement of the theorem and that for some alternate $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $b_i$ for which $\forall i \in [N], \|y_i - Bb_i\| \leq \varepsilon$. Since there are $k{m \choose k}$ vectors $a_i$ with a given support $S \in {[m] \choose k}$, the pigeon-hole principle implies that there are at least $k$ vectors $y_i$ such that $\|y_i - Aa_i\| \leq \varepsilon$ for these $a_i$ and also $\|y_i - Bb_i\| \leq \varepsilon$ for $b_i$ all sharing some support $S' \in {[m] \choose k}$. Let $\mathcal{Y} = \{y_i: i \in \mathcal{I}\}$ be a set of $k$ such vectors $y_i$ indexed by $\mathcal{I}$. 
+
+Note that any matrix satisfying the $(2k,\alpha)$-lower-RIP is such that any $2k$ columns are linearly independent. It follows from this and the general linear position of the $a_i$ that the set $\{Aa_i: i \in \mathcal{I}\}$ is a basis for $\text{Span}\{A_S\}$. Hence, fixing $z \in \text{Span}\{A_S\}$, there exist a set of $c_i \in \mathbb{R}$ such that $z = \sum_{i \in \mathcal{I}} c_iAa_i$. Letting $y = \sum_{i \in \mathcal{I}} c_iy_i  \in \text{Span}\{\mathcal{Y}\}$, we have by the triangle inequality that
+
+\begin{align}\label{4}
+\|z - y\|_2 = \| \sum_{i \in \mathcal{I}} c_i A a_i -  \sum_{i \in \mathcal{I}} c_i y_i \|_2 \leq \sum_{i \in \mathcal{I}} \| c_i (Aa_i - y_i) \|_2 = \sum_{i \in \mathcal{I}} |c_i| \| Aa_i - y_i \|_2 \leq \varepsilon \sum_{i \in \mathcal{I}} |c_i|.
+\end{align}
+
+The alternate factorization for the $y_i$ implies (by a similar manipulation as in \eqref{4}) that for $z' = \sum_{i \in \mathcal{I}} c_i Bb_i \in \text{Span}\{B_{S'}\}$ we have $\|y - z'\|_2 \leq \varepsilon \sum_{i \in \mathcal{I}} |c_i|$ as well. It follows again by the triangle inequality that
+\begin{align}\label{dist}
+\|z - z'\|_2 \leq \|z - y\|_2 + \|y - z'\|_2 = 2 \varepsilon \sum_{i \in \mathcal{I}} |c_i|.
+\end{align}
+
+Since the $a_i$ with $i \in \mathcal{I}$ all share the same support and $A$ satisfies the $(2k,\alpha)$-lower-RIP, we have 
+\begin{align}\label{len}
+\|z\|_2 = \|\sum_{i \in \mathcal{I}}^k c_i A a_i\|_2 
+= \|A (\sum_{i \in \mathcal{I}} c_i a_i) \|_2 
+\geq \alpha \|\sum_{i \in \mathcal{I}}^k c_i a_i\|_2 
+\geq \alpha\delta \sum_{i \in \mathcal{I}}^k |c_i|.
+\end{align}
+%
+where we have applied the property \eqref{DataSpread}. Combining \eqref{dist} and \eqref{len}, we see that for all $z \in \text{Span}\{\mathcal{A_S}\}$ there exists some $z' \in \text{Span}\{B_{S'}\}$ such that
+\begin{align}
+\|z - z'\|_2 \leq \tilde C\varepsilon \|z\|_2 \indent \text{where} \indent \tilde C = \frac{ 2 }{ \alpha \delta }
+\end{align}
+
+It follows that
+\begin{align}\label{ABSubspaceDistance}
+\sup_{ \substack{ z \in \text{Span}\{A_{S}\} \\ \|z\| = 1} } d(z, \text{Span}\{B_{S'}\}) \leq \tilde C\varepsilon.
+\end{align}
+
+If $\varepsilon$ is such that $\tilde C\varepsilon < 1$ then by Lemma \ref{MinimalDimensionLemma} and the fact that every $k$ columns of $A$ are linearly independent we have $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_S\}) = k$. Since $|S'| = k$, it follows that $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_S\})$. Recalling \eqref{SubspaceMetricSameDim}, it is implied by \eqref{ABSubspaceDistance} that $\Theta(\text{Span}\{A_S\}, \text{Span}\{\mathcal{B_{S'}}\}) \leq \tilde C\varepsilon$. Specifically, if
+\begin{align}
+\varepsilon < \frac{\alpha^2\delta}{4} \prod_{j=1}^k \left[ 1 + \frac{\cos\theta_j + \sqrt{2 - \cos^2\theta_j}}{1 - \cos^2\theta_j} \right]^{-1}
+\end{align}
+%
+then $\tilde C\varepsilon < 1$ and the association $S \mapsto S'$ defines a map $\pi: {[m] \choose k} \to {[m] \choose k}$ satisfying 
+\begin{align}
+\Theta(\text{Span}\{A_S\}, \text{Span}\{\mathcal{B}_{\pi(S)}\}) \leq \tilde C\varepsilon < \frac{\alpha}{2} \prod_{j=1}^k \left[ 1 + \frac{\cos\theta_j + \sqrt{2 - \cos^2\theta_j}}{1 - \cos^2\theta_j} \right]^{-1}
+\indent \text{for all} \indent S \in {[m] \choose k}.
+\end{align}
+%
+from which it follows by Lemma \ref{MainLemma} that there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that $\|(A - BPD)e_i\| \leq \tilde C \varepsilon$ for all $i = 1, \ldots, m$. 
+
+We complete the proof by showing that the dataset $Y$ has a $C$-stable sparse representation for $C = 2\tilde C$. Suppose that some matrix $A' \in \mathbb{R}^{n \times m}$ with unit norm columns is such that $\|y_i - A'a'_i\| \leq \varepsilon$ for some $k$-sparse $a'_i \in \mathbb{R}^m$ for all $i \in 1, \ldots, N$. By the preceding arguments, there exists a permutation matrix $P' \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D' \in \mathbb{R}^{m \times m}$ such that $\|(A - A'P'D')e_i\| \leq \tilde C \varepsilon$. By the triangle inequality, we have for all $i \in 1, \ldots, N$ that
+\begin{align}
+\|(A'P'D' - BPD)e_i\| \leq \|(BPD - A)e_i\| + \|(A- A'P'D')e_i\| \leq 2\tilde C \varepsilon
+\end{align}
+
+\textbf{FINISH THIS} \indent $\blacksquare$
+
+%%%---MAIN LEMMA---%%%
+
+\begin{lemma}[Main Lemma]\label{MainLemma}
+Fix positive integers $k \leq n < m$. Let $A,B \in \mathbb{R}^{n \times m}$ with $A$ having the $(2k,\alpha)$-lower-RIP and unit norm columns and let $\theta_j \in [0, \frac{\pi}{2}]$ be the least of all Friedrichs angles formed between pairs of subspaces for which $j$ columns of $A$ form a basis. If there exists a map $\pi: {[m] \choose k} \to {[m] \choose k}$ and $\Delta > 0$ such that for all $S \in {[m] \choose k}$, 
+\begin{equation}
+\Theta(\text{Span}\{A_S\}, \text{Span}\{B_{\pi(S)}\}) \leq \Delta < \frac{\alpha}{2} \prod_{j=1}^k \left[ 1 + \frac{\cos\theta_j + \sqrt{2 - \cos^2\theta_j}}{1 - \cos^2\theta_j} \right]^{-1}
+\end{equation}
+%
+then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in [m]$,
+\begin{align}
+\|(A - BPD)e_i\|_2 \leq \Delta \prod_{j=1}^k \left( \frac{ \cos\theta_j + \sqrt{2 - \cos^2\theta_j} }{ 1 - \cos^2\theta_j } \right)
+\end{align}
+\end{lemma}
+
+\emph{Proof of Lemma \ref{MainLemma}:} We prove the following equivalent statement: If there exists a map $\pi: {[m] \choose k} \to {[m] \choose k}$ and $\Delta > 0$ such that for all $S \in {[m] \choose k}$, 
+\begin{equation}\label{SubspaceDistanceUpperBound}
+\Theta(\text{Span}\{A_S\}, \text{Span}\{B_{\pi(S)}\}) \leq f_k(\Delta) < 
+\Delta_k := \frac{\alpha}{2} \prod_{j=1}^k \left[ 1 + \frac{\cos\theta_j + \sqrt{2 - \cos^2\theta_j}}{1 - \cos^2\theta_j} \right]^{-1}
+\end{equation}
+%
+where
+\begin{align}
+f_k(\Delta) = \Delta \prod_{j=1}^k \left( \frac{ 1 - \cos^2\theta_j }{ \cos\theta_j + \sqrt{2 - \cos^2\theta_j} } \right)
+\end{align}
+%
+then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in [m]$,
+\begin{align}
+\|(A - BPD)e_i\|_2 \leq \Delta .
+\end{align}
+
+We shall induct on $k$, the base case $k=1$ being contained in Lemma \ref{VectorUniquenessLemma}. First, we demonstrate that $\pi$ is injective (and thus bijective) for $k \geq 2$. Suppose $\pi(S_1) = \pi(S_2) = S^*$ for some $S_1, S_2 \in {[m] \choose k}$. We have by the triangle inequality and \eqref{SubspaceDistanceUpperBound} that
+\begin{align*}
+\Theta(\text{Span}\{A_{S_1}\}, \text{Span}\{A_{S_2}\}) 
+\leq \Theta(\text{Span}\{A_{S_1}\}, \text{Span}\{B_{S^*}\}) + \Theta(\text{Span}\{B_{S^*}\}, \text{Span}\{A_{S_2}\}) < 2\Delta_k < \alpha
+\end{align*}
+%
+from which it follows by Lemma \ref{RIPImpliesGapLemma} (setting $\ell = k+1$) that $S_1 = S_2$. Hence $\pi$ is bijective. Moreover, from this bijectivity of $\pi$ and the fact that every $k$ columns of $A$ are linearly independent, it follows by Lemma \ref{MinimalDimensionLemma} that every $k$ columns of $B$ are linearly independent. (Fix $S \in {[m] \choose k}$. Then $\Theta(\text{Span}\{A_{\pi^{-1}(S)}\}, \text{Span}\{B_{S}\}) < \Delta_k < 1$ and we have $k \geq \dim(\text{Span}\{B_{S}) \geq \dim(\text{Span}\{A_{\pi^{-1}(S)}\}) = k$.)
+
+The bijectivity of $\pi$ actually implies another constraint on the columns of $B$ which we demonstrate now to make use of later. When we consider that not only do the columns of $A$ form linearly independent subsets, but satisfy a $(2k,\alpha)$-lower-RIP, we have
+\begin{align}\label{Bprop1}
+\Theta(\text{Span}\{B_{S_1}\}, \text{Span}\{B_{S_2}\}) \geq \alpha - 2f_k(\Delta) > \alpha - 2\Delta_k > 0 \indent \text{for all} \indent S_1 \neq S_2 \in {[m] \choose k}.
+\end{align}
+
+This follows from Lemma \ref{RIPImpliesGapLemma} and the triangle inequality, since
+\begin{align*}
+\alpha \leq \Theta(\text{Span}\{A_{\pi^{-1}(S_1)}\}, \text{Span}\{A_{\pi^{-1}(S_2)}\}) &\leq \Theta(\text{Span}\{A_{\pi^{-1}(S_1)}\}, \text{Span}\{B_{S_1}\})
++ \Theta(\text{Span}\{B_{S_1}\}, \text{Span}\{B_{S_2}\}) \\
+&+ \Theta(\text{Span}\{B_{S_2}\}, \text{Span}\{A_{\pi^{-1}(S_2)}\}) \\
+ &\leq 2f_k(\Delta) + \Theta(\text{Span}\{B_{S_1}\}, \text{Span}\{B_{S_2}\}).
+\end{align*}
+
+We complete the proof of the lemma, inductively, by producing a map $\tau: {[m] \choose k-1} \to {[m] \choose k-1}$ such that
+\begin{align}
+\Theta(\text{Span}\{A_S\}, \text{Span}\{B_{\tau(S)}\}) \leq f_{k-1}(\Delta) < \Delta_{k-1}
+\end{align}
+%
+holds for all $S \in {[m] \choose k-1}$. Fix $S \in {[m] \choose k-1}$ and set $S_1 = S \cup \{q\}$ and $S_2 = S \cup \{p\}$ for some $q,p \notin S$ with $q \neq p$ (we know such a pair must exist since $k < m$) so that $\pi^{-1}(S_1) \neq \pi^{-1}(S_2)$ by injectivity of $\pi$. Condition \eqref{SubspaceDistanceUpperBound} implies that for all unit vectors $z \in \text{Span}\{B_{S_1}\} \cap \text{Span}\{B_{S_2}\}$, we have $d(z, \text{Span}\{A_{\pi^{-1}(S_1)}\}) \leq f_k(\Delta)$ and $d(z, \text{Span}\{A_{\pi^{-1}(S_2)}\}) \leq f_k(\Delta)$. It follows by Lemmas \ref{DistanceToIntersectionLemma} and \ref{SpanIntersectionLemma} that
+\begin{align}\label{dbound}
+d\left( z, \text{Span}\{A_{\pi^{-1}(S_1) \cap \pi^{-1}(S_2)} \} \right)
+\leq f_k(\Delta) \left( \frac{ \cos\theta_k + \sqrt{2 - \cos^2\theta_k} }{1 - \cos^2\theta_k} \right)
+= f_{k-1}(\Delta)
+\end{align}
+
+Noting that $f_k(\Delta) < \Delta_k$, we have:
+\begin{align}\label{ltdk}
+f_{k-1}(\Delta) &< \Delta_k \left( \frac{ \cos\theta_k + \sqrt{2 - \cos^2\theta_k} }{1 - \cos^2\theta_k} \right) \nonumber \\
+&= \Delta_{k-1} \left[ 1 + \frac{\cos\theta_k + \sqrt{2 - \cos^2\theta_k}}{1 - \cos^2\theta_k} \right]^{-1}  \left( \frac{ \cos\theta_k + \sqrt{2 - \cos^2\theta_k} }{1 - \cos^2\theta_k} \right) \nonumber \\
+&< \Delta_{k-1} 
+\end{align}
+
+Since \eqref{dbound} holds for all unit vectors $z \in \text{Span}\{B_{S_1}\} \cap \text{Span}\{B_{S_2}\} \supseteq \text{Span}\{B_S\}$, it follows that
+\begin{align}\label{dlt}
+\sup_{ \substack{ z \in \text{Span}\{B_{S} \}\\ \|z\|=1} } d\left(z, \text{Span}\{A_{\pi^{-1}(S_1) \cap \pi^{-1}(S_2)}\}  \right) \leq f_{k-1}(\Delta) < \Delta_{k-1},
+\end{align}
+
+We will show that, in fact, $\Theta\left( \text{Span}\{B_S\}, \text{Span}\{A_{\pi^{-1}(S_1) \cap \pi^{-1}(S_2)}\} \right) \leq f_{k-1}(\Delta) < \Delta_{k-1}$. Recalling \eqref{SubspaceMetricSameDim}, it suffices to show that $\dim(\text{Span}\{B_{S}\}) = \dim( \text{Span}\{A_{\pi^{-1}(S_1) \cap \pi^{-1}(S_2)}\})$. Since every $k-1$ columns of $B$ are linearly independent, we know $\dim(\text{Span}\{B_{S}\}) = k-1$. Since $\Delta_{k-1} < 1$, it follows from \eqref{dlt} and Lemma \ref{MinimalDimensionLemma} that $\dim(\text{Span}\{A_{\pi^{-1}(S_1) \cap \pi^{-1}(S_2)}\}) \geq k-1$, and the number of elements in $\pi^{-1}(S_1) \cap \pi^{-1}(S_2)$ is then either $k-1$ or k. Knowing $\pi^{-1}(S_1) \neq \pi^{-1}(S_2)$, it must be that $|\pi^{-1}(S_1) \cap \pi^{-1}(S_2)| = k-1$; hence, since every $k-1$ columns of $A$ are linearly independent, $\dim(\text{Span}\{A_{\pi^{-1}(S_1) \cap \pi^{-1}(S_2)}\}) = \dim(\text{Span}\{B_{S}\}) = k-1$. 
+
+The association $\gamma: S \mapsto \pi^{-1}(S_1) \cap \pi^{-1}(S_2)$ thus defines a function $\gamma: {[m] \choose k-1} \to {[m] \choose k-1}$ with $\Theta(\text{Span}\{B_S\}, \text{Span}\{A_{\gamma(S)}\} \leq f_{k-1}(\Delta) < \Delta_{k-1}$. We now show that $\gamma$ is injective, which implies that $\tau = \gamma^{-1}$ is the map desired for the induction. Suppose $\gamma(S) = \gamma(S') = S^*$ for some $S, S' \in {[m] \choose k-1}$.  By the triangle inequality, 
+\begin{align}\label{lt2d}
+\Theta(\text{Span}\{B_S\}, \text{Span}\{B_{S'}\}) \leq \Theta(\text{Span}\{B_S\}, \text{Span}\{A_{S^*}\}) + \Theta(\text{Span}\{A_{S^*}\}, \text{Span}\{B_{S'}\}) \leq 2f_{k-1}(\Delta)
+\end{align}
+
+Recalling \eqref{dbound}, we have:
+\begin{align}\label{inductionineq}
+f_{k-1}(\Delta) + f_k(\Delta) 
+&= f_k(\Delta)\left[ 1 + \frac{\cos\theta_k + \sqrt{2 - \cos^2\theta_k}}{1 - \cos^2\theta_k} \right] 
+< \Delta_k \left[ 1 + \frac{\cos\theta_k + \sqrt{2 - \cos^2\theta_k}}{1 - \cos^2\theta_k} \right] 
+= \Delta_{k-1}
+< \frac{\alpha}{2}
+\end{align}
+
+Hence, we have  $2f_{k-1}(\Delta) < \alpha - 2f_k(\Delta)$, implying by \eqref{lt2d} that $\Theta(\text{Span}\{B_S\}, \text{Span}\{B_{S'}\}) < \alpha - 2f_k(\Delta)$. Recalling \eqref{Bprop1}, we have by Lemma \ref{GapInheritanceLemma} (setting $\ell = k-1$) \textbf{NEEDS PROOF} that $S = S'$. Thus, $\gamma$ is injective. \indent $\blacksquare$
+
+%%%---VECTOR UNIQUENESS LEMMA---%%%
+
+\begin{lemma}\label{VectorUniquenessLemma}
+Fix positive integers $n < m$ and let $A,B \in \mathbb{R}^{n \times m}$ with $A$ having the $(2,\alpha)$-lower-RIP and unit norm columns. If there exists a map $\pi: [m] \to [m]$ such that for all $i \in \{1, ..., m \}$,
+\begin{align}\label{VULcondition}
+\Theta\left( \text{Span}\{Ae_i\}, \text{Span}\{Be_{\pi(i)}\} \right) \leq \Delta \indent \text{for some} \indent \Delta < \frac{\alpha}{\sqrt{2}} 
+\end{align}
+%
+then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that $b_i = PDa_i$ and $\|A_i - BPD_i\|_2 \leq \Delta$ for all $i \in [m]$.
+\end{lemma}
+
+\emph{Proof of Lemma \ref{VectorUniquenessLemma}:} 
+We will show that $\pi$ is injective (and thus a permutation) by supposing $\pi(i) = \pi(j)$ for some $i \neq j \in [m]$ and reaching a contradiction. It follows from \eqref{VULcondition} that for all basis vectors $e_i$ we have $d(Ae_i, \text{Span}\{Be_{\pi(i)}\}) \leq \Delta$. Equivalently, for any $a_1 = c_1e_i \in \mathbb{R}^m$ there exists some $b_1 = \tilde c_1 e_{\pi(i)} \in \mathbb{R}^m$ such that
+\begin{align}\label{VUL1}
+\|Aa_1 - Bb_1\|_2 = \|A(c_1e_i) - B(\tilde{c}_1e_{\pi(i)})\|_2 = \|c_1Ae_i - \tilde{c}_1Be_{\pi(j)}\|_2 \leq \Delta |c_1|,
+\end{align}
+%
+where we have used $\pi(i) = \pi(j)$. Similarly, for any $a_2 = c_2e_j \in \mathbb{R}^m$ there exists some $b_1 = \tilde c_2 e_{\pi(j)} \in \mathbb{R}^m$ such that
+\begin{align}\label{VUL2}
+\|Aa_2 - Bb_2\|_2 = \|A(c_2e_j) - B(\tilde{c}_2e_{\pi(j)})\|_2 = \|c_2Ae_j - \tilde{c}_2Be_{\pi(j)}\|_2 \leq \Delta |c_2|.
+\end{align}
+Note that for $c_1 \neq 0$, if $\tilde c_1 = 0$ then equation \eqref{VUL1} implies that $|c_1| =\|Aa_1\|_2 \leq \Delta |c_1|$, which is impossible since $\Delta < 1$; likewise, if $c_2 \neq 0$ then $\tilde c_2 \neq 0$ as well. Scaling equation \eqref{VUL1} by $\|b_2\|_1 = |\tilde c_2|$, we get
+\begin{align}\label{VUL3}
+|\tilde{c_2}| \|c_1Ae_i - \tilde{c_1}Be_{\pi(j)}\|_2 = \|c_1\tilde{c_2}Ae_i - \tilde{c}_1\tilde{c}_2Be_{\pi(j)}\|_2 \leq \Delta |c_1||\tilde{c_2}|,
+\end{align}
+%
+whereas scaling equation \eqref{VUL2} by $\|b_2\|_1 = |\tilde c_2|$ we have
+\begin{align}\label{VUL4}
+|\tilde{c_1}|\|c_2Ae_j - \tilde{c}_2Be_{\pi(j)}\|_2 = \|c_2\tilde{c}_1Ae_j - \tilde{c}_1\tilde{c}_2Be_{\pi(j)}\|_2 \leq \Delta |\tilde{c_1}| |c_2|.
+\end{align}
+
+Summing \eqref{VUL3} and \eqref{VUL4} and applying the triangle inequality, we get
+\begin{align*}
+\Delta(|c_1||\tilde{c_2}|+ |\tilde{c_1}| |c_2|) &\geq  \|c_1\tilde{c_2}Ae_i - c_2\tilde{c}_1Ae_j\|_2 \\
+&\geq \alpha \|c_1\tilde{c_2}e_i - c_2\tilde{c}_1e_j\|_2 \\
+&\geq \frac{\alpha}{\sqrt{2}}(|c_1| |\tilde{c_2}| + |c_2| |\tilde{c}_1| ),
+\end{align*}
+%
+where we have also applied the $(2,\alpha)$-lower-RIP on $A$. This is in contradiction with \eqref{VULcondition} which states that $\Delta < \frac{\alpha}{\sqrt{2}}$. Hence, $\pi$ must be injective and the matrix $P \in \mathbb{R}^{m \times m}$ whose $i$-th column is $e_{\pi(i)}$ for all $i \in [m]$ is a permutation matrix. For any set of $a_i = c_ie_i \neq 0$, if we let $D \in \mathbb{R}^{m \times m}$ be the (invertible) diagonal matrix with corresponding elements $\frac{\tilde{c}_1}{c_1}, ..., \frac{\tilde{c}_m}{c_m}$, we then have that $b_i = \tilde{c}_ie_{\pi(i)} = PD(c_ie_i) = PDa_i$ for all $i \in [m]$. Furthermore, proximity condition \eqref{ProximityCondition} becomes $||(A - BPD)e_i|| \leq \Delta$ for all $i \in [m]$ or, more generally, $||(A - BPD)x|| \leq \Delta||x||$ for all $1$-sparse $x \in \mathbb{R}^m$. $\blacksquare$
+
+%%%---RIP IMPLIES GAP LEMMA---%%%
+
+\begin{lemma}\label{RIPImpliesGapLemma}
+Suppose $M \in \mathbb{R}^{n \times m}$ satisfies the $(\ell+1,\alpha)$-lower-RIP. Then for all $S_1,S_2 \in {[m] \choose \ell}$,
+\begin{align}
+\Theta( \text{Span}\{M_{S_1}\},\text{Span}\{M_{S_2}\}) < \alpha \implies S_1 = S_2.
+\end{align}
+\end{lemma}
+
+\emph{Proof of Lemma \ref{RIPImpliesGapLemma}:} If $\ell = m$ then the result is vacuously true. Suppose $S_1 \neq S_2 \in {[m] \choose \ell}$ for some $\ell < m$ and let $r \in S_1 \setminus S_2$. Since $M$ satisfies the $(\ell+1,\alpha)$-lower-RIP we have we have $\dim(M_{S_1}) = \dim(M_{S_2})$, hence by definition of the gap metric,
+\begin{align*}
+\Theta( \text{Span}\{M_{S_1}\},\text{Span}\{M_{S_2}\})
+= \sup_{\substack{ z \in \text{Span}\{M_{S_1}\} \\ \|z\|_2 = 1} } d(z, \text{Span}\{M_{S_2}\}).
+\end{align*}
+
+Since $Me_r \in \text{Span}\{M_{S_1}\}$ and $M$ has unit norm columns,
+\begin{align*}
+\sup_{\substack{ z \in \text{Span}\{M_{S_1}\} \\ \|z\|_2 = 1} } d(z, \text{Span}\{M_{S_2}\})
+\geq d(Me_r, \text{Span}\{M_{S_2}\}).
+\end{align*}
+
+Finally, by the $(\ell+1,\alpha)$-lower-RIP on $M$ and noting that $e_r \in \text{Span}\{e_i: i \in {S_2}\}^\perp$,
+\begin{align*}
+d(Me_r, \text{Span}\{M_{S_2}\}) 
+&= \inf \{ \|Me_r - Mx\|_2 : x \in \text{Span}\{e_i: i \in {S_2}\} \} \\
+&\geq \inf \{ \alpha\|e_r - x \|_2 : x \in  \text{Span}\{e_i: i \in {S_2}\} \} \\
+&= \inf \{ \alpha \sqrt{1 + \|x\|_2^2} : x \in  \text{Span}\{e_i: i \in {S_2}\} \} \\
+&= \alpha,
+\end{align*}
+%
+which is the contrapositive of the assertion. \indent $\blacksquare$.
+
+%%%---DISTANCE TO INTERSECTION LEMMA---%%%
+
+\begin{lemma}\label{DistanceToIntersectionLemma}
+Let $x \in \mathbb{R}^m$ and suppose $V, W$ are linear subspaces of $\mathbb{R}^m$. Suppose $d(x,V) \leq d(x,W) \leq \Delta$. Then
+\begin{align}
+d(x, V \cap W) \leq \Delta \left( \frac{ \cos\theta_F + \sqrt{2 - \cos^2\theta_F} }{1 - \cos^2\theta_F} \right)
+\end{align}
+%
+where $\theta_F ]in [0, \frac{\pi}{2}]$ is the Friedrichs angle between $V$ and $W$. 
+\end{lemma}
+
+\emph{Proof of Lemma \ref{DistanceToIntersectionLemma}:} Recall that for all $x \in \mathbb{R}^m$, $d(x, U) = \|x - \Pi_U x\|$ for all subspaces $U \subseteq \mathbb{R}^m$. Since $\Pi_{V \cap W}x \in W$ for all $x \in \mathbb{R}^m$, we have by Pythagoras' theorem that
+\begin{align}\label{7.1}
+d(x, V \cap W)^2 = \|x - \Pi_{V \cap W}x\|^2 &= \|x - \Pi_W x\|^2 + \|\Pi_Wx - \Pi_{V \cap W} x\|^2.
+\end{align}
+
+The first term on the RHS of \eqref{7.1} is $d(x,W)$. Applying the triangle inequality to the second term,
+\begin{align}\label{7.2}
+\|\Pi_Wx - \Pi_{V \cap W} x\| \leq \|\Pi_Wx - \Pi_W\Pi_V x\| + \|\Pi_W\Pi_Vx - \Pi_{V \cap W}x\|.
+\end{align}
+
+The first term on the RHS of \eqref{7.2}  can be bounded as follows: $\|\Pi_Wx - \Pi_W\Pi_V x\| = \|\Pi_W(I - \Pi_V)x\| \leq \|x - \Pi_Vx\| = d(x,V)$. This is because for any projection matrix $\Pi$ and for all $x \in \mathbb{R}^m$ we have $\langle \Pi x,\Pi x - x \rangle = 0$, hence $\|\Pi x\|^2 = | \langle \Pi x, \Pi x \rangle | = | \langle \Pi x, x \rangle + \langle \Pi x, \Pi x - x \rangle | \leq \|\Pi x\|\|x\|$ by the Cauchy-Schwartz inequality. To bound the second term, we make use of the following result by [Deutsch, "Best Approximation in Inner Product Spaces, Lemma 9.5(7)"]:
+\begin{align}\label{dti2}
+\|(\Pi_W\Pi_V)x - \Pi_{V \cap W}x\| \leq \cos\theta_F\|x\| \indent \text{for all} \indent x \in \mathbb{R}^m.
+\end{align}
+
+First, note that
+\begin{align}\label{dti1}
+\|(\Pi_W\Pi_V)(x - \Pi_{V \cap W}x) - \Pi_{V \cap W}(x - \Pi_{V \cap W}x)\| 
+&= \| \Pi_W \Pi_V x - \Pi_W \Pi_V \Pi_{V \cap W} x - \Pi_{V \cap W} x + \Pi_{V \cap W}^2 x \| \nonumber \\
+&= \|(\Pi_W \Pi_V) x - \Pi_{V \cap W} x \|
+\end{align}
+%
+since $\Pi_V \Pi_{V \cap W} = \Pi_W \Pi_{V \cap W} = \Pi_{V \cap W}$ and $\Pi_{V \cap W}^2 = \Pi_{V \cap W}$ (all projection matrices are idempotent). We then have by \eqref{dti1} and \eqref{dti2} that
+\begin{align*}
+\|(\Pi_W \Pi_V) x - \Pi_{V \cap W} x \| 
+&= \|(\Pi_W\Pi_V)(x - \Pi_{V \cap W}x) - \Pi_{V \cap W}(x - \Pi_{V \cap W}x)\| \\
+&\leq \cos\theta_F \|x - \Pi_{V \cap W}x\| \\
+&= d(x, V \cap W) \cos\theta_F 
+\end{align*}
+
+It follows from this, \eqref{7.1}, \eqref{7.2} and the assumption $d(x,V) \leq d(x,W) \leq \Delta$ that
+\begin{align*}
+d(x, V \cap W)^2 &\leq d(x, W)^2 + \left[ d(x, V) + d(x, V \cap W) \cos\theta_F \right]^2 \\
+&\leq \Delta^2 + \left[ \Delta + d(x, V \cap W) \cos\theta_F \right]^2
+\end{align*}
+%
+which can be rearranged into the following quadratic inequality in $d(x, V \cap W)$:
+\begin{align}\label{quadineq}
+d(x, V \cap W)^2 \left( 1 - cos^2\theta_F \right)  - d(x, V \cap W) 2 \Delta \cos\theta_F - 2 \Delta^2 \leq 0
+\end{align}
+
+The zeros of the LHS are
+\begin{align*}
+d(x, V \cap W)_{\pm} &= \frac{ 2 \Delta \cos\theta_F \pm \sqrt{ 4\Delta^2\cos^2\theta_F - 4\left(1 - \cos^2\theta_F\right)\left(-2\Delta^2\right)} }{2 \left(1-\cos^2\theta_F\right)} \\
+&= \Delta \left( \frac{ \cos\theta_F \pm \sqrt{2 - \cos^2\theta_F} }{1 - \cos^2\theta_F} \right),
+\end{align*}
+%
+of which, for all $\theta_F \in [0, \frac{\pi}{2}]$, only $d(x, V \cap W)_{+}$ is positive. Hence \eqref{quadineq} implies that
+\begin{align*}
+0 \leq d(x, V \cap W) \leq \Delta \left( \frac{ \cos\theta_F + \sqrt{2 - \cos^2\theta_F} }{1 - \cos^2\theta_F} \right). \indent \blacksquare
+\end{align*}
+
+%%%---SPAN INTERSECTION LEMMA---%%%
+
+\begin{lemma}\label{SpanIntersectionLemma}
+Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly independent, then for $S,S' \in {[m] \choose k}$,
+\begin{equation}
+\text{Span}\{M_{S \cap S'}\} = \text{Span}\{M_{S}\} \cap \text{Span}\{M_{S'}\}
+\end{equation}
+\end{lemma}
+
+
+%%%---MINIMAL DIMENSION LEMMA---%%%
+
+\begin{lemma}\label{MinimalDimensionLemma}
+Let $V,W$ be subspaces of $\mathbb{R}^m$ and suppose that for all $v \in V$ there exists some $w \in W$ such that
+\begin{align}\label{MinDimEq}
+\|v - w\|_2 < \|v\|_2.
+\end{align}
+
+Then $\dim(W) \geq  \dim(V)$.
+\end{lemma}
+
+\emph{Proof of Lemma \ref{MinimalDimensionLemma}:} If $\dim(W) < \dim(V)$ then $V \cap W^\perp \neq \emptyset$, but for all $v \in V \cap W^\perp$ we would have that $\|v - w\|_2^2 = \|v\|_2^2 + \|w\|_2^2 \geq \|v\|_2^2$ for all $w \in W$, which is in contradiction with \eqref{MinDimEq}. \indent $\blacksquare$.
+
+\textbf{\emph{Note:} I found an equivalent statement in the literature (Corollary 2.6 in Kato, knowing also that the gap function is a metric since the ambient space is a Hilbert space (see footnote 1 p. 196))}.
+
+%%%---NORMALIZED DICTIONARY LEMMA---%%%
+
+\begin{lemma}\label{NormalizedDictionaryLemma}
+Fix matrices $A, \tilde{A} \in \mathbb{R}^{n \times m}$ where $\tilde{A} = AE$ for some invertible diagonal matrix $E = \text{diag}(\lambda_i) \in \mathbb{R}^{m \times m}$, $\lambda_i \in \mathbb{R}$ for all $i \in [m]$. If there exists a matrix $B \in \mathbb{R}^{n \times m}$ such that $\|(A - B)e_i\| \leq \varepsilon$ for all $i \in [m]$, then the matrix $\tilde{B} = BE$ satisfies $\|(\tilde{A} - \tilde{B})e_i\| \leq \lambda \varepsilon$ for all $i \in [m]$, where $\lambda = \max_i |\lambda_i|$.
+
+This lemma allows us to extend uniqueness guarantees (up to permutation, scaling, and error) for matrices with unit norm columns to those without and vice versa. 
+\end{lemma}
+
+\emph{Proof of Lemma \ref{NormalizedDictionaryLemma}:} For all $i \in [m]$, we have:
+\begin{align*}
+\|(\tilde{A} - \tilde{B})e_i\| = \|(A-B)Ee_i\| = |\lambda_i| \|(A-B)e_i\| \leq |\lambda_i| \varepsilon \leq \lambda \varepsilon 
+\indent \blacksquare
+\end{align*}
+
+%%%---CAN WE REDUCE N?---%%%
+
+\section{Can we have $N < k{m \choose k}$?}
+
+The proof relies on the existence of a set of $k$-sparse $a_i \in \mathbb{R}^m$ in general linear position (every $k$ of them are linearly independent) such that for any given support $S \in {[m] \choose k}$ there are $k {m \choose k}$ vectors $a_i$ for which $\text{supp}(a_i) \subseteq S$. The very general construction supplied in the proof invokes $N = k {m \choose k}^2$ vectors $a_i$ to satisfy this property, but we can reduce $N$ by explicitly including vectors with supports of cardinality less than $k$. For instance, the proof holds for any set of $N = m + \left[ k{m \choose k} - k\right]{m \choose k}$ vectors $a_i$ in general linear position if it contains the elementary basis vectors $e_j$ for $j \in [m]$. To see why, consider that for each support $S \in {[m] \choose k}$ there are $k$ basis vectors $e_j$  for which $\text{supp}(e_j) \subseteq S$. Hence, by constructing for every $S \in {[m] \choose k}$ an additional $k{m \choose k} - k$ vectors $a_i$ in general linear position for which $\text{supp}(a_i) = S$, we satisfy the required property. (Need to show the union of the $a_i$ and $e_j$ will still be in general linear position...substituting $e_j$ for any $a_j$ in the Vandermonde matrix shouldn't nullify it.)
+
+Alternatively, we can argue for $N < k {m \choose k}^2$ as follows. (For simplicity consider the noiseless case.) Construct $k {m \choose k}$ $k$-sparse vectors $a_i$ sharing support $S_1 \in {[m] \choose k}$. Then there exist at least $k$ $k$-sparse vectors $b_i$ in the alternate factorization sharing some support $S_1' \in {[m] \choose k}$ and it follows that $\text{Span}\{A_{S_1}\} = \text{Span}\{B_{S_1'}\}$. Suppose now we were to construct $k {m \choose k}$ $k$-sparse vectors $a_i$ sharing support $S_2 \in {[m] \choose k}$ for some $S_2 \neq S_1$. Then we know that there can't be $k$ $b_i$ in the alternate factorization sharing support $S_1'$, since this implies $\text{Span}\{A_{S_1}\} = \text{Span}\{B_{S_1'}\} = \text{Span}\{A_{S_2}\}$ which contradicts the spark condition. So given that there are $k{m \choose k}$ vectors $a_i$ sharing support $S_1$ we need not invoke just as many $a_i$ sharing support $S_2$ to argue by the pigeon-hole principle that there are at least $k$ alternate vectors $b_i$ sharing some support $S_2' \in {[m] \choose k}$. $\text{Span}\{A_{S_1 \cap S_2}\} = \text{Span}\{A_{S_1}\} \cap \text{Span}\{A_{S_2}\}$ plays into this. This may not affect the deterministic theorem, but could be incorporated into the probabilistic extensions.
+
+\section{Scrap Paper}
+
+%%%---GAP INHERITANCE LEMMA---%%%
+
+\begin{lemma}\label{GapLemma1}
+Let $U, V, W$ be subspaces of $\mathbb{R}^m$ such that $V \cap U = W \cap U = 0$. Then $\Theta(V \cup U, W \cup U) \leq \Theta(V,W)$. 
+\end{lemma}
+
+\emph{Proof of Lemma \ref{GapLemma1}:} Let $v \in V \cup U$. Since $V \cap U = 0, v = v_V + v_U$ is a unique decomposition. By definition of $\Theta$, we have
+\begin{align}
+\Theta(V \cup U, W \cup U) &= \sup_{\substack{ v \in V \cup U \\ \|v\|=1}} \inf \left\{ \|v - w\| : w \in W \cup U \right\} \\
+&= \sup_{\substack{ v \in V \cup U \\ \|v\|=1}} \inf \left\{ \|v_V + v_U - w_W - w_U\| : w \in W \cup U \right\}
+\end{align}
+
+\begin{align}
+\Theta(V \cup U, W \cup U) &= \| \Pi_{V \cup U} - \Pi_{W \cup U} \|
+\end{align}
+
+\begin{lemma}\label{GapInheritanceLemma}
+Let $M \in \mathbb{R}^{n \times m}$. If for some $\ell < m$, every set of $\ell$ columns of $M$ are linearly independent and $\Theta(\text{Span}\{M_{S_1}\}, \text{Span}\{M_{S_2}\}) \geq \Delta$ for all $S_1 \neq S_2 \in {[m] \choose \ell}$, then for any $S, S' \in {[m] \choose \ell-1}$, 
+\begin{align}
+\Theta(\text{Span}\{B_S\}, \text{Span}\{B_{S'}\}) < \Delta \implies S = S'. 
+\end{align}
+\end{lemma}
+
+\emph{Proof of Lemma \ref{GapInheritanceLemma}:} Since $\ell < m-1$ and any two distinct supports of cardinality $\ell$ can share at most $\ell-1$ indices, we have two possible scenarios given $S \neq S'$: either there exists an index $r' \notin S \cup S'$ such that $S \cup r' \neq S' \cup r' \in {[m] \choose \ell+1}$, or there exist a pair of indices $r \in S \setminus S'$ and $r' \in S' \setminus S$ such that $S \cup r' \neq S' \cup r \in {[m] \choose \ell+1}$. (\emph{Proof:} If $S \neq S' \in {[m] \choose \ell}$ then there must exist some $p \in S \setminus S'$ and $q \in S' \setminus S$. Suppose that $S \cup q = S' \cup p$. Then $S = S' \cup \{p\} \setminus \{q\}$, and $|S' \cap S| = |S' \cap (S' \cup \{p\} \setminus \{q\})| = |S' \setminus \{q\}| = \ell-1$. Hence $|S \cup S'| = \ell + 1 < m$ and there must exist some $r \in [m] \setminus (S \cup S')$; it then follows from $S \neq S'$ that $S \cup r \neq S' \cup r$.)
+
+Consider now the first scenario. Suppose $v \in \text{Span}\{M_S, M_{r'}\}$. Since every $\ell + 1$ columns of $M$ are linearly independent, we can write $v = v_S + cMe_{r'}$ for some unique $v_S \in \text{Span}\{M_S\}$ and $c \in \mathbb{R}$. Likewise for any $v' \in \text{Span}\{M_{S'}, M_{r'}\}$ we can write $v' = v'_{S'} + c'Me_{r'}$ for some unique $v'_{S'}\in \text{Span}\{M_{S'}\}$ and $c' \in \mathbb{R}$. We then have
+\begin{align*}
+d(v,\text{Span}\{M_{S'}, M_{r'}\}) &= \inf \left\{ \|v - v' \|_2 : v' \in \text{Span}\{M_{S'}, M_{r'}\} \right\} \\
+&\leq \inf \left\{ \|v_S - v'_{S'} \|_2 + \|(c-c')Me_{r'}\|_2: v'_{S'} \in \text{Span}\{M_{S'}\}, c' \in \mathbb{R} \right\} \\
+&= \inf \left\{ \|v_S - v'_{S'} \|_2 : v'_{S'}\in \text{Span}\{M_{S'}\} \right\} + \inf \left\{ |c-c'| \|Me_{r'}\|_2 : c' \in \mathbb{R} \right\} \\
+\end{align*}
+
+By definition of the gap metric,
+\begin{align}
+\Theta(\text{Span}\{M_{S}, M_{r'}\}, \text{Span}\{M_{S'}, M_r\}) 
+&= \sup \inf \left\{ \|v_S - v'_{S'} \|_2 : v'_{S'}\in \text{Span}\{M_{S'}\} \right\} + \inf \left\{ |c-c'| \|Me_{r'}\|_2 : c' \in \mathbb{R} \right\} \\
+\end{align}
+
+We now consider the second scenario. Suppose again that $v \in \text{Span}\{M_S, M_{r'}\}$ and write $v = v_S + cMe_{r'}$ for unique $v_S \in \text{Span}\{M_S\}$ and $c \in \mathbb{R}$. Keeping in mind that $r' \in S'$, we have
+\begin{align*}
+d(v,\text{Span}\{M_{S'}, M_{r}\}) &= \inf \left\{ \|v - v' \|_2 : v' \in \text{Span}\{M_{S'}, M_r\} \right\} \\
+&\leq \inf \left\{ \|v - v' \|_2 : v' \in \text{Span}\{M_{S'}\} \right\} \\
+&= \inf \left\{ \|v_S + cMe_{r'} - v' -c'Me_{r'}\|_2: v' \in \text{Span}\{M_{S'}\}, c' \in \mathbb{R} \right\} \\
+&\leq \inf \left\{ \|v_S - v' \|_2 + \|(c-c')Me_{r'}\|_2: v' \in \text{Span}\{M_{S'}\}, c' \in \mathbb{R} \right\} \\
+&= \inf \left\{ \|v_S - v' \|_2 : v' \in \text{Span}\{M_{S'}\} \right\} + \inf \left\{ |c-c'| \|Me_{r'}\|_2 : c' \in \mathbb{R} \right\} \\
+&= d(v_S, \text{Span}\{M_{S'}\})
+\end{align*}
+
+We can now proceed to argue for both scenarios simultaneously (in what follows, for the first scenario set $r = r'$), given that in either case we have $r' \notin S$. By definition of the gap metric,
+\begin{align*}
+\Theta(\text{Span}\{M_{S}, M_{r'}\}, \text{Span}\{M_{S'}, M_r\}) 
+&= \sup \left\{ d(v,\text{Span}\{M_{S'},M_r\}) : v \in \text{Span}\{M_S,M_{r'}\}, \|v\| = 1 \right\} \\
+&= \sup_{ \substack{ v_S \in \text{Span}\{M_S\} \\ c \in \mathbb{R} \\ \|v_S + cMe_{r'}\| = 1 } }\inf \left\{ \|v_S - v'_{S'} \|_2 : v'_{S'}\in \text{Span}\{M_{S'}\} \right\} \\
+&+ \sup_{ \substack{ v_S \in \text{Span}\{M_S\} \\ c \in \mathbb{R} \\ \|v_S + cMe_{r'}\| = 1 } } \inf \left\{ |c-c'| \|Me_{r'}\|_2 : c' \in \mathbb{R} \right\} \\
+&\leq \sup \left\{ d(v_S,\text{Span}\{M_{S'}\}) : v_S \in \text{Span}\{M_S\}, c \in \mathbb{R}, \|v_S + cMe_{r'}\| = 1 \right\} \\
+&= \sup \left\{ d(v_S,\text{Span}\{M_{S'}\}) : v_S \in \text{Span}\{M_S\}, \|v_S\| \leq 1 \right\} \\
+&= \sup \left\{ d(v_S,\text{Span}\{M_{S'}\}) : v_S \in \text{Span}\{M_S\}, \|v_S\| = 1 \right\} \\
+&= \Theta(\text{Span}\{M_{S} \}, \text{Span}\{M_{S'}\}) .
+\end{align*}
+%
+where the second to last equality is due to the fact that every $\ell+1$ columns of $M$ are linearly independent, since then $\|v_S+ cMe_{r'} \|=1 \iff \|v_S\| \leq 1$ \textbf{SHIT...not true}. The last equality is due to the fact that for any subspace $W \subseteq \mathbb{R}^m$ we have $\|x\| \leq 1 \implies d(x, W) \leq d(\frac{x}{\|x\|}, W)$ for all $x \in \mathbb{R}^m$. Hence,
+\begin{align}
+S \neq S' \implies \Theta(\text{Span}\{M_{S} \}, \text{Span}\{M_{S'}\}) \geq \Theta(\text{Span}\{M_{S}, M_{r}\}, \text{Span}\{M_{S'}, M_r\}) \geq \Delta,
+\end{align}
+%
+which is the contrapositive of the result. \indent $\blacksquare$
+
+
+
+
+
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
+\ifCLASSOPTIONcaptionsoff
+  \newpage
+\fi
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+\bibliography{acs}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+
+%\begin{thebibliography}{1}
+%
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+%
+%\end{thebibliography}
+
+% biography section
+% 
+% If you have an EPS/PDF photo (graphicx package needed) extra braces are
+% needed around the contents of the optional argument to biography to prevent
+% the LaTeX parser from getting confused when it sees the complicated
+% \includegraphics command within an optional argument. (You could create
+% your own custom macro containing the \includegraphics command to make things
+% simpler here.)
+%\begin{biography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
+% or if you just want to reserve a space for a photo:
+
+% if you will not have a photo at all:
+%\begin{IEEEbiographynophoto}{Christopher J. Hillar}
+%Biography text here.
+%\end{IEEEbiographynophoto}
+
+
+% if you will not have a photo at all:
+%\begin{IEEEbiographynophoto}{Friedrich Sommer}
+%Biography text here.
+%\end{IEEEbiographynophoto}
+
+% insert where needed to balance the two columns on the last page with
+% biographies
+%\newpage
+
+% You can push biographies down or up by placing
+% a \vfill before or after them. The appropriate
+% use of \vfill depends on what kind of text is
+% on the last page and whether or not the columns
+% are being equalized.
+
+%\vfill
+
+% Can be used to pull up biographies so that the bottom of the last one
+% is flush with the other column.
+%\enlargethispage{-5in}
+
+
+
+% that's all folks
+\end{document}
+
