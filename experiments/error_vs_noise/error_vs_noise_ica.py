@@ -16,14 +16,15 @@ from sklearn.preprocessing import normalize
 from sklearn.decomposition import FastICA, DictionaryLearning
 from utils import sample_from_bernoulli, corrupt_binary_data
 import os
+import scipy.io
 
 TEST = False
 PLOT = True
 COMPUTE = True
 
 """ Set generating dictionary """
-A = np.load('../../data/DCT_8x8.npz')['DCT']  # cols are rastered DCT8x8
-#A = np.load('../../data/DCT_12x12.npy')  # cols are rastered DCT12x12
+A = scipy.io.loadmat('../../data/DCT_8x8.npz')['DCT_8x8']  # cols are rastered DCT8x8
+#A = np.load('../../data/DCT_12x12.npy')['DCT_12x12']  # cols are rastered DCT12x12
 #A = np.random.randn(64, 64) # Random basis
 #A = np.dot(np.random.randn(64, 64), np.dot(np.random.randn(64, 2), np.random.randn(2, 64))) # Bad basis
 A = normalize(A, axis = 0, norm = 'l2')
