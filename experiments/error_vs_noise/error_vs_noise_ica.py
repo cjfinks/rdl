@@ -14,7 +14,7 @@ import numpy as np
 import matplotlib.pyplot as pp
 from sklearn.preprocessing import normalize
 from sklearn.decomposition import FastICA, DictionaryLearning
-from utils import sample_from_bernoulli, corrupt_binary_data
+from utils import random_sparse_vectors, closest_permutation_scaling
 import os
 import scipy.io
 
@@ -23,7 +23,7 @@ PLOT = True
 COMPUTE = True
 
 """ Set generating dictionary """
-A = scipy.io.loadmat('../../data/DCT_8x8.npz')['DCT_8x8']  # cols are rastered DCT8x8
+A = scipy.io.loadmat('../../data/DCT_8x8.mat')['DCT_8x8']  # cols are rastered DCT8x8
 #A = np.load('../../data/DCT_12x12.npy')['DCT_12x12']  # cols are rastered DCT12x12
 #A = np.random.randn(64, 64) # Random basis
 #A = np.dot(np.random.randn(64, 64), np.dot(np.random.randn(64, 2), np.random.randn(2, 64))) # Bad basis
@@ -36,10 +36,10 @@ if TEST:
 	A = np.eye(64,64)
 	epsilons = [0.01]
 	num_trials = 10
-	coeff_ivl = [0.9, 1]
-	N = 2 * m
+	coeff_ivl = [0.5, 1]
+	N = 5000
 else:
-	N = 10 * m; ks = [4]
+	N = 10 * m; ks = [1]
 	epsilons = np.linspace(.0001, 0.5, 20)
 	num_trials = 20
 	coeff_ivl = [0.5,1]
@@ -61,17 +61,17 @@ if COMPUTE:
         for epsilonID, epsilon in enumerate(epsilons):
             print "noise: %1.4f" % epsilon
             for trial in xrange(num_trials):
-                support = corrupt_binary_data( np.zeros((N,m)), bits_corrupted=k ) # sparse support indicator
-                coeffs = coeff_ivl[0] + np.diff(coeff_ivl) *  np.random.rand(N, m) # coefs uniformly distributed in coeff_ivl
-                a = support * coeffs # k-sparse codes with values in coeff_ivl
+            	a = np.diff(coeff_ivl) * random_sparse_vectors( N, m, k, support_set = 'random' )
+            	a += (a > 0) * coeff_ivl[0]
                 noise = epsilon * (1 - 2 * np.random.rand(N, n))  # noise in [-epsilon, epsilon]
-                Y = np.dot(support * coeffs, A.T) + noise
+                Y = np.dot(a, A.T) + noise
                 ica = FastICA(max_iter=1000, tol=0.0001, algorithm='parallel')  # maybe params could be more optimial
                 ica.fit(Y)  # fit the ICA model to infer mixing matrix
                 B = ica.mixing_  # Get estimated mixing matrix
                 PD = ica.transform(A.T).T # transform canonical basis vectors to get PD
+                #PD = closest_permutation_scaling( PD )
                 PD *= ( abs(PD) >= np.max(abs(PD), axis=0)[None,:] ) # Map to 'closest' permutation matrix
-                if not np.all( np.sum(PD, axis=0)  == 1 ): # check that this method worked
+                if not np.all( np.sum(abs(PD)>0, axis=0)  == 1 ): # check that this method worked
                 	print '(k = %d, epsilon = %1.4f, trial = %d) Estimated P not a permutation matrix. Need a better method to find closest PD.' % (k, epsilon, trial)
                 Ahat = np.dot(B, PD)
                 err = A - Ahat
