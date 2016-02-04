@@ -60,103 +60,36 @@ bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 
 \section{Introduction}
 
-\IEEEPARstart{O}{ne} of the fundamental questions in data analysis is how to represent the data in a way that reveals structure. Recently, algorithms have been developed for uncovering the \emph{sparse} structure of a given dataset $\mathbf{y}_1, \ldots, \mathbf{y}_N \in \mathbb{R}^n$ by attempting to solve the constrained optimization problem:
+\IEEEPARstart{O}{ne} of the fundamental questions in data analysis is how to represent the data in a way that reveals structure. Recently, algorithms have been developed for uncovering the \emph{sparse} structure of a given dataset $\mathbf{y}_1, \ldots, \mathbf{y}_N \in \mathbb{R}^n$ by approximately solving the constrained optimization problem:
 \begin{align}\label{DictionaryLearning}
 \min_{A, \mathbf{a}_i} \sum_{i=1}^N \|\mathbf{y}_i - A\mathbf{a}_i\|_2 \indent \text{subject to } \|\mathbf{a}_i\|_0 \leq k 
 \end{align}
 %
-for unknown $A \in \mathbb{R}^{n \times m}$ and $\mathbf{a}_i \in \mathbb{R}^m$ with $k < m$. Known variously as dictionary learning, sparse coding, sparse matrix factorization, or sparse component analysis (SCA), this framework emphasizes parsimony in representation by approximating each datum $\mathbf{y}_i$ by some linear combination of at most $k$ columns of $A$, typically for $k \ll m$. 
+for unknown $A \in \mathbb{R}^{n \times m}$ and $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with $k < m$. Known variously as dictionary learning, sparse coding, sparse matrix factorization, or \emph{sparse component analysis} (SCA), this framework emphasizes parsimony in representation by approximating each $\mathbf{y}_i$ by some linear combination of at most $k$ columns of $A$, typically with $k \ll m$. 
 
-It is natural to wonder how various solutions to \eqref{DictionaryLearning} may differ from one another. Specifically, in what sense can the representation $\mathbf{y}_i \approx A\mathbf{a}_i$ be said to be uniquely determined, or at least approximately so? This is of fundamental concern when SCA is applied to the problem of blind source separation, in which case we assume a priori the linear model
+It is natural to wonder how various solutions to \eqref{DictionaryLearning} may differ from one another. Specifically, in what sense can the representation $\mathbf{y}_i \approx A\mathbf{a}_i$ be said to be uniquely determined, or at least approximately so? This is of fundamental concern when SCA is applied to the problem of blind source separation, in which case we assume the linear model:
 \begin{align}\label{LinearModel}
 \mathbf{y}_i = A\mathbf{a}_i + \mathbf{\eta}_i 
 \end{align}
 %
-where the vector $\mathbf{\eta}_i \in \mathbb{R}^n$ accounts for both noise in the measurement process and the inadequacy of the modelling assumptions (e.g. if the $\mathbf{a}_i$ are only known to be approximately $k$-sparse); we assume $\|\mathbf{\eta}_i\|$ is bounded. The goal is to recover the sparse \emph{sources} $\mathbf{a}_i$ from the observed \emph{mixtures} $\mathbf{y}_i$ by solving \eqref{DictionaryLearning}. \textbf{[How do sparsity of $\mathbf{a}_i$ and upper bound on $\|\mathbf{\eta}_i\|$ tradeoff to make \eqref{DictionaryLearning} solve \eqref{LinearModel}?]}
+where the vector $\mathbf{\eta}_i \in \mathbb{R}^n$ accounts for both noise in the measurement process and the inadequacy of the modelling assumptions (e.g. if the $\mathbf{a}_i$ are only known to be approximately $k$-sparse); we assume $\|\mathbf{\eta}_i\|_2$ is bounded. The goal is to recover the sparse \emph{sources} $\mathbf{a}_i$ from the observed \emph{mixtures} $\mathbf{y}_i$ by solving \eqref{DictionaryLearning}. \textbf{[How do sparsity of $\mathbf{a}_i$ and upper bound on $\|\mathbf{\eta}_i\|$ tradeoff to make \eqref{DictionaryLearning} solve \eqref{LinearModel}?]}
 
 
-Letting $Y$ and $S$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, the optimization \eqref{DictionaryLearning} is seen to minimize the matrix norm $\|Y-AS\|_{2,1}$ subject to sparsity constraints on the columns of $S$. From this perspective, it is clear that SCA is a special case of bilinear inverse problem with the following associated \emph{ambiguity transform group}: clearly, if $AS$ is an acceptable approximate factorization of $Y$ then so is $(AD^{-1}P^{-1})(PDS)$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$, since this transformation preserves the sparsity of the columns of $S$. The solution of the SCA problem can thus at best (even when $\mathbf{\eta}_i = 0$) be determined up to this inherent permutation and scaling ambiguity. This motivates the following definition and problem.
+Letting $Y$ and $S$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, the optimization \eqref{DictionaryLearning} is seen to minimize the matrix norm $\|Y-AS\|_{2,1}$ subject to sparsity constraints on the columns of $S$. From this perspective, it is clear that SCA is a special case of bilinear inverse problem, or sparse matrix factorization, with the following associated \emph{ambiguity transform group}: clearly, if $AS$ is an acceptable approximate factorization of $Y$ then so is $(AD^{-1}P^{-1})(PDS)$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$, since this transformation preserves the sparsity of the columns of $S$. The solution of the SCA problem can thus at best (even when $\mathbf{\eta}_i = 0$) be determined up to this inherent permutation and scaling ambiguity. This motivates the following definition and problem.
 
 \begin{definition}\label{Uniqueness}
-We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\}$ has a unique $k$-sparse coding when for some $A \in \mathbb{R}^{n \times m}$ there exist $C, C', \varepsilon_0 > 0$ such that:
+We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\}$ has a unique $k$-sparse coding if for some $A \in \mathbb{R}^{n \times m}$ there exist $C, \varepsilon > 0$ such that:
 \begin{enumerate}
-\item For some $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ and $\varepsilon < \varepsilon_0$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$
-\item Every alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ for which $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ necessarily satisfy $\|A - BPD\|_1 \leq C\varepsilon$ and $\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 < C'\varepsilon$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$.
+\item For some $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$.
+\item Every alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ for which $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ necessarily satisfy $\|A - BPD\|_1 \leq C\varepsilon$ and $\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 < C\varepsilon$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$.
 \end{enumerate}
 \end{definition}
 
 \begin{problem}\label{DUTproblem}
-Let $Y = \{\mathbf{y}_1, ..., \mathbf{y}_N \}$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{\eta}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with $\|\mathbf{\eta}_i\|_2$ bounded. When does $Y$ have a unique $k$-sparse coding?
+Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \}$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{\eta}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with $\|\mathbf{\eta}_i\|_2$ bounded. When does $Y$ have a unique $k$-sparse coding?
 \end{problem}
 
-
-\begin{figure*}[t!]
-\begin{center}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_0001.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_2042.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_4083.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise1_0205.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise2_0409.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise5_1021.png}\\
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_0001.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_2042.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_4083.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise1_0205.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise2_0409.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise5_1021.png} \\
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_0001.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_2042.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_4083.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise1_0205.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise2_0409.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise5_1021.png}
-\caption{$B$, $PD$, $\hat{A}$: left-to-right noises $0, .2, .4, 1, 2, 5$.}
-\end{center}
-\end{figure*}
-
-\begin{figure*}[t!]
-\begin{center}
-\includegraphics[width=3.35 in]{figs/error_mat1norm_FastICA_M1280_K16.pdf}
-\includegraphics[width=3.5 in]{figs/error_MSE_FastICA_M1280_K16.pdf}
-\caption{Recovery error.}
-\end{center}
-\end{figure*}
-
-
-\begin{figure*}[t!]
-\begin{center}
-\includegraphics[width=3 in]{figs/x_FastICA_M1280_K4_noise0_5051.png}
-\includegraphics[width=3 in]{figs/xnoisy_FastICA_M1280_K4_noise0_5051.png}
-\caption{sample with $k=4$ and .5 noised version.}
-\end{center}
-\end{figure*}
-
-
-
-
-%
-%
-%\begin{figure*}[t!]
-%\begin{center}
-%%\includegraphics[width=1.1  in]{figs/Basis.png}
-%\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K1_noise0_0001.png}
-%\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K1_noise0_2042.png}
-%\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K1_noise0_4083.png}
-%\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K1_noise1_0205.png}
-%\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K1_noise2_0409.png}
-%\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K1_noise5_1021.png}
-%\caption{BPD}
-%\end{center}
-%\end{figure*}
-%
-
-
-
-
-
-
-
-Such conditions for the \emph{identifiability} of the parameters underlying SCA were first investigated for the case $\mathbf{y}_i = A\mathbf{a}_i$ by Georgiev et. al. \cite{Georgiev05} and subsequently by Aharon et. al. \cite{Aharon06}. The most general conditions to date have recently been proven by Hillar and Sommer [cite], who provide deterministic and probabilistic guarantees for the identifiability of the model parameters contained in $A$ and the $\mathbf{a}_i$. We refine their proofs to take into account the possibility of noise contaminating the measurements (or inadequacy of the model) and to require a significantly reduced number of samples. These \emph{robust} identifiability conditions describe when the true model parameters can be uniquely determined in the sense of Definition \ref{Uniqueness}. Moreover, we provide guarantees for unique recovery of $A$ and the $\mathbf{a}_i$ when only an upper bound on the number of sources is known. Our conditions are derived from the underlying geometry of the dictionary learning problem, hence they apply regardless of which algorithm is used to solve \eqref{DictionaryLearning}. Table \ref{results} gives a summary of our results.
+Conditions for the \emph{identifiability} of the parameters underlying SCA were first investigated for the case $\mathbf{y}_i = A\mathbf{a}_i$ by Georgiev et. al. \cite{Georgiev05} and subsequently by Aharon et. al. \cite{Aharon06}. The most general conditions to date have recently been proven by Hillar and Sommer [cite], who provide deterministic and probabilistic guarantees for the identifiability of the model parameters contained in $A$ and the original sparse codes $\mathbf{a}_i$. We refine their proofs to take into account the possibility of noise contaminating the measurements (or inadequacy of the model) and significantly reduce their theoretically required number of samples. These \emph{robust} identifiability conditions describe when the true model parameters can be uniquely determined in the sense of Definition \ref{Uniqueness}. Moreover, we provide guarantees for unique recovery of $A$ and the $\mathbf{a}_i$ when only an upper bound on the number of sources is known. Our conditions are derived from the underlying geometry of the dictionary learning problem, hence they apply regardless of which algorithm is used to solve \eqref{DictionaryLearning}. Table \ref{results} gives a summary of our results.
 
 \begin{table}\label{results}
 \begin{center}
@@ -183,7 +116,7 @@ for such recovery to be possible. This condition ensures that distinct sparse so
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 
 \begin{theorem}\label{DeterministicUniquenessTheorem}
-Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} has associated with it some $\varepsilon_0 > 0$ such that every dataset $Y = \{ \mathbf{y}_1, ..., \mathbf{y}_N \}$ for which $\| \mathbf{y}_i - A\mathbf{a}_i \|_2 \leq \varepsilon_0$ for all $i = 1, \ldots, N$ has a unique $k$-sparse coding. 
+Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} has associated with it some $\varepsilon > 0$ such that every dataset $Y = \{ \mathbf{y}_1, ..., \mathbf{y}_N \}$ for which $\| \mathbf{y}_i - A\mathbf{a}_i \|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ has a unique $k$-sparse coding. 
 \end{theorem}
 
 In fact, there are many such sets of deterministically produced $\mathbf{a}_i$; we give a parametrized family in Section \ref{DUT}. Note that if we restrict our attention to noiseless datasets of the form $\mathbf{y}_i = A\mathbf{a}_i$ then we recover Theorem 1 in [HS11] with an added improvement on $N$, the number of samples required to guarantee uniqueness. In fact, all of the theorems and corollaries in [HS11] are corollaries of our theorems. Our proofs are generalizations of the basic framework laid out in their paper.
@@ -414,68 +347,6 @@ $\|A - BPD\|_1 \leq C\varepsilon$ for $C = \frac{2k^{2/3}\sqrt{m}}{\alpha\sigma\
 
 \end{proof}
 
-%======================================
-% STATEMENTS OF PROBABILISTIC THEOREMS
-%======================================
-
-\section{Statements of Probabilistic Theorems}\label{PUT}
-
-We next give precise statements of our probabilistic versions of Theorem 1, all of which rely on the following construction.
-
-\begin{definition}[Random Sparse Vectors]\label{RandomDraw}
-Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all of them in ${[m] \choose k}$ and then a random draw.
-\end{definition}
-
-\begin{definition}[Special Random Sparse Vectors]\label{SpecialRandomDraw}
-Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all $m$ of them in $\mathcal{T}$ and then a random draw.
-\end{definition}
-
-\begin{theorem}\label{Theorem2}
-Fix positive integers $k < m$ and $n$, and a generation matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition}. If $(k+1)$ $k$-sparse $\mathbf{a}_i$ are randomly drawn from each support set in $\mathcal{T}$, then $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, \ldots ,  A\mathbf{a}_N + \mathbf{\eta}_N \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ has a unique sparse coding with probability one, provided $\varepsilon$ is small enough.
-\end{theorem}
-
-The following is a direct application of this result, partially answering one of our questions from the introduction.
-
-\begin{corollary}
-Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random \textbf{[insert footnote explaining 'random']} $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing   such an $A$, for $\varepsilon$ small enough we have with probability one that a dataset $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, . . . , A\mathbf{a}_N + \mathbf{\eta}_1 \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ generated from $N = (k + 1)m$ $k$-sparse samples $\mathbf{a}_i$ uniquely prescribes $A$ and these sparse vectors $\mathbf{a}_i$ up to an approximate fixed permutation and scaling.
-\end{corollary}
-
-We now state our third theorem. Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
-
-\begin{theorem}\label{Theorem3}
-Fix positive integers $k < m$ and $n$. If $(k + 1)$ $k$-sparse $\mathbf{a}_i$ are randomly drawn from each support set in $\mathcal{T}$, then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then there exists some $\varepsilon$ small enough such that $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, . . . , A\mathbf{a}_N + \mathbf{\eta}_1 \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ has a unique sparse coding.
-\end{theorem}
-
-\begin{corollary}
-Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}. With probability one, a random draw of $N = (k + 1)m$ $k$-sparse samples $\mathbf{a}_i$ with supports in $\mathcal{T}$ satisfies: for almost every matrix $A$ there is some $\varepsilon$ small enough that gives $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, . . . , A\mathbf{a}_N + \mathbf{\eta}_1 \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ a unique sparse coding.
-\end{corollary}
-
-%===================================
-% PROOFS OF PROBABILISTIC THEOREMS
-%===================================
-
-\section{Proofs of Probabilistic Theorems}\label{PUTproof}
-
-Definition \ref{RandomDraw}: can I bound the probability of drawing from one of the $m!$ special support sets without explicitly making that restriction?
-
-The proofs of our probabilistic theorems follow the same logic as outlined in \cite{HS11}. 
-
-\begin{lemma}
-Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{RIP}. With probability one, if $k+1$ vectors $\mathbf{a}_i$ are such that $d(A\mathbf{a}_i,V) \leq (??)$ for some $k$-dimensional subspace $V \subset \mathbb{R}^m$ then all of the $k+1$ vectors $\mathbf{a}_i$ have the same supports.
-\end{lemma}
-\begin{proof}
-We need only show that the $k+1$ vectors $A\mathbf{a}_i$ are linearly dependent; the rest follows by Lemma 3 from \cite{HS11}. Let these $k+1$ vectors $\mathbf{a}_i$ be indexed by $\mathcal{I}$ and let $W = \text{Span}\{A\mathbf{a}_{i \in \mathcal{I}}\}$. Then for all $w \in W$ we can write $w = \sum_{i \in \mathcal{I}} c_iA\mathbf{a}_i$ for some set of $c_i \in \mathbb{R}$. Letting $v = \sum_{i \in \mathcal{i}} c_iv_i$, it follows that
-\[ \|w - v\| = \|\sum_{i \in \mathcal{I}} c_i A\mathbf{a}_i - \sum_{i \in \mathcal{I}} c_i v_i \| 
-\leq \sum_{i \in \mathcal{I}} |c_i| \|A\mathbf{a}_i - v_i\| \leq 2\varepsilon \sum_{i \in \mathcal{I}}|c_i| \]
-
-Need RHS less thatn $\|w\|$ to prove that $\dim(W) \leq \dim(V) = k$...
-\end{proof}
-
-\begin{proof}[Proof of Theorem \ref{Theorem2}]
-Fix $n, m$ and $k < m$. Fix a real matrix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} and suppose there is some $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N$ such that $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Then by the triangle inequality we have $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq 2\varepsilon$ for all $i \in \{1, \ldots, N\}$. Given a support set $S \in {[m]\choose k}$, let $J(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that for all $j \in J(S)$ there exists some $v \in \text{Span}\{B_S\}$ such that $\|A\mathbf{a}_i - v\| \leq 2\varepsilon$. By Lemma (??), with probability one, either $|J(S)| \leq k$ for all $\mathbf{a}_j$ with $j \in J(S)$ have the same support.
-\end{proof}
-
-
 
 %===================================
 % DIFFERENT CODING DIMENSIONS
@@ -628,7 +499,7 @@ Then  $\pi(S_i) \cap \cdots \cap \pi(S_{i+(k-1)}) \neq \emptyset$ for all $i \in
 
 \begin{proof} Consider the set $Q_m = \{ (i,j) : i \in \mathbb{Z}/m\mathbb{Z}, j \in \pi(S_i) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $p \in \mathbb{Z}/m\mathbb{Z}$ and at least $k$ distinct $i_1, \ldots, i_k$ such that $\{(i_1, p), \ldots, (i_k, p)\} \subseteq Q_m$. Hence, $p \in \pi(S_{i_1}) \cap \cdots \cap \pi(S_{i_k})$ and by \eqref{EmptyToEmpty} there must be some $v \in \mathbb{Z}/m\mathbb{Z}$ such that $v \in S_{i_1} \cap \cdots \cap S_{i_k}$. This is only possible (given $\mathcal{T}$) if $i_1, \ldots, i_k$ are consecutive modulo $\mathbb{Z}/m\mathbb{Z}$, i.e. $\{i_1, \ldots, i_k\} = \{v - (k-1), \ldots, v\}$. 
 
-We now claim that there exists no additional $i \notin \{v - (k-1), \ldots, v\}$ such that $p \in \pi(S_{i})$. To see why, note that if there were such an $i$ then we would have $p \in \pi(S_{i}) \cap \pi(S_{v - (k-1)}) \cap \cdots \cap \pi(S_{v})$ and \eqref{EmptyToEmpty} would imply that every $k$-element subset of $\{i\} \cup \{v-(k-1), \ldots, v\}$ is a consecutive set. This is only possible if $m = k+1$; but then there can't have been $k+1$ distinct elements of ${\mathbb{Z}/m\mathbb{Z} \choose k}$ all containing $p$ since there are only ${m-1 \choose m-2}  = m-1 = k$ distinct elements of ${\mathbb{Z}/m\mathbb{Z} \choose m-1}$ which contain $p$. Thus, letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate, we have $|Q_{m-1}| = (m-1)k$ and the proof follows by iterating these arguments.
+We now claim that there exists no additional $i \notin \{v - (k-1), \ldots, v\}$ such that $p \in \pi(S_{i})$. To see why, note that if there were such an $i$ then we would have $p \in \pi(S_{i}) \cap \pi(S_{v - (k-1)}) \cap \cdots \cap \pi(S_{v})$ and \eqref{EmptyToEmpty} would imply that every $k$-element subset of $\{i\} \cup \{v-(k-1), \ldots, v\}$ is a set of consecutive integers. This is only possible if $m = k+1$; but then there can't have been $k+1$ distinct elements of ${\mathbb{Z}/m\mathbb{Z} \choose k}$ all containing $p$ since there are only ${m-1 \choose m-2}  = m-1 = k$ distinct elements of ${\mathbb{Z}/m\mathbb{Z} \choose m-1}$ which contain $p$. Thus, letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate, we have $|Q_{m-1}| = (m-1)k$ and the proof follows by iterating these arguments.
 \end{proof}
 
 %==== PROOF OF MAIN LEMMA =======
@@ -704,6 +575,8 @@ Now, fix $i \in [m]$ and let $\mathcal{F} \subseteq \mathcal{T}$ be any collecti
 
 \section{Calculating C}
 
+In this section we derive the constant $C$ for a particular generating dictionary $A \in \mathbb{R}^{n \times m}$ and $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$
+
 %=== MATRIX LOWER BOUND LEMMA ===
 
 \begin{lemma}\label{MatrixLowerBoundLemma}
@@ -754,9 +627,13 @@ We would like to thank Fritz Sommer for turning our attention to the dictionary 
 % 			SCRAP PAPER
 %===================================
 
-\section{SCRAP PAPER}
+\section*{SCRAP PAPER}
 
-\subsection{INTRO}
+%========================
+%            INTRODUCTION
+%========================
+      
+\subsection{Introduction}
 
 We also require the data to satisfy certain properties. Consider the problem where we wish to identify the mixing matrix $A$ from the mixtures $\mathbf{y}_i$ when the sources $\mathbf{a}_i$ are known. In this case, a necessary condition for uniqueness of $A$ given $\mathbf{y}_i = A \mathbf{a}_i + \mathbf{\eta}_i$ (even when $\mathbf{\eta}_i=0$) is:
 \begin{align}\label{SparkCondition2}
@@ -765,11 +642,68 @@ A^{(1)}_{i,:}(\mathbf{a}_1 \cdots \mathbf{a}_N) = A^{(2)}_{i,:}(\mathbf{a}_1 \cd
 
 Otherwise, blah blah blah (figure this out). Trying to introduce the "spread" of the data as a necessary condition.
 
-\subsection{Different Coding Dimensions}
+%======================================
+% STATEMENTS OF PROBABILISTIC THEOREMS
+%======================================
 
-\begin{definition}
-We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\}$ has a unique $k$-sparse coding when for any pair of matrices $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ \textbf{both satisfying respective spark conditions \eqref{SparkCondition}} and for which there exist $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ such that $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 \leq \varepsilon$  and $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ necessarily satisfy $\|A - BPD\|_1 \leq C\varepsilon$ and $\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 < C'\varepsilon$ for some $C, C' > 0$, permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and diagonal matrix $D \in \mathbb{R}^{m' \times m}$, \textbf{provided $\varepsilon$ is small enough}.
+\subsection{Statements of Probabilistic Theorems}\label{PUT}
+
+We next give precise statements of our probabilistic versions of Theorem 1, all of which rely on the following construction.
+
+\begin{definition}[Random Sparse Vectors]\label{RandomDraw}
+Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all of them in ${[m] \choose k}$ and then a random draw.
 \end{definition}
+
+\begin{definition}[Special Random Sparse Vectors]\label{SpecialRandomDraw}
+Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all $m$ of them in $\mathcal{T}$ and then a random draw.
+\end{definition}
+
+\begin{theorem}\label{Theorem2}
+Fix positive integers $k < m$ and $n$, and a generation matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition}. If $(k+1)$ $k$-sparse $\mathbf{a}_i$ are randomly drawn from each support set in $\mathcal{T}$, then $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, \ldots ,  A\mathbf{a}_N + \mathbf{\eta}_N \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ has a unique sparse coding with probability one, provided $\varepsilon$ is small enough.
+\end{theorem}
+
+The following is a direct application of this result, partially answering one of our questions from the introduction.
+
+\begin{corollary}
+Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random \textbf{[insert footnote explaining 'random']} $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing   such an $A$, for $\varepsilon$ small enough we have with probability one that a dataset $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, . . . , A\mathbf{a}_N + \mathbf{\eta}_1 \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ generated from $N = (k + 1)m$ $k$-sparse samples $\mathbf{a}_i$ uniquely prescribes $A$ and these sparse vectors $\mathbf{a}_i$ up to an approximate fixed permutation and scaling.
+\end{corollary}
+
+We now state our third theorem. Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
+
+\begin{theorem}\label{Theorem3}
+Fix positive integers $k < m$ and $n$. If $(k + 1)$ $k$-sparse $\mathbf{a}_i$ are randomly drawn from each support set in $\mathcal{T}$, then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then there exists some $\varepsilon$ small enough such that $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, . . . , A\mathbf{a}_N + \mathbf{\eta}_1 \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ has a unique sparse coding.
+\end{theorem}
+
+\begin{corollary}
+Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}. With probability one, a random draw of $N = (k + 1)m$ $k$-sparse samples $\mathbf{a}_i$ with supports in $\mathcal{T}$ satisfies: for almost every matrix $A$ there is some $\varepsilon$ small enough that gives $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, . . . , A\mathbf{a}_N + \mathbf{\eta}_1 \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ a unique sparse coding.
+\end{corollary}
+
+%===================================
+% PROOFS OF PROBABILISTIC THEOREMS
+%===================================
+
+\subsection{Proofs of Probabilistic Theorems}\label{PUTproof}
+
+Definition \ref{RandomDraw}: can I bound the probability of drawing from one of the $m!$ special support sets without explicitly making that restriction?
+
+The proofs of our probabilistic theorems follow the same logic as outlined in \cite{HS11}. 
+
+\begin{lemma}
+Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{RIP}. With probability one, if $k+1$ vectors $\mathbf{a}_i$ are such that $d(A\mathbf{a}_i,V) \leq (??)$ for some $k$-dimensional subspace $V \subset \mathbb{R}^m$ then all of the $k+1$ vectors $\mathbf{a}_i$ have the same supports.
+\end{lemma}
+\begin{proof}
+We need only show that the $k+1$ vectors $A\mathbf{a}_i$ are linearly dependent; the rest follows by Lemma 3 from \cite{HS11}. Let these $k+1$ vectors $\mathbf{a}_i$ be indexed by $\mathcal{I}$ and let $W = \text{Span}\{A\mathbf{a}_{i \in \mathcal{I}}\}$. Then for all $w \in W$ we can write $w = \sum_{i \in \mathcal{I}} c_iA\mathbf{a}_i$ for some set of $c_i \in \mathbb{R}$. Letting $v = \sum_{i \in \mathcal{i}} c_iv_i$, it follows that
+\[ \|w - v\| = \|\sum_{i \in \mathcal{I}} c_i A\mathbf{a}_i - \sum_{i \in \mathcal{I}} c_i v_i \| 
+\leq \sum_{i \in \mathcal{I}} |c_i| \|A\mathbf{a}_i - v_i\| \leq 2\varepsilon \sum_{i \in \mathcal{I}}|c_i| \]
+
+Need RHS less thatn $\|w\|$ to prove that $\dim(W) \leq \dim(V) = k$...
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{Theorem2}]
+Fix $n, m$ and $k < m$. Fix a real matrix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} and suppose there is some $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N$ such that $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Then by the triangle inequality we have $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq 2\varepsilon$ for all $i \in \{1, \ldots, N\}$. Given a support set $S \in {[m]\choose k}$, let $J(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that for all $j \in J(S)$ there exists some $v \in \text{Span}\{B_S\}$ such that $\|A\mathbf{a}_i - v\| \leq 2\varepsilon$. By Lemma (??), with probability one, either $|J(S)| \leq k$ for all $\mathbf{a}_j$ with $j \in J(S)$ have the same support.
+\end{proof}
+
+
 \end{document}
 
 
