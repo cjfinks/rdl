@@ -686,10 +686,10 @@ Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}. With probability on
 
 Definition \ref{RandomDraw}: can I bound the probability of drawing from one of the $m!$ special support sets without explicitly making that restriction?
 
-The proofs of our probabilistic theorems follow the same logic as outlined in \cite{HS11}. 
+We first generalize Lemma 3 in \cite{HS11} to the noisy case:
 
 \begin{lemma}
-Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{RIP}. With probability one, if $k+1$ vectors $\mathbf{a}_i$ are such that $d(A\mathbf{a}_i,V) \leq (??)$ for some $k$-dimensional subspace $V \subset \mathbb{R}^m$ then all of the $k+1$ vectors $\mathbf{a}_i$ have the same supports.
+Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{RIP}. With probability one, if $(k+1)$ $k$-sparse vectors $\mathbf{a}_i \in \mathbb{R}^{n \times m}$ are such that $d(A\mathbf{a}_i,V) \leq (??)$ for some $k$-dimensional subspace $V \subset \mathbb{R}^m$ then all of the $(k+1)$ vectors $\mathbf{a}_i$ have the same supports.
 \end{lemma}
 \begin{proof}
 We need only show that the $k+1$ vectors $A\mathbf{a}_i$ are linearly dependent; the rest follows by Lemma 3 from \cite{HS11}. Let these $k+1$ vectors $\mathbf{a}_i$ be indexed by $\mathcal{I}$ and let $W = \text{Span}\{A\mathbf{a}_{i \in \mathcal{I}}\}$. Then for all $w \in W$ we can write $w = \sum_{i \in \mathcal{I}} c_iA\mathbf{a}_i$ for some set of $c_i \in \mathbb{R}$. Letting $v = \sum_{i \in \mathcal{i}} c_iv_i$, it follows that
@@ -699,8 +699,13 @@ We need only show that the $k+1$ vectors $A\mathbf{a}_i$ are linearly dependent;
 Need RHS less thatn $\|w\|$ to prove that $\dim(W) \leq \dim(V) = k$...
 \end{proof}
 
+\begin{proof}[Proof of Theorem \ref{Theorem2} ($\varepsilon = 0$)]
+Consider any alternate factorization $\mathbf{y}_i = B\mathbf{b}_i$ for $Y$. Given a support set $S \in {[m]\choose k}$, let $J(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that those $\mathbf{y}$ indexed by $J(S)$ span at most a $k$-dimensional space. By Lemma 3 in \cite{HS11}, either $|J(S)| \leq k$ or with probability one all $\mathbf{a}_j$ with $j \in J(S)$ have the same support $S'$. Since there are only $(k+1)$ vectors $\mathbf{a}_i$ with a given support, the latter case actually implies (with probability one) that $|J(S)| = k+1$. If $N=(k+1){m \choose k}$, though, then with probability one we would reach a contradiction if $|J(S)| \leq k$ for any $S \in {[m] \choose k}$; hence with probability one we have $|J(S)| = k+1$. Can we reach the same conclusion when $N = m(k+1)$? (Perhaps by creating 'virtual data' spanning all supports by those data points with supports in $\mathcal{T}$)?
+
+\end{proof}
+
 \begin{proof}[Proof of Theorem \ref{Theorem2}]
-Fix $n, m$ and $k < m$. Fix a real matrix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} and suppose there is some $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N$ such that $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Then by the triangle inequality we have $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq 2\varepsilon$ for all $i \in \{1, \ldots, N\}$. Given a support set $S \in {[m]\choose k}$, let $J(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that for all $j \in J(S)$ there exists some $v \in \text{Span}\{B_S\}$ such that $\|A\mathbf{a}_i - v\| \leq 2\varepsilon$. By Lemma (??), with probability one, either $|J(S)| \leq k$ for all $\mathbf{a}_j$ with $j \in J(S)$ have the same support.
+Let $\mathbf{y}_i = A\mathbf{a}_i + \eta_i$ for all $i \in \{1, \ldots, N\}$ and suppose there is some $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ such that $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Then by the triangle inequality we have $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq 2\varepsilon$ for all $i \in \{1, \ldots, N\}$. Given a support set $S \in {[m]\choose k}$, let $J(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that for all $j \in J(S)$ there exists some $v \in \text{Span}\{B_S\}$ such that $\|A\mathbf{a}_i - v\| \leq 2\varepsilon$. By Lemma (??), with probability one, either $|J(S)| \leq k$ for all $\mathbf{a}_j$ with $j \in J(S)$ have the same support.
 \end{proof}
 
 
