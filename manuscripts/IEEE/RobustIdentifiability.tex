@@ -85,8 +85,18 @@ We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\}$ has a unique $k$-s
 \end{enumerate}
 \end{definition}
 
+\begin{definition}\label{Uniqueness}
+We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\}$ has a unique $k$-sparse representation in $m$ dimensions when:
+\begin{enumerate}
+\item There exists some $A \in \mathbb{R}^{n \times m}$ and $\varepsilon > 0$ such that for every $\mathbf{y} \in Y$, the $\varepsilon$-ball $\mathcal{B}_2(\mathbf{y}, \varepsilon)$ centered at $\mathbf{y}$ intersects exactly one subspace spanned by $k$ columns of $A$.
+\item Any matrix $B \in \mathbb{R}^{n \times m}$ for which every such ball $\mathcal{B}_2(\mathbf{y}, \varepsilon)$ intersects a subspace spanned by $k$ columns of $B$ necessarily satisfies $\|A - BPD\|_1 \leq C\varepsilon$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$, invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ and $C > 0$.
+\end{enumerate}
+\end{definition}
+
+We will show later that this approximation of $A$ by $BPD$ implies the approximate recovery of original sources in the SCA problem \eqref{LinearModel}.
+
 \begin{problem}\label{DUTproblem}
-Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \}$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{\eta}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with $\|\mathbf{\eta}_i\|_2$ bounded. When does $Y$ have a unique $k$-sparse representation in $m$ dimensions?
+Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \}$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{\eta}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with $\|\mathbf{\eta}_i\|_2 \leq \varepsilon$. When does $Y$ have a unique $k$-sparse representation in $m$ dimensions?
 \end{problem}
 
 Conditions for the \emph{identifiability} of the parameters underlying SCA were first investigated for the case $\mathbf{y}_i = A\mathbf{a}_i$ by Georgiev et. al. \cite{Georgiev05} and subsequently by Aharon et. al. \cite{Aharon06}. The most general conditions to date have recently been proven by Hillar and Sommer [cite], who provide deterministic and probabilistic guarantees for the identifiability of the model parameters contained in $A$ and the original sparse codes $\mathbf{a}_i$. We refine their proofs to take into account the possibility of noise contaminating the measurements (or inadequacy of the model) and significantly reduce their theoretically required number of samples. These \emph{robust} identifiability conditions describe when the true model parameters can be uniquely determined in the sense of Definition \ref{Uniqueness}. Moreover, we provide guarantees for unique recovery of $A$ and the $\mathbf{a}_i$ when only an upper bound on the dimensionality of the sources is known. Our conditions are derived from the underlying geometry of the dictionary learning problem, hence they apply regardless of which algorithm is used to solve \eqref{DictionaryLearning}. Table \ref{results} gives a summary of our results.
@@ -114,7 +124,6 @@ A\mathbf{a}_1 = A\mathbf{a}_2 \implies \mathbf{a}_1 = \mathbf{a}_2 \indent \text
 for such recovery to be possible. This condition ensures that distinct sparse sources are distinguishable in their measurements. As it turns out, this is also enough to guarantee uniqueness in the case where we don't know $A$ a priori, as our main result states:
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
-
 
 \begin{figure*}[t!]
 \begin{center}
@@ -156,8 +165,6 @@ for such recovery to be possible. This condition ensures that distinct sparse so
 \caption{sample with $k=4$ and .5 noised version.}
 \end{center}
 \end{figure*}
-
-
 
 \begin{theorem}\label{DeterministicUniquenessTheorem}
 Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} has associated with it some $\varepsilon > 0$ such that every dataset $Y = \{ \mathbf{y}_1, ..., \mathbf{y}_N \}$ for which $\| \mathbf{y}_i - A\mathbf{a}_i \|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ has a unique $k$-sparse coding in $m$ dimensions. 
