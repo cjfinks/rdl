@@ -115,6 +115,50 @@ for such recovery to be possible. This condition ensures that distinct sparse so
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 
+
+\begin{figure*}[t!]
+\begin{center}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_0001.png}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_2042.png}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_4083.png}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise1_0205.png}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise2_0409.png}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise5_1021.png}\\
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_0001.png}
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_2042.png}
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_4083.png}
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise1_0205.png}
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise2_0409.png}
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise5_1021.png} \\
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_0001.png}
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_2042.png}
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_4083.png}
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise1_0205.png}
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise2_0409.png}
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise5_1021.png}
+\caption{$B$, $PD$, $\hat{A}$: left-to-right noises $0, .2, .4, 1, 2, 5$.}
+\end{center}
+\end{figure*}
+
+\begin{figure*}[t!]
+\begin{center}
+\includegraphics[width=3.35 in]{figs/error_mat1norm_FastICA_M1280_K16.pdf}
+\includegraphics[width=3.5 in]{figs/error_MSE_FastICA_M1280_K16.pdf}
+\caption{Recovery error.}
+\end{center}
+\end{figure*}
+
+
+\begin{figure*}[t!]
+\begin{center}
+\includegraphics[width=3 in]{figs/x_FastICA_M1280_K4_noise0_5051.png}
+\includegraphics[width=3 in]{figs/xnoisy_FastICA_M1280_K4_noise0_5051.png}
+\caption{sample with $k=4$ and .5 noised version.}
+\end{center}
+\end{figure*}
+
+
+
 \begin{theorem}\label{DeterministicUniquenessTheorem}
 Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} has associated with it some $\varepsilon > 0$ such that every dataset $Y = \{ \mathbf{y}_1, ..., \mathbf{y}_N \}$ for which $\| \mathbf{y}_i - A\mathbf{a}_i \|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ has a unique $k$-sparse coding. 
 \end{theorem}
