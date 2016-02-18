@@ -1,0 +1,10 @@
+manuscripts/IEEE/*.pdf
+manuscripts/IEEE/*.aux
+manuscripts/IEEE/*.bbl
+manuscripts/IEEE/*.blg
+manuscripts/IEEE/*.log
+manuscripts/IEEE/*.synctex.gz
+manuscripts/IEEE/figs/
+*.log
+manuscripts/.DS_Store
+
