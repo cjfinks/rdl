@@ -1,11 +1,6 @@
-% === TODO ===
-% Need to define "k-sparse" before using it for the first time
-% Lemma 3 - is the proof good enough?
-% Derive geometric properties of A from Spark Condition
-% Motivate "data spread"
-% Prove probabilistic statements
-% General random sampling - given N samples with random k-supports, what are the odds of every element in [m] being the intersection of k support sets which each have k+1 samples?
-% Use vector space structure to decrease N again for Theorem 1
+% REFERENCE NOTES
+% 'Spark' of a matrix coined and defined in "Optimally  sparse representation in  general  (non-orthogonal)
+% dictionaries via L1 minimization" and applied to the study of uniqueness in "Sparse signal reconstruction % from limited data using FOCUSS:   A   re-weighted   norm   minimization   algorithm"
 
 % QUESTIONS
 % 1) Are necessary conditions for uniqueness in the case where A (or sources) is known still necessary
@@ -67,7 +62,7 @@ bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 %
 for unknown $A \in \mathbb{R}^{n \times m}$ and $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with $k < m$. (It almost goes without saying that $m < N$ as well, lest the solution be completely trivial.) Known variously as dictionary learning, sparse coding, or sparse matrix factorization, this framework emphasizes parsimony in representation by approximating each $\mathbf{y}_i$ as some linear combination of at most $k$ columns of some matrix $A$, typically with $k \ll m$. 
 
-Approximating the optimal solution to \eqref{DictionaryLearning} has been shown to be NP-hard \cite{Razaviyayn} \textbf{[Razaviyayn 2015, but they did it within an additive error. Tollman 2015 did it for multiplicative error for the dual problem}. Nonetheless, it is natural to wonder when the solution to \eqref{DictionaryLearning} is in some sense unique, or at least approximately so. This is a question of fundamental concern in \emph{sparse component analysis} (SCA) \cite{Georgiev05}, wherein one assumes the linear model:
+Approximating the optimal solution to \eqref{DictionaryLearning} has been shown in general to be NP-hard \cite{Razaviyayn} \textbf{[Razaviyayn 2015, but they did it within an additive error. Tollman 2015 did it for multiplicative error for the dual problem. Should we say this isn't necessarily a big deal since there may be some \emph{particular} instances where NP-hard problems are solvable in poly time?}. Nonetheless, it is natural to wonder when the solution to \eqref{DictionaryLearning} is in some sense unique, or at least approximately so. This is a question of fundamental concern in \emph{sparse component analysis} (SCA) \cite{Georgiev05}, wherein one assumes the linear model:
 \begin{align}\label{LinearModel}
 \mathbf{y}_i = A\mathbf{a}_i + \mathbf{\eta}_i 
 \end{align}
@@ -124,47 +119,6 @@ A\mathbf{a}_1 = A\mathbf{a}_2 \implies \mathbf{a}_1 = \mathbf{a}_2 \indent \text
 for such recovery to be possible. This condition ensures that distinct sparse sources are distinguishable in their measurements. As it turns out, this is also enough to guarantee uniqueness in the case where we don't know $A$ a priori, as our main result states:
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
-
-\begin{figure*}[t!]
-\begin{center}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_0001.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_2042.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_4083.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise1_0205.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise2_0409.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise5_1021.png}\\
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_0001.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_2042.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_4083.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise1_0205.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise2_0409.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise5_1021.png} \\
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_0001.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_2042.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_4083.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise1_0205.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise2_0409.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise5_1021.png}
-\caption{$B$, $PD$, $\hat{A}$: left-to-right noises $0, .2, .4, 1, 2, 5$.}
-\end{center}
-\end{figure*}
-
-\begin{figure*}[t!]
-\begin{center}
-\includegraphics[width=3.35 in]{figs/error_mat1norm_FastICA_M1280_K16.pdf}
-\includegraphics[width=3.5 in]{figs/error_MSE_FastICA_M1280_K16.pdf}
-\caption{Recovery error.}
-\end{center}
-\end{figure*}
-
-
-\begin{figure*}[t!]
-\begin{center}
-\includegraphics[width=3 in]{figs/x_FastICA_M1280_K4_noise0_5051.png}
-\includegraphics[width=3 in]{figs/xnoisy_FastICA_M1280_K4_noise0_5051.png}
-\caption{sample with $k=4$ and .5 noised version.}
-\end{center}
-\end{figure*}
 
 \begin{theorem}\label{DeterministicUniquenessTheorem}
 Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} has associated with it some $\varepsilon > 0$ such that every dataset $Y = \{ \mathbf{y}_1, ..., \mathbf{y}_N \}$ for which $\| \mathbf{y}_i - A\mathbf{a}_i \|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ has a unique $k$-sparse coding in $m$ dimensions. 
