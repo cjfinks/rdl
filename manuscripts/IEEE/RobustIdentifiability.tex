@@ -93,21 +93,17 @@ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diago
 \end{enumerate}
 \end{definition}
 
-Suppose now that $Y = \{\mathbf{\tilde y}_1, \ldots, \mathbf{\tilde y}_N\} \subset \mathbb{R}^n$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{\tilde y}_i - A\mathbf{a}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$. By the triangle inequality, if $\varepsilon$ is small enough and $A\mathbf{a}_1, \ldots, A\mathbf{a}_N$ has a $C$-stable $k$-sparse representation then any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{\tilde y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$ must also satisfy \eqref{def1_1} for $\mathbf{y}_i = A\mathbf{a}_i$. We say such datasets have  $C$-stable $k$-sparse \emph{approximate} representations in $\mathbb{R}^m$.
+Suppose now that $Y = \{\mathbf{\tilde y}_1, \ldots, \mathbf{\tilde y}_N\} \subset \mathbb{R}^n$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{\tilde y}_i - A\mathbf{a}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$. By the triangle inequality, if $\varepsilon$ is small enough and $A\mathbf{a}_1, \ldots, A\mathbf{a}_N$ has a $C$-stable $k$-sparse representation then any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{\tilde y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$ must also satisfy \eqref{def1_1} for $\mathbf{y}_i = A\mathbf{a}_i$. We say such datasets have $C$-stable $k$-sparse \emph{approximate} representations in $\mathbb{R}^m$.
 
 \begin{definition}\label{Uniqueness}
 We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \emph{robustly identifiable} $k$-sparse approximate representation in $\mathbb{R}^m$ when:
 \begin{enumerate}
-\item For some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\| \leq \varepsilon$ for all $i = 1, \ldots, N$.
+\item For some $\varepsilon > 0$ there exist $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ such that $\|\mathbf{y}_i - A\mathbf{a}_i\| \leq \varepsilon$ for all $i = 1, \ldots, N$. 
 \item If for some  alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ then
 \begin{align*}
 \|A - BPD\|_1 \leq C \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|
 \end{align*}
-for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. It follows that
-\begin{align*}
-\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 \leq C' \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|
-\end{align*}
-for some $C' > 0$ as well.
+for some permutation matrix $P \in \mathbb{R}^{m \times m}$, invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ and $C > 0$. (It follows that $\mathbf{b}_i - PD\mathbf{a}_i\|_1 \leq C' \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|$ for some $C' > 0$ as well.)
 \end{enumerate}
 \end{definition}
 
