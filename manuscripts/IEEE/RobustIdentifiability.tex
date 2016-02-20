@@ -73,25 +73,45 @@ with the vector $\mathbf{\eta}_i \in \mathbb{R}^n$ accounting for both "noise" i
 Letting $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, the optimization \eqref{DictionaryLearning} is seen to minimize the matrix norm $\|Y-AX\|_{2,1}$ subject to sparsity constraints on the columns of $X$. From this matrix factorization perspective it is clear that SCA is a special case of bilinear inverse problem and thus has an associated \emph{ambiguity transform group}. Clearly, if $AX$ approximates $Y$ then so does $(AD^{-1}P^{-1})(PDX)$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ and moreover this transformation preserves the sparsity of the columns of $X$. The SCA problem can thus at best (even when $\mathbf{\eta}_i = 0$) be solved up to this inherent permutation and scaling ambiguity, which motivates the following definition and problem.
 
 \begin{definition}\label{Uniqueness}
-We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\}$ has a unique $k$-sparse representation in $m$ dimensions if for some $A \in \mathbb{R}^{n \times m}$ there exist $C, \varepsilon > 0$ such that:
+We say a set of vectors $\{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a $C$-stable $k$-sparse representation in $\mathbb{R}^m$ when:
 \begin{enumerate}
-\item For some $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$.
-\item Every alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ for which $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ necessarily satisfy $\|A - BPD\|_1 \leq C\varepsilon$ and $\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 \leq C\varepsilon$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$.
+\item For some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\mathbf{y}_i = A\mathbf{a}_i$ for all $i = 1, \ldots, N$.
+\item There exists some $\varepsilon > 0$ for which any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ also satisfy
+\begin{align}\label{def1_1}
+\|A - BPD\|_2 \leq C \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|_2
+\end{align}
+for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. (It follows that $\mathbf{b}_i - PD\mathbf{a}_i\|_2 \leq C' \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|_2$ for some $C' > 0$ as well.)
+\end{enumerate}
+\end{definition}
+
+Suppose now that $Y = \{\mathbf{\tilde y}_1, \ldots, \mathbf{\tilde y}_N\} \subset \mathbb{R}^n$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{\tilde y}_i - A\mathbf{a}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$. By the triangle inequality, if $\varepsilon$ is small enough and $A\mathbf{a}_1, \ldots, A\mathbf{a}_N$ has a $C$-stable $k$-sparse representation then any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{\tilde y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$ must also satisfy \eqref{def1_1} for $\mathbf{y}_i = A\mathbf{a}_i$. We say such datasets have $C$-stable $k$-sparse \emph{approximate} representations in $\mathbb{R}^m$.
+
+\begin{definition}\label{Uniqueness}
+We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a $(C,\varepsilon)$-stable $k$-sparse approximate representation in $\mathbb{R}^m$ when:
+\begin{enumerate}
+\item For some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\| \leq \varepsilon$ for all $i = 1, \ldots, N$.
+\item If for some  alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ then
+\begin{align*}
+\|A - BPD\|_1 \leq C \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|
+\end{align*}
+for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. It follows that
+\begin{align*}
+\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 \leq C' \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|
+\end{align*}
+for some $C' > 0$ as well.
 \end{enumerate}
 \end{definition}
 
 \begin{definition}\label{Uniqueness}
-We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\}$ has a unique $k$-sparse representation in $m$ dimensions when:
+We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a stable $k$-sparse approximate representation in $\mathbb{R}^m$ when:
 \begin{enumerate}
 \item There exists some $A \in \mathbb{R}^{n \times m}$ and $\varepsilon > 0$ such that for every $\mathbf{y} \in Y$, the $\varepsilon$-ball $\mathcal{B}_2(\mathbf{y}, \varepsilon)$ centered at $\mathbf{y}$ intersects exactly one subspace spanned by $k$ columns of $A$.
 \item Any matrix $B \in \mathbb{R}^{n \times m}$ for which every such ball $\mathcal{B}_2(\mathbf{y}, \varepsilon)$ intersects a subspace spanned by $k$ columns of $B$ necessarily satisfies $\|A - BPD\|_1 \leq C\varepsilon$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$, invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ and $C > 0$.
 \end{enumerate}
 \end{definition}
 
-We will show later that this approximation of $A$ by $BPD$ implies the approximate recovery of original sources in the SCA problem \eqref{LinearModel}.
-
 \begin{problem}\label{DUTproblem}
-Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \}$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{\eta}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with $\|\mathbf{\eta}_i\|_2 \leq \varepsilon$. When does $Y$ have a unique $k$-sparse representation in $m$ dimensions?
+Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with $\|\mathbf{n}_i\|_2 \leq \varepsilon$. When does $Y$ have a $C$-stable $k$-sparse approximate representation in $\mathbb{R}^m$?
 \end{problem}
 
 Conditions for the \emph{identifiability} of the parameters underlying SCA were first investigated for the case $\mathbf{y}_i = A\mathbf{a}_i$ by Georgiev et. al. \cite{Georgiev05} and subsequently by Aharon et. al. \cite{Aharon06}. The most general conditions to date have recently been proven by Hillar and Sommer [cite], who provide deterministic and probabilistic guarantees for the identifiability of the model parameters contained in $A$ and the original sparse codes $\mathbf{a}_i$. We refine their proofs to take into account the possibility of noise contaminating the measurements (or inadequacy of the model) and significantly reduce their theoretically required number of samples. These \emph{robust} identifiability conditions describe when the true model parameters can be uniquely determined in the sense of Definition \ref{Uniqueness}. Moreover, we provide guarantees for unique recovery of $A$ and the $\mathbf{a}_i$ when only an upper bound on the dimensionality of the sources is known. Our conditions are derived from the underlying geometry of the dictionary learning problem, hence they apply regardless of which algorithm is used to solve \eqref{DictionaryLearning}. Table \ref{results} gives a summary of our results.
@@ -121,7 +141,11 @@ for such recovery to be possible. This condition ensures that distinct sparse so
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 
 \begin{theorem}\label{DeterministicUniquenessTheorem}
-Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} has associated with it some $\varepsilon > 0$ such that every dataset $Y = \{ \mathbf{y}_1, ..., \mathbf{y}_N \}$ for which $\| \mathbf{y}_i - A\mathbf{a}_i \|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ has a unique $k$-sparse coding in $m$ dimensions. 
+Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} has associated with it some $\varepsilon > 0$ such that every dataset $Y = \{ \mathbf{y}_1, ..., \mathbf{y}_N \}$ for which $\| \mathbf{y}_i - A\mathbf{a}_i \|_2 \leq \varepsilon$ for $i = 1, \ldots, N$ has a stable $k$-sparse approximate representation in $\mathbb{R}^m$.
+\end{theorem}
+
+\begin{theorem}\label{DeterministicUniquenessTheorem}
+Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} imparts to the set of vectors $A\mathbf{a}_1, ..., A\mathbf{a}_N$ a $(C, \varepsilon)$-stable $k$-sparse representation in $\mathbb{R}^m$ for some $C, \varepsilon > 0$. Moreover, any dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ for which $\|\mathbf{y}_i - A\mathbf{a}_i\| \leq \frac{\varepsilon}{2}$ for $i = 1, \ldots, N$ has a $(C, \frac{\varepsilon}{2})$-stable $k$-sparse approximate representation in $\mathbb{R}^m$.
 \end{theorem}
 
 In fact, there are many such sets of deterministically produced $\mathbf{a}_i$; we give a parametrized family in Section \ref{DUT}. Note that if we restrict our attention to noiseless datasets of the form $\mathbf{y}_i = A\mathbf{a}_i$ then we recover Theorem 1 in [HS11] with an added improvement on $N$, the number of samples required to guarantee uniqueness. In fact, all of the theorems and corollaries in [HS11] are corollaries of our theorems. Our proofs are generalizations of the basic framework laid out in their paper.
