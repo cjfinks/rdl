@@ -397,6 +397,41 @@ We again defer the proof of this lemma to the Appendix.
 % 			DISCUSSION
 %===================================
 
+
+\begin{figure*}[t!]
+\begin{center}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_0001.png}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_2042.png}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_4083.png}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise1_0205.png}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise2_0409.png}
+\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise5_1021.png}\\
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_0001.png}
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_2042.png}
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_4083.png}
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise1_0205.png}
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise2_0409.png}
+\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise5_1021.png} \\
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_0001.png}
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_2042.png}
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_4083.png}
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise1_0205.png}
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise2_0409.png}
+\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise5_1021.png}
+\caption{$B$, $PD$, $\hat{A}$: left-to-right noises $0, .2, .4, 1, 2, 5$. *** Need to replace with correct latest figures (e.g. with PD taken care of properly).***}
+\end{center}
+\end{figure*}
+
+\begin{figure*}[t!]
+\begin{center}
+\includegraphics[width=3.35 in]{figs/error_mat1norm_FastICA_M1280_K16.pdf}
+\includegraphics[width=3.5 in]{figs/error_MSE_FastICA_M1280_K16.pdf}
+\caption{Recovery error.}
+\end{center}
+\end{figure*}
+
+
+
 \section{Discussion}
 
 The theory of CS informs also informs another practical consequence of our result. Since our derived sample complexity is independent of the ambient dimension of the data, $n$, given a lower bound on the sparsity of the latent variables $\mathbf{a}_i$ we can generate a random matrix to compress the data to a dimension in the regime of \eqref{CScondition} before applying a dictionary learning. This could significantly reduce the computational cost of dictionary learning when the sparsity is high by reducing the number of parameters required to define each dictionary element. Such improvements are crucial to scaling up dictionary learning to larger datasets. \textbf{[Is this actually a significant computational boost..?]}
