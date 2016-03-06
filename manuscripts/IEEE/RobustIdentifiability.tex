@@ -72,19 +72,19 @@ with the vector $\mathbf{\eta}_i \in \mathbb{R}^n$ accounting for both "noise" i
 Letting $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, the optimization \eqref{DictionaryLearning} is seen to minimize the matrix norm $\|Y-AX\|_{2,1}$ subject to sparsity constraints on the columns of $X$. From this matrix factorization perspective it is clear that SCA is a special case of bilinear inverse problem and thus has an associated \emph{ambiguity transform group}. Clearly, if $AX$ approximates $Y$ then so does $(AD^{-1}P^{-1})(PDX)$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ and moreover this transformation preserves the sparsity of the columns of $X$. The SCA problem can thus at best (even when $\mathbf{\eta}_i = 0$) be solved up to this inherent permutation and scaling ambiguity, which motivates the following definition and problem.
 
 \begin{definition}\label{Uniqueness}
-A set of vectors $\{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ when for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\mathbf{y}_i = A\mathbf{a}_i$ for all $i = 1, \ldots, N$. We say that $A$ and the $\mathbf{a}_i$ forming this representation are \textbf{identifiable} (up to permutation and scaling ambiguity) given $Y$ when every other $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ for which $\mathbf{y}_i = B\mathbf{b}_i$ for all $i = 1, \ldots, N$ necessarily satisfy $A = BPD$ and $\mathbf{b}_i = PD\mathbf{a}_i$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The representation is \textbf{C-stable} when there exists some $\varepsilon > 0$ such that if $B$ and the $\mathbf{b}_i$ only satisfy $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$, then
+A set of vectors $\{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ when for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\mathbf{y}_i = A\mathbf{a}_i$ for all $i = 1, \ldots, N$. We say that $A$ and the $\mathbf{a}_i$ forming this representation are \textbf{identifiable} (up to permutation and scaling ambiguity) given $Y$ when every other $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ for which $\mathbf{y}_i = B\mathbf{b}_i$ for all $i = 1, \ldots, N$ necessarily satisfy $A = BPD$ and $\mathbf{b}_i = PD\mathbf{a}_i$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The representation is \textbf{stable} when there exists some $\varepsilon > 0$ such that if $B$ and the $\mathbf{b}_i$ only satisfy $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$, then
 \begin{align}\label{def1}
 \|A - BPD\|_2 \leq C \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|_2
 \end{align}
-for some $C>0$. (It follows that $\|\mathbf{b}_i - PD\mathbf{a}_i\|_2 \leq C' \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|_2$ for some $C' > 0$ as well.)
+for some $C>0$. (It follows that $\|\mathbf{b}_i - PD\mathbf{a}_i\|_2 \leq C' \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|_2$ for some $C' > 0$ as well.) We call $\varepsilon$ and $C$ the \textbf{error threshold} and \textbf{stability constant}, respectively, associated with the $k$-sparse representation formed by $A$ and the $\mathbf{a}_i$.
 \end{definition}
 
-Suppose now that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 \leq \varepsilon$ for $i = 1, \ldots, N$ for some $\varepsilon > 0$. That is, every data point can be approximated (up to error $\varepsilon$) by some vector $A\mathbf{a}_i$ lying in a subspace spanned by $k$ columns of $A$. If the set $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a $C$-stable $k$-sparse representation in $\mathbb{R}^m$ then by the triangle inequality, provided $\varepsilon$ small enough, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$ must also satisfy \eqref{def1}. We say such datasets $Y$ have $C$-stable $k$-sparse \emph{approximate representations} in $\mathbb{R}^m$. That is, a dataset has a $C$-stable $k$-sparse approximate representation when the data can be approximated well enough by a set of vectors with a $C$-stable $k$-sparse representation.
+Suppose now that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 \leq \varepsilon$ for $i = 1, \ldots, N$ for some $\varepsilon > 0$. That is, every data point can be approximated (up to error $\varepsilon$) by some linear combination of $k$ columns of $A$. If the set $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$ wih error threshold $2\varepsilon$ and stability constant $C$ then, by the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$ is such that $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq 2\varepsilon$, hence according to Definition \ref{Uniqueness} it must also satisfy \eqref{def1}. We say such datasets $Y$ have stable $k$-sparse \emph{approximate representations} in $\mathbb{R}^m$.
 
 Some readers may find the following alternative definition more appealing:
 
 \begin{definition}\label{Uniqueness}
-We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a $C$-stable $k$-sparse approximation in $\mathbb{R}^m$ when:
+We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a stable $k$-sparse approximation in $\mathbb{R}^m$ when:
 \begin{enumerate}
 \item There exists some $A \in \mathbb{R}^{n \times m}$ and $\varepsilon > 0$ such that for every $\mathbf{y} \in Y$, the $\varepsilon$-ball $\mathcal{B}_2(\mathbf{y}, \varepsilon)$ centered at $\mathbf{y}$ intersects exactly one subspace spanned by $k$ columns of $A$.
 \item Any matrix $B \in \mathbb{R}^{n \times m}$ for which every such ball $\mathcal{B}_2(\mathbf{y}, \varepsilon)$ intersects a subspace spanned by $k$ columns of $B$ necessarily satisfies $\|A - BPD\|_1 \leq C\varepsilon$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$, invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ and $C > 0$.
@@ -92,7 +92,7 @@ We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^
 \end{definition}
 
 \begin{problem}\label{DUTproblem}
-Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with $\|\mathbf{n}_i\|_2 \leq \varepsilon$. When does $Y$ have a $C$-stable $k$-sparse approximate representation in $\mathbb{R}^m$?
+Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with $\|\mathbf{n}_i\|_2 \leq \varepsilon$. When does $Y$ have a stable $k$-sparse approximate representation in $\mathbb{R}^m$?
 \end{problem}
 
 Conditions for the \emph{identifiability} of the parameters underlying SCA were first investigated for the case $\mathbf{y}_i = A\mathbf{a}_i$ by Georgiev et. al. \cite{Georgiev05} and subsequently by Aharon et. al. \cite{Aharon06}. The most general conditions to date have recently been proven by Hillar and Sommer [cite], who provide deterministic and probabilistic guarantees for the identifiability of the model parameters contained in $A$ and the original sparse codes $\mathbf{a}_i$. We refine their proofs to take into account the possibility of noise contaminating the measurements (or inadequacy of the model) and significantly reduce their theoretically required number of samples. These \emph{robust} identifiability conditions describe when the true model parameters can be uniquely determined in the sense of Definition \ref{Uniqueness}. Moreover, we provide guarantees for unique recovery of $A$ and the $\mathbf{a}_i$ when only an upper bound on the dimensionality of the sources is known. Our conditions are derived from the underlying geometry of the dictionary learning problem, hence they apply regardless of which algorithm is used to solve \eqref{DictionaryLearning}. Table \ref{results} gives a summary of our results.
@@ -122,12 +122,12 @@ for such recovery to be possible. This condition ensures that distinct sparse so
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 
 \begin{theorem}\label{DeterministicUniquenessTheorem}
-Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} has associated with it some $\varepsilon > 0$ such that every dataset $Y = \{ \mathbf{y}_1, ..., \mathbf{y}_N \}$ for which $\| \mathbf{y}_i - A\mathbf{a}_i \|_2 \leq \varepsilon$ for $i = 1, \ldots, N$ has a stable $k$-sparse approximate representation in $\mathbb{R}^m$.
+Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates a set of vectors $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{theorem}
 
-In fact, there are many such sets of deterministically produced $\mathbf{a}_i$; we give a parametrized family in Section \ref{DUT}. Note that if we restrict our attention to noiseless datasets of the form $\mathbf{y}_i = A\mathbf{a}_i$ then we recover Theorem 1 in [HS11] with an added improvement on $N$, the number of samples required to guarantee uniqueness. In fact, all of the theorems and corollaries in [HS11] are corollaries of our theorems. Our proofs are generalizations of the basic framework laid out in their paper.
+In fact, there are many such sets of deterministically produced $\mathbf{a}_i$; we give a parametrized family in Section \ref{DUT}. Note that Theorem 1 in [HS11] is a direct consequence of this more general result, with an added improvement on $N$, the number of samples required to guarantee uniqueness. In fact, all of the theorems and corollaries in [HS11] are corollaries of our theorems. Our proofs are generalizations of the basic framework laid out in their paper.
 
-The particular value of $\varepsilon$ associated to each $A$ satisfying \eqref{SparkCondition} and the values of $C$ and $C'$ alluded to in Definition \ref{Uniqueness} can be explicitly calculated from certain properties of $A$ and the $\mathbf{a}_i$ which we now define. A simple compactness argument can be made to show that any matrix satisfying \eqref{SparkCondition} must also satisfy
+The stability constant $C$ associated to a given $k$-sparse representation can be explicitly calculated from certain properties $A$ and the $\mathbf{a}_i$ which we now define. A simple compactness argument can be made to show that any matrix satisfying \eqref{SparkCondition} must also satisfy
 \begin{align}\label{RIP}
 \|A\mathbf{a}_1 - A\mathbf{a}_2 \|_2 \geq  \alpha \|\mathbf{a}_1 - \mathbf{a}_2\|_2 \indent \text{ for all $k$-sparse } \mathbf{a}_1, \mathbf{a}_2 \in \mathbb{R}^m
 \end{align}
@@ -168,14 +168,14 @@ Specifically, the $\mathbf{a}_i$ are constructed so that any $k$ of them are lin
 \|\sum_{j = 1}^k c_j \mathbf{a}_{i_j}\|_2 \geq \sigma \|c\|_2 \indent \text{for all } c = (c_1, ..., c_k) \in \mathbb{R}^k.
 \end{align}
 %
-for some $\sigma > 0$. If $A$ has unit norm columns and satisfies spark condition \eqref{SparkCondition}, then for any matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ for which $\|\mathbf{y}_i - B\mathbf{b}_i\| < \frac{\alpha_{2k}(A)^2\sigma\phi_k(A)}{(2k)^{2/3}}$ for all $i = 1, \ldots, N$ we have
+for some $\sigma > 0$. If $A$ has unit norm columns and satisfies spark condition \eqref{SparkCondition}, then for any matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ for which $\|\mathbf{y}_i - B\mathbf{b}_i\| < \frac{[\alpha_{2k}(A)]^2\sigma\phi_k(A)}{\sqrt{k}}$ for all $i = 1, \ldots, N$ we have
 \begin{align}
-\|A - BPD\|_2 \leq \left( \frac{2k^{2/3}}{\alpha_k(A)\sigma \phi_k(A)} \right) \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|
+\|A - BPD\|_2 \leq \left(  \frac{k^{2/3}}{\alpha_{2k}(A)\sigma\phi_k(A)} \right) \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|
 \end{align}
 %
 for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Moreover, 
 \begin{align}\label{b_PDa}
-\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 \leq \frac{\max_i \|\mathbf{y}_i - B\mathbf{b}_i\|}{\alpha_{2k}(A)\|D\|_2}  \left( 1 + \frac{2 k^{2/3}}{\alpha_k(A)\sigma \phi_k(A)}\|D^{-1}P^{-1}\mathbf{b}_i\|_1 \right).
+\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 \leq \frac{ \|D\|_2 \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|}{\alpha_{2k}(A)}  \left( 1 + \frac{k^{2/3}}{\alpha_{2k}(A)\sigma\phi_k(A)}\|D^{-1}P^{-1}\mathbf{b}_i\|_1 \right).
 \end{align}
 \end{remark}
 
@@ -214,56 +214,48 @@ Finally, for a subset $S \subseteq [m]$ and matrix $A$ with columns $\{A_1,...,A
 
 %======== CASE K = 1 ============
 
-Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality it is illustrative to consider the case when $k=1$. In this simple case, we only need $N = m$ samples to guarantee uniqueness. Set $\mathbf{a}_i = \mathbf{e}_i$ $(i = 1, \ldots, m)$ to be the standard basis vectors in $\mathbb{R}^m$ and suppose that our data $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\}$ satisfies $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 \leq \varepsilon$ for all $i \in [m]$ for some $A \in \mathbb{R}^{n \times m}$ with unit norm columns satisfying \eqref{RIP} and that $\varepsilon < \frac{\alpha}{2\sqrt{2}}$. Assuming that $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i \in [m]$ for some alternate $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^m$, then by the triangle inequality we have $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq 2\varepsilon$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c_1, \ldots, c_m \in \mathbb{R}$ such that 
+Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality it is illustrative to consider the case when $k=1$. In this simple case, we only need $N = m$ samples to guarantee uniqueness. Set $\mathbf{a}_i = \mathbf{e}_i$ $(i = 1, \ldots, m)$ to be the standard basis vectors in $\mathbb{R}^m$ and fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} with unit norm columns. Suppose now that for some $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^m$ we have  $\|A\mathbf{a}_i - B\mathbf{b}_i\|_2 \leq \varepsilon < \frac{\alpha}{\sqrt{2}}$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c_1, \ldots, c_m \in \mathbb{R}$ such that 
 \begin{align}\label{1D}
-\|A\mathbf{e}_i - c_iB\mathbf{e}_{\pi(i)}\|_2 \leq 2\varepsilon \indent \text{for all} \indent i \in [m].
+\|A\mathbf{e}_i - c_iB\mathbf{e}_{\pi(i)}\|_2 \leq \varepsilon \indent \text{for all} \indent i \in [m].
 \end{align}
 for some map $\pi: [m] \to [m]$. 
-Note that if $c_i = 0$ for some $i$, then $\|A\mathbf{e}_i\| < 1$ (since $\alpha \leq 1$), contradicting the fact that $A$ has unit norm columns. We will now show that $\pi$ is necessarily injective (and thus defines a permutation). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then $\|A\mathbf{e}_i - c_iB\mathbf{e}_{\ell}\|_2  \leq 2\varepsilon$ and $\|A\mathbf{e}_j - c_jB\mathbf{e}_{\ell}\|_2 \leq 2\varepsilon$. Summing and scaling these two inequalities by $|c_j|$ and $|c_i|$, respectively, we apply the triangle inequality and then \eqref{RIP} to yield
+Note that if $c_i = 0$ for some $i$ then $\|A\mathbf{e}_i\| < 1$ (since $\alpha \leq 1$) which contradicts that $A$ has unit norm columns. We will now show that $\pi$ is necessarily injective (and thus defines a permutation). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then $\|A\mathbf{e}_i - c_iB\mathbf{e}_{\ell}\|_2  \leq \varepsilon$ and $\|A\mathbf{e}_j - c_jB\mathbf{e}_{\ell}\|_2 \leq \varepsilon$. Summing and scaling these two inequalities by $|c_j|$ and $|c_i|$, respectively, we apply the triangle inequality and then \eqref{RIP} to yield
 \begin{align*}
-(|c_i| + |c_j|) 2\varepsilon
+(|c_i| + |c_j|) \varepsilon
 &\geq |c_j|\|A\mathbf{e}_i - c_iB\mathbf{e}_{\ell}\|_2 + |c_i|\|c_jB\mathbf{e}_{\ell} - A\mathbf{e}_j\|_2 \\
 &\geq \|c_jAe_i + c_iAe_j\|_2 \\
 &\geq \alpha\|c_je_i + c_ie_j\|_2
 \end{align*}
 %
-which is in contradiction with the fact that $\|x\|_1 \leq \sqrt{2}\|x\|_2$ for all $x \in \mathbb{R}^2$ and $\varepsilon < \frac{\alpha}{2\sqrt{2}}$. Hence, $\pi$ is injective. Letting $P$ and $D$ denote the following permutation and diagonal matrices, respectively:
+which is in contradiction with the fact that $\|x\|_1 \leq \sqrt{2}\|x\|_2$ for all $x \in \mathbb{R}^2$ and $\varepsilon < \frac{\alpha}{\sqrt{2}}$. Hence, $\pi$ is injective. Letting $P$ and $D$ denote the following permutation and diagonal matrices, respectively:
 \begin{equation}\label{PandD}
 P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right), \ \ D = \left(\begin{array}{ccc}c_1 & \cdots & 0 \\\vdots & \ddots & \vdots \\0 & \cdots & c_m\end{array}\right),
 \end{equation}
 %
-we see that \eqref{1D} becomes $\|(A - BPD)\mathbf{e}_i\|_2 \leq 2\varepsilon$ for all $i \in [m]$ and it follows that $\|A-BPD\|_1 \leq 2\sqrt{m}\varepsilon$.
+we see that \eqref{1D} becomes $\|(A - BPD)\mathbf{e}_i\|_2 \leq C\varepsilon$ for all $i \in [m]$, where $C = 1$. 
 
-% ========  A = BPD  ----> b = PDa  ====================
-
-Note that the identity $\|(A - BPD)\mathbf{e}_i\|_2 \leq C\varepsilon$ for some $C > 0$ together with \eqref{RIP} already implies in general the recovery result $\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 \leq C'\varepsilon$ for $C' > 0$ for all $i \in [m]$. This follows since for any $k$-sparse vector $\mathbf{a}_i = \sum_{\ell=1}^{k} c_\ell \mathbf{e}_{i_\ell}$ we have by the triangle inequality that $\|(A-BPD)v\| \leq \sum_{\ell=1}^{k}|c_\ell| \|(A-BPD)\mathbf{e}_{i_\ell}\|$, hence
+% ======== b - PDa =========
+We note that from this result we can, in general, derive an upper bound on $\|\mathbf{b}_i - PD\mathbf{a}_i\|$ as well. By the triangle inequality, we have that $\|(A-BPD)\mathbf{x}\| \leq \|\mathbf{x}\|_1C\varepsilon$ for all $k$-sparse $\mathbf{x} \in \mathbb{R}^m$. By \eqref{RIP}, we have:
 \begin{align*}
-\|(A - BPD)D^{-1}P^{-1}\mathbf{b}_i\| \leq \|D^{-1}P^{-1}\mathbf{b}_i\|_1C\varepsilon.
-\end{align*}
-%
-It then follows by the triangle inequality and \eqref{RIP} that
-\begin{align*}
-\alpha \|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i\| &\leq \|A(D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i)\| \\
-&\leq \| AD^{-1}P^{-1}\mathbf{b}_i - B\mathbf{b}_i\| + \|B\mathbf{b}_i - \mathbf{y}_i\| + \|\mathbf{y}_i - A\mathbf{a}_i\| \\
-&\leq  \varepsilon  \left( 2 + C\|D^{-1}P^{-1}\mathbf{b}_i\|_1 \right).
+\alpha \|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i\|_2 
+&\leq \|A(D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i)\|_2 \\
+&\leq \|(A - BPD)D^{-1}P^{-1}\mathbf{b}_i\|_2 + \|B\mathbf{b}_i - A\mathbf{a}_i\|_2 \\
+&\leq \varepsilon (1 + C\|D^{-1}P^{-1}\mathbf{b}_i\|_1). \\
 \end{align*}
 
-Hence,
-\begin{align}
-\|\mathbf{b}_i - PD\mathbf{a}_i\| \leq  \frac{\varepsilon}{\alpha\|D\|_2}\left( 2 + C\|D^{-1}P^{-1}\mathbf{b}_i\|_1 \right)
-\end{align}
+Hence, 
+\begin{align*}
+\|\mathbf{b}_i - PD\mathbf{a}_i\|_2 &=  \|PD(D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i)\|_2 \\
+&\leq \|D\|_2 \|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i\|_2 \\
+&\leq \frac{\varepsilon \|D\|_2}{\alpha_{2k}(A)}\left( 1 + C\|D^{-1}P^{-1}\mathbf{b}_i\|_1 \right)
+\end{align*}
 
 % ========== DEFINITIONS FOR MAIN LEMMA (K>1) ================
 
-Unfortunately, the proof for larger $k$ is more challenging since in general it is nontrivial to produce $P$ and $D$ as in \eqref{PandD}. Our main tool for the proof is a result in combinatorial linear algebra. Before stating this result, we make a couple of definitions. The first is the following set of supports:
-\begin{align}
-S_i := \{i, \ldots, (i + (k-1) \} \;\bmod\; m \indent \text{for} \indent i = 0, \ldots, m-1.
-\end{align}
-
-Next, we define the following metric on subspaces.
+Unfortunately, the proof for larger $k$ is more challenging since in general it is nontrivial to produce $P$ and $D$ as in \eqref{PandD}. Our main tool for the proof is a result in combinatorial linear algebra. First, we define the following metric on the set of linear subspaces of $\mathbb{R}^m$:
 
 \begin{definition}
-Let $V, W$ be subspaces of $\mathbb{R}^m$ and let $d(v,W) := \inf\{\|v-w\|_2: w \in W\} = \|v - \Pi_W v\|$ where $\Pi_W$ is the orthogonal projection operator onto subspace $W$. The \emph{gap} metric $\Theta$ on subspaces of $\mathbb{R}^{m}$ is [see Theory of Linear Operators in a Hilbert Space p. 69 who cites first reference]
+Let $V, W$ be subspaces of $\mathbb{R}^m$ and let $d(v,W) := \inf\{\|v-w\|_2: w \in W\} = \|v - \Pi_W v\|_2$ where $\Pi_W$ is the orthogonal projection operator onto subspace $W$. The \emph{gap} metric $\Theta$ on subspaces of $\mathbb{R}^{m}$ is [see Theory of Linear Operators in a Hilbert Space p. 69 who cites first reference]
 \begin{equation}\label{SubspaceMetric}
 \Theta(V,W) := \max\left( \sup_{\substack{v \in V \\ \|v\| = 1}} d(v,W), \sup_{\substack{w \in W \\ \|w\| = 1}} d(w,V) \right).
 \end{equation}
@@ -286,12 +278,17 @@ d(v,W) < \|v\|_2 \indent \forall v \in V \implies \dim(V) \leq \dim(W).
 If $\dim(V) > \dim(W)$ then there exists some $v' \in V \cap W^\perp$ and by Pythagoras' Theorem, $\|v' - w\|_2^2 = \|v'\|_2^2 + \|w\|_2^2 \geq \|v\|_2^2$ for all $w \in W$. This is in contradiction with the LHS of \eqref{MinDim}, which states that for all $v \in V$ there exists some $w \in W$ such that $\|v - w\|_2 < \|v\|_2$.
 \end{proof}
 
+We also define, given $m$, the following sets:
+\begin{align}\label{Sdef}
+S_i := \{i, \ldots, (i + (k-1) \} \;\bmod\; m \indent \text{for} \indent i = 0, \ldots, m-1.
+\end{align}
+
 We are now in a position to state our main result from combinatorial matrix theory.
 
 %===========          MAIN LEMMA (K > 1)             =================
 
 \begin{lemma}[Main Lemma]\label{MainLemma}
-Fix positive integers $n, m$ and $k$ such that $k < m$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with unit norm columns. Let $\mathcal{T} = \{S_0, \ldots, S_{m-1}\}$. If there exists a map $\pi: \mathcal{T} \to {[m] \choose k}$ and some $\Delta < \frac{\alpha_{2k}(A)}{\sqrt{2}}$ such that 
+Fix positive integers $n, m$ and $k$ such that $k < m$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with unit norm columns. Recall the definition of $S_i$ in \eqref{Sdef} and let $\mathcal{T} = \{S_0, \ldots, S_{m-1}\}$. If there exists a map $\pi: \mathcal{T} \to {[m] \choose k}$ and some $\Delta < \frac{\alpha_{2k}(A)}{\sqrt{2}}$ such that 
 \begin{equation}\label{GapUpperBound}
 \Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta \indent \text{for all} \indent S \in \mathcal{T}
 \end{equation}
@@ -317,41 +314,37 @@ We will show how the existence of these $\mathbf{a}_i$ proves the theorem. First
 
 By general linear position of the $\mathbf{a}_i$, we know that $0 \notin \phi(\mathcal{C})$. Since $\mathcal{C}$ is compact, we have by continuity of $\phi$ that $\phi(\mathcal{C})$ is also compact; hence it is closed and bounded. Therefore $0$ can't be a limit point of $\phi(\mathcal{C})$ and there must be some $\sigma > 0$ such that the neighbourhood $\{x: x < \sigma\} \subseteq \mathbb{R} \setminus \phi(\mathcal{C})$. Hence $\phi(c) \geq \sigma$ for all $c \in \mathcal{C}$. The property \eqref{DataSpread} follows by the association $c \mapsto \frac{c}{\|c\|_2}$ and the fact that there are only finitely many subsets of $k$ vectors $\mathbf{a}_i$ (actually, for our purposes we need only consider those subsets of $k$ vectors $\mathbf{a}_i$ having the same support), hence there is some minimal $\delta$ satisfying \eqref{DataSpread} for all of them. (We refer the reader to the Appendix for a lower bound on $\sigma$ given as a function of $k$ and an arithmetic sequence $\gamma_1, \ldots, \gamma_N$ used to generate the $a_i$.)
 
-Now suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\}$ is a dataset for which for all $i \in \{1, \ldots, N\}$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\| \leq \varepsilon$ for some $\varepsilon > 0$ and $A \in \mathbb{R}^{n \times m}$ with all $n \times \min(m,2k)$ submatrices of $A$ having lower bound $\alpha$. Suppose further that for some alternate $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ for which $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Since there are $k{m \choose k}$ vectors $\mathbf{a}_i$ with a given support $S$, the pigeon-hole principle implies that there are at least $k$ vectors $\mathbf{y}_i$ such that $\|\mathbf{y}_i - A\mathbf{a}_i\| \leq \varepsilon$ for these $\mathbf{a}_i$ and also $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for $\mathbf{b}_i$ all sharing the same support $S' \in {[m] \choose k}$. \textbf{[Do we really need this many samples per support? Consider the information gained by noting that we have vectors distributed over multiple supports and that $A$ satisfies the spark condition.]} Let $\mathcal{Y}$ be a set of $k$ such vectors $\mathbf{y}_i$ which we will index by $\mathcal{I}$, i.e. $\mathcal{Y} = \{\mathbf{y}_i: i \in \mathcal{I}\}$.
+Let $A \in \mathbb{R}^{n \times m}$ be some matrix with unit norm columns satisfying \eqref{RIP} and suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Since there are $k{m \choose k}$ vectors $\mathbf{a}_i$ with a given support $S$, the pigeon-hole principle implies that there is some set of indices $\mathcal{I}$ of cardinality at least $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in \mathcal{I}$ have supports $S$ and $S' \in {[m] \choose k}$, respectively. \textbf{[Do we really need this many samples per support? Consider the information gained by noting that we have vectors distributed over multiple supports and that $A$ satisfies the spark condition.]}
 
-It follows from the general linear position of the $\mathbf{a}_i$ and the fact that every $k$ columns of $A$ are linearly independent that the set $\{A\mathbf{a}_i: i \in \mathcal{I}\}$ is a basis for $\text{Span}\{A_S\}$. Hence, fixing $\mathbf{z} \in \text{Span}\{A_S\}$, there exists a unique set of $c_i \in \mathbb{R}$ (for notational convenience we index these $c_i$ with $\mathcal{I}$ as well) such that $\mathbf{z} = \sum_{i \in \mathcal{I}} c_iA\mathbf{a}_i$. Letting $\mathbf{y} = \sum_{i \in \mathcal{I}} c_i\mathbf{y}_i  \in \text{Span}\{\mathcal{Y}\}$, we have by the triangle inequality that
+It follows from the general linear position of the $\mathbf{a}_i$ and the fact that every $k$ columns of $A$ are linearly independent that the set $\{A\mathbf{a}_i: i \in \mathcal{I}\}$ is a basis for $\text{Span}\{A_S\}$. Hence, fixing $\mathbf{z} \in \text{Span}\{A_S\}$, there exists a unique set of $c_i \in \mathbb{R}$ (for notational convenience we index these $c_i$ with $\mathcal{I}$ as well) such that $\mathbf{z} = \sum_{i \in \mathcal{I}} c_iA\mathbf{a}_i$. Letting $\mathbf{z'} = \sum_{i \in \mathcal{I}} c_iB\mathbf{b}_i \in \text{Span}\{B_{S'}\}$, we have by the triangle inequality that
 \begin{align}\label{4}
-\|\mathbf{z} - \mathbf{y}\|_2 = \| \sum_{i \in \mathcal{I}} c_i A \mathbf{a}_i -  \sum_{i \in \mathcal{I}} c_i \mathbf{y}_i \|_2 \leq \sum_{i \in \mathcal{I}} \| c_i (A\mathbf{a}_i - \mathbf{y}_i) \|_2 = \sum_{i \in \mathcal{I}} |c_i| \| A\mathbf{a}_i - \mathbf{y}_i \|_2 \leq \varepsilon \sum_{i \in \mathcal{I}} |c_i|.
+\|\mathbf{z} - \mathbf{z'}\|_2
+\leq \sum_{i \in \mathcal{I}} |c_i| \| A\mathbf{a}_i - B\mathbf{b}_i \|_2 \leq \varepsilon \sum_{i \in \mathcal{I}} |c_i|.
 \end{align}
 
-The alternate factorization for the $\mathbf{y}_i$ implies (by a manipulation identical to that of \eqref{4}) that for $\mathbf{z}' = \sum_{i \in \mathcal{I}} c_i B\mathbf{b}_i \in \text{Span}\{B_{S'}\}$ we have $\|\mathbf{y} - \mathbf{z}'\|_2 \leq \varepsilon \sum_{i \in \mathcal{I}} |c_i|$ as well. It follows again by the triangle inequality that
-\begin{align}\label{dist}
-\|\mathbf{z} - \mathbf{z}'\|_2 \leq \|\mathbf{z} - \mathbf{y}\|_2 + \|\mathbf{y} - \mathbf{z}'\|_2 = 2 \varepsilon \sum_{i \in \mathcal{I}} |c_i|.
-\end{align}
-
-Since $\text{supp}(\mathbf{a}_i) = S$ for all $i \in \mathcal{I}$ and $A$ has $k$-sparse restricted lower bound $\alpha$, we have 
+Since $\text{supp}(\mathbf{a}_i) = S$ for all $i \in \mathcal{I}$ and $A$ satisfies the spark condition (hence $\alpha(A) > 0$), we have:
 \begin{align}\label{len}
 \|\mathbf{z}\|_2 = \|\sum_{i \in \mathcal{I}}^k c_i A \mathbf{a}_i\|_2 
 = \|A (\sum_{i \in \mathcal{I}} c_i \mathbf{a}_i) \|_2 
-\geq \alpha \|\sum_{i \in \mathcal{I}}^k c_i \mathbf{a}_i\|_2 
-\geq \frac{\alpha\sigma}{\sqrt{k}}\sum_{i \in \mathcal{I}}^k |c_i|,
+\geq \alpha_{2k}(A) \|\sum_{i \in \mathcal{I}}^k c_i \mathbf{a}_i\|_2 
+\geq \frac{\alpha_{2k}(A)\sigma}{\sqrt{k}}\sum_{i \in \mathcal{I}}^k |c_i|,
 \end{align}
 %
-where for the last inequality we have applied the property \eqref{DataSpread}, noting that $\sqrt{k}\|c\|_2 \geq \|c\|_1$ for all $c \in \mathbb{R}^k$. Combining \eqref{dist} and \eqref{len}, we see that for all $\mathbf{z} \in \text{Span}\{A_S\}$ there exists some $\mathbf{z}' \in \text{Span}\{B_{S'}\}$ such that $\|\mathbf{z} - \mathbf{z}'\|_2 \leq \frac{ 2 \varepsilon \sqrt{k}}{ \alpha \sigma } \|\mathbf{z}\|_2$. It follows that $d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{ 2 \varepsilon \sqrt{k} }{ \alpha \sigma }$ for all unit vectors $\mathbf{z} \in \text{Span}\{A_S\}$. Hence,
+where for the last inequality we have applied the property \eqref{DataSpread}, noting that $\sqrt{k}\|c\|_2 \geq \|c\|_1$ for all $c \in \mathbb{R}^k$. Combining \eqref{4} and \eqref{len}, we see that for all $\mathbf{z} \in \text{Span}\{A_S\}$ there exists some $\mathbf{z}' \in \text{Span}\{B_{S'}\}$ such that $\|\mathbf{z} - \mathbf{z}'\|_2 \leq \frac{ \varepsilon \sqrt{k}}{ \alpha_{2k}(A) \sigma } \|\mathbf{z}\|_2$. It follows that $d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{ \varepsilon \sqrt{k} }{ \alpha_{2k}(A) \sigma }$ for all unit vectors $\mathbf{z} \in \text{Span}\{A_S\}$. Hence,
 \begin{align}\label{ABSubspaceDistance}
-\sup_{ \substack{ \mathbf{z} \in \text{Span}\{A_{S}\} \\ \|\mathbf{z}\| = 1} } d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{ 2 \varepsilon \sqrt{k} }{ \alpha \sigma }.
+\sup_{ \substack{ \mathbf{z} \in \text{Span}\{A_{S}\} \\ \|\mathbf{z}\| = 1} } d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{ \varepsilon \sqrt{k} }{ \alpha_{2k}(A) \sigma }.
 \end{align}
 
-If $\varepsilon < \frac{\alpha\sigma}{2\sqrt{k}}$, we have that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_S\}) = k$ by Lemma \ref{MinDimLemma} and the fact that every $k$ columns of $A$ are linearly independent . In fact, since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_S\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: \{S_1, \ldots, S_m\} \to {[m] \choose k}$ satisfying $\Theta(\text{Span}\{A_S\}, \text{Span}\{\mathcal{B_{\pi(S)}}\}) \leq \frac{ 2 \varepsilon \sqrt{k} }{ \alpha \delta }$.
+If $\varepsilon < \frac{\alpha\sigma}{\sqrt{k}}$, we have that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_S\}) = k$ by Lemma \ref{MinDimLemma} and the fact that every $k$ columns of $A$ are linearly independent . In fact, since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_S\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: \{S_1, \ldots, S_m\} \to {[m] \choose k}$ satisfying $\Theta(\text{Span}\{A_S\}, \text{Span}\{\mathcal{B_{\pi(S)}}\}) \leq \frac{ \varepsilon \sqrt{k} }{ \alpha_{2k}(A) \sigma }$.
 
-If $\varepsilon < \frac{\alpha^2\sigma\phi_k(A)}{(2k)^{2/3}}$, we then indeed have $\varepsilon < \frac{\alpha\sigma}{2\sqrt{k}}$ (since $\alpha \leq 1$, $\phi_k(A) \leq 1$ and $k \geq 1$) so that 
+Now suppose $\varepsilon < \frac{[\alpha_{2k}(A)]^2\sigma\phi_k(A)}{\sqrt{k}}$. In this case, we indeed have $\varepsilon < \frac{\alpha_{2k}(A)\sigma}{\sqrt{k}}$ (since $\alpha \leq 1$, $\phi_k(A) \leq 1$ and $k \geq 1$) so that 
 \begin{align}\label{SubspaceDistanceUpperBound}
 \Theta(\text{Span}\{A_{S_i}\}, \text{Span}\{\mathcal{B}_{\pi(S_i)}\}) \leq \frac{\phi_k(A)}{k}\Delta
 \indent \text{for all} \indent i = 0, \ldots, m-1,
 \end{align}
 %
-where $\Delta = \frac{2k^{2/3}\varepsilon}{\alpha\sigma\phi_k(A)} < \frac{\alpha}{\sqrt{2}}$. Moreover, it follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in \{1, \ldots, m\}$,
-$\|A - BPD\|_1 \leq C\varepsilon$ for $C = \frac{2k^{2/3}\sqrt{m}}{\alpha\sigma\phi_k(A)}$.
+where $\Delta = \frac{\varepsilon k^{2/3}}{\alpha_{2k}(A)\sigma\phi_k(A)} < \frac{\alpha_{2k}(A)}{\sqrt{2}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in \{1, \ldots, m\}$,
+$\|A - BPD\|_2 \leq C\varepsilon$ for $C = \frac{k^{2/3}}{\alpha_{2k}(A)\sigma\phi_k(A)}$.
 \end{proof}
 
 
@@ -361,12 +354,13 @@ $\|A - BPD\|_1 \leq C\varepsilon$ for $C = \frac{2k^{2/3}\sqrt{m}}{\alpha\sigma\
 
 \section{Assuming the Spark Condition on $B$}\label{mleqm}
 
-In this section we prove a stronger version of Lemma \ref{MainLemma} by assuming that $B$ also satisfies the spark condition. In doing so, we can address the issue of recovering $A \in \mathbb{R}^{n \times m}$ and the $\mathbf{a}_i \in \mathbb{R}^m$ when only an upper bound $m'$ on the number $m$ of sparse sources is known.
+In this section we state a version of Theorem \ref{DeterministicUniquenessTheorem} and Lemma \ref{MainLemma} assuming that $B$ also satisfies the spark condition (in addition to $A$ satisfying the spark condition). In doing so, we can address the issue of recovering $A \in \mathbb{R}^{n \times m}$ and the $\mathbf{a}_i \in \mathbb{R}^m$ when only an upper bound $m'$ on the number $m$ of sparse sources is known.
 
 \begin{theorem}\label{DeterministicUniquenessTheorem2}
-Given positive integers $n, m, m'$ and $k$ with $k < m \leq m'$, there exist $N =  mk{m' \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: if $Y = \{ \mathbf{y}_1, ..., \mathbf{y}_N \}$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} we have $\| \mathbf{y}_i - A\mathbf{a}_i \|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$, then any other matrix $B \in \mathbb{R}^{n \times m'}$ also satisfying spark condition \eqref{SparkCondition} and for which there exist $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ such that $\| \mathbf{y}_i - B\mathbf{b}_i \|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ necessarily satisfies $\|A - BPD\| \leq C\varepsilon$ for some $C > 0$, partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and diagonal matrix $D \in \mathbb{R}^{m' \times m}$, provided $\varepsilon$ is small enough. Moreover, this implies $\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 \leq C'\varepsilon$ for some $C' > 0$.
+Given positive integers $n, m, m'$ and $k$ with $k < m \leq m'$, there exist $N =  mk{m' \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every pair of matrices $A, B \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} are such that if $\| A\mathbf{a}_i - B\mathbf{b}_i \|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$ for some $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ and small enough $\varepsilon$ then $\|A - BPD\| \leq C\varepsilon$ for some $C > 0$, partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and diagonal matrix $D \in \mathbb{R}^{m' \times m}$. Moreover, $\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 \leq \frac{\varepsilon \|D\|_2}{\alpha}\left( 1 + C\|D^{-1}P^{-1}\mathbf{b}_i\|_1 \right)$ where $\alpha = \min( \alpha_{2k}(A), \alpha_{2k}(B))$.
 
-Specifically, the $\mathbf{a}_i$ are constructed so that any $k$ of them are linearly independent. In particular, any set of $k$ vectors $\mathbf{a}_i$ that share the same support satisfy \eqref{DataSpread} for some $\sigma > 0$. Letting $\Phi := \min(\phi_k(A), \phi_k(B))$ and letting $\alpha_k := \min( \alpha_k(A), \alpha_k(B) )$ and $\alpha_{2k} := \min( \alpha_{2k}(A), \alpha_{2k}(B) )$, then provided $\varepsilon < (2k)^{-2/3}\alpha_k^2\sigma \Phi$ we have
+
+Specifically, the $\mathbf{a}_i$ are constructed so that any $k$ of them sharing the same support satisfy \eqref{DataSpread} for some $\sigma > 0$. Letting $\Phi := \min(\phi_k(A), \phi_k(B))$ and letting $\alpha_k := \min( \alpha_k(A), \alpha_k(B) )$ and $\alpha_{2k} := \min( \alpha_{2k}(A), \alpha_{2k}(B) )$, then provided $\varepsilon < (2k)^{-2/3}\alpha_k^2\sigma \Phi$ we have
 \begin{align}
 \|A - BPD\|_2 \leq \frac{2\varepsilon k^{2/3} }{\alpha_k\sigma \Phi}
 \end{align}
@@ -377,17 +371,17 @@ and
 \end{align}
 \end{theorem}
 
-The proof of this adaptation of Theorem \ref{DeterministicUniquenessTheorem2} is very similar to the proof of Theorem \ref{DeterministicUniquenessTheorem}, the only difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lemma \ref{MainLemma2}, the statement of which follows, by pigeonholing $k{m' \choose k}$ vectors with respect to $[m']$ holes.
+The proof of Theorem \ref{DeterministicUniquenessTheorem2} is very similar to the proof of Theorem \ref{DeterministicUniquenessTheorem}, the only difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lemma \ref{MainLemma2}, the statement of which follows, by pigeonholing $k{m' \choose k}$ vectors with respect to $[m']$ holes.
 
 \begin{lemma}[Main Lemma for $m \leq m'$]\label{MainLemma2}
-Fix positive integers $n, m, m'$ and $k$ with $k < m \leq m'$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ with having unit norm columns. Suppose both $A$ and $B$ satisfy spark condition \eqref{SparkCondition} with $\alpha \in (0,1]$ as a lower bound for every one of their $n \times \max(2,k)$ submatrices. Let $\mathcal{T}$ be the set of all $S_i := \{i, \ldots, (i + (k-1) \} \;\bmod\; m$ for $i = 0, \ldots, m-1$. If there exists a map $\pi: \mathcal{T} \to {[m] \choose k}$ and some $\Delta < \frac{\alpha}{\sqrt{2}}$ such that 
+Fix positive integers $n, m, m'$ and $k$ with $k < m \leq m'$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ with having unit norm columns. Suppose both $A$ and $B$ satisfy spark condition \eqref{SparkCondition} and let $\alpha_k = \min(\alpha_k(A), \alpha_k(B))$. Let $\mathcal{T}$ be the set of all $S_i := \{i, \ldots, (i + (k-1) \} \;\bmod\; m$ for $i = 0, \ldots, m-1$. If there exists a map $\pi: \mathcal{T} \to {[m] \choose k}$ and some $\Delta < \frac{\alpha}{\sqrt{2}}$ such that 
 \begin{equation}\label{GapUpperBound2}
 \Theta(\text{Span}\{A_{S_i}\}, \text{Span}\{B_{\pi(S_i)}\}) \leq \frac{ \min(\phi_k(A), \phi_k(B)) }{k} \Delta \indent \text{for all} \indent i \in \{0, \ldots, m-1\}
 \end{equation}
 %
-then there exist a permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ such that
+then there exist a partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ such that
 \begin{align}
-\|A - BPD\|_1 \leq \sqrt{m}\Delta \indent \text{for all} \indent i \in [m].
+\|A - BPD\|_2 \leq \Delta \indent \text{for all} \indent i \in [m].
 \end{align}
 \end{lemma}
 
@@ -396,41 +390,6 @@ We again defer the proof of this lemma to the Appendix.
 %===================================
 % 			DISCUSSION
 %===================================
-
-
-\begin{figure*}[t!]
-\begin{center}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_0001.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_2042.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise0_4083.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise1_0205.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise2_0409.png}
-\includegraphics[width=1.1  in]{figs/B_FastICA_M640_K8_noise5_1021.png}\\
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_0001.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_2042.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise0_4083.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise1_0205.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise2_0409.png}
-\includegraphics[width=1.1  in]{figs/PD_recovery_FastICA_M640_K8_noise5_1021.png} \\
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_0001.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_2042.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise0_4083.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise1_0205.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise2_0409.png}
-\includegraphics[width=1.1  in]{figs/Ahat_FastICA_M640_K8_noise5_1021.png}
-\caption{$B$, $PD$, $\hat{A}$: left-to-right noises $0, .2, .4, 1, 2, 5$. *** Need to replace with correct latest figures (e.g. with PD taken care of properly).***}
-\end{center}
-\end{figure*}
-
-\begin{figure*}[t!]
-\begin{center}
-\includegraphics[width=3.35 in]{figs/error_mat1norm_FastICA_M1280_K16.pdf}
-\includegraphics[width=3.5 in]{figs/error_MSE_FastICA_M1280_K16.pdf}
-\caption{Recovery error.}
-\end{center}
-\end{figure*}
-
-
 
 \section{Discussion}
 
@@ -447,7 +406,7 @@ Identifying uniqueness: the bispectrum
 \appendices
 \section{Combinatorial Matrix Theory}
 
-In this section, we prove Lemma \ref{MainLemma}, which was a main ingredient in our proof of Theorem \ref{DeterministicUniquenessTheorem}. We suspect that there is an appropriate generalization to matroids. First, we prove some auxiliary lemmas. 
+In this section, we prove Lemma \ref{MainLemma}, which was a main ingredient in our proof of Theorem \ref{DeterministicUniquenessTheorem}. We suspect that there is an appropriate generalization to matroids. For readers willing to assume a priori that the spark condition holds for $B$ as well as for $A$, a proof of this case (Lemma \ref{MainLemma2} from section \ref{mleqm}) is provided in Appendix \ref{mleqmAppendix}. The additional assumption simplifies the proof and allows us to extend stability conditions to the case where only an upper bound on $m$ is known a priori. We now prove some auxiliary lemmas before deriving Lemma \ref{MainLemma}.
 
 %===== SPAN INTERSECTION LEMMA =====
 
@@ -471,7 +430,7 @@ Fix $k \geq 2$. Let $V_1, \ldots, V_k$ be closed subspaces of $\mathbb{R}^m$ and
 \end{lemma}
 
 \begin{proof} 
-Fix $x \in \mathbb{R}^m$ and $k \geq 2$. We will do the proof in two steps. First, we will show that
+Fix $x \in \mathbb{R}^m$ and $k \geq 2$. The proof can be subdivided into two steps. First, we will show that
 \begin{align}\label{induction}
 \|x - \Pi_Vx\|_2 \leq \sum_{i=1}^k \|x - \Pi_{V_i} x\|_2 + \|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} x - \Pi_V x\|_2.
 \end{align}
@@ -482,7 +441,7 @@ We have by the triangle inequality that
 &\leq \sum_{i=k-1}^k\|x - \Pi_{V_i} x\|_2 + \|\Pi_{V_k}\Pi_{V_{k-1}} x - \Pi_V x\|_2,
 \end{align*}
 %
-where in the second line we have used the fact that $\|\Pi_{V_k}\|_2 \leq 1$. If $k=2$ then we are done; otherwise, we may repeat this manipulation another $k-2$ times until we arrive at \eqref{induction}. We will now show how the result \eqref{DTILeq} follows from \eqref{induction}. To do so, we make use of the following result from \cite{Deutsch} (Theorem 9.33):
+where in the second line we have used the fact that $\|\Pi_{V_k}\|_2 \leq 1$. If $k=2$ then we are done; otherwise, we may repeat this manipulation another $k-2$ times until we arrive at \eqref{induction}. Next, we show how the result \eqref{DTILeq} follows from \eqref{induction}. To do so, we make use of the following result from \cite{Deutsch} (Theorem 9.33):
 \begin{align}\label{dti2}
 \|\left(\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1}\right)x - \Pi_Vx\|_2 \leq \xi \|x\|_2 \indent \text{for all} \indent x \in \mathbb{R}^m.
 \end{align}
@@ -522,7 +481,7 @@ Then  $\pi(S_i) \cap \cdots \cap \pi(S_{i+(k-1)}) \neq \emptyset$ for all $i \in
 
 \begin{proof} Consider the set $Q_m = \{ (i,j) : i \in \mathbb{Z}/m\mathbb{Z}, j \in \pi(S_i) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $p \in \mathbb{Z}/m\mathbb{Z}$ and at least $k$ distinct $i_1, \ldots, i_k$ such that $\{(i_1, p), \ldots, (i_k, p)\} \subseteq Q_m$. Hence, $p \in \pi(S_{i_1}) \cap \cdots \cap \pi(S_{i_k})$ and by \eqref{EmptyToEmpty} there must be some $v \in \mathbb{Z}/m\mathbb{Z}$ such that $v \in S_{i_1} \cap \cdots \cap S_{i_k}$. This is only possible (given $\mathcal{T}$) if $i_1, \ldots, i_k$ are consecutive modulo $\mathbb{Z}/m\mathbb{Z}$, i.e. $\{i_1, \ldots, i_k\} = \{v - (k-1), \ldots, v\}$. (Given an element in $\mathbb{Z}/m\mathbb{Z}$, there are only $k$ elements of $\mathcal{T}$ which contain that element; these are $S_{v-(k-1)}, \ldots, S_v$.)
 
-We now show that there exists no additional $i \notin \{v - (k-1), \ldots, v\}$ such that $p \in \pi(S_{i})$. This would complete the proof by induction as follows: by letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate, we would have $|Q_{m-1}| = (m-1)k$ and the proof would then follow by iterating the arguments above. Note that if there were such an $i$ then we would have $p \in \pi(S_{i}) \cap \pi(S_{v - (k-1)}) \cap \cdots \cap \pi(S_{v})$ and \eqref{EmptyToEmpty} would imply that every $k$-element subset of $\{i\} \cup \{v-(k-1), \ldots, v\}$ is a set of consecutive integers. This is only possible if $m = k+1$; but then there cannot have been $k+1$ distinct elements of ${\mathbb{Z}/m\mathbb{Z} \choose k}$ all containing $p$ since there are only ${m-1 \choose m-2}  = m-1 = k$ distinct elements of ${\mathbb{Z}/m\mathbb{Z} \choose m-1}$ which contain $p$. 
+We now show that there exists no additional $i \notin \{v - (k-1), \ldots, v\}$ such that $p \in \pi(S_{i})$. This would complete the proof as follows: by letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate, we would have $|Q_{m-1}| = (m-1)k$ and the result follows by iterating the arguments above. To see why there can be no such $i$, note that if this were not the case then we would have $p \in \pi(S_{i}) \cap \pi(S_{v - (k-1)}) \cap \cdots \cap \pi(S_{v})$ and \eqref{EmptyToEmpty} would imply that every $k$-element subset of $\{i\} \cup \{v-(k-1), \ldots, v\}$ is a set of consecutive integers modulo $m$. This is only possible if $k = m-1$, i.e. if $\{i\} \cup \{v-(k-1), \ldots, v\} = \mathbb{Z}/m\mathbb{Z}$; but then there cannot have been $m$ distinct elements of ${\mathbb{Z}/m\mathbb{Z} \choose m-1}$ all containing $p$ since there are only ${m-1 \choose m-2}  = m-1$ such elements.
 \end{proof}
 
 %==== PROOF OF MAIN LEMMA =======
@@ -532,7 +491,7 @@ We assume $k \geq 2$ since the case $k = 1$ was proven at the beginning of Secti
 
 Next, fix $\mathcal{I} = \{i_1, \ldots, i_k\} \in {[m] \choose k}$. Assumption \eqref{GapUpperBound} implies that for all unit vectors $\mathbf{z} \in  \text{Span}\{B_{\cap_{i \in \mathcal{I}}\pi(S_i)}\} \subseteq \cap_{i \in \mathcal{I}} \text{Span}\{B_{\pi(S_i)}\}$ we have $d(\mathbf{z}, \text{Span}\{A_{S_i}\}) \leq \frac{\phi_k(A)}{k} \Delta$ for all $i \in \mathcal{I}$. By Lemma \ref{DistanceToIntersectionLemma}, we have:
 \begin{align}\label{fact1}
-d\left( \mathbf{z}, \cap_{i \in \mathcal{I}} \text{Span}\{A_{S_i}\} \right) \leq \Delta \left( \frac{\phi_k(A)}{1 - c(\text{Span}\{A_{S_{i_1}}\}, \ldots, \text{Span}\{A_{S_{i_\ell}}\})} \right) \leq \Delta.
+d\left( \mathbf{z}, \bigcap_{i \in \mathcal{I}} \text{Span}\{A_{S_i}\} \right) \leq \Delta \left( \frac{\phi_k(A)}{1 - c(\text{Span}\{A_{S_{i_1}}\}, \ldots, \text{Span}\{A_{S_{i_\ell}}\})} \right) \leq \Delta.
 \end{align}
 %
 The second inequality is a simple consequence of the definition of $\phi_k(A)$. Since $A$ satisfies the spark condition, we have by Lemma \ref{SpanIntersectionLemma} that $\text{Span}\{A_{\bigcap_{i \in \mathcal{I}} S_{i}}\} = \cap_{i \in \mathcal{I}} \text{Span}\{A_{S_i}\}$; hence by Lemma \ref{MinDimLemma} applied to \eqref{fact1}, we have that $\dim(\text{Span}\{B_{\cap_{i \in \mathcal{I}}\pi(S_{i})}\}) \leq \dim(\text{Span}\{A_{\cap_{i \in \mathcal{I}} S_{i}}\})$. It follows by the linear independence of the columns of $B_{\pi(S)}$ that
@@ -553,7 +512,7 @@ Now, fix $i \in [m]$ and let $\mathcal{I} = \{i-(k-1), \ldots, i\}$. Then $\cap_
 % APPENDIX: ADAPTED MAIN LEMMA
 %================================
 
-\section{Assuming the Spark Condition on $B$}
+\section{Assuming the Spark Condition on $B$}\label{mleqmAppendix}
 
 In this section we prove Lemma \ref{MainLemma2} from Section \ref{mleqm}.
 
@@ -582,10 +541,10 @@ we see that \eqref{yepyep} becomes $\|(A - BPD)\mathbf{e}_i\|_2 \leq \Delta$ for
 
 Now suppose $k \geq 2$ and let $\mathcal{F} = \{S_{i_1}, \ldots, S_{i_k}\} \in {\mathcal{T} \choose k}$. Condition \eqref{GapUpperBound} implies that for all unit vectors $\mathbf{z} \in  \text{Span}\{B_{\cap_{S \in \mathcal{F}}\pi(S)}\} \subseteq \cap_{S \in \mathcal{F}} \text{Span}\{B_{\pi(S)}\}$ we have $d(\mathbf{z}, \text{Span}\{A_{S}\}) \leq \frac{\phi_k(A)}{k} \Delta$ for all $S \in \mathcal{F}$. By Lemma \ref{DistanceToIntersectionLemma} we have that:
 \begin{align}\label{sym}
-d\left( \mathbf{z}, \cap_{i \in \mathcal{I}} \text{Span}\{A_{S_i}\} \right) \leq \Delta \left( \frac{\phi_k(A)}{1 - c(\text{Span}\{A_{S_{i_1}}\}, \ldots, \text{Span}\{A_{S_{i_\ell}}\})} \right) \leq \Delta.
+d\left( \mathbf{z}, \bigcap_{i \in \mathcal{I}} \text{Span}\{A_{S_i}\} \right) \leq \Delta \left( \frac{\phi_k(A)}{1 - c(\text{Span}\{A_{S_{i_1}}\}, \ldots, \text{Span}\{A_{S_{i_\ell}}\})} \right) \leq \Delta.
 \end{align}
 %
-The second inequality is a simple consequence of the definition of $\phi_k(A)$. Since $A$ satisfies the spark condition, we have by Lemma \ref{SpanIntersectionLemma} that $\text{Span}\{A_{\bigcap_{i \in \mathcal{I}} S_{i}}\} = \cap_{i \in \mathcal{I}} \text{Span}\{A_{S_i}\}$; hence by Lemma \ref{MinDimLemma} applied to \eqref{sym}, we have that $\dim(\text{Span}\{B_{\cap_{i \in \mathcal{I}}\pi(S_{i})}\}) \leq \dim(\text{Span}\{A_{\cap_{i \in \mathcal{I}} S_{i}}\})$.
+The second inequality is a simple consequence of the definition of $\phi_k(A)$. Since $A$ satisfies the spark condition, we have by Lemma \ref{SpanIntersectionLemma} that $\text{Span}\{A_{\cap_{i \in \mathcal{I}} S_{i}}\} = \cap_{i \in \mathcal{I}} \text{Span}\{A_{S_i}\}$; hence by Lemma \ref{MinDimLemma} applied to \eqref{sym}, we have that $\dim(\text{Span}\{B_{\cap_{i \in \mathcal{I}}\pi(S_{i})}\}) \leq \dim(\text{Span}\{A_{\cap_{i \in \mathcal{I}} S_{i}}\})$.
 
 By symmetry, the same arguments as above can be made with the roles of $A$ and $B$ reversed. Hence, $\dim(\text{Span}\{A_{\cap_{S \in \mathcal{F}}S}\}) = \dim(\text{Span}\{B_{\cap_{S \in \mathcal{F}}\pi(S)}\})$ and since every $k$ columns of $A$ and every $k$ columns of $B$ are linearly independent, we have
 \begin{align}\label{fact22}
@@ -605,7 +564,7 @@ In general, there may exist combinations of fewer supports $S_i$ with intersecti
 
 \section{Calculating C}
 
-In this section we derive the constant $C$ for a particular generating dictionary $A \in \mathbb{R}^{n \times m}$ and $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$
+In this section we demonstrate how an upper bound on the constant $C$ can be derived for a particular $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$. \textbf{[Alternatively, see Lemma 2.2 in Grcar - A matrix lower bound, for a lower bound on rectangular matrices (though not k-restricted)]}
 
 %=== MATRIX LOWER BOUND LEMMA ===
 
@@ -634,7 +593,7 @@ and the result follows.
 %===================================
 
 \section*{Acknowledgment}
-We would like to thank Fritz Sommer for turning our attention to the dictionary learning problem. We also thank Bizzyskillet on SoundCloud for "The No-Exam Jams", which played on repeat during many long hours of designing proofs. Finally, we thank Ian Morris for posting equation \eqref{SubspaceMetricSameDim} and a reference to his proof on Stack Exchange. 
+We would like to thank Fritz Sommer for turning our attention to the dictionary learning problem. We also thank Bizzyskillet on SoundCloud for "The No-Exam Jams", which played on repeat during many long hours of designing proofs. Finally, we thank Ian Morris for posting equation \eqref{SubspaceMetricSameDim} on Stack Exchange and for providing a reference to his proof.
 
 %===================================
 % 			REFERENCES
