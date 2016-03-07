@@ -74,9 +74,10 @@ Letting $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_
 \begin{definition}\label{Uniqueness}
 A set of vectors $\{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ when for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\mathbf{y}_i = A\mathbf{a}_i$ for all $i = 1, \ldots, N$. We say that $A$ and the $\mathbf{a}_i$ forming this representation are \textbf{identifiable} (up to permutation and scaling ambiguity) given $Y$ when every other $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ for which $\mathbf{y}_i = B\mathbf{b}_i$ for all $i = 1, \ldots, N$ necessarily satisfy $A = BPD$ and $\mathbf{b}_i = PD\mathbf{a}_i$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The representation is \textbf{stable} when there exists some $\varepsilon > 0$ such that if $B$ and the $\mathbf{b}_i$ only satisfy $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$, then
 \begin{align}\label{def1}
-\|A - BPD\|_2 \leq C \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|_2
+\|A - BPD\|_2 \leq C_1 \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|_2 \\
+\|\mathbf{b}_i - PD\mathbf{a}_i\|_2 \leq C_2 \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|_2
 \end{align}
-for some $C>0$. (It follows that $\|\mathbf{b}_i - PD\mathbf{a}_i\|_2 \leq C' \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|_2$ for some $C' > 0$ as well.) We call $\varepsilon$ and $C$ the \textbf{error threshold} and \textbf{stability constant}, respectively, associated with the $k$-sparse representation formed by $A$ and the $\mathbf{a}_i$.
+for some $C_1, C_2>0$. We call $\varepsilon$ and $C_1$ the \textbf{error threshold} and \textbf{stability constant}, respectively, associated with the $k$-sparse representation formed by $A$ and the $\mathbf{a}_i$.
 \end{definition}
 
 Suppose now that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 \leq \varepsilon$ for $i = 1, \ldots, N$ for some $\varepsilon > 0$. That is, every data point can be approximated (up to error $\varepsilon$) by some linear combination of $k$ columns of $A$. If the set $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$ wih error threshold $2\varepsilon$ and stability constant $C$ then, by the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$ is such that $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq 2\varepsilon$, hence according to Definition \ref{Uniqueness} it must also satisfy \eqref{def1}. We say such datasets $Y$ have stable $k$-sparse \emph{approximate representations} in $\mathbb{R}^m$.
@@ -87,7 +88,7 @@ Some readers may find the following alternative definition more appealing:
 We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a stable $k$-sparse approximation in $\mathbb{R}^m$ when:
 \begin{enumerate}
 \item There exists some $A \in \mathbb{R}^{n \times m}$ and $\varepsilon > 0$ such that for every $\mathbf{y} \in Y$, the $\varepsilon$-ball $\mathcal{B}_2(\mathbf{y}, \varepsilon)$ centered at $\mathbf{y}$ intersects exactly one subspace spanned by $k$ columns of $A$.
-\item Any matrix $B \in \mathbb{R}^{n \times m}$ for which every such ball $\mathcal{B}_2(\mathbf{y}, \varepsilon)$ intersects a subspace spanned by $k$ columns of $B$ necessarily satisfies $\|A - BPD\|_1 \leq C\varepsilon$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$, invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ and $C > 0$.
+\item Any matrix $B \in \mathbb{R}^{n \times m}$ for which every such ball $\mathcal{B}_2(\mathbf{y}, \varepsilon)$ intersects a subspace spanned by $k$ columns of $B$ necessarily satisfies $\|A - BPD\|_2 \leq C_1\varepsilon$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$, invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ and $C > 0$.
 \end{enumerate}
 \end{definition}
 
@@ -177,12 +178,12 @@ Specifically, the $\mathbf{a}_i$ are constructed so that any $k$ of them are lin
 %
 for some $\rho > 0$. If $A$ has unit norm columns and satisfies spark condition \eqref{SparkCondition}, then for any matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ for which $\|\mathbf{y}_i - B\mathbf{b}_i\| < \frac{[\alpha_{2k}(A)]^2\phi_k(A)\rho}{\sqrt{k}}$ for all $i = 1, \ldots, N$ we have
 \begin{align}
-\|A - BPD\|_2 \leq \left(  \frac{k^{2/3}}{\alpha_{2k}(A)\phi_k(A)\rho} \right) \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|
+\|A - BPD\|_2 \leq \left(  \frac{k^{2/3}}{\alpha_{k}(A)\phi_k(A)\rho} \right) \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|
 \end{align}
 %
 for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$, and
 \begin{align}\label{b_PDa}
-\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 \leq \frac{ \|D\|_2}{\alpha_{2k}(A)}  \left( 1 + \frac{k^{2/3}}{\alpha_{2k}(A)\phi_k(A)\rho}\|D^{-1}P^{-1}\mathbf{b}_i\|_1 \right) \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|.
+\|\mathbf{b}_i - PD\mathbf{a}_i\|_1 \leq \frac{ \|D\|_2}{\alpha_{2k}(A)}  \left( 1 + \frac{k^{2/3}}{\alpha_{k}(A)\phi_k(A)\rho}\|D^{-1}P^{-1}\mathbf{b}_i\|_1 \right) \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|.
 \end{align}
 \end{remark}
 
@@ -244,7 +245,7 @@ we see that \eqref{1D} becomes $\|(A - BPD)\mathbf{e}_i\|_2 \leq C\varepsilon$ f
 % ======== b - PDa =========
 We note that from this result we can, in general, derive an upper bound on $\|\mathbf{b}_i - PD\mathbf{a}_i\|$ as well. By the triangle inequality, we have that $\|(A-BPD)\mathbf{x}\| \leq \|\mathbf{x}\|_1C\varepsilon$ for all $k$-sparse $\mathbf{x} \in \mathbb{R}^m$. By \eqref{RIP}, we have:
 \begin{align*}
-\alpha \|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i\|_2 
+\alpha_{2k}(A) \|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i\|_2 
 &\leq \|A(D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i)\|_2 \\
 &\leq \|(A - BPD)D^{-1}P^{-1}\mathbf{b}_i\|_2 + \|B\mathbf{b}_i - A\mathbf{a}_i\|_2 \\
 &\leq \varepsilon (1 + C\|D^{-1}P^{-1}\mathbf{b}_i\|_1). \\
@@ -329,24 +330,24 @@ Since $\text{supp}(\mathbf{a}_i) = S$ for all $i \in \mathcal{I}$ and $A$ satisf
 \|\mathbf{z}\|_2 = \|\sum_{i \in \mathcal{I}}^k c_i A \mathbf{a}_i\|_2 
 = \|A (\sum_{i \in \mathcal{I}} c_i \mathbf{a}_i) \|_2 
 \geq \alpha_{k}(A) \|\sum_{i \in \mathcal{I}}^k c_i \mathbf{a}_i\|_2 
-\geq \frac{\alpha_{k}(A)\sigma}{\sqrt{k}}\sum_{i \in \mathcal{I}}^k |c_i|,
+\geq \frac{\alpha_{k}(A)\rho}{\sqrt{k}}\sum_{i \in \mathcal{I}}^k |c_i|,
 \end{align}
 %
-where for the last inequality we have applied the property \eqref{DataSpread}, noting that $\sqrt{k}\|c\|_2 \geq \|c\|_1$ for all $c \in \mathbb{R}^k$. Combining \eqref{4} and \eqref{len}, we see that for all $\mathbf{z} \in \text{Span}\{A_S\}$ there exists some $\mathbf{z}' \in \text{Span}\{B_{S'}\}$ such that $\|\mathbf{z} - \mathbf{z}'\|_2 \leq \frac{ \varepsilon \sqrt{k}}{ \alpha_{k}(A) \sigma } \|\mathbf{z}\|_2$. It follows that $d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{ \varepsilon \sqrt{k} }{ \alpha_{k}(A) \sigma }$ for all unit vectors $\mathbf{z} \in \text{Span}\{A_S\}$. Hence,
+where for the last inequality we have applied the property \eqref{DataSpread}, noting that $\sqrt{k}\|c\|_2 \geq \|c\|_1$ for all $c \in \mathbb{R}^k$. Combining \eqref{4} and \eqref{len}, we see that for all $\mathbf{z} \in \text{Span}\{A_S\}$ there exists some $\mathbf{z}' \in \text{Span}\{B_{S'}\}$ such that $\|\mathbf{z} - \mathbf{z}'\|_2 \leq \frac{ \varepsilon \sqrt{k}}{ \alpha_{k}(A) \rho } \|\mathbf{z}\|_2$. It follows that $d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{ \varepsilon \sqrt{k} }{ \alpha_{k}(A) \rho }$ for all unit vectors $\mathbf{z} \in \text{Span}\{A_S\}$. Hence,
 \begin{align}\label{ABSubspaceDistance}
-\sup_{ \substack{ \mathbf{z} \in \text{Span}\{A_{S}\} \\ \|\mathbf{z}\| = 1} } d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{ \varepsilon \sqrt{k} }{ \alpha_{k}(A) \sigma }.
+\sup_{ \substack{ \mathbf{z} \in \text{Span}\{A_{S}\} \\ \|\mathbf{z}\| = 1} } d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{ \varepsilon \sqrt{k} }{ \alpha_{k}(A) \rho }.
 \end{align}
 
-If $\varepsilon < \frac{\alpha\sigma}{\sqrt{k}}$, we have that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_S\}) = k$ by Lemma \ref{MinDimLemma} and the fact that every $k$ columns of $A$ are linearly independent . In fact, since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_S\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: \{S_1, \ldots, S_m\} \to {[m] \choose k}$ satisfying $\Theta(\text{Span}\{A_S\}, \text{Span}\{\mathcal{B_{\pi(S)}}\}) \leq \frac{ \varepsilon \sqrt{k} }{ \alpha_{k}(A) \sigma }$.
+If $\varepsilon < \frac{\alpha\rho}{\sqrt{k}}$, we have that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_S\}) = k$ by Lemma \ref{MinDimLemma} and the fact that every $k$ columns of $A$ are linearly independent . In fact, since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_S\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: \{S_1, \ldots, S_m\} \to {[m] \choose k}$ satisfying $\Theta(\text{Span}\{A_S\}, \text{Span}\{\mathcal{B_{\pi(S)}}\}) \leq \frac{ \varepsilon \sqrt{k} }{ \alpha_{k}(A) \rho }$.
 
-Now suppose $\varepsilon < \frac{[\alpha_{k}(A)]^2\sigma\phi_k(A)}{\sqrt{k}}$. In this case, we indeed have $\varepsilon < \frac{\alpha_{k}(A)\sigma}{\sqrt{k}}$ (since $\alpha \leq 1$, $\phi_k(A) \leq 1$ and $k \geq 1$) so that 
+Now suppose $\varepsilon < \frac{[\alpha_{k}(A)]^2\phi_k(A)\rho}{\sqrt{k}}$. In this case, we indeed have $\varepsilon < \frac{\alpha_{k}(A)\rho}{\sqrt{k}}$ (since $\alpha \leq 1$, $\phi_k(A) \leq 1$ and $k \geq 1$) so that 
 \begin{align}\label{SubspaceDistanceUpperBound}
 \Theta(\text{Span}\{A_{S_i}\}, \text{Span}\{\mathcal{B}_{\pi(S_i)}\}) \leq \frac{\phi_k(A)}{k}\Delta
 \indent \text{for all} \indent i = 0, \ldots, m-1,
 \end{align}
 %
-where $\Delta = \frac{\varepsilon k^{2/3}}{\alpha_{k}(A)\sigma\phi_k(A)} < \frac{\alpha_{k}(A)}{\sqrt{2}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in \{1, \ldots, m\}$,
-$\|A - BPD\|_2 \leq C\varepsilon$ for $C = \frac{k^{2/3}}{\alpha_{k}(A)\sigma\phi_k(A)}$.
+where $\Delta = \frac{\varepsilon k^{2/3}}{\alpha_{k}(A)\phi_k(A)\rho} < \frac{\alpha_{k}(A)}{\sqrt{2}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in \{1, \ldots, m\}$,
+$\|A - BPD\|_2 \leq C\varepsilon$ for $C = \frac{k^{2/3}}{\alpha_{k}(A)\phi_k(A)\rho}$.
 \end{proof}
 
 
