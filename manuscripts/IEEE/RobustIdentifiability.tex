@@ -497,7 +497,7 @@ Since the permutation $\sigma$ we chose was arbitrary, we can replace $c$ in \eq
 
 %======= GRAPH THEORY LEMMA =======
 
-\begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$ and $\sigma \in \Sigma_m$. Suppose there exists a map $\pi: \{S_\sigma(1), \ldots, S_\sigma(m)\} \to {\mathbb{Z}/m\mathbb{Z} \choose k}$ such that for all $J \in {[m] \choose k}$,
+\begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$ and $\sigma \in \Sigma_m$ and let $\mathcal{T} = \{S_\sigma(1), \ldots, S_\sigma(m)\}$. Suppose there exists a map $\pi: \mathcal{T} \to {\mathbb{Z}/m\mathbb{Z} \choose k}$ such that for all $J \in {[m] \choose k}$,
 \begin{align}\label{EmptyToEmpty}
  \bigcap_{i \in J} S_\sigma(i) = \emptyset \Longrightarrow \bigcap_{i \in J} \pi(S_\sigma(i)) = \emptyset.
 \end{align}
@@ -505,9 +505,9 @@ Since the permutation $\sigma$ we chose was arbitrary, we can replace $c$ in \eq
 Then  $\pi(S_\sigma(i)) \cap \cdots \cap \pi(S_\sigma(i+(k-1))) \neq \emptyset$ for all $i \in \mathbb{Z}/m\mathbb{Z}$.
 \end{lemma}
 
-\begin{proof} Consider the set $Q_m = \{ (i,j) : i \in \mathbb{Z}/m\mathbb{Z}, j \in \pi(S_\sigma(i)) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $p \in \mathbb{Z}/m\mathbb{Z}$ and at least $k$ distinct $i_1, \ldots, i_k$ such that $\{(i_1, p), \ldots, (i_k, p)\} \subseteq Q_m$. Hence, $p \in \pi(S_\sigma(i_1)) \cap \cdots \cap \pi(S_\sigma(i_k))$ and by \eqref{EmptyToEmpty} there must be some $v \in \mathbb{Z}/m\mathbb{Z}$ such that $v \in S_\sigma(i_1) \cap \cdots \cap S_\sigma(i_k)$. This is only possible (given $\mathcal{T}$) if $i_1, \ldots, i_k$ are consecutive modulo $\mathbb{Z}/m\mathbb{Z}$, i.e. $\{i_1, \ldots, i_k\} = \{v - (k-1), \ldots, v\}$. (Given an element in $\mathbb{Z}/m\mathbb{Z}$, there are only $k$ elements of $\mathcal{T}$ which contain that element; these are $S_\sigma(v-(k-1)), \ldots, S_\sigma(v)$.)
+\begin{proof} Consider the set $Q_m = \{ (i,j) : i \in \mathbb{Z}/m\mathbb{Z}, j \in \pi(S_\sigma(i)) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $p \in \mathbb{Z}/m\mathbb{Z}$ and $J \in {[m] \choose k}$ such that $(i, p) \in Q_m$ for all $i \in J$. Hence, $p \in \cap_{i \in J} \pi(S_\sigma(i))$ and by \eqref{EmptyToEmpty} there must be some $v \in \mathbb{Z}/m\mathbb{Z}$ such that $\sigma(v) \in \cap_{i \in J} S_\sigma(i)$. This is only possible (since $|J| = k$) if the elements of $J$ are consecutive in $\mathbb{Z}/m\mathbb{Z}$, i.e. $J = \{v - (k-1), \ldots, v\}$. (The only elements in $\mathcal{T}$ that contain $\sigma(v)$ are $S_\sigma(v-(k-1)), \ldots, S_\sigma(v)$.)
 
-We now show that there exists no additional $i \notin \{v - (k-1), \ldots, v\}$ such that $p \in \pi(S_\sigma(i))$. This would complete the proof as follows: by letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate, we would have $|Q_{m-1}| = (m-1)k$ and the result follows by iterating the arguments above. To see why there can be no such $i$, note that if this were not the case then we would have $p \in \pi(S_\sigma(i)) \cap \pi(S_\sigma(v - k+1)) \cap \cdots \cap \pi(S_\sigma(v))$ and \eqref{EmptyToEmpty} would imply that every $k$-element subset of $\{i\} \cup \{v-(k-1), \ldots, v\}$ is a set of consecutive integers modulo $m$. This is only possible if $k = m-1$, i.e. if $\{i\} \cup \{v-(k-1), \ldots, v\} = \mathbb{Z}/m\mathbb{Z}$; but then there cannot have been $m$ distinct elements of ${\mathbb{Z}/m\mathbb{Z} \choose m-1}$ all containing $p$ since there are only ${m-1 \choose m-2}  = m-1$ such elements.
+If there exists no additional $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then by letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate we have $|Q_{m-1}| = (m-1)k$ and the result follows by iterating the above arguments. If, in fact, there is such an $i \notin J$ then we would have $p \in \pi(S_\sigma(i)) \cap \pi(S_\sigma(v - k+1)) \cap \cdots \cap \pi(S_\sigma(v))$ and \eqref{EmptyToEmpty} would imply that the intersection of every $k$-element subset of $\{S_\sigma(i)\} \cup \{S_\sigma(j): j \in J\}$ is non-empty. This would only be possible if $\{i\} \cup J = \mathbb{Z}/m\mathbb{Z}$, in which case the result then trivially holds since then $p \in \pi(S_\sigma(i))$ for all $i \in [m]$.
 \end{proof}
 
 %==== PROOF OF MAIN LEMMA =======
@@ -526,9 +526,9 @@ d\left( \mathbf{u}, \bigcap_{i \in J} \text{Span}\{A_{S_{\sigma}(i)}\} \right)
 \leq \Delta \left( \frac{\phi_k(A)}{1 - \xi( \{ \text{Span}\{A_{S_{\sigma}(i)}\}: i \in J\} ) } \right) \leq \Delta,
 \end{align*}
 %
-where the second inequality follows immediately from the definition of $\phi_k(A)$. Now, since $\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\} \subseteq \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$ and (by Lemma \ref{SpanIntersectionLemma}) $\cap_{i \in J}  \text{Span}\{A_{S_\sigma(i)}\} = \text{Span}\{A_{\cap_{i \in J}  S_\sigma(i)}\}$, we have
+where the second inequality follows immediately from the definition of $\phi_k(A)$. Now, since $\text{Span}\{B_{\cap_{i \in J}\pi(S_\sigma(i))}\} \subseteq \cap_{i \in J} \text{Span}\{B_{\pi(S_\sigma(i))}\}$ and (by Lemma \ref{SpanIntersectionLemma}) $\cap_{i \in J}  \text{Span}\{A_{S_\sigma(i)}\} = \text{Span}\{A_{\cap_{i \in J}  S_\sigma(i)}\}$, we have
 \begin{align}\label{fact1}
-d\left( \mathbf{u}, \text{Span}\{A_{\cap_{i \in J} S_\sigma(i)}\} \right) \leq \Delta \indent \text{for all} \indent \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}.
+d\left( \mathbf{u}, \text{Span}\{A_{\cap_{i \in J} S_\sigma(i)}\} \right) \leq \Delta \indent \text{for all} \indent \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_\sigma(i))}\}.
 \end{align}
 We therefore have by Lemma \ref{MinDimLemma}, setting $V = \text{Span}\{B_{\cap_{i \in J}\pi(S_\sigma(i))}\})$ and $W = \text{Span}\{A_{\cap_{i \in J} S_\sigma(i)}\}$, that $\dim(V) \leq \dim(W)$ and \eqref{fact2} follows by the linear independence of the columns of $A_{S_\sigma(i)}$ and $B_{\pi(S_\sigma(i))}$ for all $i \in [m]$.
 
