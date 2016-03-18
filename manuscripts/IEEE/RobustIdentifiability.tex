@@ -112,7 +112,7 @@ for such recovery to be possible, known in the literature as the \emph{spark con
 Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates a set of vectors $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{theorem}
 
-In fact, there are many such sets of deterministically produced $\mathbf{a}_i$; we give a parametrized family in Section \ref{DUT}. We note that Theorem 1 in \cite{HS11} is a direct consequence of this more general result, with an added improvement on $N$, the number of samples required to guarantee uniqueness. 
+In fact, there are many such sets of deterministically produced $\mathbf{a}_i$; we give a parametrized family in Section \ref{DUT}. Note that this theorem provides an answer to Problem \ref{DUTproblem} by the comments preceding the statement of Problem. Note also that Theorem 1 in \cite{HS11} is a direct consequence of this more general result (setting $\varepsilon = 0$), with an added improvement on $N$, the minimal number of samples required to guarantee uniqueness. 
 
 In order to bound the error threshold and stability constants associated to a given $k$-sparse representation (see Remark \ref{thm1specs}) we must first introduce some notation and properties of $A$ and the $\mathbf{a}_i$ from which these quantities can be derived. We use the notation $[m]$ for the set $\{1, ..., m\}$, and ${[m] \choose k}$ for the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span:
 %
@@ -132,28 +132,31 @@ and we introduce $\ell_k(M) := \min \left\{ \ell(M_S) : S \in {[m] \choose k} \r
 It can be shown (see the Appendix) \textbf{[do this]} that whenever $A$ satisfies \eqref{SparkCondition}, the minimal Jordan angle between all pairs of subspaces spanned by the columns of $A$ of dimensionality less than or equal to $k$ is nonzero. This angle, known also as the Friedrichs angle, can be defined in terms of its cosine as follows:
 
 \begin{definition}\label{FriedrichsDefinition}
-The \emph{Friedrichs angle} $\theta_F(V,W) \in [0,\frac{\pi}{2}]$ between subspaces $V,W \subseteq \mathbb{R}^m$ is the minimal angle formed between unit vectors in $V \cap (V \cap W)^\perp$ and $W \cap (W \cap V)^\perp$. That is,
+The \emph{Friedrichs angle} $\theta_F(V,W) \in [0,\frac{\pi}{2}]$ between subspaces $V,W \subseteq \mathbb{R}^n$ is the minimal angle formed between unit vectors in $V \cap (V \cap W)^\perp$ and $W \cap (W \cap V)^\perp$. That is,
 \begin{align}
 \cos\left[\theta_F(V,W)\right] := \max\left\{ \frac{ \langle v, w \rangle }{\|v\|\|w\|}: v \in V \cap (V \cap W)^\perp, w \in W \cap (V \cap W)^\perp \right\}.
 \end{align}
 \end{definition}
 
-We also define the following quantities for notational convenience:
+To gain intuition for this quantity, if $k=2$ and $n=3$ it is the angle between the normal vectors of the two planes. We also define the following quantities for notational convenience:
 
 \begin{definition}\label{SpecialSupportSet}
-For any set $\mathcal{V} = \{V_1, \ldots, V_p\}$ of closed subspaces of $\mathbb{R}^m$, let
-\begin{align}
-\xi(\mathcal{V}) := \min_{\sigma \in \Sigma_p} \left(1 - \prod_{i=1}^{p-1} \sin^2\left[ \theta_F(V_{\sigma(i)}, \cap_{j=i+1}^p V_{\sigma(j)}) \right]  \right)^{1/2}.
-\end{align}
 Given $A \in \mathbb{R}^{n \times m}$ and $k < m$, we define for $k \geq 2$:
 \begin{align}\label{rho}
 \phi_k(A) := \min_{ \mathcal{F} \in {[m] \choose k} } \left(1 - \xi( \{\text{Span}\{A_S\} : S \in \mathcal{F} \} ) \right),
 \end{align}
 %
-and we let $\phi_1(A) := 1$.
+where for any set $\mathcal{V} = \{V_1, \ldots, V_p\}$ of closed subspaces of $\mathbb{R}^m$, 
+\begin{align}
+\xi(\mathcal{V}) := \min_{\sigma \in \Sigma_p} \left(1 - \prod_{i=1}^{p-1} \sin^2\left[ \theta_F(V_{\sigma(i)}, \cap_{j=i+1}^p V_{\sigma(j)}) \right]  \right)^{1/2}.
+\end{align}
+%
+and we set $\phi_1(A) := 1$.
 \end{definition}
 
-We make one last definition before stating the specifics of Theorem \ref{DeterministicUniquenessTheorem}. Given positive integers $k < m$ and some permutation $\sigma \in \Sigma_m$ (where $\Sigma_m$ denotes the symmetric group on $m$ elements), let
+We will not attempt to provide intuition for this quantity, other than to say it was derived in \cite{Deutsch} to describe the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces. We use it to bound the distance between a point and the interesection of a set of subspaces given an upper bound on the distance from that point to each individual subspace. 
+
+Given positive integers $k < m$ and some permutation $\sigma \in \Sigma_m$ (where $\Sigma_m$ denotes the symmetric group on $m$ elements), let
 \begin{align}
 S_\sigma(i) := \{1+\sigma(i), \ldots, 1+\sigma(i + (k-1)) \} \indent \text{for} \indent i = 0, \ldots, m-1
 \end{align}
@@ -163,7 +166,7 @@ with addition modulo $m$. In words, the $S_\sigma(i)$ are the intervals of lengt
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
 
 \begin{remark}\label{thm1specs}
-The error threshold and stability constants for the stable $k$-sparse representation referred to in Theorem \ref{DeterministicUniquenessTheorem} can be calculated as follows. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$, the $\mathbf{a}_i$ are constructed to have supports $S_{\sigma(1)}, \ldots, S_{\sigma(m)}$ for some $\sigma \in \Sigma_m$ and so that $L_k(AX;\sigma) > 0$, where
+We can calculate the error threshold and stability constants for the stable $k$-sparse representation referred to in Theorem \ref{DeterministicUniquenessTheorem} as follows. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$, the $\mathbf{a}_i$ are constructed to have supports $S_{\sigma(1)}, \ldots, S_{\sigma(m)}$ for some $\sigma \in \Sigma_m$ and so that $L_k(AX;\sigma) > 0$, where
 \begin{align}\label{Ldef}
 L_k(AX;\sigma) := \min_{i \in [m]} \ell_k(AX_{J(S_\sigma(i))}) \indent \text{where } J(S) = \{j : \text{supp}(\mathbf{a}_j) = S\}.
 \end{align}
@@ -180,9 +183,9 @@ C_2 = \frac{ \|D\|_2}{\ell_{2k}(A)}  \left( 1 + C_1\|D^{-1}P^{-1}\mathbf{b}_i\|_
 \end{align}
 \end{remark}
 
-The organization of the rest of this paper is as follows. In Section \ref{DUT} we state our main tool from combinatorial matrix theory and then derive from it Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{mleqm} we describe how to extend Theorem \ref{DeterministicUniquenessTheorem} in the previous section to the case where we have only an upper bound on the number of sparse components. The final section is a discussion, and an appendix contains the proof of Lemma \ref{MainLemma} as well as some auxiliary lemmas and their proofs. 
+The organization of the rest of this paper is as follows. In Section \ref{DUT} we state our main tool from combinatorial matrix theory and then derive from it Theorem \ref{DeterministicUniquenessTheorem}. In Section{ProbabilisticTheorems} we state probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem} and give brief proofs based largely off of arguments outlined in \cite{HS11}. In Section \ref{mleqm} we describe how to extend all of these results to the case where we know only an upper bound on the number of sparse components. The final section is a discussion, and an appendix contains the proof of Lemma \ref{MainLemma}.
 
-Have the cool small dimensional example here. Data in $3D$-space coded by planes. $n=3, k=2$. 
+\textbf{[Have the cool small dimensional example here. Data in $3D$-space coded by planes. $n=3, k=2$.]}
 
 
  
@@ -226,10 +229,10 @@ We note that from this result we can, in general, derive an upper bound on $\|\m
 
 % ========== DEFINITIONS FOR MAIN LEMMA (K>1) ================
 
-Unfortunately, the proof for larger $k$ is more challenging since in general it is nontrivial to produce $P$ and $D$ as in \eqref{PandD}. Our main tool for the proof is a result in combinatorial linear algebra. First, we define the following metric on the set of linear subspaces of $\mathbb{R}^m$:
+Unfortunately, the proof for larger $k$ is more challenging since in general it is nontrivial to produce $P$ and $D$ as in \eqref{PandD}. Our main tool for the proof is a result in combinatorial linear algebra, which we state after making a couple more necessary definitions.
 
 \begin{definition}
-Let $V, W$ be subspaces of $\mathbb{R}^m$ and let $d(v,W) := \inf\{\|v-w\|_2: w \in W\} = \|v - \Pi_W v\|_2$ where $\Pi_W$ is the orthogonal projection operator onto subspace $W$. The \emph{gap} metric $\Theta$ on subspaces of $\mathbb{R}^{m}$ is [see Theory of Linear Operators in a Hilbert Space p. 69 who cites first reference]
+Let $V, W$ be subspaces of $\mathbb{R}^m$ and let $d(v,W) := \inf\{\|v-w\|_2: w \in W\} = \|v - \Pi_W v\|_2$ where $\Pi_W$ is the orthogonal projection operator onto subspace $W$. The \emph{gap} metric $\Theta$ on subspaces of $\mathbb{R}^{m}$ is \textbf{[see Theory of Linear Operators in a Hilbert Space p. 69 who cites first reference]}
 \begin{equation}\label{SubspaceMetric}
 \Theta(V,W) := \max\left( \sup_{\substack{v \in V \\ \|v\| = 1}} d(v,W), \sup_{\substack{w \in W \\ \|w\| = 1}} d(w,V) \right).
 \end{equation}
@@ -257,14 +260,14 @@ We are now in a position to state our main result from combinatorial matrix theo
 %===========          MAIN LEMMA (K > 1)             =================
 
 \begin{lemma}[Main Lemma]\label{MainLemma}
-Fix positive integers $n, m$ and $k$ such that $k < m$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with unit norm columns. If there exists for some permutation $\sigma \in \Sigma_m$ a map $\pi: \{S_{\sigma}(i), \ldots, S_{\sigma}(m-1)\} \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2k}(A)}{\sqrt{2}}$ such that 
+Fix positive integers $n, m$ and $k$ such that $k < m$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with unit norm columns. If there exists for some permutation $\sigma \in \Sigma_m$ a map $\pi: \{S_{\sigma}(1), \ldots, S_{\sigma}(m)\} \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2k}(A)}{\sqrt{2}}$ such that 
 \begin{equation}\label{GapUpperBound}
 \Theta(\text{Span}\{A_{S_{\sigma}(i)}\}, \text{Span}\{B_{\pi(S_{\sigma}(i))}\}) \leq \frac{ \phi_k(A) }{k} \Delta \indent \text{for all} \indent i \in [m]
 \end{equation}
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that
 \begin{align}
-\|A - BPD\|_2 \leq \Delta
+\|A - BPD\|_2 \leq \Delta.
 \end{align}
 \end{lemma}
 
@@ -273,24 +276,24 @@ We defer the proof of this lemma to the Appendix.
 %========          PROOF OF THEOREM 1        ============
 
 \begin{proof}[Proof of Theorem \ref{DeterministicUniquenessTheorem}]
-Fix positive integers $n, m$ and $k < m$. We assume $k > 1$ (the $k=1$ case was proven for $N=m$ at the beginning of this section). First, we produce a set of $N = mk{m \choose k}$ vectors in $\mathbb{R}^k$ in general linear position (i.e. any set of $k$ of them are linearly independent). Specifically, let $\gamma_1, ..., \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ "Vandermonde" sub-determinant is nonzero). Next, fix some $\sigma \in \Sigma_m$ and form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S_\sigma(j)$ for $j \in [m]$ (partitioning the $a_i$ evenly among these supports, i.e. for each support $S_\sigma(j)$ there are $k{m \choose k}$ vectors $a_i$ with that support) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
+Fix positive integers $n, m$ and $k < m$. We assume $k > 1$ (the $k=1$ case was proven for $N=m$ at the beginning of this section). First, we produce a set of $N = mk{m \choose k}$ vectors in $\mathbb{R}^k$ in general linear position (i.e. any set of $k$ of them are linearly independent). Specifically, let $\gamma_1, ..., \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ "Vandermonde" sub-determinant is nonzero). Next, fix some $\sigma \in \Sigma_m$ and form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S_\sigma(j)$ for $j \in [m]$ (partitioning the $a_i$ evenly among these supports, i.e. for each support there are $k{m \choose k}$ vectors $a_i$ with that support) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 
-We claim that any $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} is such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$. Fix such an $A$ and without loss of generality let it have unit norm columns. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Since there are $k{m \choose k}$ vectors $\mathbf{a}_i$ with a given support $S_\sigma(j)$, $j \in [m]$, the pigeon-hole principle implies that there is some set of indices $J$ of cardinality (at least) $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J$ have supports $S_\sigma(j)$ and $S' \in {[m] \choose k}$, respectively.
+We claim that any $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} is such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$. Fix $A$ satisfying \eqref{SparkCondition} and let it have unit norm columns (it is not hard to show that this can be done without loss of generality). Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Since there are $k{m \choose k}$ vectors $\mathbf{a}_i$ with a given support $S_\sigma(j)$, $j \in [m]$, the pigeon-hole principle implies that there is some set of indices $J$ of cardinality (at least) $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J$ have supports $S_\sigma(j)$ and $S' \in {[m] \choose k}$, respectively.
 
-Let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$ and $X' = (\mathbf{b}_1 \cdots \mathbf{b}_N)$ be the matrices formed by horizontally stacking, respectively, the vectors $\mathbf{a}_i$ and $\mathbf{b}_i$. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of $AX_J$ are linearly independent and form a basis for $\text{Span}\{A_{S_\sigma(j)}\}$. Hence, fixing $\mathbf{z} \in \text{Span}\{A_{S_\sigma(j)}\}$, there exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = \sum_i c_i(AX_J)_i$. Letting $\mathbf{z'} = \sum_i c_i(BX'_J)_i$, which is in $\text{Span}\{B_{S'}\}$, we have:
+Let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$ and $X' = (\mathbf{b}_1 \cdots \mathbf{b}_N)$ be the matrices formed by horizontally stacking the column vectors $\mathbf{a}_i$ and, repsectively, the $\mathbf{b}_i$. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of $AX_J$ are linearly independent and form a basis for $\text{Span}\{A_{S_\sigma(j)}\}$. Hence, fixing $\mathbf{z} \in \text{Span}\{A_{S_\sigma(j)}\}$, there exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = \sum_i c_iAX_J\mathbf{e}_i$. Letting $\mathbf{z'} = \sum_i c_iBX'_J\mathbf{e}_i$, which is in $\text{Span}\{B_{S'}\}$, we have:
 \begin{align*}
-\|\mathbf{z} - \mathbf{z'}\|_2 = \|\sum_ic_i(AX_J - BX'_J)_i\|_2 
-\leq \sum_i |c_i| \|(AX_J - BX'_J)_i\|_2  
+\|\mathbf{z} - \mathbf{z'}\|_2 = \|\sum_ic_i(AX - BX')_J\mathbf{e}_i\|_2 
+\leq \sum_i |c_i| \|(AX - BX')_J\mathbf{e}_i\|_2  
 \leq \varepsilon \sqrt{k} \|\mathbf{c}\|_2 
 \leq \frac{\varepsilon \sqrt{k} \|\mathbf{z}\|_2}{\ell_k(AX_J)}.
 \end{align*}
 
-(We can be sure that $\ell_k(AX_J) > 0$ since the columns of $AX_J$ are linearly independent.) It follows that $d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \varepsilon\sqrt{k} / \ell_k(AX_J)$ for all unit vectors $\mathbf{z} \in \text{Span}\{A_S\}$. Hence,
+(We can be sure that $\ell_k(AX_J) > 0$ since the columns of $AX_J$ are linearly independent.) It follows that $d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \varepsilon\sqrt{k} / \ell_k(AX_J)$ for all unit vectors $\mathbf{z} \in \text{Span}\{A_{S_\sigma(j)}\}$. Hence,
 \begin{align}\label{ABSubspaceDistance}
-\sup_{ \substack{ \mathbf{z} \in \text{Span}\{A_{S}\} \\ \|\mathbf{z}\| = 1} } d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell_k(AX_J)}.
+\sup_{ \substack{ \mathbf{z} \in \text{Span}\{A_{S_\sigma(j)}\} \\ \|\mathbf{z}\| = 1} } d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell_k(AX_J)}.
 \end{align}
 
-Now, suppose that $\varepsilon <  \phi_k(A) \ell_{k}(A) L_k(AX;\sigma) / \sqrt{2k^3}$. Since $k \geq 1$ and $\ell_k(A), \phi_k(A) \leq 1$, it follows from the definition of $L_k$ that  $\varepsilon < \ell_k(AX_J)/\sqrt{k}$ and by Lemma \ref{MinDimLemma} applied to \eqref {ABSubspaceDistance} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_S\}) = k$ (since every $k$ columns of $A$ are linearly independent). In fact, since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) \leq k$, hence $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_S\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: \{S_{\sigma(1)}, \ldots, S_{\sigma(m)}\} \to {[m] \choose k}$ satisfying
+Now, suppose that $\varepsilon <  \phi_k(A) \ell_{k}(A) L_k(AX;\sigma) / \sqrt{2k^3}$. Since $k \geq 1$ and $\ell_k(A), \phi_k(A) \leq 1$, it follows from the definition of $L_k$ in \eqref{Ldef} that $\varepsilon < \ell_k(AX_J)/\sqrt{k}$ and by Lemma \ref{MinDimLemma} applied to \eqref {ABSubspaceDistance} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_S\}) = k$ (since every $k$ columns of $A$ are linearly independent). In fact, since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) \leq k$, hence $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_S\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: \{S_{\sigma}(1), \ldots, S_{\sigma}(m)\} \to {[m] \choose k}$ satisfying
 \begin{align*}
 \Theta(\text{Span}\{A_{S_\sigma(i)}\}, \text{Span}\{B_{\pi(S_\sigma(i))}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell_k(AX_J)} \indent \text{for all } i = 1, \ldots, m.
 \end{align*}
@@ -299,12 +302,53 @@ It follows by Lemma \ref{MainLemma} (setting $\Delta =  \frac{\epsilon \sqrt{k^3
 $\|A - BPD\|_2 \leq C\varepsilon$ for $C = \frac{\sqrt{k^3}}{ \phi_k(A)L_k(AX;\sigma) }$.
 \end{proof}
 
+%======================================
+% PROBABILISTIC THEOREMS
+%======================================
+
+\section{Probabilistic Stability Theorems}\label{PUT}
+
+We next give precise statements of our probabilistic versions of Theorem 1 and give brief proofs refering largely to the methods used in \cite{HS11}. Our statements are based upon the following construction of \emph{random sparse vectors}.
+
+\begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
+Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all ${m \choose k}$ of them and then a random draw.
+\end{definition}
+
+Our proofs rely on the following lemma adapted from \cite{HS11}:
+\begin{lemma}\label{HS11lemma2}
+Fix $n, m > 0$ and  $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $A\mathbf{a}_1, \ldots, A\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors.
+\end{lemma}
+
+\begin{theorem}\label{Theorem2}
+Fix positive integers $k < m$ and $n$, and a generation matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition}. If $N = mk{m \choose k}$ $k$-sparse $\mathbf{a}_i$ are randomly drawn with supports equipartitioned between $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$ then $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with probability one.
+\end{theorem}
+
+\begin{proof}
+Fix  $\sigma \in \Sigma_m$ and let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$. By Lemma \ref{HS11lemma2}, with probability one every set of $k$ columns of $AX$ are linearly independent, i.e. $\ell_k(AX) > 0$. It follows by Theorem \ref{DeterministicUniquenessTheorem} (see the specifics outlined in Remark \ref{thm1specs}) that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with probability one. 
+\end{proof} 
+
+\begin{corollary}
+Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random\footnote{Many ensembles of random matrices work, e.g. \cite{??}} $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from $N = mk{m \choose k}$ $k$-sparse samples $\mathbf{a}_i$ equipartitioned over supports in $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
+\end{corollary}
+We now state our third theorem. Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
+
+\begin{theorem}\label{Theorem3}
+Fix positive integers $k < m$ and $n$. If $k{m \choose k}$ $k$-sparse $\mathbf{a}_i$ are randomly drawn from each support set in $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$, then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
+\end{theorem}
+
+\begin{proof}
+By Lemma \ref{HS11lemma2} we have that with probability one the $\mathbf{a}_i$ are in general linear position. By the same arguments made to prove Theorem 3 in \cite{HS11}, the set of $A$ that fail to satisfy \eqref{4} form an algebraic set of measure $0$. Hence with probability one we have that $\ell_k(AX) = 0$ for $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$ only for an algebraic set of matrices $A$ of measure zero. We then apply Theorem \ref{DeterministicUniquenessTheorem} to obtain the result.
+\end{proof}
+
+\begin{corollary}
+Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}. With probability one, a random draw of $N = mk{m \choose k}$ $k$-sparse samples equipartitioned between $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$ satisfies: almost every matrix $A$ gives $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ a stable $k$-sparse representation in $\mathbb{R}^m$.
+\end{corollary}
 
 %===================================
 % DIFFERENT CODING DIMENSIONS
 %===================================
 
-\section{Assuming the Spark Condition on $B$}\label{mleqm}
+\section{What if we don't know $m$?}\label{mleqm}
 
 In this section we state a version of Theorem \ref{DeterministicUniquenessTheorem} and Lemma \ref{MainLemma} assuming that $B$ also satisfies the spark condition (in addition to $A$ satisfying the spark condition). With this additional assumption, we can address the issue of recovering $A \in \mathbb{R}^{n \times m}$ and the $\mathbf{a}_i \in \mathbb{R}^m$ when only an upper bound $m'$ on the number $m$ of sparse sources is known.
 
@@ -345,51 +389,7 @@ then there exist a partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ 
 \end{align}
 \end{lemma}
 
-We again defer the proof of this lemma to the Appendix.
-
-%======================================
-% PROBABILISTIC THEOREMS
-%======================================
-
-\section{Probabilistic Stability Theorems}\label{PUT}
-
-We next give precise statements and proofs of our probabilistic versions of Theorem 1 following the same methodology as in \cite{HS11}. We rely on the following construction.
-
-\begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
-Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all ${m \choose k}$ of them and then a random draw.
-\end{definition}
-
-Our proofs rely on the following lemma adapted from \cite{HS11}:
-\begin{lemma}\label{HS11lemma2}
-Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $A\mathbf{a}_1, \ldots, A\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors.
-\end{lemma}
-
-\begin{theorem}\label{Theorem2}
-Fix positive integers $k < m$ and $n$, and a generation matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition}. If $N = mk{m \choose k}$ $k$-sparse $\mathbf{a}_i$ are randomly drawn with supports equipartitioned over $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$ then $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with probability one.
-\end{theorem}
-
-\begin{proof}
-Fix  $\sigma \in \Sigma_m$ and let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$. By Lemma \ref{HS11lemma2}, with probability one every set of $k$ columns of $AX$ are linearly independent, i.e. $\ell_k(AX) > 0$. It follows by Theorem \ref{DeterministicUniquenessTheorem} (see Remark \ref{thm1specs}) that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with probability one. 
-\end{proof} 
-
-\begin{corollary}
-Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random \textbf{[insert footnote explaining 'random']} $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from $N = mk{m \choose k}$ $k$-sparse samples $\mathbf{a}_i$ equipartitioned over supports in $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
-\end{corollary}
-We now state our third theorem. Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
-
-\begin{theorem}\label{Theorem3}
-Fix positive integers $k < m$ and $n$. If $k{m \choose k}$ $k$-sparse $\mathbf{a}_i$ are randomly drawn from each support set in $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$, then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
-\end{theorem}
-
-\begin{proof}
-The proof is the same as that of Theorem 3 from \ref{HS11}, followed by application of Theorem \ref{DeterministicUniquenessTheorem}.
-\end{proof}
-
-\begin{corollary}
-Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}. With probability one, a random draw of $N = mk{m \choose k}$ $k$-sparse samples equipartitioned over supports in $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$ satisfies: almost every matrix $A$ gives $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ a stable $k$-sparse representation in $\mathbb{R}^m$.
-\end{corollary}
-
-We note that if the reader is wiling to impose the additional constraint assumed in Section \ref{mleqm} then these probabilistic theorems can be extended to the case where only an upper bound on $m$ is known.
+We again defer the proof of this lemma to the Appendix, and note that if the reader is wiling to impose the additional constraint assumed in Section \ref{mleqm} then our probabilistic theorems can also be extended to the case where only an upper bound on $m$ is known.
 
 %===================================
 % 			DISCUSSION
@@ -542,7 +542,7 @@ Suppose now that $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_\sigma(i) 
 % APPENDIX: ADAPTED MAIN LEMMA
 %================================
 
-\section{Assuming the Spark Condition on $B$}\label{mleqmAppendix}
+\section{What if we don't know $m$?}\label{mleqmAppendix}
 
 In this section we prove Lemma \ref{MainLemma2} from Section \ref{mleqm}.
 
