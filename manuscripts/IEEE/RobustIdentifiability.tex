@@ -127,9 +127,9 @@ The \emph{lower bound} of a matrix $M$ \cite{refs?} is
 \ell(M) := \sup \{ \alpha : \|M\mathbf{x}\|_2 \geq \alpha\|\mathbf{x}\|_2 \text{ for all } \mathbf{x} \in \mathbb{R}^m\}
 \end{align*}
 %
-and we introduce $\ell_k(M) := \min \left\{ \ell(M_S) : S \in {[m] \choose k} \right\}$. It can be shown that if $k' > k$ then $\ell_{k}(M) \geq \ell_{k'}(M)$ and $\ell(M) = \ell_m(M) > 0$ for any matrix $M$ with full column rank. We note that if $M$ is a real matrix then it also has bounded matrix norm $\max_{\mathbf{x} \in \mathbb{R}^m}\|M\mathbf{x}\|_2 / \|\mathbf{x}\|_2$; hence $\ell_{2k}(M) > 0$ is equivalent to $M$ having the \emph{restricted isometry property} \cite{CandesTao05} familiar from work in the field of compressed sensing.
+and we introduce $\ell_k(M) := \min \left\{ \ell(M_S) : S \in {[m] \choose k} \right\}$. The reader can convince themselves that if $k' > k$ then $\ell_{k}(M) \geq \ell_{k'}(M)$ and $\ell(M) = \ell_m(M) > 0$ for any matrix $M$ with full column rank. We note that if $M$ is a real matrix then it also has bounded matrix norm $\max_{\mathbf{x} \in \mathbb{R}^m}\|M\mathbf{x}\|_2 / \|\mathbf{x}\|_2$; hence $\ell_{2k}(M) > 0$ is equivalent to $M$ having the \emph{restricted isometry property} \cite{CandesTao05} familiar from work in the field of compressed sensing.
 
-It can be shown (see the Appendix) \textbf{[do this]} that whenever $A$ satisfies \eqref{SparkCondition}, the minimal Jordan angle between all pairs of subspaces spanned by the columns of $A$ of dimensionality less than or equal to $k$ is nonzero. This angle, known also as the Friedrichs angle, can be defined in terms of its cosine as follows:
+It is also not hard to see that whenever $A$ satisfies \eqref{SparkCondition}, there is a minimal nonzero principal (or canonical) angle between all pairs of subspaces spanned by the columns of $A$ of dimensionality less than or equal to $k$. (If the largest angle between any two of these subspaces is zero, then one subspace is a subset of the other which violates the spark condition.) The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, can be defined in terms of its cosine as follows:
 
 \begin{definition}\label{FriedrichsDefinition}
 The \emph{Friedrichs angle} $\theta_F(V,W) \in [0,\frac{\pi}{2}]$ between subspaces $V,W \subseteq \mathbb{R}^n$ is the minimal angle formed between unit vectors in $V \cap (V \cap W)^\perp$ and $W \cap (W \cap V)^\perp$. That is,
@@ -138,7 +138,7 @@ The \emph{Friedrichs angle} $\theta_F(V,W) \in [0,\frac{\pi}{2}]$ between subspa
 \end{align}
 \end{definition}
 
-To gain intuition for this quantity, if $k=2$ and $n=3$ it is the angle between the normal vectors of the two planes. We also define the following quantities for notational convenience:
+To gain intuition for this quantity, if $k=2$ and $n=3$ it is the angle between the normal vectors of the two planes. (In this case there is only one nonzero principal angle between non-intersecting planes.) We also define the following quantities for notational convenience:
 
 \begin{definition}\label{SpecialSupportSet}
 Given $A \in \mathbb{R}^{n \times m}$ and $k < m$, we define for $k \geq 2$:
@@ -154,7 +154,7 @@ where for any set $\mathcal{V} = \{V_1, \ldots, V_p\}$ of closed subspaces of $\
 and we set $\phi_1(A) := 1$.
 \end{definition}
 
-We will not attempt to provide intuition for this quantity, other than to say it was derived in \cite{Deutsch} to describe the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces. We use it to bound the distance between a point and the interesection of a set of subspaces given an upper bound on the distance from that point to each individual subspace. 
+We will not attempt to provide intuition for this quantity, other than to say it is based on a value derived in \cite{Deutsch} to describe the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces. We use it to bound the distance between a point and the interesection of a set of subspaces given an upper bound on the distance from that point to each individual subspace. 
 
 Given positive integers $k < m$ and some permutation $\sigma \in \Sigma_m$ (where $\Sigma_m$ denotes the symmetric group on $m$ elements), let
 \begin{align}
@@ -182,6 +182,15 @@ C_1 = \frac{\sqrt{k^3}}{\phi_k(A)L_k(AX;\sigma)}
 C_2 = \frac{ \|D\|_2}{\ell_{2k}(A)}  \left( 1 + C_1\|D^{-1}P^{-1}\mathbf{b}_i\|_1 \right).
 \end{align}
 \end{remark}
+
+It is important for us to note where this result fits in the field of \emph{theoretical dictionary learning}. While a collection of greedy optimization algorithms have been proposed for solving \eqref{DictionaryLearning}, as yet there exist no global convergence guarantees for these techniques. Local identifiability analyses have demonstrated that the global minimum is a local minimum of cost functions of L0 and L1 cost functions, (local) convergence guarantees of greedy and convex algorithms. A key corollary to our theorem is a closed form expression from which one can check when any dictionary learning algorithm has converged to a global minimum of \eqref{DictionaryLearning} by asserting whether or not the reconstruction error of the proposed solution is indeed small enough. 
+
+It is also informative to elaborate on the relationship of our results to the field of compressive sensing. [ref?] CS theory provides conditions under which it is possible to recover data vectors $\mathbf{x}$ with sparse structure after they have been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi$. The sparsity usually enforced is that $\mathbf{x} = \Psi\mathbf{a}$ for some known $\Psi$ and $k$-sparse $\mathbf{a}$, where $k \ll m$. As explained previously, a necessary condition for the unique recovery of $\mathbf{a}$ given $\mathbf{y}$ is that the generation matrix $A = \Phi\Psi$ satisfy the spark condition \eqref{SparkCondition}. Provided the dimension $n$ of $\mathbf{y}$ satisfies
+\begin{align}\label{CScondition}
+n \geq Ck\log\left(\frac{m}{k}\right),
+\end{align}
+%
+the theory guarantees that with high probability a randomly generated $\Phi$ will yield an $A$ satisfying \eqref{SparkCondition}. In contrast to CS, the goal of SCA is to recover both the code vectors \emph{and} the generation matrix from measurements. We show that the same uniqueness conditions required by CS also guarantee uniqueness in SCA (up to inherent permutation and scaling ambiguities) given enough samples distributed over suitable supports.
 
 The organization of the rest of this paper is as follows. In Section \ref{DUT} we state our main tool from combinatorial matrix theory and then derive from it Theorem \ref{DeterministicUniquenessTheorem}. In Section{ProbabilisticTheorems} we state probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem} and give brief proofs based largely off of arguments outlined in \cite{HS11}. In Section \ref{mleqm} we describe how to extend all of these results to the case where we know only an upper bound on the number of sparse components. The final section is a discussion, and an appendix contains the proof of Lemma \ref{MainLemma}.
 
@@ -232,7 +241,7 @@ We note that from this result we can, in general, derive an upper bound on $\|\m
 Unfortunately, the proof for larger $k$ is more challenging since in general it is nontrivial to produce $P$ and $D$ as in \eqref{PandD}. Our main tool for the proof is a result in combinatorial linear algebra, which we state after making a couple more necessary definitions.
 
 \begin{definition}
-Let $V, W$ be subspaces of $\mathbb{R}^m$ and let $d(v,W) := \inf\{\|v-w\|_2: w \in W\} = \|v - \Pi_W v\|_2$ where $\Pi_W$ is the orthogonal projection operator onto subspace $W$. The \emph{gap} metric $\Theta$ on subspaces of $\mathbb{R}^{m}$ is \textbf{[see Theory of Linear Operators in a Hilbert Space p. 69 who cites first reference]}
+Let $V, W$ be subspaces of $\mathbb{R}^m$ and let $d(v,W) := \inf\{\|v-w\|_2: w \in W\} = \|v - \Pi_W v\|_2$ where $\Pi_W$ is the orthogonal projection operator onto subspace $W$. The \emph{gap} metric $\Theta$ on subspaces of $\mathbb{R}^{m}$ is \cite{TheoryOfLinearOperatorsPage69}:
 \begin{equation}\label{SubspaceMetric}
 \Theta(V,W) := \max\left( \sup_{\substack{v \in V \\ \|v\| = 1}} d(v,W), \sup_{\substack{w \in W \\ \|w\| = 1}} d(w,V) \right).
 \end{equation}
@@ -308,7 +317,7 @@ $\|A - BPD\|_2 \leq C\varepsilon$ for $C = \frac{\sqrt{k^3}}{ \phi_k(A)L_k(AX;\s
 
 \section{Probabilistic Stability Theorems}\label{PUT}
 
-We next give precise statements of our probabilistic versions of Theorem 1 and give brief proofs refering largely to the methods used in \cite{HS11}. Our statements are based upon the following construction of \emph{random sparse vectors}.
+We next give precise statements of our probabilistic versions of Theorem 1 along with brief proofs relying largely to the methods used in \cite{HS11}. Our statements are based upon the following construction of \emph{random sparse vectors}.
 
 \begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
 Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all ${m \choose k}$ of them and then a random draw.
@@ -316,7 +325,7 @@ Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$
 
 Our proofs rely on the following lemma adapted from \cite{HS11}:
 \begin{lemma}\label{HS11lemma2}
-Fix $n, m > 0$ and  $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $A\mathbf{a}_1, \ldots, A\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors.
+Fix positive integers $n, m$ and $k < m$ and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $M\mathbf{a}_1, \ldots, M\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors.
 \end{lemma}
 
 \begin{theorem}\label{Theorem2}
@@ -337,7 +346,7 @@ Fix positive integers $k < m$ and $n$. If $k{m \choose k}$ $k$-sparse $\mathbf{a
 \end{theorem}
 
 \begin{proof}
-By Lemma \ref{HS11lemma2} we have that with probability one the $\mathbf{a}_i$ are in general linear position. By the same arguments made to prove Theorem 3 in \cite{HS11}, the set of $A$ that fail to satisfy \eqref{4} form an algebraic set of measure $0$. Hence with probability one we have that $\ell_k(AX) = 0$ for $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$ only for an algebraic set of matrices $A$ of measure zero. We then apply Theorem \ref{DeterministicUniquenessTheorem} to obtain the result.
+By Lemma \ref{HS11lemma2} (setting $M$ to be the identity matrix) we have that with probability one the $\mathbf{a}_i$ are in general linear position. Moreover, by the same arguments made in the proof of Theorem 3 in \cite{HS11}, the set of matrices $A$ that fail to satisfy \eqref{SparkCondition} form an algebraic set of measure zero. Letting $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$, we therefore have with probability one that $\ell_k(AX) > 0$ for all but an algebraic set of matrices $A$ of measure zero. The result then follows by Theorem \ref{DeterministicUniquenessTheorem}.
 \end{proof}
 
 \begin{corollary}
@@ -383,7 +392,7 @@ Fix positive integers $n, m, m'$ and $k$ with $k < m \leq m'$. Let $A \in \mathb
 \Theta(\text{Span}\{A_{S_\sigma(i)}\}, \text{Span}\{B_{\pi(S_\sigma(i))}\}) \leq \frac{ \min(\phi_k(A), \phi_k(B)) }{k} \Delta \indent \text{for all} \indent i \in [m]
 \end{equation}
 %
-then there exist a partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ such that
+then there exist a partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ (i.e. $D_{ij} = 0$ whenever $i \neq j$) such that
 \begin{align}
 \|A - BPD\|_2 \leq \Delta \indent \text{for all} \indent i \in [m].
 \end{align}
@@ -397,24 +406,14 @@ We again defer the proof of this lemma to the Appendix, and note that if the rea
 
 \section{Discussion}
 
-It is important for us to note where this result fits in the field of \emph{theoretical dictionary learning}. While a collection of greedy optimization algorithms have been proposed for solving \eqref{DictionaryLearning}, as yet there exist no global convergence guarantees for these techniques. Local identifiability analyses have demonstrated that the global minimum is a local minimum of cost functions of L0 and L1 cost functions, (local) convergence guarantees of greedy and convex algorithms. A key corollary to our theorem is a closed form expression from which one can check when any dictionary learning algorithm has converged to a global minimum of \eqref{DictionaryLearning} by asserting whether or not the reconstruction error of the proposed solution is indeed small enough. 
 
 Another implication of our theorem is the determination of an overcompleteness regime dimensionality of any dataset with respect to $\varepsilon$. If you coded very well some data sparsely then you can do a check and if that check holds up then anyone else who codes the data sparsely too has learned the same dictionary. 
 
 Approximating the optimal solution to \eqref{DictionaryLearning} has been shown in general to be NP-hard \cite{Razaviyayn} \textbf{[Razaviyayn 2015, but they did it within an additive error. Tollman 2015 did it for multiplicative error for the dual problem. Should we say this isn't necessarily a big deal since there may be some \emph{particular} instances where NP-hard problems are solvable in poly time?}. 
 
-It is also informative to elaborate on the relationship of our results to the field of compressive sensing. [ref?] CS theory provides conditions under which it is possible to recover data vectors $\mathbf{x}$ with sparse structure after they have been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi$. The sparsity usually enforced is that $\mathbf{x} = \Psi\mathbf{a}$ for some known $\Psi$ and $k$-sparse $\mathbf{a}$, where $k \ll m$. As explained previously, a necessary condition for the unique recovery of $\mathbf{a}$ given $\mathbf{y}$ is that the generation matrix $A = \Phi\Psi$ satisfy the spark condition \eqref{SparkCondition}. Provided the dimension $n$ of $\mathbf{y}$ satisfies
-\begin{align}\label{CScondition}
-n \geq Ck\log\left(\frac{m}{k}\right),
-\end{align}
-%
-the theory guarantees that with high probability a randomly generated $\Phi$ will yield an $A$ satisfying \eqref{SparkCondition}. In contrast to CS, the goal of SCA is to recover both the code vectors \emph{and} the generation matrix from measurements. We show that the same uniqueness conditions required by CS also guarantee uniqueness in SCA (up to inherent permutation and scaling ambiguities) given enough samples distributed over suitable supports.
-
 The theory of CS informs also informs another practical consequence of our result. Since our derived sample complexity is independent of the ambient dimension of the data, $n$, given a lower bound on the sparsity of the latent variables $\mathbf{a}_i$ we can generate a random matrix to compress the data to a dimension in the regime of \eqref{CScondition} before applying a dictionary learning. This could significantly reduce the computational cost of dictionary learning when the sparsity is high by reducing the number of parameters required to define each dictionary element. Such improvements are crucial to scaling up dictionary learning to larger datasets. \textbf{[Is this actually a significant computational boost..?]}
 
 Uniqueness in data analysis.
-
-
 
 
 Identifying uniqueness: the bispectrum
@@ -457,7 +456,7 @@ Fix $x \in \mathbb{R}^m$ and $k \geq 2$. The proof can be subdivided into two st
 \|x - \Pi_Vx\|_2 \leq \sum_{i=1}^k \|x - \Pi_{V_i} x\|_2 + \|\Pi_{V_{\sigma(k)}}\Pi_{V_{\sigma(k-1)}}\cdots\Pi_{V_{\sigma(1)}} x - \Pi_V x\|_2.
 \end{align}
 %
-Assume without loss of generality that $\sigma = (1 \: 2 \cdots k)$, i.e. $\sigma(i) = i$. We have by the triangle inequality that
+Assume without loss of generality that $\sigma(i) = i$ for all $i \in [m]$. We have by the triangle inequality that
 \begin{align*}
 \|x - \Pi_Vx\|_2 &= \|x - \Pi_{V_k} x\|_2 + \|\Pi_{V_k}(I - \Pi_{V_{k-1}}) x\|_2 + \|\Pi_{V_k}\Pi_{V_{k-1}}x - \Pi_Vx\|_2 \\
 &\leq \sum_{i=k-1}^k\|x - \Pi_{V_i} x\|_2 + \|\Pi_{V_k}\Pi_{V_{k-1}} x - \Pi_V x\|_2,
@@ -507,7 +506,7 @@ Then  $\pi(S_\sigma(i)) \cap \cdots \cap \pi(S_\sigma(i+(k-1))) \neq \emptyset$ 
 
 \begin{proof} Consider the set $Q_m = \{ (i,j) : i \in \mathbb{Z}/m\mathbb{Z}, j \in \pi(S_\sigma(i)) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $p \in \mathbb{Z}/m\mathbb{Z}$ and $J \in {[m] \choose k}$ such that $(i, p) \in Q_m$ for all $i \in J$. Hence, $p \in \cap_{i \in J} \pi(S_\sigma(i))$ and by \eqref{EmptyToEmpty} there must be some $v \in \mathbb{Z}/m\mathbb{Z}$ such that $\sigma(v) \in \cap_{i \in J} S_\sigma(i)$. This is only possible (since $|J| = k$) if the elements of $J$ are consecutive in $\mathbb{Z}/m\mathbb{Z}$, i.e. $J = \{v - (k-1), \ldots, v\}$. (The only elements in $\mathcal{T}$ that contain $\sigma(v)$ are $S_\sigma(v-(k-1)), \ldots, S_\sigma(v)$.)
 
-If there exists no additional $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then by letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate we have $|Q_{m-1}| = (m-1)k$ and the result follows by iterating the above arguments. If, in fact, there is such an $i \notin J$ then we would have $p \in \pi(S_\sigma(i)) \cap \pi(S_\sigma(v - k+1)) \cap \cdots \cap \pi(S_\sigma(v))$ and \eqref{EmptyToEmpty} would imply that the intersection of every $k$-element subset of $\{S_\sigma(i)\} \cup \{S_\sigma(j): j \in J\}$ is non-empty. This would only be possible if $\{i\} \cup J = \mathbb{Z}/m\mathbb{Z}$, in which case the result then trivially holds since then $p \in \pi(S_\sigma(i))$ for all $i \in [m]$.
+If there existed some $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then we would have $p \in \pi(S_\sigma(i)) \cap \pi(S_\sigma(v - k+1)) \cap \cdots \cap \pi(S_\sigma(v))$ and \eqref{EmptyToEmpty} would imply that the intersection of every $k$-element subset of $\{S_\sigma(i)\} \cup \{S_\sigma(j): j \in J\}$ is non-empty. This would only be possible if $\{i\} \cup J = \mathbb{Z}/m\mathbb{Z}$, in which case the result then trivially holds since then $p \in \pi(S_\sigma(i))$ for all $i \in [m]$. If there exists no additional $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then by letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate we have $|Q_{m-1}| = (m-1)k$ and the result follows by iterating the above arguments.
 \end{proof}
 
 %==== PROOF OF MAIN LEMMA =======
@@ -621,7 +620,7 @@ and the result follows.
 %===================================
 
 \section*{Acknowledgment}
-We would like to thank Fritz Sommer for turning our attention to the dictionary learning problem. We also thank Bizzyskillet on SoundCloud for "The No-Exam Jams", which played on repeat during many long hours of designing proofs. Finally, we thank Ian Morris for posting equation \eqref{SubspaceMetricSameDim} on Stack Exchange and for providing a reference to his proof.
+We would like to thank Fritz Sommer for turning our attention to the dictionary learning problem. We also thank Bizzyskillet on SoundCloud for "The No-Exam Jams", which played on repeat during many long hours of designing proofs. Finally, we thank Ian Morris for posting equation \eqref{SubspaceMetricSameDim} and a reference to his proof on Stack Exchange.
 
 %===================================
 % 			REFERENCES
@@ -673,49 +672,6 @@ A^{(1)}_{i,:}(\mathbf{a}_1 \cdots \mathbf{a}_N) = A^{(2)}_{i,:}(\mathbf{a}_1 \cd
 \end{align}
 
 Otherwise, blah blah blah (figure this out). Trying to introduce the "spread" of the data as a necessary condition.
-
-%======================================
-% STATEMENTS OF PROBABILISTIC THEOREMS
-%======================================
-
-\subsection{Statements of Probabilistic Theorems}\label{PUT}
-
-We next give precise statements of our probabilistic versions of Theorem 1, all of which rely on the following construction.
-
-Our main object of interest is the following dataset of $N = mk{m \choose k}$ subsampled vectors of indeterminates:
-\begin{align}
-Y = \left\{ A\mathbf{a}_{S, \ell} : S \in \{S_\sigma(1), \ldots, S_\sigma(m)\}, \ell = 1, \ldots, k{m \choose k} \right\}.
-\end{align}
-%
-for some $\sigma \in \Sigma_m$. 
-
-\begin{definition}[Random Sparse Vectors]
-Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all of them in ${[m] \choose k}$ and then a random draw.
-\end{definition}
-
-\begin{definition}[Special Random Sparse Vectors]\label{SpecialRandomDraw}
-Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all $m$ of them in $\mathcal{T}$ and then a random draw.
-\end{definition}
-
-\begin{theorem}\label{Theorem2}
-Fix positive integers $k < m$ and $n$, and a generation matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition}. If $(k+1)$ $k$-sparse $\mathbf{a}_i$ are randomly drawn from each support set in $\mathcal{T}$, then $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, \ldots ,  A\mathbf{a}_N + \mathbf{\eta}_N \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ has a unique sparse coding with probability one, provided $\varepsilon$ is small enough.
-\end{theorem}
-
-The following is a direct application of this result, partially answering one of our questions from the introduction.
-
-\begin{corollary}
-Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random \textbf{[insert footnote explaining 'random']} $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing   such an $A$, for $\varepsilon$ small enough we have with probability one that a dataset $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, . . . , A\mathbf{a}_N + \mathbf{\eta}_1 \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ generated from $N = (k + 1)m$ $k$-sparse samples $\mathbf{a}_i$ uniquely prescribes $A$ and these sparse vectors $\mathbf{a}_i$ up to an approximate fixed permutation and scaling.
-\end{corollary}
-
-We now state our third theorem. Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
-
-\begin{theorem}\label{Theorem3}
-Fix positive integers $k < m$ and $n$. If $(k + 1)$ $k$-sparse $\mathbf{a}_i$ are randomly drawn from each support set in $\mathcal{T}$, then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then there exists some $\varepsilon$ small enough such that $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, . . . , A\mathbf{a}_N + \mathbf{\eta}_1 \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ has a unique sparse coding.
-\end{theorem}
-
-\begin{corollary}
-Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}. With probability one, a random draw of $N = (k + 1)m$ $k$-sparse samples $\mathbf{a}_i$ with supports in $\mathcal{T}$ satisfies: for almost every matrix $A$ there is some $\varepsilon$ small enough that gives $Y = \{A\mathbf{a}_1 + \mathbf{\eta}_1, . . . , A\mathbf{a}_N + \mathbf{\eta}_1 \}$ for $\|\mathbf{\eta}_i\| \leq \varepsilon$ a unique sparse coding.
-\end{corollary}
 
 %===================================
 % PROOFS OF PROBABILISTIC THEOREMS
