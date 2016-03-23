@@ -72,39 +72,41 @@ with the vector $\mathbf{n}_i \in \mathbb{R}^n$ accounting for both noise in the
 Even when $\mathbf{n}_i = 0$, however, there infinitely many solutions to \eqref{DictionaryLearning}. This is perhaps best seen from the perspective of sparse matrix factorization. Letting $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, we see that if $Y = AX$ for some $X$ with $k$-sparse columns, then also $Y = (AD^{-1}P^{-1})(PDX)$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Moreover the columns of $PDX$ are also $k$-sparse. The "uniqueness" of any solution to \eqref{DictionaryLearning} can therefore only be considered up to this inherent ambiguity, known as the \emph{ambiguity transform group} associated to this particular form of bilinear inverse problem. This motivates the following definition.
 
 \begin{definition}\label{Uniqueness}
-A dataset $\{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ when for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\mathbf{y}_i = A\mathbf{a}_i$ for all $i = 1, \ldots, N$. We say that $A$ and the $\mathbf{a}_i$ forming this representation are \textbf{identifiable} (up to permutation and scaling ambiguity) given the data when every other $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ for which $\mathbf{y}_i = B\mathbf{b}_i$ for all $i = 1, \ldots, N$ necessarily satisfy $A = BPD$ and $\mathbf{b}_i = PD\mathbf{a}_i$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The representation is \textbf{stable} when there exists some $\varepsilon > 0$ such that if $B$ and the $\mathbf{b}_i$ only satisfy $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for all $i = 1, \ldots, N$, then
+A dataset $\{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ when for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\mathbf{y}_i = A\mathbf{a}_i$ for all $i = 1, \ldots, N$. We say that $A$ and the $\mathbf{a}_i$ forming this representation are \textbf{identifiable} (up to permutation and scaling ambiguity) given the data when every other $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ for which $\mathbf{y}_i = B\mathbf{b}_i$ for all $i = 1, \ldots, N$ necessarily satisfy $A = BPD$ and $\mathbf{b}_i = PD\mathbf{a}_i$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The representation is \textbf{stable} when there exists some $\varepsilon > 0$ such that if $B$ and the $\mathbf{b}_i$ only satisfy $\|\mathbf{y}_i - B\mathbf{b}_i\|_2 < \varepsilon$ for all $i = 1, \ldots, N$, then
 \begin{align}\label{def1}
-\|A - BPD\|_2 \leq C_1 \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|_2 
+\|A - BPD\|_2 \leq C_1 \max_i \|A\mathbf{a}_i - B\mathbf{b}_i\|_2 
 \indent \text{and} \indent
-\|\mathbf{b}_i - PD\mathbf{a}_i\|_2 \leq C_2 \max_i \|\mathbf{y}_i - B\mathbf{b}_i\|_2
+\|\mathbf{b}_i - PD\mathbf{a}_i\|_2 \leq C_2 \max_i \|A\mathbf{a}_i - B\mathbf{b}_i\|_2
 \end{align}
 for some $C_1, C_2>0$. We call $\varepsilon$ the \textbf{error threshold} and $C_1, C_2$ the \textbf{stability constants} associated with the $k$-sparse representation formed by $A$ and the $\mathbf{a}_i$.
 \end{definition}
 
-In reality, we never obtain data without some contamination with noise, and our models are rarely if ever perfect. Suppose then that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 \leq \varepsilon$ for $i = 1, \ldots, N$ for some $\varepsilon > 0$. By the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$ is such that $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq 2\varepsilon$. If the set $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with error threshold $2\varepsilon$ then the alternate representation must also satisfy \eqref{def1}. We say such datasets $Y$ have stable $k$-sparse \emph{approximate representations} in $\mathbb{R}^m$, and we phrase our problem thus:
-
-\begin{problem}\label{DUTproblem}
-Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with $\|\mathbf{n}_i\|_2 \leq \varepsilon$. When does $Y$ have a stable $k$-sparse approximate representation in $\mathbb{R}^m$?
-\end{problem}
-
-We also state the following alternative definition in case some readers find it more appealing:
+In reality, we never obtain data without some contamination with noise, and our models are rarely (if ever) perfect. Suppose then that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 < \varepsilon$ for $i = 1, \ldots, N$ for some $\varepsilon > 0$. By the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\| < \varepsilon$ for $i = 1, \ldots, N$ is such that $\|A\mathbf{a}_i - B\mathbf{b}_i\| < 2\varepsilon$. If the set $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with error threshold $2\varepsilon$ then the alternate representation must also satisfy \eqref{def1}. We say such datasets $Y$ have stable $k$-sparse \emph{approximate representations} in $\mathbb{R}^m$. Some readers may find the following alternate definition more appealing:
 
 \begin{definition}\label{Uniqueness}
-We say a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a stable $k$-sparse approximation in $\mathbb{R}^m$ when:
+We say a dataset $Y \subset \mathbb{R}^n$ has a stable $k$-sparse approximate representation in $\mathbb{R}^m$ when:
 \begin{enumerate}
 \item There exists some $A \in \mathbb{R}^{n \times m}$ and $\varepsilon > 0$ such that for every $\mathbf{y} \in Y$, the $\varepsilon$-ball $\mathcal{B}_2(\mathbf{y}, \varepsilon)$ centered at $\mathbf{y}$ intersects exactly one subspace spanned by $k$ columns of $A$.
 \item Any matrix $B \in \mathbb{R}^{n \times m}$ for which every such ball $\mathcal{B}_2(\mathbf{y}, \varepsilon)$ intersects a subspace spanned by $k$ columns of $B$ necessarily satisfies $\|A - BPD\|_2 \leq C_1\varepsilon$ and $\|\mathbf{b}_i - PD\mathbf{a}_i\| \leq C_2\varepsilon$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$, invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ and $C_1, C_2 > 0$.
 \end{enumerate}
 \end{definition}
 
-Conditions for the identifiability of the parameters $A$ and $\mathbf{a}_i$ underlying SCA were first investigated for the noiseless case by Georgiev et. al. \cite{Georgiev05} and subsequently by Aharon et. al. \cite{Aharon06}. The most general conditions to date have recently been proven by Hillar and Sommer [cite], who provide deterministic and probabilistic guarantees for the identifiability of the model parameters contained in $A$ and the original sparse codes $\mathbf{a}_i$. We refine their proofs to take into account the possibility of noise contaminating the measurements (or inadequacy of the model) and significantly reduce their theoretically required number of samples from $N=k{m \choose k}^2$ to $N = mk{m \choose k}$. Our \emph{robust} identifiability conditions describe when the true model parameters can be uniquely determined in the sense of Definition \ref{Uniqueness}. Moreover, we provide guarantees for unique recovery of $A$ and the $\mathbf{a}_i$ when only an upper bound on the dimensionality of the sources is known. Our conditions are derived from the underlying geometry of the dictionary learning problem, hence they apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning}. 
+We are now in a position to phrase the central problem addressed in this paper:
+
+\begin{problem}\label{DUTproblem}
+Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with bounded noise $\mathbf{n}_i \in \mathbb{R}^n$. When does $Y$ have a stable $k$-sparse approximate representation in $\mathbb{R}^m$?
+\end{problem}
+
+Note how by the comments preceding Definition \ref{Uniqueness}, the dataset $Y$ has a stable $k$-sparse approximate representation in $\mathbb{R}^m$ whenever $\{A\mathbf{a}_i\}_{i=1}^N$ has a stable $k$-sparse representation in $\mathbb{R}^m$, provided $\|\mathbf{n}_i\|$ is less than half the error threshold of this representation.
+
+Conditions for the identifiability of the parameters $A$ and $\mathbf{a}_i$ of the SCA model were first provided for the noiseless case by Georgiev et. al. \cite{Georgiev05} and subsequently by Aharon et. al. \cite{Aharon06}. The most general conditions to date were recently proven in \cite{HS11}. We refine their proofs to account for noisy measurements (or inadequacy of the model) and we significantly reduce their theoretically required number of samples for the deterministic case from $N=k{m \choose k}^2$ to $N = mk{m \choose k}$. Our \emph{robust} identifiability conditions describe when the true sources $\mathbf{a}_i$ and mixing matrix $A$ can be "uniquely" determined in the sense of Definition \ref{Uniqueness}. Moreover, we provide guarantees for the case when only an upper bound on the dimensionality of the sources is known. Our conditions are derived from the underlying geometry of the dictionary learning problem, hence they apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning}. 
 
 Before stating our first theorem, we introduce the necessary constraint on the matrix $A$ by considering the simpler case where we wish to identify the sources $\mathbf{a}_i$ from the noiseless mixture $\mathbf{y}_i = A\mathbf{a}_i$ when $A$ is already known. Evidently, $A$ must satisfy
 \begin{align}\label{SparkCondition}
 A\mathbf{a}_1 = A\mathbf{a}_2 \implies \mathbf{a}_1 = \mathbf{a}_2 \indent \text{for all $k$-sparse } \mathbf{a}_1, \mathbf{a}_2 \in \mathbb{R}^m
 \end{align}
 %
-for such recovery to be possible, known in the literature as the \emph{spark condition} \cite{ref?}. This ensures that distinct sparse sources $\mathbf{a}_i$ are distinguishable in their measurements $\mathbf{y}_i$. As it turns out, given enough samples, condition \eqref{SparkCondition} is also enough to guarantee the identifiability of $A$ in the case where it is not known a priori, as our main result states:
+for such recovery to be possible. This condition, known in the literature as the \emph{spark condition} \cite{ref?}, ensures that distinct sparse sources $\mathbf{a}_i$ are distinguishable in their measurements $\mathbf{y}_i$. As it turns out, given enough samples, condition \eqref{SparkCondition} is also enough to guarantee the identifiability of $A$ in the case where it is not known a priori, as our main result states:
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 
@@ -112,24 +114,33 @@ for such recovery to be possible, known in the literature as the \emph{spark con
 Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates a set of vectors $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{theorem}
 
-In fact, there are many such sets of deterministically produced $\mathbf{a}_i$; we give a parametrized family in Section \ref{DUT}. Note that this theorem provides an answer to Problem \ref{DUTproblem} by the comments preceding the statement of Problem. Note also that Theorem 1 in \cite{HS11} is a direct consequence of this more general result (setting $\varepsilon = 0$), with an added improvement on $N$, the minimal number of samples required to guarantee uniqueness. 
+In fact, there are many such sets of deterministically produced $\mathbf{a}_i$; we give a parametrized family in Section \ref{DUT}. The generality of the construction allows us to easily extend the theorem to cases where the $A$ and $\mathbf{a}_i$ are randomly generated.
 
-In order to bound the error threshold and stability constants associated to a given $k$-sparse representation (see Remark \ref{thm1specs}) we must first introduce some notation and properties of $A$ and the $\mathbf{a}_i$ from which these quantities can be derived. We use the notation $[m]$ for the set $\{1, ..., m\}$, and ${[m] \choose k}$ for the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span:
+Before we bound the error threshold and stability constants associated to a given stable $k$-sparse representation we must first introduce some notation. We denote by $[m]$ the set $\{1, ..., m\}$ and by ${[m] \choose k}$ the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span:
 %
 \[ \text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\} = \left\{ \sum_{i=1}^\ell t_i\mathbf{v}_i : t_1, \ldots, t_\ell \in \mathbb{R}\right\}. \]
 %
-For a subset $S \subseteq [m]$ and matrix $M$ with columns $\{M_1,...,M_p\}$ we define
+For a subset $S \subseteq [m]$ and matrix $M \in \mathbb{R}^{n \times m}$ with columns $\{M_1,...,M_m\}$ we define
 %
 \[ \text{Span}\{M_S\} = \text{Span}\{M_s: s \in S\}. \]
 
-The \emph{lower bound} of a matrix $M$ \cite{refs?} is 
+The \emph{lower bound} of a matrix $M \in \mathbb{R}^{n \times m}$ \cite{refs?} is 
 \begin{align*}
 \ell(M) := \sup \{ \alpha : \|M\mathbf{x}\|_2 \geq \alpha\|\mathbf{x}\|_2 \text{ for all } \mathbf{x} \in \mathbb{R}^m\}
 \end{align*}
 %
-and we introduce $\ell_k(M) := \min \left\{ \ell(M_S) : S \in {[m] \choose k} \right\}$. The reader can convince themselves that if $k' > k$ then $\ell_{k}(M) \geq \ell_{k'}(M)$ and $\ell(M) = \ell_m(M) > 0$ for any matrix $M$ with full column rank. We note that if $M$ is a real matrix then it also has bounded matrix norm $\max_{\mathbf{x} \in \mathbb{R}^m}\|M\mathbf{x}\|_2 / \|\mathbf{x}\|_2$; hence $\ell_{2k}(M) > 0$ is equivalent to $M$ having the \emph{restricted isometry property} \cite{CandesTao05} familiar from work in the field of compressed sensing.
+and we introduce 
+\[
+ \ell_k(M) =
+  \begin{cases} 
+      \hfill \min \left\{ \ell(M_S) : S \in {[m] \choose k} \right\} \hfill & \text{ if $k < m$} \\
+      \hfill \ell(M) \hfill & \text{ if $k \geq m$} \\
+  \end{cases}
+\]
 
-It is also not hard to see that whenever $A$ satisfies \eqref{SparkCondition}, there is a minimal nonzero principal (or canonical) angle between all pairs of subspaces spanned by the columns of $A$ of dimensionality less than or equal to $k$. (If the largest angle between any two of these subspaces is zero, then one subspace is a subset of the other which violates the spark condition.) The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, can be defined in terms of its cosine as follows:
+The reader can convince themselves that if $k < k'$ then $\ell_{k}(M) \geq \ell_{k'}(M) \geq \ell(M) > 0$ for any matrix $M$ with full column rank. We note that if $M$ is a real matrix then it also has bounded matrix norm $\max_{\mathbf{x} \in \mathbb{R}^m}\|M\mathbf{x}\|_2 / \|\mathbf{x}\|_2$; hence $\ell_{2k}(M) > 0$ is equivalent to $M$ having the \emph{restricted isometry property} \cite{CandesTao05} familiar from work in the field of compressed sensing.
+
+Whenever $A$ satisfies \eqref{SparkCondition}, there is at least one nonzero principal (or canonical) angle between all pairs of subspaces spanned by the columns of $A$ of dimensionality less than or equal to $k$. (To see why, note that if the largest principal angle between any two of these subspaces is zero, then one subspace is a subset of the other which violates the spark condition.) The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, can be defined in terms of its cosine as follows:
 
 \begin{definition}\label{FriedrichsDefinition}
 The \emph{Friedrichs angle} $\theta_F(V,W) \in [0,\frac{\pi}{2}]$ between subspaces $V,W \subseteq \mathbb{R}^n$ is the minimal angle formed between unit vectors in $V \cap (V \cap W)^\perp$ and $W \cap (W \cap V)^\perp$. That is,
@@ -192,7 +203,7 @@ n \geq Ck\log\left(\frac{m}{k}\right),
 %
 the theory guarantees that with high probability a randomly generated $\Phi$ will yield an $A$ satisfying \eqref{SparkCondition}. In contrast to CS, the goal of SCA is to recover both the code vectors \emph{and} the generation matrix from measurements. We show that the same uniqueness conditions required by CS also guarantee uniqueness in SCA (up to inherent permutation and scaling ambiguities) given enough samples distributed over suitable supports.
 
-The organization of the rest of this paper is as follows. In Section \ref{DUT} we state our main tool from combinatorial matrix theory and then derive from it Theorem \ref{DeterministicUniquenessTheorem}. In Section{ProbabilisticTheorems} we state probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem} and give brief proofs based largely off of arguments outlined in \cite{HS11}. In Section \ref{mleqm} we describe how to extend all of these results to the case where we know only an upper bound on the number of sparse components. The final section is a discussion, and an appendix contains the proof of Lemma \ref{MainLemma}.
+The organization of the rest of this paper is as follows. In Section \ref{DUT} we state our main tool from combinatorial matrix theory and then derive from it Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{ProbabilisticTheorems} we state probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem} and give brief proofs based largely on arguments outlined in \cite{HS11}. In Section \ref{mleqm} we describe how to extend all of these results to the case where we know only an upper bound on the dimensionality of the sparse sources. The final section is a discussion, and an appendix contains the proof of Lemma \ref{MainLemma}.
 
 \textbf{[Have the cool small dimensional example here. Data in $3D$-space coded by planes. $n=3, k=2$.]}
 
