@@ -355,34 +355,34 @@ We next give precise statements of our probabilistic versions of Theorem 1 along
 Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all ${m \choose k}$ of them and then a random draw.
 \end{definition}
 
-Our proofs rely on the following lemma adapted from \cite{HS11}:
+Our proofs rely on the following lemma, the proof of which can be found in \cite{HS11} (Lemma 3):
 \begin{lemma}\label{HS11lemma2}
-Fix positive integers $n, m$ and $k < m$ and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $M\mathbf{a}_1, \ldots, M\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors.
+Fix positive integers $n, m$ and $k < m$ and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $M\mathbf{a}_1, \ldots, M\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors in $\mathbb{R}^m$.
 \end{lemma}
 
 \begin{theorem}\label{Theorem2}
-Fix positive integers $k < m$ and $n$, and a generation matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition}. If $N = mk{m \choose k}$ $k$-sparse $\mathbf{a}_i$ are randomly drawn with supports equipartitioned between $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$ then $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with probability one.
+Fix positive integers $n, m$ and $k < m$ and a generation matrix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. If a set of $N = mk{m \choose k}$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for each interval of length $k$ in some cyclic order on $\{1, \ldots, m\}$ there are $k{m \choose k}$ vectors $\mathbf{a}_i$ supported on that interval then $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with probability one.
 \end{theorem}
 
 \begin{proof}
-Fix  $\sigma \in \Sigma_m$ and let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$. By Lemma \ref{HS11lemma2}, with probability one every set of $k$ columns of $AX$ are linearly independent, i.e. $\ell_k(AX) > 0$. It follows by Theorem \ref{DeterministicUniquenessTheorem} that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with probability one. 
+By Lemma \ref{HS11lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. Apply Theorem \ref{DeterministicUniquenessTheorem}.
 \end{proof} 
 
 \begin{corollary}
-Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random\footnote{Many ensembles of random matrices work, e.g. \cite{??}} $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from $N = mk{m \choose k}$ $k$-sparse samples $\mathbf{a}_i$ equipartitioned over supports in $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
+Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random\footnote{Many ensembles of random matrices work, e.g. \cite{??}} $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from $N = mk{m \choose k}$ $k$-sparse samples $\mathbf{a}_i$, consisting of $k{m \choose k}$ samples supported by each interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$, has a stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{corollary}
 We now state our third theorem. Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
 
 \begin{theorem}\label{Theorem3}
-Fix positive integers $k < m$ and $n$. If $k{m \choose k}$ $k$-sparse $\mathbf{a}_i$ are randomly drawn from each support set in $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$, then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
+Fix positive integers $k < m$ and $n$ . If $N = mk{m \choose k}$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$ there are $k{m \choose k}$ vectors $\mathbf{a}_i$ supported on that interval then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{theorem}
 
 \begin{proof}
-By Lemma \ref{HS11lemma2} (setting $M$ to be the identity matrix) we have that with probability one the $\mathbf{a}_i$ are in general linear position. Moreover, by the same arguments made in the proof of Theorem 3 in \cite{HS11}, the set of matrices $A$ that fail to satisfy \eqref{SparkCondition} form an algebraic set of measure zero. Letting $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$, we therefore have with probability one that $\ell_k(AX) > 0$ for all but an algebraic set of matrices $A$ of measure zero. The result then follows by Theorem \ref{DeterministicUniquenessTheorem}.
+By Lemma \ref{HS11lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. By the same arguments made in the proof of Theorem 3 in \cite{HS11}, the set of matrices $A$ that fail to satisfy \eqref{SparkCondition} form an algebraic set of measure zero. Apply Theorem \ref{DeterministicUniquenessTheorem}.
 \end{proof}
 
 \begin{corollary}
-Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}. With probability one, a random draw of $N = mk{m \choose k}$ $k$-sparse samples equipartitioned between $S_\sigma(1), \ldots, S_\sigma(m)$ for some $\sigma \in \Sigma_m$ satisfies: almost every matrix $A$ gives $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ a stable $k$-sparse representation in $\mathbb{R}^m$.
+Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = mk{m \choose k}$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$ there are $k{m \choose k}$ vectors $\mathbf{a}_i$ supported on that interval then, with probability one, almost every matrix $A \in \mathbb{R}^{n \times m}$ gives $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ a stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{corollary}
 
 %===================================
