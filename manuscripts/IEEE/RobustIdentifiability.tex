@@ -162,7 +162,7 @@ where for any set $\mathcal{V} = \{V_1, \ldots, V_p\}$ of closed subspaces of $\
 \xi(\mathcal{V}) := \min_{\sigma \in \Sigma_p} \left(1 - \prod_{i=1}^{p-1} \sin^2\left[ \theta_F(V_{\sigma(i)}, \cap_{j=i+1}^p V_{\sigma(j)}) \right]  \right)^{1/2}.
 \end{align}
 %
-and we set $\phi_1(A) := 1$.
+where $\Sigma_p$ is the set of permutations on $p$ elements. We set $\phi_1(A) := 1$.
 \end{definition}
 
 We will not attempt to provide intuition for this quantity, other than to say it is based on a value derived in \cite{Deutsch} to describe the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces. We use it to bound the distance between a point and the interesection of a set of subspaces given an upper bound on the distance from that point to each individual subspace. 
@@ -226,33 +226,7 @@ P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right), \ \ D = \left(
 we see that \eqref{1D} becomes $\|(A - BPD)\mathbf{e}_i\|_2 \leq C\varepsilon$ for all $i \in [m]$, where $C=1$. 
 
 % ======== b - PDa =========
-We note that from this result we can, in general, derive an upper bound on $\|\mathbf{b}_i - PD\mathbf{a}_i\|$ as follows (asssuming $\mathbf{b}_i$ and $PD\mathbf{a}_i$ share the same support):
-\begin{align*}
-\|\mathbf{b}_i - PD\mathbf{a}_i\| 
-&\leq \frac{1}{\ell_{k}(B)}\|B(\mathbf{b}_i - PD\mathbf{a}_i)\| \\
-&\leq \frac{1}{\ell_{k}(B)} (\|B\mathbf{b}_i - A\mathbf{a}_i\| + \|(A - BPD)\mathbf{a}_i\|) \\
-&\leq \frac{\varepsilon}{\ell_{k}(B)}(1+C\|\mathbf{a}_i\|_1).
-\end{align*}
-
-(Can we justify this assumption?) Without this assumption,
-
-\begin{align*}
-\|\mathbf{b}_i - PD\mathbf{a}_i\| 
-&\leq \frac{1}{\ell_{2k}(B)}\|B(\mathbf{b}_i - PD\mathbf{a}_i)\| \\
-&\leq \frac{1}{\ell_{2k}(B)} (\|B\mathbf{b}_i - A\mathbf{a}_i\| + \|(A - BPD)\mathbf{a}_i\|) \\
-&\leq \frac{\varepsilon}{\ell_{2k}(B)}(1+C\|\mathbf{a}_i\|_1).
-\end{align*}
-
-How do we know $\ell_{2k}(B) > 0$? For all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$,
-\begin{align*}
-\|B\mathbf{x}\|_2 
-&\geq | \|A(P^{-1}D^{-1}\mathbf{x})\|_2 - \|(A-BPD)P^{-1}D^{-1}\mathbf{x}\|_2 | \\
-&\geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon)\|P^{-1}D^{-1}\mathbf{x}\|_2 \\
-&\geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon)\|D\|_2\|\mathbf{x}\|_2 \\
-&\geq (\ell_{2k}(A) - \sqrt{k}\ell_2(A))\|D\|_2\|\mathbf{x}\|_2. 
-\end{align*}
-%
-if $\ell_{2k}(A) \geq \sqrt{k}\ell_2(A)$ (see Remark \ref{thm1specs})...\textbf{umm..} Alternatively, 
+We note that from this result we can, in general, derive an upper bound on $\|\mathbf{b}_i - PD\mathbf{a}_i\|$ as follows:
 \begin{align*}
 \|\mathbf{b}_i - PD\mathbf{a}_i\|_2 &=  \|PD(D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i)\|_2 \\
 &\leq \|D\|_2 \|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i\|_2 \\
@@ -438,14 +412,15 @@ Identifying uniqueness: the bispectrum
 \section{Combinatorial Matrix Theory}
 
 In this section, we prove Lemma \ref{MainLemma}, which is the main ingredient in our proof of Theorem \ref{DeterministicUniquenessTheorem}. We suspect that there is an appropriate generalization to matroids. For readers willing to assume a priori that the spark condition holds for $B$ as well as for $A$, a proof of this case (Lemma \ref{MainLemma2} from section \ref{mleqm}) is provided in Appendix \ref{mleqmAppendix}. The additional assumption simplifies the proof and allows us to extend stability conditions to the case where only an upper bound on $m$ is known a priori. 
-Given positive integers $k < m$ and some permutation $\sigma \in \Sigma_m$ (where $\Sigma_m$ denotes the symmetric group on $m$ elements), let
+
+For a couple of lemmas we require the following notation. Given positive integers $k < m$ and some permutation $\sigma \in \Sigma_m$ (where $\Sigma_m$ denotes the symmetric group on $m$ elements), let
 \begin{align}
 S_\sigma(i) := \{1+\sigma(i), \ldots, 1+\sigma(i + (k-1)) \} \indent \text{for} \indent i = 0, \ldots, m-1
 \end{align}
 %
 with addition modulo $m$. In words, the $S_\sigma(i)$ are the intervals of length $k$ within the set of elements of $\{1, \ldots, m\}$ arranged in the cyclic order $\sigma(1), \ldots, \sigma(m)$.
-We now prove some auxiliary lemmas before deriving Lemma \ref{MainLemma}.
 
+We now prove some auxiliary lemmas before deriving Lemma \ref{MainLemma}.
 
 %===== SPAN INTERSECTION LEMMA =====
 
@@ -516,7 +491,7 @@ Since the permutation $\sigma$ we chose was arbitrary, we can replace $c$ in \eq
 
 %======= GRAPH THEORY LEMMA =======
 
-\begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$ and $\sigma \in \Sigma_m$ and let $\mathcal{T} = \{S_\sigma(1), \ldots, S_\sigma(m)\}$. Suppose there exists a map $\pi: \mathcal{T} \to {\mathbb{Z}/m\mathbb{Z} \choose k}$ such that for all $J \in {[m] \choose k}$,
+\begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$ and $\sigma \in \Sigma_m$ and let $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$. Suppose there exists a map $\pi: T \to {\mathbb{Z}/m\mathbb{Z} \choose k}$ such that for all $J \in {[m] \choose k}$,
 \begin{align}\label{EmptyToEmpty}
  \bigcap_{i \in J} S_\sigma(i) = \emptyset \Longrightarrow \bigcap_{i \in J} \pi(S_\sigma(i)) = \emptyset.
 \end{align}
@@ -524,7 +499,7 @@ Since the permutation $\sigma$ we chose was arbitrary, we can replace $c$ in \eq
 Then  $\pi(S_\sigma(i)) \cap \cdots \cap \pi(S_\sigma(i+(k-1))) \neq \emptyset$ for all $i \in \mathbb{Z}/m\mathbb{Z}$.
 \end{lemma}
 
-\begin{proof} Consider the set $Q_m = \{ (i,j) : i \in \mathbb{Z}/m\mathbb{Z}, j \in \pi(S_\sigma(i)) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $p \in \mathbb{Z}/m\mathbb{Z}$ and $J \in {[m] \choose k}$ such that $(i, p) \in Q_m$ for all $i \in J$. Hence, $p \in \cap_{i \in J} \pi(S_\sigma(i))$ and by \eqref{EmptyToEmpty} there must be some $v \in \mathbb{Z}/m\mathbb{Z}$ such that $\sigma(v) \in \cap_{i \in J} S_\sigma(i)$. This is only possible (since $|J| = k$) if the elements of $J$ are consecutive in $\mathbb{Z}/m\mathbb{Z}$, i.e. $J = \{v - (k-1), \ldots, v\}$. (The only elements in $\mathcal{T}$ that contain $\sigma(v)$ are $S_\sigma(v-(k-1)), \ldots, S_\sigma(v)$.)
+\begin{proof} Consider the set $Q_m = \{ (i,j) : i \in \mathbb{Z}/m\mathbb{Z}, j \in \pi(S_\sigma(i)) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $p \in \mathbb{Z}/m\mathbb{Z}$ and $J \in {[m] \choose k}$ such that $(i, p) \in Q_m$ for all $i \in J$. Hence, $p \in \cap_{i \in J} \pi(S_\sigma(i))$ and by \eqref{EmptyToEmpty} there must be some $v \in \mathbb{Z}/m\mathbb{Z}$ such that $\sigma(v) \in \cap_{i \in J} S_\sigma(i)$. This is only possible (since $|J| = k$) if the elements of $J$ are consecutive in $\mathbb{Z}/m\mathbb{Z}$, i.e. $J = \{v - (k-1), \ldots, v\}$. (The only elements in $T$ that contain $\sigma(v)$ are $S_\sigma(v-(k-1)), \ldots, S_\sigma(v)$.)
 
 If there existed some $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then we would have $p \in \pi(S_\sigma(i)) \cap \pi(S_\sigma(v - k+1)) \cap \cdots \cap \pi(S_\sigma(v))$ and \eqref{EmptyToEmpty} would imply that the intersection of every $k$-element subset of $\{S_\sigma(i)\} \cup \{S_\sigma(j): j \in J\}$ is non-empty. This would only be possible if $\{i\} \cup J = \mathbb{Z}/m\mathbb{Z}$, in which case the result then trivially holds since then $p \in \pi(S_\sigma(i))$ for all $i \in [m]$. If there exists no additional $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then by letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate we have $|Q_{m-1}| = (m-1)k$ and the result follows by iterating the above arguments.
 \end{proof}
@@ -664,6 +639,38 @@ We would like to thank Fritz Sommer for turning our attention to the dictionary 
 %===================================
 
 \section*{SCRAP PAPER}
+
+\subsection{Bounding b - PDa}
+
+Assuming $\mathbf{b}_i$ and $PD\mathbf{a}_i$ share the same support:
+\begin{align*}
+\|\mathbf{b}_i - PD\mathbf{a}_i\| 
+&\leq \frac{1}{\ell_{k}(B)}\|B(\mathbf{b}_i - PD\mathbf{a}_i)\| \\
+&\leq \frac{1}{\ell_{k}(B)} (\|B\mathbf{b}_i - A\mathbf{a}_i\| + \|(A - BPD)\mathbf{a}_i\|) \\
+&\leq \frac{\varepsilon}{\ell_{k}(B)}(1+C\|\mathbf{a}_i\|_1).
+\end{align*}
+
+(Can we justify this assumption?) Without this assumption,
+
+\begin{align*}
+\|\mathbf{b}_i - PD\mathbf{a}_i\| 
+&\leq \frac{1}{\ell_{2k}(B)}\|B(\mathbf{b}_i - PD\mathbf{a}_i)\| \\
+&\leq \frac{1}{\ell_{2k}(B)} (\|B\mathbf{b}_i - A\mathbf{a}_i\| + \|(A - BPD)\mathbf{a}_i\|) \\
+&\leq \frac{\varepsilon}{\ell_{2k}(B)}(1+C\|\mathbf{a}_i\|_1).
+\end{align*}
+
+How do we know $\ell_{2k}(B) > 0$? For all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$,
+\begin{align*}
+\|B\mathbf{x}\|_2 
+&\geq | \|A(P^{-1}D^{-1}\mathbf{x})\|_2 - \|(A-BPD)P^{-1}D^{-1}\mathbf{x}\|_2 | \\
+&\geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon)\|P^{-1}D^{-1}\mathbf{x}\|_2 \\
+&\geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon)\|D\|_2\|\mathbf{x}\|_2 \\
+&\geq (\ell_{2k}(A) - \sqrt{k}\ell_2(A))\|D\|_2\|\mathbf{x}\|_2. 
+\end{align*}
+%
+if $\ell_{2k}(A) \geq \sqrt{k}\ell_2(A)$ (see Remark \ref{thm1specs})...\textbf{umm..} 
+
+\subsection{Spark Condition implies RIP}
 
 \begin{lemma}
 If a matrix $M \in \mathbb{n \times m}$ has full column rank then $\ell(M) > 0$. Spark condition implies $\ell_k(A) > 0$. \textbf{[re-word this]}
