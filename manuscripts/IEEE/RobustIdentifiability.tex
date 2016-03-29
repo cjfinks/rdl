@@ -79,29 +79,29 @@ A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has 
 \lim_{\varepsilon \to 0} \|\mathbf{b}_i - PD\mathbf{a}_i\|_2 = 0 \indent \text{for all } i = 1, \ldots, N
 \end{align}
 %
-for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. We say the representation is \textbf{$C$-stable} if
+for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. We say the representation is \textbf{$C$-stable} if for some $C > 0$ we have:
 \begin{align}\label{Cstable}
-\|A-BPD\|_2 \leq C\varepsilon
+\|(A-BPD)\mathbf{e}_i\|_2 \leq C\varepsilon \indent \text{for all } i = 1, \ldots, m
 \end{align}
 %
-for some $C > 0$ for all $\varepsilon$ small enough. 
+provided $\varepsilon$ is small enough. 
 \end{definition}
-\begin{remark}
+\begin{remark}\label{UniquenessRemark}
 We note that a $k$-sparse representation is $C$-stable precisely when the maximum possible value of $\|A-BPD\|_2$ as a function of $\varepsilon$ is Lipschitz continuous in some neighbourhood of $0$. We show later that $C$-stability implies robust identifiability; specifically, there exists a positive error threshold $\varepsilon_0$ such that if $\varepsilon < \varepsilon_0$ then
 \begin{align}\label{b-PDa}
 \|\mathbf{b}_i - PD\mathbf{a}_i\|_2 &\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( \frac{1+C\|\mathbf{a}_i\|_1}{ \sqrt{2k}C } \right) \indent \text{for all } i = 1, \ldots, N.
 \end{align}
 \end{remark}
 
-In reality, we never obtain data without some contamination with noise, and our models are rarely (if ever) perfect. Suppose then that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 < \varepsilon/2$ for $i = 1, \ldots, N$. By the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\| < \varepsilon/2$ for $i = 1, \ldots, N$ is such that $\|A\mathbf{a}_i - B\mathbf{b}_i\| < \varepsilon$. If the set $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a $k$-sparse representation in $\mathbb{R}^m$ that is $C$-stable in $[0, \varepsilon)$ then every such alternate $B$ must also satisfy \eqref{Cstable}. Moreover, if $\varepsilon$ is small enough then the $\mathbf{b}_i$ satisfy \eqref{b-PDa} as well. We say such datasets $Y$ have "unique" $k$-sparse \emph{approximate} representations in $\mathbb{R}^m$. We phrase the central question in this paper as follows:
+In reality, we never obtain data without some contamination with noise, and our models are rarely (if ever) perfect. Suppose then that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 < \varepsilon/2$ for $i = 1, \ldots, N$. By the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\| < \varepsilon/2$ for $i = 1, \ldots, N$ is such that $\|A\mathbf{a}_i - B\mathbf{b}_i\| < \varepsilon$. If the set $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a $k$-sparse representation in $\mathbb{R}^m$ that is $C$-stable over $[0, \varepsilon)$ then every such alternate $B$ must also satisfy \eqref{Cstable}. Remark \ref{UniquenessRemark} tells us that if, moreover, $\varepsilon$ is small enough then the $\mathbf{b}_i$ satisfy \eqref{b-PDa} as well. We say such datasets $Y$ have "unique" $k$-sparse representations in $\mathbb{R}^m$ and phrase the central question in this paper thus:
 
 \begin{problem}\label{DUTproblem}
-Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with bounded noise $\mathbf{n}_i \in \mathbb{R}^n$. When does $Y$ have a unique $k$-sparse approximate representation in $\mathbb{R}^m$?
+Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with noise $\mathbf{n}_i \in \mathbb{R}^n$. When does $Y$ have a unique $k$-sparse representation in $\mathbb{R}^m$?
 \end{problem}
 
-Note how by the comments preceding the statement of the problem, the dataset $Y$ has a unique $k$-sparse approximate representation in $\mathbb{R}^m$ whenever $\{A\mathbf{a}_i\}_{i=1}^N$ has a $k$-sparse representation in $\mathbb{R}^m$ that is $C$-stable on $[0, 2\max_i \|\mathbf{n}_i\|)$.
+Note how by the comments preceding the statement of the problem, the dataset $Y$ has a unique $k$-sparse representation in $\mathbb{R}^m$ whenever $\{A\mathbf{a}_i\}_{i=1}^N$ has a $k$-sparse representation in $\mathbb{R}^m$ that is $C$-stable on $[0, 2\max_i \|\mathbf{n}_i\|)$.
 
-Conditions for the identifiability of the parameters $A$ and $\mathbf{a}_i$ of the SCA model were first provided for the noiseless case by Georgiev et. al. \cite{Georgiev05} and subsequently by Aharon et. al. \cite{Aharon06}. The most general conditions to date were recently proven in \cite{HS11}. We refine their proofs to account for noisy measurements (or inadequacy of the model) and we significantly reduce their theoretically required number of samples for the deterministic case from $N=k{m \choose k}^2$ to $N = mk{m \choose k}$. Our \emph{robust} identifiability conditions describe when the true sources $\mathbf{a}_i$ and mixing matrix $A$ can be "uniquely" determined in the sense of Definition \ref{Uniqueness}. Moreover, we provide guarantees for the case when only an upper bound on the dimensionality of the sources is known. Our conditions are derived from the underlying geometry of the dictionary learning problem, hence they apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning}. 
+Conditions for the identifiability of the parameters $A$ and $\mathbf{a}_i$ of the SCA model were first provided for the noiseless case by Georgiev et. al. \cite{Georgiev05} and subsequently by Aharon et. al. \cite{Aharon06}. The most general conditions to date were recently proven in \cite{HS11}. We refine their proofs to account for noisy measurements (or inadequacy of the model) and we significantly reduce their theoretically required number of samples for the deterministic case from $N=k{m \choose k}^2$ to $N = mk{m \choose k}$. Our \emph{robust} identifiability conditions describe when the true sources $\mathbf{a}_i$ and mixing matrix $A$ can be "uniquely" determined in the sense of Definition \ref{Uniqueness} and the comments that followed. Moreover, we provide guarantees for the case when only an upper bound on the dimensionality of the sources is known. Our conditions are derived from the underlying geometry of the dictionary learning problem, hence they apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning}. 
 
 Before stating our first theorem, we introduce the necessary constraint on the matrix $A$ by considering the simpler case where we wish to identify the sources $\mathbf{a}_i$ from the noiseless mixture $\mathbf{y}_i = A\mathbf{a}_i$ when $A$ is already known. Evidently, $A$ must satisfy
 \begin{align}\label{SparkCondition}
@@ -113,11 +113,11 @@ for such recovery to be possible. This condition, known in the literature as the
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 
 \begin{theorem}\label{DeterministicUniquenessTheorem}
-Fix positive integers $n, m$ and $k < m$ and a cyclic order on $\{1, \ldots, m\}$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $k{m \choose k}$ vectors $\mathbf{a}_i$ in general linear position supported on that interval then every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates a set of vectors $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+Fix positive integers $n, m$ and $k < m$ and a cyclic order on $\{1, \ldots, m\}$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $k{m \choose k}$ vectors $\mathbf{a}_i$ in general linear position supported on that interval then every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates a set of vectors $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a $C$-stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{theorem}
 
 \begin{corollary}\label{DeterministicUniquenessCorollary}
-Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates a set of vectors $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates a set of vectors $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a $C$-stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{corollary}
 
 In fact, there are many such sets of deterministically produced $\mathbf{a}_i$; we give a parametrized family in Section \ref{DUT}. The generality of the construction allows us to easily extend the theorem to cases where the $A$ and $\mathbf{a}_i$ are randomly generated.
@@ -172,16 +172,16 @@ We will not attempt to provide intuition for this quantity, other than to say it
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
 
 \begin{remark}[Theorem \ref{DeterministicUniquenessTheorem} cont'd]\label{thm1specs}
-We can calculate the stability constant $C$ and error threshold $\varepsilon_0$ for the $k$-sparse representation referred to in Theorem \ref{DeterministicUniquenessTheorem} as follows. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$ and $J(S) = \{j : \text{supp}(\mathbf{a}_j) = S\}$, define:
+We can calculate a stability constant $C$ for the $k$-sparse representation referred to in Theorem \ref{DeterministicUniquenessTheorem} as follows. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$ and $J(S) = \{j : \text{supp}(\mathbf{a}_j) = S\}$, define:
 \begin{align}\label{epsilon0}
-\varepsilon_1 := \frac{ \phi_k(A) \ell_2(A) }{\sqrt{2k^3} } \min_{S \in T} \ell_k(AX_{J(S)}).
+\varepsilon_1 = \frac{ \phi_k(A) \ell_2(A) }{\sqrt{2k^3} } \min_{S \in T} \ell_k(AX_{J(S)}).
 \end{align}
-If $A$ has unit norm columns, then for any matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ for which $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq \varepsilon$ for all $i = 1, \ldots, N$ then, provided $\varepsilon < \varepsilon_1$, we have that \eqref{Cstable} holds with
+If $A$ has unit norm columns, then for any matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ for which $\|A\mathbf{a}_i - B\mathbf{b}_i\| \leq \varepsilon$ for all $i = 1, \ldots, N$ we have, provided $\varepsilon < \varepsilon_1$, that \eqref{Cstable} holds with
 \begin{align}\label{Cdef}
-C = \frac{\ell_2(A)}{\varepsilon_1} \sqrt{\frac{m}{2}}
+C = \frac{\ell_2(A)}{\sqrt{2} \varepsilon_1}.
 \end{align}
-%
-and if $\varepsilon < \varepsilon_0$ where $\varepsilon_0 := \frac{\ell_{2k}(A)}{\sqrt{2k}C}$ then \eqref{b-PDa} holds, too.
+
+Moreover, letting $\varepsilon_0 = \frac{\ell_{2k}(A)}{\sqrt{2k}C}$, if $\varepsilon < \varepsilon_0$ then \eqref{b-PDa} holds, too.
 \end{remark}
 
 It is important for us to note where this result fits in the field of \emph{theoretical dictionary learning}. While many techniques have been developed for solving \eqref{DictionaryLearning}, as yet there exist no global convergence guarantees for any of these algorithms. A key corollary to our theorem is a universal check guaranteeing the convergence of \emph{any} dictionary learning algorithm to a global minimum of \eqref{DictionaryLearning} by asserting whether or not the reconstruction error of the proposed solution is indeed small enough. 
@@ -191,7 +191,7 @@ It is also informative to elaborate on the relationship of our results to the fi
 n \geq Ck\log\left(\frac{m}{k}\right),
 \end{align}
 %
-the theory guarantees that with probability one a randomly generated $\Phi$ will yield an $A$ satisfying \eqref{SparkCondition}. In contrast to CS, the goal in SCA is to recover both the code vectors \emph{and} the generation matrix from measurements. We show that the same uniqueness conditions required by CS also guarantee uniqueness in SCA (up to inherent permutation and scaling ambiguities) provided there are enough samples distributed over the right supports.
+where $C$ is a positive constant, the theory guarantees that with probability one a randomly generated $\Phi$ will yield an $A$ satisfying \eqref{SparkCondition}. In contrast to CS, the goal in SCA is to recover both the code vectors \emph{and} the generation matrix from measurements. We show that the same uniqueness conditions required by CS also guarantee uniqueness in SCA (up to inherent permutation and scaling ambiguities) provided there are enough samples distributed over the right supports.
 
 The organization of the rest of this paper is as follows. In Section \ref{DUT} we state our main tool from combinatorial matrix theory and then derive from it Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{PUT} we state probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem} and their proofs. In Section \ref{mleqm} we describe how to extend all of these results to the case where we have only an upper bound on the dimensionality of the sparse sources. The final section is a discussion, and an appendix contains the proof of Lemma \ref{MainLemma}.
 
