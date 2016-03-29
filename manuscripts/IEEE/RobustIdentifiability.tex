@@ -69,7 +69,7 @@ It is natural to wonder when the solution to \eqref{DictionaryLearning} is in so
 %
 with the vector $\mathbf{n}_i \in \mathbb{R}^n$ accounting for both noise in the measurements and the degree to which the model deviates from reality (e.g. the true $\mathbf{a}_i$ may only be approximately $k$-sparse). The goal in SCA is to estimate the sparse \emph{sources} $\mathbf{a}_i$ from the observed \emph{mixtures} $\mathbf{y}_i$ by approximately solving \eqref{DictionaryLearning}.
 
-Even when $\mathbf{n}_i = 0$, however, there infinitely many solutions to \eqref{DictionaryLearning}. This is perhaps best seen from the perspective of sparse matrix factorization. Letting $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, we see that if $Y = AX$ for some $X$ with $k$-sparse columns, then also $Y = (AD^{-1}P^{-1})(PDX)$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Moreover the columns of $PDX$ are also $k$-sparse. The "uniqueness" of any solution to \eqref{DictionaryLearning} can therefore only be considered up to this inherent ambiguity, known as the \emph{ambiguity transform group} associated to this particular form of bilinear inverse problem. This motivates the following definition.
+Even when $\mathbf{n}_i = 0$, however, there infinitely many solutions to \eqref{DictionaryLearning}. We demonstrate this point from the perspective of sparse matrix factorization. Letting $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, we see that if $Y = AX$ for some $X$ with $k$-sparse columns, then also $Y = (AD^{-1}P^{-1})(PDX)$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Moreover the columns of $PDX$ are also $k$-sparse. The "uniqueness" of any solution to \eqref{DictionaryLearning} can therefore only be considered up to this inherent ambiguity, known as the \emph{ambiguity transform group} associated to this particular form of bilinear inverse problem. This motivates the following definition.
 
 \begin{definition}\label{Uniqueness}
 Fix a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$. We say $Y$ has a $k$-sparse representation in $\mathbb{R}^m$ if for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} (up to an inherent permutation and scaling ambiguity) if for every $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$ we have:
@@ -123,7 +123,7 @@ Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $
 
 In fact, there are many such sets of deterministically produced $\mathbf{a}_i$; we give a parametrized family in Section \ref{DUT}. The generality of the construction allows us to easily extend the theorem to cases where the $A$ and $\mathbf{a}_i$ are randomly generated.
 
-Before we bound the error threshold and stability constants associated to a given robustly identifiable $k$-sparse representation we must first introduce some notation. We denote by $[m]$ the set $\{1, ..., m\}$ and by ${[m] \choose k}$ the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span:
+In order to explicitly state $C$ we must first introduce some notation. We denote by $[m]$ the set $\{1, ..., m\}$ and by ${[m] \choose k}$ the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span:
 %
 \[ \text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\} = \left\{ \sum_{i=1}^\ell t_i\mathbf{v}_i : t_1, \ldots, t_\ell \in \mathbb{R}\right\}. \]
 %
@@ -173,7 +173,7 @@ We will not attempt to provide intuition for this quantity, other than to say it
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
 
 \begin{remark}[Theorem \ref{DeterministicUniquenessTheorem} cont'd]\label{thm1specs}
-The stability constant $C$ referred to in Theorem \ref{DeterministicUniquenessTheorem} can be calculated as follows. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$ and $J(S) = \{j : \text{supp}(\mathbf{a}_j) = S\}$, define:
+The stability constant $C$ can be calculated as follows. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$ and $J(S) = \{j : \text{supp}(\mathbf{a}_j) = S\}$, define:
 \begin{align}\label{epsilon0}
 \varepsilon_1 = \frac{ \phi_k(A) \ell_2(A) }{\sqrt{2k^3} } \min_{S \in T} \ell_k(AX_{J(S)}).
 \end{align}
