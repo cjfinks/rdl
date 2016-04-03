@@ -121,94 +121,28 @@ class SparseModel():
 		s_map = ss[-1]
 
 		return s_map
-
-class SparseModel_():
-	def __init__(self, nx, ns, nb, W_init=None, 
-			     xvar = 0.001, sparsity = 1.0 ):
-		self.nx = nx # dimensionality of input data
-		self.ns = ns # dimensionality of latent variable
-		self.nb = nb # mini-batch size during training
-
-		self.sigma = np.sqrt(xvar) # stdev of gaussian noise
-		self.sparsity = sparsity
-		
-		# Initialize basis functions
-		if W_init==None:
-			W_init=np.random.randn(nx,ns)
-		W_init /= np.sqrt( np.diag( np.dot( W_init.T, W_init ) ) )[None,:] # make cols unit length
-		self.W = W_init
-
-		self.dW = W_init * 0.0
-		self.params = [self.W]
-		self.momentums = [self.dW] # each parameter gets its own momentum term
 	
-	def log_likelihood( self, s, x ):
-		""" This function returns log P( x | s ) over a batch.
-		i.e. the log-likelihood that the nb-by-ns block of samples of
-		the latent variable came from the nb-by-nx block of inputs
-		(Up to a constant...gaussian normalization coefficient ignored)"""
+	def fit( self, X, n_iter = 3000, batch_size = 3, lrate = 3e-2, PLOT = False ):
+		print "Running dictionary learning algorithm "
+		nt, nx = X.shape
+		ns = self.ns
+		nb = batch_size
 
-		recon = np.dot( s, self.W.T) # sparse reconstruction of input
-		err = (recon - x)**2 # reconstruction error
-		xterms = - np.sum( err, axis=1 ) / ( 2.0 * self.sigma**2 ) # error summed over pixels (assume noise indep. bw pixels)
-		return xterms
+		data = theano.shared(X.astype(np.float32))
+		self.__init__(nx, ns, nb, xvar = 0.001, sparsity = 100.0)
+		x = T.fmatrix()
+		lr = T.fscalar()
+		idxs = T.lscalar()
+		objs, ss, learn_updates = self.update_params(x, lr)
+		train_model = theano.function([idxs, lr],
+									[objs, ss],
+									updates = learn_updates,
+									givens = {x: data[ idxs:idxs + nb, : ]},
+									allow_input_downcast = True )
 
-	def log_posterior( self, s, x ):
-		""" This function returns log P( s | x ) over a batch.
-		i.e. the log-posterior that the nb-by-ns block of samples of
-		the latent variable came from the nb-by-nx block of inputs """
-
-		xterms = self.log_likelihood( s, x )
-		sparse_prior = lambda s: np.sqrt( s**2 + 1e-6 )
-		sterms = - self.sparsity * np.sum( sparse_prior(s) , axis=1 ) # sum over coeffs (assume indep. coeffs)
-		return xterms + sterms
-
-	def map_step( self, s, x, stepsize ):
-		""" Does a step of gradient ascent on the log-posterior and
-		returns the new value of the objective (-ve log posterior) """
-
-		recon = np.dot( s, self.W.T) # sparse reconstruction of input
-		dobj_ds = - np.sum( 2 * np.dot( recon - x, self.W ) + 2 * s / np.sqrt( s**2 + 1e-6 ), axis = 1 )
-		s += stepsize * dobj_ds
-		return s
-
-	def map_estimate(self, x, nsteps = 200, stepsize = 1e-5):
-		""" This function takes an nb-by-nx block of training samples and 
-		returns the MAP estimate for each of them as an nb-by-ns matrix """
-
-		s = np.dot( x, self.W ) * 0.1 # shitty initial guess
-		for i in range(nsteps):
-			s = map_step( s, x, stepsize )
-		return s # map estimate of s
-		
-	def update_params(self, x, lrate):
-		""" This function takes a nb-by-nx block of training samples,
-		finds the MAP estimate for each of them, and does a step of gradient
-		ascent on the log-likelihood """
-
-		# First find the sparse coefficients for the batch
-		s_map = self.map_estimate(x, 200, 1e-5)
-		logl = self.log_likelihood(s_map, x)
-		objective = T.mean( -logl )
-
-		# Now we optimize the dictionary given these coefficients
-
-		# To compute the learning update for each of the parameters, loop over 
-		# self.params and self.momentums, calculating the gradients etc.
-		for i in range( len(self.params) ):
-			param = self.params[i]
-			mom = self.momentums[i]
-			gparam = T.grad( objective, param, consider_constant = [s_map] )
-			step = mu * mom - lrate * gparam
-			new_param = param + step
-
-			if param==self.W:
-				#Each column of W is constrained to be unit-length
-				new_param=new_param / T.sqrt( T.sum( new_param**2, axis=0) ).dimshuffle('x',0)
-
-			updates[param] = T.cast(new_param,'float32')
-			updates[mom] = T.cast(step,'float32')
-
-		variance_explained = (2.0 * self.sigma**2) * T.mean( -logl / T.sum(x**2,axis=1) )
-
-		return variance_explained, ss, updates
+		for i in xrange(n_iter):
+			idx = np.random.randint( nt - nb ) # starting index of batch (batch is idx:idx+nb)
+			var_exp, ssh = train_model( idx, lrate ) # train over one batch
+			print var_exp #pp.plot(var_exp); pp.show() # print progress
+	
+		return self.W.get_value()

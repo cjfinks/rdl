@@ -1,0 +1,56 @@
+(dp0
+S'trials per configuration'
+p1
+I3
+sS'noise bounds'
+p2
+cnumpy.core.multiarray
+_reconstruct
+p3
+(cnumpy
+ndarray
+p4
+(I0
+tp5
+S'b'
+p6
+tp7
+Rp8
+(I1
+(I10
+tp9
+cnumpy
+dtype
+p10
+(S'f8'
+p11
+I0
+I1
+tp12
+Rp13
+(I3
+S'<'
+p14
+NNNI-1
+I-1
+I0
+tp15
+bI00
+S"\xfc\xa9\xf1\xd2MbP?\xc8\xe2Y\x1e\x1f:\xc4?\x1e\xf1\x86\xd0\xbc)\xd4?\xd8\xf0\xe0\x11j6\xde?Ix\x9d\xa9\x8b!\xe4?&xJJ\xe2'\xe9?\x03x\xf7\xea8.\xee?\xf0;\xd2\xc5G\x9a\xf1?\xde\xbb(\x16s\x1d\xf4?\xcd;\x7ff\x9e\xa0\xf6?"
+p16
+tp17
+bsS'sparse supports'
+p18
+S'consecutive cyclic intervals'
+p19
+sS'sparsities'
+p20
+(lp21
+I1
+aI2
+aI3
+asS'algo'
+p22
+S'ICA'
+p23
+s.
