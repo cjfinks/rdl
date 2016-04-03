@@ -86,6 +86,7 @@ class SCAModel:
 		return samples, sources
 
 class Experiment:
+	""" Contains methods for setting up a results directory, saving results, and plotting saved results """
 	def __init__(self, parameters=None):
 		self.parameters = parameters
 		self.resultsDirectory = os.path.abspath( os.path.dirname(__file__) ) + '/results/' + os.path.splitext(os.path.basename(__file__))[0] + '/'
@@ -110,20 +111,77 @@ class Experiment:
 				pickle.dump(self.parameters, f)
 		self.runDirectory = runDirectory
 
-	def set_run( self, run ):
+	def set_run( self, run = None ):
+		if isinstance( run, int ):
+			self.runDirectory = self.resultsDirectory + 'run/'
 		pass
+
+	def plot_run( self, run = None ):
+		self.set_run( run )
+		with open( self.runDirectory + 'parameters.pkl', 'r') as f:
+			parameters = pickle.load(f)
+		error = np.load(self.runDirectory + 'error.npy')
+			
+		""" Plot MSE reconstruction error as a function of epsilon for each k """
+		fig = pp.figure()
+		for i_k, k in enumerate(parameters['sparsities']):
+			pp.plot(parameters['noise bounds'], error[i_k], linewidth=2, label='k=%d' % k)
+		pp.title('Dictionary recovery error vs. noise')
+		pp.xlabel(r'$\ell_2$-norm of noise vector')
+		pp.ylabel(r'Maximum $\left< ||(A-BPD)e_i||_2 \right>_i$ over %d trials' % parameters['trials per configuration'])
+		pp.legend(frameon=False, loc='best')
+		return fig
+
+def plot_trial( A, B, PD, BPD ):
+	# Plot B, PD, BPD and A
+	fig, axes = pp.subplots(2,2);
+	dictionaries = { 'A': data.Dictionary(A), 'BPD': data.Dictionary(BPD), 'B': data.Dictionary(B) }
+	for ax, key in zip( axes.ravel()[:-1], dictionaries.keys() ):
+		ax.set_title( key )
+		dict = dictionaries[key]; 
+		img = dict._tile_atoms()
+		im = ax.imshow(img, interpolation='none', vmin = dict.matrix.min(), vmax = dict.matrix.max())
+		# create a new axis, cax, located 0.05 inches to the right of ax, whose width is 10% of ax. cax is used to plot a colorbar for each subplot
+		div = make_axes_locatable(ax)
+		cax = div.append_axes("right", size="10%", pad=0.05)
+		cbar = pp.colorbar(im, cax=cax, format="%.2g")
+		ax.get_xaxis().set_visible(False); ax.get_yaxis().set_visible(False)
+	ax = axes.ravel()[-1]
+	ax.set_title( 'PD' )
+	im = ax.imshow(PD, interpolation='none', vmin = PD.min(), vmax = PD.max())
+	ax.get_xaxis().set_visible(False); ax.get_yaxis().set_visible(False)
+	div = make_axes_locatable(ax)
+	cax = div.append_axes("right", size="10%", pad=0.05)
+	cbar = pp.colorbar(im, cax=cax, format="%.2g")
+	return fig
+
+def learn_BandPD( Y, algo ):
+	""" Learns a dictionary B and estimates a permutation-scaling matrix PD """
+	if algo == 'ICA':
+		ica = FastICA( max_iter=1000, tol=0.0001, algorithm='parallel' )  # initialize ica algo. could params  be more optimial?
+		ica.fit(Y)  # fit the ICA model to infer B and vectors b
+		B = ica.mixing_  # Get estimated mixing matrix B
+		PD = ica.transform(A.T).T # transform original dictionary elements themselves to get permutation
+	elif algo == 'SCA':
+		sca = SparseModel( nx = Y.shape[1], ns = m, nb = 3 )
+		B = sca.fit( Y, n_iter = 1000 )
+		PD = sca.map_estimate( A.T ).T
+	PD *= ( abs(PD) >= np.max(abs(PD), axis=0)[None,:] ) # To make permutation, set all but the largest value in each column to zero
+	if not np.all( np.sum(abs(PD)>0, axis=0)  == 1 ): # check that this method worked
+		print '(trial = %d) Estimated PD is not a true permutation-scaling matrix.' % trial
+	return B, PD
 
 if __name__ == '__main__':
 	# Set experimental parameters
-	params = {'sparsities': [1, 2, 3], 
-			  'noise bounds':  np.linspace(0.001, np.sqrt(2), 10), 
+	params = {'sparsities': [1], 
+			  'noise bounds':  np.linspace(0.001, np.sqrt(2), 4), 
 			  'trials per configuration': 3, 
 			  'sparse supports': 'consecutive cyclic intervals',
-			  'algo': 'ICA' }
+			  'algo': 'SCA' }
 	experiment = Experiment( params )
 
-	# Choose Dictionary 
-	dictionary = data.Dictionary( 'DCT_8x8.mat' ); dictionary.normalize()
+	# Set the generating dictionary 
+	dictionary = data.Dictionary( np.eye(16,16) ); dictionary.normalize()
 	A = dictionary.matrix; m = A.shape[1]
 	fig = pp.figure(); pp.imshow(A, cmap='gray', interpolation='nearest', vmin=A.min(), vmax=A.max())
 	pp.title('Dictionary'); pp.colorbar()
@@ -140,70 +198,24 @@ if __name__ == '__main__':
 			print 'eps = %1.3f' % eps
 			for trial in xrange(params['trials per configuration']):
 				Y, a = scaModel.sample_nPerSubspace( samplesPerSupport, k, eps, subspaces = params['sparse supports'] )
-				if params['algo'] == 'ICA':
-					ica = FastICA( max_iter=1000, tol=0.0001, algorithm='parallel' )  # initialize ica algo. could params  be more optimial?
-					ica.fit(Y)  # fit the ICA model to infer B and vectors b
-					B = ica.mixing_  # Get estimated mixing matrix B
-					PD = ica.transform(A.T).T # transform original dictionary elements themselves to get permutation
-				elif params['algo'] == 'SCA':
-					sca = SparseModel( nx = Y.shape[1], ns = m, nb = 3 )
-					B = sca.fit( Y, n_iter = 1000 )
-					PD = sca.map_estimate( A.T ).T
-				PD *= ( abs(PD) >= np.max(abs(PD), axis=0)[None,:] ) # To make permutation, set all but the largest value in each column to zero
-				if not np.all( np.sum(abs(PD)>0, axis=0)  == 1 ): # check that this method worked
-					print '(trial = %d) Estimated P not a permutation matrix.' % trial
-
-				# Determine max mean-square and max mat1norm errors over all trials
+				B, PD = learn_BandPD( Y, algo = params['algo'] )
 				BPD = np.dot( B, PD)
 				error = np.mean( norm(A - BPD, axis=0) / norm(A, axis=0) )
-				max_error[i_k, i_eps] = max( error, max_error[i_k, i_eps] )
+				max_error[i_k, i_eps] = max( error, max_error[i_k, i_eps] ) # Determine max error over all trials
 			print " maximum mean_i( ||(A-BPD)e_i||_2 ) over %d trials: %1.3f" % (params['trials per configuration'], max_error[i_k, i_eps])
 
-			# For each value of the experimental parameters we plot/save the results of the last trial
+			# Plot and save the results of the last trial
 			pp.ioff()
-			fig, axes = pp.subplots(2,2);
-			fig.suptitle('Original and recovered dictionaries (k = %d, eps = %1.4f)' % (k, eps))
-
-			# Plot B, PD, BPD and A for the last trial
-			dictionaries = { 'A': dictionary, 'BPD': data.Dictionary(BPD), 'B': data.Dictionary(B) }
-			for ax, key in zip( axes.ravel()[:-1], dictionaries.keys() ):
-				ax.set_title( key )
-				dict = dictionaries[key]; 
-				img = dict._tile_atoms()
-				im = ax.imshow(img, interpolation='none', vmin = dict.matrix.min(), vmax = dict.matrix.max())
-				# create a new axis, cax, located 0.05 inches to the right of ax, whose width is 10% of ax. cax is used to plot a colorbar for each subplot
-				div = make_axes_locatable(ax)
-				cax = div.append_axes("right", size="10%", pad=0.05)
-				cbar = pp.colorbar(im, cax=cax, format="%.2g")
-				ax.get_xaxis().set_visible(False); ax.get_yaxis().set_visible(False)
-			ax = axes.ravel()[-1]
-			ax.set_title( 'PD' )
-			im = ax.imshow(PD, interpolation='none', vmin = PD.min(), vmax = PD.max())
-			ax.get_xaxis().set_visible(False); ax.get_yaxis().set_visible(False)
-			div = make_axes_locatable(ax)
-			cax = div.append_axes("right", size="10%", pad=0.05)
-			cbar = pp.colorbar(im, cax=cax, format="%.2g")
-			# Save progress so far
-			np.savez( experiment.runDirectory + 'ABPD', A=A, B=B, PD=PD )
-			np.save( experiment.runDirectory + 'error', max_error )
-			# Save A, BPD, B and PD for the last trial of this setting for k and eps
+			fig = plot_trial( A, B, PD, BPD )
+			fig.suptitle(r'Original Dictionary, Recovered Dictionary, and possible Permutation-Scaling (k = %d, $\varepsilon$ = %1.4f)' % (k, eps))
 			fig_dir = experiment.runDirectory + 'A_BPD_B_PD/'
-			if not os.path.isdir(fig_dir): os.makedirs(fig_dir)
+			if not os.path.isdir(fig_dir): os.makedirs(fig_dir) 
 			pp.savefig(fig_dir + 'k=%d_eps=%1.3f.png' % (k, eps))
 			pp.close(fig)
+			np.savez( experiment.runDirectory + 'ABPD', A=A, B=B, PD=PD )
+			np.save( experiment.runDirectory + 'error', max_error )
 
-	# Plot end-result
-	with open( experiment.runDirectory + 'parameters.pkl', 'r') as f:
-		parameters = pickle.load(f)
-	error = np.load(experiment.runDirectory + 'error.npy')
-		
-	""" Plot MSE reconstruction error as a function of epsilon for each k """
-	fig = pp.figure()
-	for i_k, k in enumerate(parameters['sparsities']):
-		pp.plot(parameters['noise bounds'], error[i_k], linewidth=2, label='k=%d' % k)
-	pp.title('Maximum dictionary recovery error over %d trials vs. noise bound' % parameters['trials per configuration'])
-	pp.xlabel('Noise in input')
-	pp.ylabel('max mean_i ||(A-BPD)e_i||_2 over %d trials ' % parameters['trials per configuration'])
-	pp.legend(frameon=False, loc='best')
+	# Plot and save the results of the whole run
+	fig = experiment.plot_run()
 	pp.savefig(experiment.runDirectory + 'max_error.png', bbox_inches='tight', pad_inches=.05)
 	pp.close(fig)
