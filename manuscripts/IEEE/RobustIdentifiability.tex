@@ -68,17 +68,20 @@ with the vector $\mathbf{n}_i \in \mathbb{R}^n$ accounting for both noise in the
 Even when $\mathbf{n}_i = 0$, however, there infinitely many solutions to \eqref{DictionaryLearning}. We demonstrate this point from the perspective of sparse matrix factorization. Letting $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, we see that if $Y = AX$ for some $X$ with $k$-sparse columns, then also $Y = (AD^{-1}P^{-1})(PDX)$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Moreover the columns of $PDX$ are also $k$-sparse. The "uniqueness" of any solution to \eqref{DictionaryLearning} can therefore only be considered up to this inherent ambiguity, known as the \emph{ambiguity transform group} associated to this particular form of bilinear inverse problem. This motivates the following definition.
 
 \begin{definition}\label{Uniqueness}
-Fix a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$. We say $Y$ has a $k$-sparse representation in $\mathbb{R}^m$ if for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} (up to an inherent permutation and scaling ambiguity) if for every $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon$ for $i = 1, \ldots, N$ we have:
-\begin{align}\label{def1}
-\lim_{\varepsilon \to 0} \|A - BPD\|_2 = 0
-\indent \text{and} \indent
-\lim_{\varepsilon \to 0} \|\mathbf{b}_i - PD\mathbf{a}_i\|_2 = 0 \indent \text{for } i = 1, \ldots, N
-\end{align}
+Fix a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$. We say $Y$ has a $k$-sparse representation in $\mathbb{R}^m$ if for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} (up to an inherent permutation and scaling ambiguity) if for every $\delta \geq 0$ there exists some $\varepsilon \geq 0$ such that if for some $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ we have
+\[\|\mathbf{y}_i - B\mathbf{b}_i\| \leq \varepsilon \indent  \text{for } i = 1, \ldots, N\]
 %
-for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. 
+then there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that
+\begin{align}\label{def1}
+\|A - BPD\|_2 \leq \delta
+\indent \text{and} \indent
+\|\mathbf{b}_i - PD\mathbf{a}_i\|_2 \leq \delta \indent \text{for } i = 1, \ldots, N.
+\end{align}
 \end{definition}
 
-In reality, we never obtain data without some contamination with noise, and our models are rarely (if ever) perfect. Suppose then that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset for which for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 < \varepsilon/2$ for $i = 1, \ldots, N$. By the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\| < \varepsilon/2$ for $i = 1, \ldots, N$ is such that $\|A\mathbf{a}_i - B\mathbf{b}_i\| < \varepsilon$. If the set $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$ then every such alternate $B$ must also satisfy \eqref{def1}. In such cases we say the dataset $Y$ has a "unique" $k$-sparse representation in $\mathbb{R}^m$. We now state the central problem of this paper:
+In brief, the $k$-sparse representation in $\mathbb{R}^m$ of a dataset $Y$ is robustly identifiable  when the only other matrices $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ that can approximate the data well enough are necessarily close to some permutation and scaling of $A$ and the $\mathbf{a}_i$, respectively. 
+
+Realistically, we never obtain data without some contamination with noise, and our models are rarely (if ever) perfect. Fix a matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Set $\delta > 0$ and suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset satisfying $\|\mathbf{y}_i - A\mathbf{a}_i\|_2 < \varepsilon/2$ for $i = 1, \ldots, N$. By the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $\|\mathbf{y}_i - B\mathbf{b}_i\| < \varepsilon/2$ for $i = 1, \ldots, N$ is such that $\|A\mathbf{a}_i - B\mathbf{b}_i\| < \varepsilon$. Hence every such alternate $B$ must also satisfy \eqref{def1}. In such cases we say the dataset $Y$ has a "unique" $k$-sparse representation in $\mathbb{R}^m$. We now state the central problem of this paper:
 
 \begin{problem}\label{DUTproblem}
 Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with noise $\mathbf{n}_i \in \mathbb{R}^n$. When does $Y$ have a unique $k$-sparse representation in $\mathbb{R}^m$?
@@ -98,7 +101,7 @@ for such recovery to be possible. This condition, known in the literature as the
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 
 \begin{theorem}\label{DeterministicUniquenessTheorem}
-Fix positive integers $n, m$ and $k < m$ and a cyclic order on $\{1, \ldots, m\}$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $k{m \choose k}$ vectors $\mathbf{a}_i$ in general linear position supported on that interval then every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates a set of vectors $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+Fix positive integers $n, m$ and $k < m$ and a cyclic order on $\{1, \ldots, m\}$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $k{m \choose k}$ vectors $\mathbf{a}_i$ in general linear position supported on that interval then every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates a set of vectors $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
 
 Specifically, there exist positive $C$ and $\varepsilon_0$ such that the following holds. If $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that $\|A\mathbf{a}_i - B\mathbf{b}_i\|_2 \leq \varepsilon$ for $i = 1, \ldots, N$ then
 \begin{align}\label{Cstable}
@@ -118,7 +121,7 @@ Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $
 
 In fact, there are many such sets of deterministically produced $\mathbf{a}_i$; we give a parametrized family in Section \ref{DUT}. Moreover, the generality of the construction allows us to easily extend the theorem to cases where the $A$ and $\mathbf{a}_i$ are randomly generated.
 
-Explicit formulae for $\varepsilon_0$ and $C$ are given in \eqref{epsilondef} and \eqref{Cdef}, below. First, we introduce some notation. We denote by $[m]$ the set $\{1, ..., m\}$ and by ${[m] \choose k}$ the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span:
+Explicit formulae for $\varepsilon_0$ and $C$ are given in \eqref{epsilon0} and \eqref{Cdef}, below. First, we introduce some notation. We denote by $[m]$ the set $\{1, ..., m\}$ and by ${[m] \choose k}$ the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span:
 %
 \[ \text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\} = \left\{ \sum_{i=1}^\ell t_i\mathbf{v}_i : t_1, \ldots, t_\ell \in \mathbb{R}\right\}. \]
 %
@@ -315,7 +318,7 @@ $\|(A - BPD)\mathbf{e}_i\|_2 \leq C\varepsilon$ for $C = \frac{\ell_{2k}(A)}{\va
 % PROBABILISTIC THEOREMS
 %======================================
 
-\section{Probabilistic Stability Theorems}\label{PUT}
+\section{Probabilistic Identifiability Theorems}\label{PUT}
 
 We next give precise statements of our probabilistic versions of Theorem 1 along with brief proofs relying largely to the methods used in \cite{HS11}. Our statements are based upon the following construction of \emph{random sparse vectors}.
 
@@ -639,6 +642,31 @@ We would like to thank Fritz Sommer for turning our attention to the dictionary 
 %===================================
 
 \section*{SCRAP PAPER}
+
+\subsection{ Random sampling to fill a set of cyclic intervals }
+\begin{problem}
+Fix $m$ and $k < m$. What is the probability that $N$ random $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ satisfy: for every interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$ there are at least $p = k{m \choose k}$ vectors $\mathbf{a}_i$ supported on that interval?
+\end{problem}
+
+There are $\frac{m!}{m} = (m-1)!$ cyclic orders on $m$ elements and the set of intervals of length $k$ in a given order is invariant to reversal of the order. There are therefore $\frac{(m-1)!}{2}$ sets $T \in { {[m] \choose k} \choose m}$ which consist of all length $k$ intervals in some cyclic order of $\{1, \ldots, m\}$. We want to know the probability that for at least one such $T$, every $S \in T$ has at least $mp$ samples.
+
+Fix one such $T$ and suppose we have $N_T$ random $k$-sparse vectors $\mathbf{a}_i$ with supports in $T$. The number of possible ways in which there can be at least $p$ of these vectors supported on every support $S \in T$ is the number of nonnegative integer solutions $d_i$ to the equation
+\[ (d_1 + p) + \ldots + (d_m + p) = N_T.\]
+%
+In general, the number of nonnegative integer solutions to the equation $d_1 + \ldots + d_m = M$ is ${M+m-1 \choose m-1}$. Hence, the probability that for every $S \in T$ there are at least $p$ vectors $\mathbf{a}_i$ supported on $S$ is:
+\[ q(N_T) = \frac{ { N_T-m(p-1)-1 \choose m-1 } }{ {N_T+m-1 \choose m-1} } \]
+
+We need at least $mp$ supports allocated to at least one such $T$ to have nonzero probability of success. Suppose the $N$ vectors are distributed over only $m$ supports. Then the probability that these $m$ supports form a valid set $T$ is $\frac{(m-1)!}{2} / { {m \choose k} \choose m}$ and the probability that every interval $S \in T$ has at least $mp$ vectors is 
+\[ q(N) \frac{(m-1)!}{2} / { {m \choose k} \choose m}\]
+
+Suppose now they are distributed over $m+1$ supports. Either these $m+1$ supports contain a single valid $T$ or no valid $T$. The probability that they contain a single valid $T$ is ${m+1 \choose m} \frac{(m-1)!}{2} / { {m \choose k} \choose m} = \frac{(m+1)!}{2m} / { {m \choose k} \choose m}$.
+
+\emph{Ideas:} The probability of filling all the intervals of length $k$ in any two cyclic orders is the same. Hence $q_{\sigma_i} = q_{\sigma_j}$ for all cyclic orders $\sigma_i, \sigma_j$. If we have filled every interval of length $k$ in all cyclic orders then we have filled all supports (right? seems right).
+
+The number of possible ways in which there can be at least $p$ of these vectors supported on every one of $r$ subsets is the number of nonnegative integer solutions $d_i$ to the equation
+\[ d_1 + \ldots + d_{{m \choose k} }= N - rp.\]
+
+We now need the probability that these $r$ subsets contain at least one valid $T$.  This is one minus the probability that they contain no valid $T$. 
 
 \subsection{Bounding b - PDa}
 
