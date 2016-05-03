@@ -51,31 +51,26 @@ Bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 
 \section{Introduction}
 
-[**** TODO:  make all $|\cdot|$ for vectors be $|\cdot|$; let's make matrix norms be with 2 bars ****]
-
-\IEEEPARstart{A}{} fundamental problem in data analysis is to compute representations of data that reveal intrinsic structure. In recent years, a plethora of algorithms (e.g., see \ref{} ***add punchiest recent algo refs***; review of sparse rep. \cite{Zhang2015}) have been developed for uncovering \emph{sparse} structure in datasets $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \in \mathbb{R}^n$ by approximately solving the following constrained optimization problem:
+[************** ADD all references and make all references have single letter first name and then last name (no middle initial) *********]
+\IEEEPARstart{A}{} fundamental problem in data analysis is to compute representations that reveal intrinsic structure. In recent years, a plethora of algorithms (e.g., see \ref{} ***add punchiest recent algo refs***; review of sparse rep. \cite{Zhang2015}) have been developed for uncovering \emph{sparse} structure in datasets $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ by approximately solving the following constrained optimization problem:
 \begin{align}\label{DictionaryLearning}
 \min_{B, \, |\mathbf{b}_i |_0 \leq k} \  \sum_{i=1}^N |\mathbf{y}_i - B\mathbf{b}_i|_2,
 \end{align}
 %
-for unknown $B \in \mathbb{R}^{n \times m}$ and $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ with sparsity $k \ll m$ and latent dimensionality $m \ll N$. Known in the literature as ``sparse dictionary learning", ``sparse coding", or ``sparse matrix factorization", this approach emphasizes parsimony in representation by approximating each $\mathbf{y}_i$ as a linear combination of at most $k$ columns of some matrix $B$.  Typically, the optimization (\ref{DictionaryLearning}) is relaxed so that the $\ell_1$-norm $|\cdot|_1$ replaces the $\ell_0$-norm $|\cdot|_0$ (the number of nonzero entries in a vector), as the latter typically determines an NP-hard problem \cite{Tillmann2015} whereas the former allows for tractable convex programs [***Do we actually know this?  what's the latest ref on how efficient SCA is with $\ell_1$-norm***] that generically have the same solutions.
+for unknown $B \in \mathbb{R}^{n \times m}$ and $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ having sparsity $k \ll m$. Known in the literature as ``sparse dictionary learning", ``sparse coding", or ``sparse matrix factorization", this approach implements parsimony by approximating each $\mathbf{y}_i$ as a linear combination of at most $k$ columns of some matrix $B$.  Typically, the optimization (\ref{DictionaryLearning}) is relaxed so that the $\ell_1$-norm $|\cdot|_1$ replaces the $\ell_0$-norm $|\cdot|_0$ (the number of nonzero entries in a vector), as the latter typically determines an NP-hard problem \cite{Tillmann2015} whereas the former allows for tractable convex programs [***Do we actually know this?  what's the latest ref on how efficient SCA is with $\ell_1$-norm***] that generically have the same solutions.
 
-Here, we study whether solutions to \eqref{DictionaryLearning} are unique given a dataset $Y$, or at least approximately so. This is of fundamental concern for \emph{sparse component analysis} (SCA) \cite{Georgiev05}, which assumes a linear model of data:
+Here, we study when solutions to \eqref{DictionaryLearning} are unique given a dataset $Y$, or at least approximately so. This is of fundamental concern for \emph{sparse component analysis} (SCA) \cite{Georgiev05}, which assumes a linear model of data:
 \begin{align}\label{LinearModel}
 \mathbf{y}_i = A\mathbf{a}_i + \mathbf{n}_i,
 \end{align}
-%
-with the vector $\mathbf{n}_i \in \mathbb{R}^n$ accounting for both noise in the measurements and the degree to which the model deviates from reality (e.g., the true $\mathbf{a}_i$ may only be approximately $k$-sparse [<- we haven't defined k-sparse yet...] ). The goal in SCA is to estimate the sparse \emph{sources} $\mathbf{a}_i$ from the observed \emph{mixtures} $\mathbf{y}_i$ by approximately solving \eqref{DictionaryLearning}.
+with the vector $\mathbf{n}_i \in \mathbb{R}^n$ accounting for both noise in the measurements and the degree to which the model deviates from reality (e.g., the true $\mathbf{a}_i$ may only be approximately sparse). The goal in SCA is to estimate the sparse \emph{sources} $\mathbf{a}_i$ from the observed \emph{mixtures} $\mathbf{y}_i$ by approximately solving objective \eqref{DictionaryLearning}.
 
-Even when all $\mathbf{n}_i = 0$, however, there are infinitely many solutions to \eqref{DictionaryLearning}. Let $Y, X_1, X_2$ be the matrices with columns $\mathbf{y}_i, \mathbf{a}_i, \mathbf{b}_i$, respectively, with $X_1, X_2$ having $k$-sparse columns.  If $Y = AX_1$, then also $Y = (AD^{-1}P^{-1})(PDX_1)$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The ``uniqueness" of any solution to \eqref{DictionaryLearning} should therefore only be considered up to this inherent ambiguity, often called the \emph{ambiguity transform group} associated to this particular form of bilinear inverse problem. In our case, this group consists of matrices $PD$, where $P$ and $D$ are as above.  
+Even when all $\mathbf{n}_i = 0$, however, there many solutions to \eqref{DictionaryLearning}. Let $Y, X_1, X_2$ be the matrices with columns $\mathbf{y}_i, \mathbf{a}_i, \mathbf{b}_i$, respectively, and suppose $X_1, X_2$ have $k$-sparse columns (i.e., at most $k$ nonzero entries).  If $Y = AX_1$, then also $Y = (AD^{-1}P^{-1})(PDX_1)$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The ``uniqueness" of any solution to \eqref{DictionaryLearning} should therefore only be considered up to this inherent ambiguity, often called the \emph{ambiguity transform group} associated to this particular form of bilinear inverse problem. In our case, this group consists of these products $PD$.  
 
 Whether any other solution $Y = BX_2$ must necessarily be a realization of this form ($X_2 = PDX_1$ and $A = BPD$) was the subject of the theoretical works \cite{Georgiev05, Aharon06, HS15}.  
-Realistically, however, empirical data is contaminated with noise, and our models are rarely (if ever) perfect. 
+Realistically, however, empirical data is contaminated with noise, and our models are rarely exact. 
 Therefore, we focus on the following robust formulation of SCA.
 Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis in $\mathbb{R}^m$.
-
-%Fix a matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Set $\delta > 0$ and suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset satisfying $|\mathbf{y}_i - A\mathbf{a}_i|_2 < \varepsilon/2$ for $i = 1, \ldots, N$. By the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $|\mathbf{y}_i - B\mathbf{b}_i| < \varepsilon/2$ for $i = 1, \ldots, N$ is such that $|A\mathbf{a}_i - B\mathbf{b}_i| < \varepsilon$ for $i = 1, \ldots, N$. Hence every such alternate $B$ and corresponding $\mathbf{b}_i$ must also satisfy \eqref{def1} and \eqref{def1_}. In such cases we say the dataset $Y$ has a "unique" $k$-sparse representation in $\mathbb{R}^m$. We now state our central problem.
-%Here, we focus on the motivates a robust formulation.  
 
 \begin{definition}\label{Uniqueness}
 A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ if for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} if for every $\delta \geq 0$, there exists some nonnegative $\varepsilon = \varepsilon(\delta)$ ($> 0$ when $\delta > 0$) such that if $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfy:
@@ -88,6 +83,10 @@ then there necessarily exist a permutation matrix $P \in \mathbb{R}^{m \times m}
 \end{definition}
 [**** Why not have $|\mathbf{b}_i - PD\mathbf{a}_i|_1$??  that would make more sense since the $\ell_1$ penalty is on the codes.  ***]
 In short, a $k$-sparse representation is robustly identifiable when the only other matrices and $k$-sparse vectors that can well-approximate it are necessarily close to some permutation and scaling of the original dictionary and codes.
+
+[**** Chaz to make this fit in: ****]
+Fix a matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Set $\delta > 0$ and suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset satisfying $|\mathbf{y}_i - A\mathbf{a}_i|_2 < \varepsilon/2$ for $i = 1, \ldots, N$. By the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $|\mathbf{y}_i - B\mathbf{b}_i| < \varepsilon/2$ for $i = 1, \ldots, N$ is such that $|A\mathbf{a}_i - B\mathbf{b}_i| < \varepsilon$ for $i = 1, \ldots, N$. Hence every such alternate $B$ and corresponding $\mathbf{b}_i$ must also satisfy \eqref{def1} and \eqref{def1_}. In such cases we say the dataset $Y$ has a "unique" $k$-sparse representation in $\mathbb{R}^m$. We now state our central problem.
+[********************]
 
 \begin{problem}\label{DUTproblem}
 Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with bounded noise $\mathbf{n}_i \in \mathbb{R}^n$. When does $Y$ have a unique $k$-sparse representation in $\mathbb{R}^m$?
@@ -104,7 +103,7 @@ This condition, known in the literature as the \emph{spark condition}, ensures t
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 \begin{theorem}\label{DeterministicUniquenessTheorem}
-Fix positive integers $n, m$, $k < m$, and a cyclic order on $\{1, \ldots, m\}$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $k{m \choose k}$ vectors $\mathbf{a}_i$ in general linear position supported on that interval then every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates a set of vectors $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+Fix positive integers $n, m$, $k < m$, and a cyclic order on $[m]$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $k{m \choose k}$ vectors $\mathbf{a}_i$ in general linear position supported on that interval then every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
 
 Specifically, there exist positive $C$ and $\varepsilon_0$ such that the following holds. If $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for $i = 1, \ldots, N$, then provided $\varepsilon < \varepsilon_0$, we have for all $i = 1, \ldots, N$, $j = 1, \ldots, m$  that
 \begin{align}\label{Cstable}
@@ -112,23 +111,37 @@ Specifically, there exist positive $C$ and $\varepsilon_0$ such that the followi
 \end{align}
 \end{theorem}
 
+[*** DISCUSS consequences in terms of the ``same error in terms of the noise when things are small enough"; see abstract ****]
+
 \begin{corollary}\label{DeterministicUniquenessCorollary}
-Given positive integers $n, m$ and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates a set of vectors $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+Given positive integers $n, m$, and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
 \end{corollary}
 
-Explicit formulae for $\varepsilon_0$ and $C$ are given in \eqref{epsilon0} and \eqref{Cdef}, below. 
-It is easy to produce $\mathbf{a}_i$ with explicit values for $C,\varepsilon_0$; we give one such family in Section \ref{DUT} using ``Vandermonde" matrices. 
+Formulae for $\varepsilon_0$ and $C$ in terms of the data are provided in \eqref{epsilon0} and \eqref{Cdef}, below. We also produce a family of $\mathbf{a}_i$ with explicit, numerical values for $C,\varepsilon_0$ in Section \ref{DUT} using ``Vandermonde" matrices. 
 
 % Moreover, the generality of the construction allows us to easily extend the theorem to cases where the $A$ and $\mathbf{a}_i$ are randomly generated.
 
+It is important for us to note where this result fits in the field of \emph{theoretical dictionary learning}. While many techniques have been developed for solving \eqref{DictionaryLearning}, as yet there exist no global convergence guarantees for any of these algorithms [************ Check this to make sure this claim is true *******]. A key corollary to our theorem is a universal check guaranteeing the convergence of \emph{any} dictionary learning algorithm to a global minimum of \eqref{DictionaryLearning} whenever the reconstruction error of the proposed solution is indeed small enough. 
+
+[*******  This is not different enough from previous text ***********]
+It is also informative to elaborate on the relationship of our results to the field of compressive sensing (CS). The theory of CS provides conditions under which it is possible to recover data vectors $\mathbf{x}$ with sparse structure after they have been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi$. The structure usually enforced is that $\mathbf{x} = \Psi \mathbf{a}$ for some known dictionary $\Psi$ and $k$-sparse $\mathbf{a} \in \mathbb{R}^m$. As demonstrated previously, a necessary condition for the unique recovery of $\mathbf{a}$ from $\mathbf{y}$ is that the generation matrix $A = \Phi\Psi$ satisfy the spark condition \eqref{SparkCondition}. CS methods yield accurate recovery of $\mathbf{a}$ provided the dimension $n$ of $\mathbf{y}$ satisfies
+\begin{align}\label{CScondition}
+n \geq Ck\log\left(\frac{m}{k}\right),
+\end{align}
+%
+where $C$ is a positive constant. In contrast, the goal in SCA is to recover both the code vectors \emph{and} the generation matrix $A$ from a set of measurements. We show that the same uniqueness conditions required by CS also guarantee uniqueness in SCA (up to inherent permutation and scaling ambiguities) provided there are enough samples distributed over the right supports.
+
+[********** Discuss that it would be awesome to find the best dependence of $\varepsilon$ on $\delta$ and best constants and number of samples for this problem **********]
+
+The organization of the rest of this paper is as follows. In Section \ref{DUT}, we state our main tool from combinatorial matrix theory (Lemma \ref{MainLemma}) and then derive from it Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{PUT}, we state and prove probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{mleqm}, we describe how to extend all of these results to the case where we have only an upper bound on the dimensionality of the sparse sources. The final section is a discussion, and an appendix contains the proof of Lemma \ref{MainLemma}.
 
 
-
- First, we introduce some notation. We denote by $[m]$ the set $\{1, ..., m\}$ and by ${[m] \choose k}$ the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span:
+\section{Preliminaries}
+ First, we introduce some notation. We denote by ${[m] \choose k}$ the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span:
 %
 \[ \text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\} = \left\{ \sum_{i=1}^\ell t_i\mathbf{v}_i : t_1, \ldots, t_\ell \in \mathbb{R}\right\}. \]
 %
-For a subset $S \subseteq [m]$ and matrix $M \in \mathbb{R}^{n \times m}$ with columns $\{M_1,...,M_m\}$ we let $\text{Span}\{M\} := \text{Span}\{M_1, \ldots, M_m\}$ and define $M_S$ to be the matrix with columns $\{M_i: i \in S\}$. The \emph{lower bound} of a matrix $M \in \mathbb{R}^{n \times m}$ \cite{refs?} is 
+For a subset $S \subseteq [m]$ and matrix $M \in \mathbb{R}^{n \times m}$ with columns $\{M_1,\ldots,M_m\}$ we let $\text{Span}\{M\} := \text{Span}\{M_1, \ldots, M_m\}$ and define $M_S$ to be the matrix with columns $\{M_i: i \in S\}$. The \emph{lower bound} of a matrix $M \in \mathbb{R}^{n \times m}$ \cite{REF} is 
 \begin{align*}
 \ell(M) := \sup \{ \alpha : |M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all } \mathbf{x} \in \mathbb{R}^m\}
 \end{align*}
@@ -141,59 +154,90 @@ and we introduce the following shorthand notation:
       \hfill \ell(M) \hfill & \text{ if $k > m$} \\
   \end{cases}
 \]
+[**** This lower bound should be the smallest singular value of $M$ ****]
+Clearly, if $k < k'$ then $\ell_{k}(M) \geq \ell_{k'}(M) > 0$ for any matrix $M$ with full column rank. We also note that if $M$ is a real matrix then it also has bounded (spectral) matrix norm $\|A\|_2 = \max_{|\mathbf{x}|_2 = 1}|M\mathbf{x}|_2$; hence if $M$ is such that $\ell_{2k}(M) > 0$ then $M$ has the \emph{restricted isometry property} \cite{CandesTao05} familiar from work in the field of compressed sensing. We do not refer to the restricted isometry constant in this work since it is defined with respect to a particular scaling [******** Chaz:  Explain or elaborate more on what this means ********] of the columns of the matrix, whereas we often set our matrices (without loss of generality) to have unit norm columns.
 
-The reader can convince themselves that if $k < k'$ then $\ell_{k}(M) \geq \ell_{k'}(M) > 0$ for any matrix $M$ with full column rank. We note that if $M$ is a real matrix then it also has bounded matrix norm $\max_{\mathbf{x} \in \mathbb{R}^m}|M\mathbf{x}|_2 / |\mathbf{x}|_2$; hence if $M$ is such that $\ell_{2k}(M) > 0$ then $M$ has the \emph{restricted isometry property} \cite{CandesTao05} familiar from work in the field of compressed sensing. We do not refer to the restricted isometry constant in this work since it is defined with respect to a particular scaling of the columns of the matrix, whereas we often set our matrices (without loss of generality) to have unit norm columns.
-
-Whenever $A$ satisfies \eqref{SparkCondition}, there is at least one nonzero principal (or canonical) angle between all pairs of subspaces spanned by the columns of $A$ of dimensionality less than or equal to $k$. (To see why, note that if the largest principal angle between any two of these subspaces is zero, then one subspace is a subset of the other which violates the spark condition.) The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, can be defined in terms of its cosine as follows:
+Whenever $A$ satisfies \eqref{SparkCondition}, there is at least one nonzero \textit{principal} (or \textit{canonical} or \textit{Jordan}) angle [********** Shouldn't we say what this is? **************] between all pairs of subspaces spanned by at most $k$ columns of $A$. (If the largest principal angle between any two of these subspaces is zero, then one subspace is a subset of the other [*********  Why???? ********] which violates the spark condition.) The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, can be defined in terms of its cosine as follows:
 
 \begin{definition}\label{FriedrichsDefinition}
-The \emph{Friedrichs angle} $\theta_F(V,W) \in [0,\frac{\pi}{2}]$ between subspaces $V,W \subseteq \mathbb{R}^n$ is the minimal angle formed between unit vectors in $V \cap (V \cap W)^\perp$ and $W \cap (W \cap V)^\perp$. That is,
+The \textbf{Friedrichs angle} $\theta_F(V,W) \in [0,\frac{\pi}{2}]$ between subspaces $V,W \subseteq \mathbb{R}^n$ is the minimal angle formed between unit vectors in $V \cap (V \cap W)^\perp$ and $W \cap (V \cap W)^\perp$. That is,
 \begin{align}
 \cos\left[\theta_F(V,W)\right] := \max\left\{ \frac{ \langle v, w \rangle }{|v||w|}: v \in V \cap (V \cap W)^\perp, w \in W \cap (V \cap W)^\perp \right\}.
 \end{align}
 \end{definition}
 
-To gain intuition for this quantity, if $k=2$ and $n=3$ it is the angle between the normal vectors of the two planes. (In this case there is only one nonzero principal angle between non-intersecting planes.) We also define the following quantity for notational convenience:
+For example, if $k=2$ and $n=3$ this is the angle between the normal vectors of the two planes. (In this case there is only one nonzero principal angle between non-intersecting planes.) We also define the following quantity for future notational convenience.
 
 \begin{definition}\label{SpecialSupportSet}
 Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$. Setting $\phi_1(A) := 1$, we define for $k \geq 2$:
 \begin{align}\label{rho}
-\phi_k(A) := \min_{ T \in {[m] \choose k} } \left(1 - \xi( \{\text{Span}\{A_S\} : S \in T \} ) \right),
+\phi_k(A) := \min_{ S_1,\ldots,S_k \in {[m] \choose k} } \left(1 - \xi( \text{Span}\{A_{S_1}\}, \ldots,  \text{Span}\{A_{S_k}\}) \right),
 \end{align}
-%
-where for any set $\mathcal{V} = \{V_1, \ldots, V_p\}$ of closed subspaces of $\mathbb{R}^m$, 
+where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of closed subspaces of $\mathbb{R}^m$, 
 \begin{align}
-\xi(\mathcal{V}) := \min_{\sigma \in \Sigma_p} \left(1 - \prod_{i=1}^{p-1} \sin^2\left[ \theta_F(V_{\sigma(i)}, \cap_{j=i+1}^p V_{\sigma(j)}) \right]  \right)^{1/2}.
+\xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_p} \left(1 - \prod_{i=1}^{p-1} \sin^2\left[ \theta_F \left(V_{\sigma(i)}, \bigcap_{j=i+1}^p V_{\sigma(j)}\right) \right]  \right)^{1/2},
 \end{align}
 %
-and $\Sigma_p$ is the set of permutations on $p$ elements. 
+and $\frak{S}_k$ is the set of permutations on $k$ elements. 
 \end{definition}
 
 We will not attempt to provide intuition for this quantity, other than to say it is based on a value derived in \cite{Deutsch} to describe the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces. We use it to bound the distance between a point and the interesection of a set of subspaces given an upper bound on the distance from that point to each individual subspace. 
 
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
 
-We are now in a position to explicitly state the constants $C$ and $\varepsilon_0$ referred to in Theorem \ref{DeterministicUniquenessTheorem}. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$ and $I(S) = \{i : \text{supp}(\mathbf{a}_i) = S\}$, define:
+We are now in a position to explicitly state the constants $C$ and $\varepsilon_0$ referred to in Theorem \ref{DeterministicUniquenessTheorem}. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$, $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$, and $T$ be the set of intervals of length $k$ in a cyclic order of $[m]$, define:
 \begin{align}\label{epsilon0}
 \varepsilon_0 = \frac{ \phi_k(A) \ell_{2k}(A) }{\sqrt{2}k^2} \min_{S \in T} \ell_k(AX_{I(S)}).
 \end{align}
-If $A$ has unit norm columns and $0 \leq \varepsilon < \varepsilon_0$ then \eqref{Cstable} and \eqref{b-PDa} hold with
+If $A$ has unit norm columns (as is standard in applications) and $0 \leq \varepsilon < \varepsilon_0$, then \eqref{Cstable} and \eqref{b-PDa} hold with
 \begin{align}\label{Cdef}
 C = \frac{\ell_{2k}(A)}{ \varepsilon_0 \sqrt{2k}}.
 \end{align}
 
-It is important for us to note where this result fits in the field of \emph{theoretical dictionary learning}. While many techniques have been developed for solving \eqref{DictionaryLearning}, as yet there exist no global convergence guarantees for any of these algorithms. A key corollary to our theorem is a universal check guaranteeing the convergence of \emph{any} dictionary learning algorithm to a global minimum of \eqref{DictionaryLearning} by asserting whether or not the reconstruction error of the proposed solution is indeed small enough. 
+\begin{definition}
+Let $V, W$ be subspaces of $\mathbb{R}^m$ and let $d(v,W) := \inf\{|v-w|_2: w \in W\} = |v - \Pi_W v|_2$ where $\Pi_W$ is the orthogonal projection operator onto subspace $W$. The \textbf{gap metric} $\Theta$ on subspaces of $\mathbb{R}^{m}$ is \cite{TheoryOfLinearOperatorsPage69}:
+\begin{equation}\label{SubspaceMetric}
+\Theta(V,W) := \max\left( \sup_{\substack{v \in V \\ |v| = 1}} d(v,W), \sup_{\substack{w \in W \\ |w| = 1}} d(w,V) \right).
+\end{equation}
+\end{definition}
 
-It is also informative to elaborate on the relationship of our results to the field of compressive sensing (CS) [ref?]. The theory of CS provides conditions under which it is possible to recover data vectors $\mathbf{x}$ with sparse structure after they have been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi$. The structure usually enforced is that $\mathbf{x} = \Psi \mathbf{a}$ for some known dictionary $\Psi$ and $k$-sparse $\mathbf{a} \in \mathbb{R}^m$. As demonstrated previously, a necessary condition for the unique recovery of $\mathbf{a}$ from $\mathbf{y}$ is that the generation matrix $A = \Phi\Psi$ satisfy the spark condition \eqref{SparkCondition}. CS methods yield accurate recovery of $\mathbf{a}$ provided the dimension $n$ of $\mathbf{y}$ satisfies
-\begin{align}\label{CScondition}
-n \geq Ck\log\left(\frac{m}{k}\right),
-\end{align}
+We are now state our main result from combinatorial matrix theory, generalizing Lemma 1 in \cite{HS15} to the noisy case.
+
+%===========          MAIN LEMMA (K > 1)             =================
+
+\begin{lemma}[Main Lemma]\label{MainLemma}
+Fix positive integers $n, m$, and $k < m$ and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with unit norm columns.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
+\begin{equation}\label{GapUpperBound}
+\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta \indent \text{for all} \indent S \in T
+\end{equation}
 %
-where $C$ is a positive constant. In contrast, the goal in SCA is to recover both the code vectors \emph{and} the generation matrix $A$ from a set of measurements. We show that the same uniqueness conditions required by CS also guarantee uniqueness in SCA (up to inherent permutation and scaling ambiguities) provided there are enough samples distributed over the right supports.
+then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that
+\begin{align}
+\|A - BPD\|_2 \leq \Delta.
+\end{align}
+\end{lemma}
+[***** This here is now a matrix norm\ldots.is this the correct one?  $\|\cdot \|_2$ for a matrix would be the spectral norm ****]
+We defer the proof of this lemma to Appendix \ref{appendixA}. 
 
-The organization of the rest of this paper is as follows. In Section \ref{DUT} we state our main tool from combinatorial matrix theory and then derive from it Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{PUT} we state probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem} and their proofs. In Section \ref{mleqm} we describe how to extend all of these results to the case where we have only an upper bound on the dimensionality of the sparse sources. The final section is a discussion, and an appendix contains the proof of Lemma \ref{MainLemma}.
+[**** Would be nice to say in words what this Main Lemma is doing ****]
 
-\textbf{[Have the cool small dimensional example here. Data in $3D$-space coded by planes. $n=3, k=2$.]}
+In our proof of robust idenifiability we will make use of the following useful facts about $d$. The first, 
+\begin{equation}\label{SubspaceMetricSameDim}
+\dim(W) = \dim(V) \implies \sup_{\substack{v \in V \\ |v| = 1}}  d(v,W)  = \sup_{\substack{w \in W \\ |w| = 1}} d(w,V),
+\end{equation}
+
+is proven in \cite{Morris10} (Lemma 3.3). The second is:
+\begin{lemma}\label{MinDimLemma}
+Let $V, W$ be subspaces of $\mathbb{R}^{m}$. Then
+\begin{equation}\label{MinDim}
+d(v,W) < |v|_2 \indent \forall v \in V \implies \dim(V) \leq \dim(W).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+If $\dim(V) > \dim(W)$ then there exists some $v' \in V \cap W^\perp$ and by Pythagoras' Theorem, $|v' - w|_2^2 = |v'|_2^2 + |w|_2^2 \geq |v|_2^2$ for all $w \in W$. This is in contradiction with the LHS of \eqref{MinDim}, which states that for all $v \in V$ there exists some $w \in W$ such that $|v - w|_2 < |v|_2$.
+\end{proof}
+
 
 
  
@@ -201,7 +245,7 @@ The organization of the rest of this paper is as follows. In Section \ref{DUT} w
 % PROOF OF DETERMINISTIC UNIQUENESS THEOREM
 %============================================
 
-\section{Deterministic Identifiability Theorem}\label{DUT}
+\section{Deterministic Identifiability}\label{DUT}
 
 %======== CASE K = 1 ============
 
@@ -248,52 +292,11 @@ which proves the assertion.
 
 It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows from $\varepsilon < \varepsilon_0$ more generally for $k > 1$. Unfortunately, the proof for larger $k$ is more challenging since in general it is nontrivial to produce $P$ and $D$ as in \eqref{PandD}. Our main tool for the proof is a result in combinatorial linear algebra, which we state after making a couple more necessary definitions.
 
-\begin{definition}
-Let $V, W$ be subspaces of $\mathbb{R}^m$ and let $d(v,W) := \inf\{|v-w|_2: w \in W\} = |v - \Pi_W v|_2$ where $\Pi_W$ is the orthogonal projection operator onto subspace $W$. The \emph{gap} metric $\Theta$ on subspaces of $\mathbb{R}^{m}$ is \cite{TheoryOfLinearOperatorsPage69}:
-\begin{equation}\label{SubspaceMetric}
-\Theta(V,W) := \max\left( \sup_{\substack{v \in V \\ |v| = 1}} d(v,W), \sup_{\substack{w \in W \\ |w| = 1}} d(w,V) \right).
-\end{equation}
-\end{definition}
-%
-In our proof we will make use of the following useful facts about $d$. The first, 
-\begin{equation}\label{SubspaceMetricSameDim}
-\dim(W) = \dim(V) \implies \sup_{\substack{v \in V \\ |v| = 1}}  d(v,W)  = \sup_{\substack{w \in W \\ |w| = 1}} d(w,V),
-\end{equation}
-%
-is proven in \cite{Morris10} (Lemma 3.3). The second is:
-\begin{lemma}\label{MinDimLemma}
-Let $V, W$ be subspaces of $\mathbb{R}^{m}$. Then
-\begin{equation}\label{MinDim}
-d(v,W) < |v|_2 \indent \forall v \in V \implies \dim(V) \leq \dim(W).
-\end{equation}
-\end{lemma}
-
-\begin{proof}
-If $\dim(V) > \dim(W)$ then there exists some $v' \in V \cap W^\perp$ and by Pythagoras' Theorem, $|v' - w|_2^2 = |v'|_2^2 + |w|_2^2 \geq |v|_2^2$ for all $w \in W$. This is in contradiction with the LHS of \eqref{MinDim}, which states that for all $v \in V$ there exists some $w \in W$ such that $|v - w|_2 < |v|_2$.
-\end{proof}
-
-We are now state our main result from combinatorial matrix theory.
-
-%===========          MAIN LEMMA (K > 1)             =================
-
-\begin{lemma}[Main Lemma]\label{MainLemma}
-Fix positive integers $n, m$ and $k < m$ and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with unit norm columns.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
-\begin{equation}\label{GapUpperBound}
-\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta \indent \text{for all} \indent S \in T
-\end{equation}
-%
-then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that
-\begin{align}
-|A - BPD|_2 \leq \Delta.
-\end{align}
-\end{lemma}
-
-We defer the proof of this lemma to the Appendix. 
 
 %========          PROOF OF THEOREM 1        ============
 
 \begin{proof}[Proof of Theorem \ref{DeterministicUniquenessTheorem} and Corollary \ref{DeterministicUniquenessCorollary}]
-Fix positive integers $n, m$ and $k < m$ and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$. We assume $k > 1$ (the $k=1$ case was proven for $N=m$ at the beginning of this section). First, we produce a set of $N = mk{m \choose k}$ vectors in $\mathbb{R}^k$ in general linear position (i.e. any set of $k$ of them are linearly independent). Specifically, let $\gamma_1, ..., \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ "Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports, i.e. for each support there are $k{m \choose k}$ vectors $a_i$ with that support) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
+Fix positive integers $n, m$ and $k < m$ and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$. We assume $k > 1$ (the $k=1$ case was proven for $N=m$ at the beginning of this section). First, we produce a set of $N = mk{m \choose k}$ vectors in $\mathbb{R}^k$ in general linear position (i.e. any set of $k$ of them are linearly independent). Specifically, let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports, i.e. for each support there are $k{m \choose k}$ vectors $a_i$ with that support) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 
 We claim that any $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} is such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$. Fix $A$ satisfying \eqref{SparkCondition} and let it have unit norm columns (it is not hard to show that this can be done without loss of generality). Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Since there are $k{m \choose k}$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there is some set of indices $J(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S' \in {[m] \choose k}$, respectively.
 
@@ -319,13 +322,49 @@ Let $\Delta =  \frac{\varepsilon \ell_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$ and not
 $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C = \frac{\ell_{2k}(A)}{\varepsilon_0\sqrt{2k}}$. Lastly, \eqref{b-PDa} by the arguments at the beginning of this section.
 \end{proof}
 
+
+%===================================
+% DIFFERENT CODING DIMENSIONS
+%===================================
+
+\section{What if we don't know $m$?}\label{mleqm}
+
+[***** How necessary is the spark condition on $B$ here??? *******]
+In this section we state a version of Theorem \ref{DeterministicUniquenessTheorem} and Lemma \ref{MainLemma} assuming that $B$ also satisfies the spark condition (in addition to $A$ satisfying the spark condition). With this additional assumption, we can address the issue of recovering $A \in \mathbb{R}^{n \times m}$ and the $\mathbf{a}_i \in \mathbb{R}^m$ when only an upper bound $m'$ on the number $m$ of sparse sources is known.
+
+\begin{theorem}\label{DeterministicUniquenessTheorem2}
+Fix positive integers $n, m, m'$, and $k$ with $k < m \leq m'$. Fix $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ and let $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$ and $J(S) = \{j : \text{supp}(\mathbf{a}_j) = S\}$. If for some cyclic order on $\{1, \ldots, m\}$ the $\mathbf{a}_i$ are such that for every interval of length $k$ in the cyclic order there are $k{m' \choose k}$ vectors $\mathbf{a}_i$ in general linear position supported on that interval then the following holds. Every pair of matrices $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfying spark condition \eqref{SparkCondition} are such that if 
+\begin{align}
+|A\mathbf{a}_i - B\mathbf{b}_i| < \frac{ \ell_{k}(A) \min(\phi_k(A), \phi_k(B))}{\sqrt{2k^3} } \min_{S \in T} \ell_k(AX_{J(S)}) \indent \text{for all} \indent i = 1, \ldots, N
+\end{align}
+%
+for some $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ then \eqref{Cstable} holds for some partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ (i.e. the columns of $P$ are either zero or a standard basis vector), diagonal matrix $D \in \mathbb{R}^{m' \times m}$ (i.e. $D_{ij} = 0$ whenever $i \neq j$) and $C$ as defined in \eqref{Cdef}. 
+\end{theorem}
+
+The proof of Theorem \ref{DeterministicUniquenessTheorem2} is very similar to the proof of Theorem \ref{DeterministicUniquenessTheorem}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lemma \ref{MainLemma2}, which we state next, by pigeonholing $k{m' \choose k}$ vectors with respect to $[m']$ holes. The assumption that $B$ also satisfy the spark condition allows us to overcome the complication due to $m < m'$ to prove Lemma \ref{MainLemma2}, since the proof of Lemma \ref{NonEmptyLemma} relies on the fact that $m = m'$. 
+
+\begin{lemma}[Main Lemma for $m \leq m'$]\label{MainLemma2}
+Fix positive integers $n, m, m'$, and $k$ where $k < m \leq m'$ and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition}, with $A$ having unit norm columns. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
+\begin{equation}\label{GapUpperBound2}
+\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \Delta }{k} \min(\phi_k(A), \phi_k(B)) \indent \text{for all} \indent S \in T
+\end{equation}
+%
+then there exist a partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ such that
+\begin{align}
+|A - BPD|_2 \leq \Delta \indent \text{for all} \indent i \in [m].
+\end{align}
+\end{lemma}
+
+We again defer the proof of this lemma to Appendix \ref{mleqmAppendix}.
+
+
 %======================================
 % PROBABILISTIC THEOREMS
 %======================================
 
-\section{Probabilistic Identifiability Theorems}\label{PUT}
+\section{Probabilistic Identifiability}\label{PUT}
 
-We next give precise statements of our probabilistic versions of Theorem 1 along with brief proofs relying largely to the methods used in \cite{HS11}. Our statements are based upon the following construction of \emph{random sparse vectors}.
+We next give precise statements of our probabilistic versions of Theorem 1 along with brief proofs relying largely to the methods used in \cite{HS11}. Our statements are based upon the following elementary construction of \emph{random sparse vectors} (although many ensembles will suffice, e.g. \cite{Biarunik}).
 
 \begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
 Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all ${m \choose k}$ of them and then a random draw.
@@ -333,11 +372,11 @@ Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$
 
 Our proofs rely on the following lemma, the proof of which can be found in \cite{HS11} (Lemma 3):
 \begin{lemma}\label{HS11lemma2}
-Fix positive integers $n, m$ and $k < m$ and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $M\mathbf{a}_1, \ldots, M\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors in $\mathbb{R}^m$.
+Fix positive integers $n, m$ and $k < m$ and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $M\mathbf{a}_1, \ldots, M\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors.
 \end{lemma}
 
 \begin{theorem}\label{Theorem2}
-Fix positive integers $n, m$ and $k < m$ and a generation matrix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. If a set of $N = mk{m \choose k}$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for each interval of length $k$ in some cyclic order on $\{1, \ldots, m\}$ there are $k{m \choose k}$ vectors $\mathbf{a}_i$ supported on that interval then $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$ with probability one.
+Fix positive integers $n, m$ and $k < m$ and a generation matrix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. If a set of $N = mk{m \choose k}$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for each interval of length $k$ in some cyclic order on $\{1, \ldots, m\}$ there are $k{m \choose k}$ vectors $\mathbf{a}_i$ supported on that interval then $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation with probability one.
 \end{theorem}
 
 \begin{proof}
@@ -345,7 +384,7 @@ By Lemma \ref{HS11lemma2} (setting $M$ to be the identity matrix), with probabil
 \end{proof} 
 
 \begin{corollary}
-Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random\footnote{Many ensembles of random matrices work, e.g. \cite{??}} $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from $N = mk{m \choose k}$ $k$-sparse samples $\mathbf{a}_i$, consisting of $k{m \choose k}$ samples supported by each interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from $N = mk{m \choose k}$ $k$-sparse samples $\mathbf{a}_i$, consisting of $k{m \choose k}$ samples supported by each interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
 \end{corollary}
 We now state our third theorem. Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
 
@@ -361,38 +400,6 @@ By Lemma \ref{HS11lemma2} (setting $M$ to be the identity matrix), with probabil
 Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = mk{m \choose k}$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$ there are $k{m \choose k}$ vectors $\mathbf{a}_i$ supported on that interval then, with probability one, almost every matrix $A \in \mathbb{R}^{n \times m}$ gives $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
 \end{corollary}
 
-%===================================
-% DIFFERENT CODING DIMENSIONS
-%===================================
-
-\section{What if we don't know $m$?}\label{mleqm}
-
-In this section we state a version of Theorem \ref{DeterministicUniquenessTheorem} and Lemma \ref{MainLemma} assuming that $B$ also satisfies the spark condition (in addition to $A$ satisfying the spark condition). With this additional assumption, we can address the issue of recovering $A \in \mathbb{R}^{n \times m}$ and the $\mathbf{a}_i \in \mathbb{R}^m$ when only an upper bound $m'$ on the number $m$ of sparse sources is known.
-
-\begin{theorem}\label{DeterministicUniquenessTheorem2}
-Fix positive integers $n, m, m'$ and $k$ with $k < m \leq m'$. Fix $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ and let $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$ and $J(S) = \{j : \text{supp}(\mathbf{a}_j) = S\}$. If for some cyclic order on $\{1, \ldots, m\}$ the $\mathbf{a}_i$ are such that for every interval of length $k$ in the cyclic order there are $k{m' \choose k}$ vectors $\mathbf{a}_i$ in general linear position supported on that interval then the following holds. Every pair of matrices $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfying spark condition \eqref{SparkCondition} are such that if 
-\begin{align}
-|A\mathbf{a}_i - B\mathbf{b}_i| < \frac{ \ell_{k}(A) \min(\phi_k(A), \phi_k(B))}{\sqrt{2k^3} } \min_{S \in T} \ell_k(AX_{J(S)}) \indent \text{for all} \indent i = 1, \ldots, N
-\end{align}
-%
-for some $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ then \eqref{Cstable} holds for some partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$, diagonal matrix $D \in \mathbb{R}^{m' \times m}$ (i.e. $D_{ij} = 0$ whenever $i \neq j$) and $C$ as defined in \eqref{Cdef}. 
-\end{theorem}
-
-The proof of Theorem \ref{DeterministicUniquenessTheorem2} is very similar to the proof of Theorem \ref{DeterministicUniquenessTheorem}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lemma \ref{MainLemma2}, which we state next, by pigeonholing $k{m' \choose k}$ vectors with respect to $[m']$ holes. The assumption that $B$ also satisfy the spark condition allows us to overcome the complication due to $m < m'$ to prove Lemma \ref{MainLemma2}, since the proof of Lemma \ref{NonEmptyLemma} relies on the fact that $m = m'$. 
-
-\begin{lemma}[Main Lemma for $m \leq m'$]\label{MainLemma2}
-Fix positive integers $n, m, m'$ and $k$ where $k < m \leq m'$ and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition}, with $A$ having unit norm columns. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
-\begin{equation}\label{GapUpperBound2}
-\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \Delta }{k} \min(\phi_k(A), \phi_k(B)) \indent \text{for all} \indent S \in T
-\end{equation}
-%
-then there exist a partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ (i.e. $D_{ij} = 0$ whenever $i \neq j$) such that
-\begin{align}
-|A - BPD|_2 \leq \Delta \indent \text{for all} \indent i \in [m].
-\end{align}
-\end{lemma}
-
-We again defer the proof of this lemma to the Appendix.
 
 %===================================
 % 			DISCUSSION
@@ -409,6 +416,8 @@ The theory of CS informs also informs another practical consequence of our resul
 
 Uniqueness in data analysis.
 
+[********* Make some brief comments about possibile conseuqences for the brain / representability of signals, etc *********]
+
 
 Identifying uniqueness: the bispectrum
 
@@ -417,11 +426,11 @@ Identifying uniqueness: the bispectrum
 %========================================
 
 \appendices
-\section{Combinatorial Matrix Theory}
+\section{Combinatorial Matrix Theory}\label{appendixA}
 
-In this section, we prove Lemma \ref{MainLemma}, which is the main ingredient in our proof of Theorem \ref{DeterministicUniquenessTheorem}. We suspect that there is an appropriate generalization to matroids. For readers willing to assume a priori that the spark condition holds for $B$ as well as for $A$, a proof of this case (Lemma \ref{MainLemma2} from section \ref{mleqm}) is provided in Appendix \ref{mleqmAppendix}. The additional assumption simplifies the proof and allows us to extend stability conditions to the case where only an upper bound on $m$ is known a priori. 
+In this section, we prove Lemma \ref{MainLemma}, which is the main ingredient in our proof of Theorem \ref{DeterministicUniquenessTheorem}. For readers willing to assume a priori that the spark condition holds for $B$ as well as for $A$, a proof of this case (Lemma \ref{MainLemma2} from section \ref{mleqm}) is provided in Appendix \ref{mleqmAppendix}. The additional assumption simplifies the proof and allows us to extend stability conditions to the case where only an upper bound on $m$ is known a priori. 
 
-For a couple of lemmas we require the following notation. Given positive integers $k < m$ and some permutation $\sigma \in \Sigma_m$ (where $\Sigma_m$ denotes the symmetric group on $m$ elements), let
+For a couple of lemmas we require the following notation. Given positive integers $k < m$ and some permutation $\sigma \in \frak{S}_m$ (where $\frak{S}_m$ denotes the symmetric group on $m$ elements), let
 \begin{align}
 S_\sigma(i) := \{1+\sigma(i), \ldots, 1+\sigma(i + (k-1)) \} \indent \text{for} \indent i = 0, \ldots, m-1
 \end{align}
@@ -445,16 +454,15 @@ y \in \text{Span}\{M_{\cap \mathcal{T}}\}  \Longleftrightarrow y \in \bigcap_{S 
 %===== DISTANCE TO INTERSECTION LEMMA =====
 
 \begin{lemma}\label{DistanceToIntersectionLemma}
-Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be a set of closed subspaces of $\mathbb{R}^m$ and let $V = \cap \mathcal{V}$. For every $x \in \mathbb{R}^m$,
+Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be a set of closed subspaces of $\mathbb{R}^m$ and let $V = \bigcap \mathcal{V}$. For every $x \in \mathbb{R}^m$,
 \begin{align}\label{DTILeq}
-|x - \Pi_V x|_2 \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k |x - \Pi_{V_i} x|_2.
+|x - \Pi_V x|_2 \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k |x - \Pi_{V_i} x|_2,
 \end{align}
 \end{lemma}
-%
 where the expression for $\xi$ is given in Definition \ref{SpecialSupportSet}.
 
 \begin{proof} 
-Fix $x \in \mathbb{R}^m$ and $k \geq 2$. The proof can be subdivided into two steps. First, we will show that for any $\sigma \in \Sigma_k$,
+Fix $x \in \mathbb{R}^m$ and $k \geq 2$. The proof can be subdivided into two steps. First, we will show that for any $\sigma \in \frak{S}_k$,
 \begin{align}\label{induction}
 |x - \Pi_Vx|_2 \leq \sum_{i=1}^k |x - \Pi_{V_i} x|_2 + |\Pi_{V_{\sigma(k)}}\Pi_{V_{\sigma(k-1)}}\cdots\Pi_{V_{\sigma(1)}} x - \Pi_V x|_2.
 \end{align}
@@ -499,7 +507,7 @@ Since the permutation $\sigma$ we chose was arbitrary, we can replace $c$ in \eq
 
 %======= GRAPH THEORY LEMMA =======
 
-\begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$ and $\sigma \in \Sigma_m$ and let $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$. Suppose there exists a map $\pi: T \to {\mathbb{Z}/m\mathbb{Z} \choose k}$ such that for all $J \in {[m] \choose k}$,
+\begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$ and $\sigma \in \frak{S}_m$ and let $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$. Suppose there exists a map $\pi: T \to {\mathbb{Z}/m\mathbb{Z} \choose k}$ such that for all $J \in {[m] \choose k}$,
 \begin{align}\label{EmptyToEmpty}
  \bigcap_{i \in J} S_\sigma(i) = \emptyset \Longrightarrow \bigcap_{i \in J} \pi(S_\sigma(i)) = \emptyset.
 \end{align}
@@ -515,7 +523,7 @@ If there existed some $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then we wo
 %==== PROOF OF MAIN LEMMA =======
 
 \begin{proof}[Proof of Lemma \ref{MainLemma} (Main Lemma)]
-We assume $k \geq 2$ since the case $k = 1$ was proven at the beginning of Section \ref{DUT}. Note that $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$ for some $\sigma \in \Sigma_m$. We begin by proving that $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) = k$ for all $i \in [m]$. Fix $i \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vectors $u \in \text{Span}\{A_{S_\sigma(i)}\}$ that $d(u, \text{Span}\{B_{\pi(S_\sigma(i))}\}) \leq \frac{\phi_k(A)}{k} \Delta < 1$. It follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) \geq \dim(\text{Span}\{A_{S_\sigma(i)}\}) = k$. Since $|\pi(S_\sigma(i))| = k$ we in fact have $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) = k$, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
+We assume $k \geq 2$ since the case $k = 1$ was proven at the beginning of Section \ref{DUT}. Note that $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$ for some $\sigma \in \frak{S}_m$. We begin by proving that $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) = k$ for all $i \in [m]$. Fix $i \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vectors $u \in \text{Span}\{A_{S_\sigma(i)}\}$ that $d(u, \text{Span}\{B_{\pi(S_\sigma(i))}\}) \leq \frac{\phi_k(A)}{k} \Delta < 1$. It follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) \geq \dim(\text{Span}\{A_{S_\sigma(i)}\}) = k$. Since $|\pi(S_\sigma(i))| = k$ we in fact have $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) = k$, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
 
 We will now show that
 \begin{align}\label{fact2}
@@ -571,7 +579,7 @@ P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \cdots, \
 %
 we see that \eqref{yepyep} becomes $|(A - BPD)\mathbf{e}_i|_2 \leq \Delta$ for all $i \in [m]$.
 
-Now suppose $k \geq 2$. Note that $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$ for some $\sigma \in \Sigma_m$. Fix $i \in [m]$ and let $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_\sigma(i) = \sigma(i)$. Assumption \eqref{GapUpperBound2} implies that for all unit vectors $\mathbf{u} \in \cap_{j \in J} \text{Span}\{B_{\pi(S_\sigma(j))}\}$ we have $d(\mathbf{u}, \text{Span}\{A_{S_\sigma(j)}\}) \leq \frac{\phi_k(A)}{k} \Delta$ for all $j \in J$. By Lemma \ref{DistanceToIntersectionLemma} we have that:
+Now suppose $k \geq 2$. Note that $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$ for some $\sigma \in \frak{S}_m$. Fix $i \in [m]$ and let $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_\sigma(i) = \sigma(i)$. Assumption \eqref{GapUpperBound2} implies that for all unit vectors $\mathbf{u} \in \cap_{j \in J} \text{Span}\{B_{\pi(S_\sigma(j))}\}$ we have $d(\mathbf{u}, \text{Span}\{A_{S_\sigma(j)}\}) \leq \frac{\phi_k(A)}{k} \Delta$ for all $j \in J$. By Lemma \ref{DistanceToIntersectionLemma} we have that:
 \begin{align}\label{sym2}
 d\left( \mathbf{u}, \bigcap_{j \in J} \text{Span}\{A_{S_{\sigma}(j)}\} \right) 
 \leq \Delta \left( \frac{\phi_k(A)}{1 - \xi(\{ \text{Span}\{A_{S_{\sigma}(j)}\} : j \in J \})} \right) \leq \Delta,
@@ -594,14 +602,16 @@ We therefore have by Lemma \ref{MinDimLemma}, setting $V = \text{Span}\{B_{\cap_
 
 \section{Calculating C}
 
-In this section we demonstrate how an upper bound on the constant $C$ can be derived for a particular $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$. \textbf{[Alternatively, see Lemma 2.2 in Grcar - A matrix lower bound, for a lower bound on rectangular matrices (though not k-restricted)]}
+[********  Incorporate this better into the main text what the point of this is *********]
+
+In this section we demonstrate how an upper bound on the constant $C$ can be derived for a particular $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$. \textbf{[Alternatively, see Lemma 2.2 in Grcar??????? - A matrix lower bound, for a lower bound on rectangular matrices (though not k-restricted)]}
 
 %=== MATRIX LOWER BOUND LEMMA ===
 
 \begin{lemma}\label{MatrixLowerBoundLemma}
-Let $\gamma_1 < ... < \gamma_N$ be any distinct numbers such that $\gamma_{i+1} = \gamma_i + \delta$ and form the $k \times N$ Vandermonde matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$. Then for all $S \in {[N] \choose k}$, 
+Let $\gamma_1 < \ldots < \gamma_N$ be any distinct numbers such that $\gamma_{i+1} = \gamma_i + \delta$ and form the $k \times N$ Vandermonde matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$. Then for all $S \in {[N] \choose k}$, we have
 \begin{align}
-	|V_S x|_2 > \rho |x|_1 \indent \text{where} \indent \rho = \frac{\delta^k}{\sqrt{k}} \left( \frac{k-1}{k} \right)^\frac{k-1}{2} \prod_{i = 1}^k (\gamma_1 + (i-1)\delta) \indent \text{for all} \indent x \in \mathbb{R}^k
+	|V_S x|_2 > \rho |x|_1, \indent \text{where} \indent \rho = \frac{\delta^k}{\sqrt{k}} \left( \frac{k-1}{k} \right)^\frac{k-1}{2} \prod_{i = 1}^k (\gamma_1 + (i-1)\delta) \indent \text{for all} \indent x \in \mathbb{R}^k
 \end{align}
 \end{lemma}
 
@@ -623,7 +633,7 @@ and the result follows.
 %===================================
 
 \section*{Acknowledgment}
-We would like to thank Fritz Sommer for turning our attention to the dictionary learning problem. We also thank Bizzyskillet on SoundCloud for "The No-Exam Jams", which played on repeat during many long hours of designing proofs. Finally, we thank Ian Morris for posting equation \eqref{SubspaceMetricSameDim} and a reference to his proof on Stack Exchange.
+We would like to thank Fritz Sommer for turning our attention to the dictionary learning problem. We also thank Bizzyskillet on SoundCloud for "The No-Exam Jams", which played on repeat during many long hours of designing proofs. Finally, we thank Ian Morris for posting \eqref{SubspaceMetricSameDim} and a reference to his proof of it on the internet (``Stack Exchange").
 
 %===================================
 % 			REFERENCES
@@ -701,7 +711,7 @@ How do we know $\ell_{2k}(B) > 0$? For all $2k$-sparse $\mathbf{x} \in \mathbb{R
 &\geq (\ell_{2k}(A) - \sqrt{k}\ell_2(A))|D|_2|\mathbf{x}|_2. 
 \end{align*}
 %
-if $\ell_{2k}(A) \geq \sqrt{k}\ell_2(A)$ (see Remark \ref{thm1specs})...\textbf{umm..} 
+if $\ell_{2k}(A) \geq \sqrt{k}\ell_2(A)$ (see Remark \ref{thm1specs})\ldots\textbf{umm..} 
 
 \subsection{Spark Condition implies RIP}
 
@@ -713,7 +723,7 @@ If a matrix $M \in \mathbb{n \times m}$ has full column rank then $\ell(M) > 0$.
 Consider the compact set $\mathcal{C} = \{c \in \mathbb{R}^k: |c|_2 = 1\}$ and the continuous map
 \begin{align*}
 \phi: \mathcal{C} &\to \mathbb{R} \\
-(c_1, ..., c_k) &\mapsto |\sum_{j = 1}^k c_j \mathbf{a}_{i_j}|_2.
+(c_1, \ldots, c_k) &\mapsto |\sum_{j = 1}^k c_j \mathbf{a}_{i_j}|_2.
 \end{align*}
 
 By general linear position of the $\mathbf{a}_i$, we know that $0 \notin \phi(\mathcal{C})$. Since $\mathcal{C}$ is compact, we have by continuity of $\phi$ that $\phi(\mathcal{C})$ is also compact; hence it is closed and bounded. Therefore $0$ can't be a limit point of $\phi(\mathcal{C})$ and there must be some $\rho > 0$ such that the neighbourhood $\{x: x < \rho\} \subseteq \mathbb{R} \setminus \phi(\mathcal{C})$. Hence $\phi(c) \geq \rho$ for all $c \in \mathcal{C}$. The result follows by the association $c \mapsto \frac{c}{|c|_2}$ and the fact that there are only finitely many subsets of $k$ vectors $\mathbf{a}_i$ (actually, for our purposes we need only consider those subsets of $k$ vectors $\mathbf{a}_i$ having the same support), hence there is some minimal $\rho$ satisfying \eqref{DataSpread} for all of them. (We refer the reader to the Appendix for a lower bound on $\rho$ given as a function of $k$ and an arithmetic sequence $\gamma_1, \ldots, \gamma_N$ used to generate the $a_i$.)
@@ -751,7 +761,7 @@ We need only show that the $k+1$ vectors $A\mathbf{a}_i$ are linearly dependent;
 \[ |w - v| = |\sum_{i \in J} c_i A\mathbf{a}_i - \sum_{i \in J} c_i v_i | 
 \leq \sum_{i \in J} |c_i| |A\mathbf{a}_i - v_i| \leq 2\varepsilon \sum_{i \in J}|c_i| \]
 
-Need RHS less thatn $|w|$ to prove that $\dim(W) \leq \dim(V) = k$...
+Need RHS less thatn $|w|$ to prove that $\dim(W) \leq \dim(V) = k$\ldots
 \end{proof}
 
 \begin{proof}[Proof of Theorem \ref{Theorem2} ($\varepsilon = 0$)]
