@@ -4,14 +4,26 @@ import os
 import scipy.io
 import matplotlib.pyplot as pp
 import pytest
+import itertools
+import random
 
 class Dictionary:
+	""" 'Dictionary' contains the dictionary matrix, relevant functions thereof, and methods for manipulation and plotting of the matrix """
 	def __init__(self, arr_or_string ):
 		if isinstance( arr_or_string, str):
-			self._load_dictionary( arr_or_string )
+			self.load( arr_or_string )
 		else:
 			self.matrix = np.matrix( arr_or_string )
+
+	def set_matrix( self, arr ):
+		self.matrix = np.matrix( arr )
 	
+	def phi_k(self):
+		pass
+
+	def ell_k(self, k):
+		pass
+
 	def get_coherence(self):
 		""" Calculat mutual coherence of columns """
 		corr = matrix.T * matrix
@@ -20,20 +32,22 @@ class Dictionary:
 	def normalize( self, norm = 'l2' ):
 		""" Sets columns of dictionary matrix to have unit norm """
 		self.matrix = normalize( self.matrix, norm, axis=0 )
+		return self # TODO: check this accomplishes normalizedDictionary = Dictionary().normalize()
 	
 	def matshow( self, tile_atoms = True, image_shape=None, tile_shape=None ):
 		""" Plots dictionary raw or as tiled images """
 		if tile_atoms:
 			img = self._tile_atoms(image_shape, tile_shape)
-			pp.matshow( img )
+			fig = pp.matshow( img )
 		else:
-			pp.matshow(self.matrix)
+			fig = pp.matshow(self.matrix)
+		return fig
 
 	def plot(self):
 		""" Plots dictionary elements as functions over the integers """
 		pass
 
-	def _load_dictionary( self, name ):
+	def load( self, name ):
 		""" Loads one of the saved dictionaries in the data directory """
 		datadir = os.path.abspath( os.path.dirname(__file__) )
 		if name == 'alphabet':
@@ -98,6 +112,32 @@ class Dictionary:
 
 		img = tile_raster_images( np.array( self.matrix.T ), image_shape, tile_shape )
 		return img
+
+class DataTable:
+	def __init__( self, dataTable, batchSize = None ):
+		if isinstance( dataTable, DataTable ):
+			self.all = dataTable.all
+		elif isinstance( dataTable, np.ndarray ) or isinstance( dataTable, np.matrix ):
+			self.all = np.array(dataTable)
+
+		if batchSize is None:
+			self.batchSize = self.all.shape[0]
+
+		self.batch = self.__batch_iterator()
+
+	def __batch_iterator( self ):
+		""" Returns a batch of data """
+		numberOfSamples = self.all.shape[0]
+		indexOfLastSample = numberOfSamples - 1
+		iter = itertools.cycle( xrange(0, numberOfSamples, self.batchSize) )
+		while True:
+			firstIndexOfBatch = iter.next()
+			lastIndexOfBatch = firstIndexOfBatch + self.batchSize - 1
+			if lastIndexOfBatch > indexOfLastSample:
+				overflow = np.array( random.sample( self.all[:firstIndexOfBatch], lastIndexOfBatch - indexOfLastSample ) )
+				yield np.vstack( ( self.all[firstIndexOfBatch:], overflow ) )
+			else:
+				yield self.all[firstIndexOfBatch:lastIndexOfBatch+1]
 
 """ Dictionary Tests """
 def test_Dictionary_coherence():
