@@ -52,12 +52,12 @@ Bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 \section{Introduction}
 
 [************** ADD all references and make all references have single letter first name and then last name (no middle initial) *********]
-\IEEEPARstart{A}{} fundamental problem in data analysis is to compute representations that reveal intrinsic structure. In recent years, a plethora of algorithms (e.g., see \ref{} ***add punchiest recent algo refs***; review of sparse rep. \cite{Zhang2015}) have been developed for uncovering \emph{sparse} structure in datasets $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ by approximately solving the following constrained optimization problem:
+\IEEEPARstart{A}{} fundamental problem in data analysis is to compute representations that reveal intrinsic structure. In recent years, a plethora of algorithms (e.g., see \ref{} ***add punchiest recent algo refs***; review of sparse rep. \cite{Zhang15}) have been developed for uncovering \emph{sparse} structure in datasets $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ by approximately solving the following constrained optimization problem:
 \begin{align}\label{DictionaryLearning}
-\min_{B, \, |\mathbf{b}_i |_0 \leq k} \  \sum_{i=1}^N |\mathbf{y}_i - B\mathbf{b}_i|_2,
+\min_{B, \mathbf{b}_i} \  \sum_{i=1}^N |\mathbf{y}_i - B\mathbf{b}_i|_2 \indent \text{subject to } |\mathbf{b}_i|_0 \leq k
 \end{align}
 %
-for unknown $B \in \mathbb{R}^{n \times m}$ and $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ having sparsity $k \ll m$. Known in the literature as ``sparse dictionary learning", ``sparse coding", or ``sparse matrix factorization", this approach implements parsimony by approximating each $\mathbf{y}_i$ as a linear combination of at most $k$ columns of some matrix $B$.  Typically, the optimization (\ref{DictionaryLearning}) is relaxed so that the $\ell_1$-norm $|\cdot|_1$ replaces the $\ell_0$-norm $|\cdot|_0$ (the number of nonzero entries in a vector), as the latter typically determines an NP-hard problem \cite{Tillmann2015} whereas the former allows for tractable convex programs [***Do we actually know this?  what's the latest ref on how efficient SCA is with $\ell_1$-norm***] that generically have the same solutions.
+for unknown $B \in \mathbb{R}^{n \times m}$ and $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ having at most $k \ll m$ nonzero entries (we refer to such vectors as being \emph{$k$-sparse}). Known in the literature as ``sparse dictionary learning", ``sparse coding", or ``sparse matrix factorization", this approach implements parsimony by approximating each $\mathbf{y}_i$ as a linear combination of at most $k$ columns of some matrix $B$.  Typically, the optimization (\ref{DictionaryLearning}) is relaxed so that the $\ell_1$-norm $|\cdot|_1$ replaces the $\ell_0$-norm $|\cdot|_0$ (the number of nonzero entries in a vector), as the latter typically determines an NP-hard problem \cite{Tillmann15} whereas the former allows for tractable convex programs [***Do we actually know this?  what's the latest ref on how efficient SCA is with $\ell_1$-norm***] that generically have the same solutions.
 
 Here, we study when solutions to \eqref{DictionaryLearning} are unique given a dataset $Y$, or at least approximately so. This is of fundamental concern for \emph{sparse component analysis} (SCA) \cite{Georgiev05}, which assumes a linear model of data:
 \begin{align}\label{LinearModel}
@@ -65,12 +65,10 @@ Here, we study when solutions to \eqref{DictionaryLearning} are unique given a d
 \end{align}
 with the vector $\mathbf{n}_i \in \mathbb{R}^n$ accounting for both noise in the measurements and the degree to which the model deviates from reality (e.g., the true $\mathbf{a}_i$ may only be approximately sparse). The goal in SCA is to estimate the sparse \emph{sources} $\mathbf{a}_i$ from the observed \emph{mixtures} $\mathbf{y}_i$ by approximately solving objective \eqref{DictionaryLearning}.
 
-Even when all $\mathbf{n}_i = 0$, however, there many solutions to \eqref{DictionaryLearning}. Let $Y, X_1, X_2$ be the matrices with columns $\mathbf{y}_i, \mathbf{a}_i, \mathbf{b}_i$, respectively, and suppose $X_1, X_2$ have $k$-sparse columns (i.e., at most $k$ nonzero entries).  If $Y = AX_1$, then also $Y = (AD^{-1}P^{-1})(PDX_1)$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The ``uniqueness" of any solution to \eqref{DictionaryLearning} should therefore only be considered up to this inherent ambiguity, often called the \emph{ambiguity transform group} associated to this particular form of bilinear inverse problem. In our case, this group consists of these products $PD$.  
+Even when all $\mathbf{n}_i = 0$, however, there many solutions to \eqref{DictionaryLearning}. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, so that $Y = AX$ for $X$ with $k$-sparse columns. Then by letting $\tilde A = AD^{-1}P^{-1}$ and $\tilde X = PDX$ for any permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$, we also have $Y =\tilde A \tilde X$ for $\tilde X$ with $k$-sparse columns. The ``uniqueness" of any solution to \eqref{DictionaryLearning} should therefore only be considered up to transformation by matrices of the form $PD$, the set of which form the \emph{ambiguity transform group} \cite{?} associated to this particular form of bilinear inverse problem. 
 
-Whether any other solution $Y = BX_2$ must necessarily be a realization of this form ($X_2 = PDX_1$ and $A = BPD$) was the subject of the theoretical works \cite{Georgiev05, Aharon06, HS15}.  
-Realistically, however, empirical data is contaminated with noise, and our models are rarely exact. 
-Therefore, we focus on the following robust formulation of SCA.
-Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis in $\mathbb{R}^m$.
+Whether every solution $Y = \tilde A \tilde X$ must \emph{necessarily} be of the form $\tilde X = PDX$ and $\tilde A = AD^{-1}P^{-1}$ was the subject of the theoretical works \cite{Georgiev05, Aharon06, Hillar15}.  
+Realistically, however, we have $\mathbf{n}_i > 0$ for empirical data, which motivates the following definition. Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis in $\mathbb{R}^m$. [***hmm...need to motivate definition of robst identifiabiltiy for y = Aa better in terms of how it solves the SCA problem. this is addressed after def 1 but should be done before****]
 
 \begin{definition}\label{Uniqueness}
 A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ if for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} if for every $\delta \geq 0$, there exists some nonnegative $\varepsilon = \varepsilon(\delta)$ ($> 0$ when $\delta > 0$) such that if $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfy:
@@ -84,16 +82,14 @@ then there necessarily exist a permutation matrix $P \in \mathbb{R}^{m \times m}
 [**** Why not have $|\mathbf{b}_i - PD\mathbf{a}_i|_1$??  that would make more sense since the $\ell_1$ penalty is on the codes.  ***]
 In short, a $k$-sparse representation is robustly identifiable when the only other matrices and $k$-sparse vectors that can well-approximate it are necessarily close to some permutation and scaling of the original dictionary and codes.
 
-[**** Chaz to make this fit in: ****]
-Fix a matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Set $\delta > 0$ and suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset satisfying $|\mathbf{y}_i - A\mathbf{a}_i|_2 < \varepsilon/2$ for $i = 1, \ldots, N$. By the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $|\mathbf{y}_i - B\mathbf{b}_i| < \varepsilon/2$ for $i = 1, \ldots, N$ is such that $|A\mathbf{a}_i - B\mathbf{b}_i| < \varepsilon$ for $i = 1, \ldots, N$. Hence every such alternate $B$ and corresponding $\mathbf{b}_i$ must also satisfy \eqref{def1} and \eqref{def1_}. In such cases we say the dataset $Y$ has a "unique" $k$-sparse representation in $\mathbb{R}^m$. We now state our central problem.
-[********************]
+To see how this pertains to the SCA problem in \eqref{LinearModel}, fix a matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Set $\delta > 0$ and suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset satisfying $|\mathbf{y}_i - A\mathbf{a}_i|_2 < \varepsilon/2$ for $i = 1, \ldots, N$. By the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $|\mathbf{y}_i - B\mathbf{b}_i| < \varepsilon/2$ for $i = 1, \ldots, N$ is such that $|A\mathbf{a}_i - B\mathbf{b}_i| < \varepsilon$ for $i = 1, \ldots, N$. Hence every such alternate $B$ and corresponding $\mathbf{b}_i$ must also satisfy \eqref{def1} and \eqref{def1_}. In such cases we say the dataset $Y$ has a "unique" $k$-sparse representation in $\mathbb{R}^m$. We now state our central problem.
 
 \begin{problem}\label{DUTproblem}
 Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with bounded noise $\mathbf{n}_i \in \mathbb{R}^n$. When does $Y$ have a unique $k$-sparse representation in $\mathbb{R}^m$?
 \end{problem}
 
-Conditions for the identifiability of the parameters $A$ and $\mathbf{a}_i$ of the SCA model were first provided for the noiseless case ($\delta,\varepsilon = 0$) in \cite{Georgiev05} and \cite{Aharon06}, with the most general conditions recently provided by \cite{HS15}.
-We refine the arguments in \cite{HS15} to account for noisy measurements, and we reduce their theoretically required number of samples (for the deterministic case) from $N=k{m \choose k}^2$ to $N = mk{m \choose k}$.  Our robust identifiability conditions describe when the true sources $\mathbf{a}_i$ and mixing matrix $A$ can be ``uniquely" determined in the sense of Definition \ref{Uniqueness}. We also provide guarantees for the case when only an upper bound on the dimensionality of the sources is known. Our conditions are derived from the underlying geometry of the dictionary learning problem, hence apply regardless of algorithm used to solve \eqref{DictionaryLearning}. 
+Conditions for the identifiability of the parameters $A$ and $\mathbf{a}_i$ of the SCA model were first provided for the noiseless case ($\delta,\varepsilon = 0$) in \cite{Georgiev05} and \cite{Aharon06}, with the most general conditions recently provided by \cite{Hillar15}.
+We refine the arguments in \cite{Hillar15} to account for noisy measurements, and we reduce their theoretically required number of samples (for the deterministic case) from $N=k{m \choose k}^2$ to $N = mk{m \choose k}$.  Our robust identifiability conditions describe when the true sources $\mathbf{a}_i$ and mixing matrix $A$ can be ``uniquely" determined in the sense of the comments following Definition \ref{Uniqueness}. We also provide guarantees for the case when only an upper bound on the dimensionality of the sources is known. Our conditions are derived from the underlying geometry of the dictionary learning problem, hence apply regardless of algorithm used to solve \eqref{DictionaryLearning}. 
 
 We introduce the following necessary constraint on the matrix $A$ by considering the simpler problem of identifying sources $\mathbf{a}_i$ from the noiseless mixture $\mathbf{y}_i = A\mathbf{a}_i$ with $A$ already known. Evidently, $A$ must satisfy:
 \begin{align}\label{SparkCondition}
@@ -201,7 +197,7 @@ Let $V, W$ be subspaces of $\mathbb{R}^m$ and let $d(v,W) := \inf\{|v-w|_2: w \i
 \end{equation}
 \end{definition}
 
-We are now state our main result from combinatorial matrix theory, generalizing Lemma 1 in \cite{HS15} to the noisy case.
+We are now state our main result from combinatorial matrix theory, generalizing Lemma 1 in \cite{Hillar15} to the noisy case.
 
 %===========          MAIN LEMMA (K > 1)             =================
 
@@ -364,14 +360,14 @@ We again defer the proof of this lemma to Appendix \ref{mleqmAppendix}.
 
 \section{Probabilistic Identifiability}\label{PUT}
 
-We next give precise statements of our probabilistic versions of Theorem 1 along with brief proofs relying largely to the methods used in \cite{HS11}. Our statements are based upon the following elementary construction of \emph{random sparse vectors} (although many ensembles will suffice, e.g. \cite{Biarunik}).
+We next give precise statements of our probabilistic versions of Theorem 1 along with brief proofs relying largely to the methods used in \cite{Hillar15}. Our statements are based upon the following elementary construction of \emph{random sparse vectors} (although many ensembles will suffice, e.g. \cite{Biarunik}).
 
 \begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
 Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all ${m \choose k}$ of them and then a random draw.
 \end{definition}
 
-Our proofs rely on the following lemma, the proof of which can be found in \cite{HS11} (Lemma 3):
-\begin{lemma}\label{HS11lemma2}
+Our proofs rely on the following lemma, the proof of which can be found in \cite{Hillar15} (Lemma 3):
+\begin{lemma}\label{Hillar15lemma2}
 Fix positive integers $n, m$ and $k < m$ and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $M\mathbf{a}_1, \ldots, M\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors.
 \end{lemma}
 
@@ -380,7 +376,7 @@ Fix positive integers $n, m$ and $k < m$ and a generation matrix $A \in \mathbb{
 \end{theorem}
 
 \begin{proof}
-By Lemma \ref{HS11lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. Apply Theorem \ref{DeterministicUniquenessTheorem}.
+By Lemma \ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. Apply Theorem \ref{DeterministicUniquenessTheorem}.
 \end{proof} 
 
 \begin{corollary}
@@ -393,7 +389,7 @@ Fix positive integers $k < m$ and $n$ . If $N = mk{m \choose k}$ randomly drawn 
 \end{theorem}
 
 \begin{proof}
-By Lemma \ref{HS11lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. By the same arguments made in the proof of Theorem 3 in \cite{HS11}, the set of matrices $A$ that fail to satisfy \eqref{SparkCondition} form an algebraic set of measure zero. Apply Theorem \ref{DeterministicUniquenessTheorem}.
+By Lemma \ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. By the same arguments made in the proof of Theorem 3 in \cite{Hillar15}, the set of matrices $A$ that fail to satisfy \eqref{SparkCondition} form an algebraic set of measure zero. Apply Theorem \ref{DeterministicUniquenessTheorem}.
 \end{proof}
 
 \begin{corollary}
@@ -448,7 +444,7 @@ y \in \text{Span}\{M_{\cap \mathcal{T}}\}  \Longleftrightarrow y \in \bigcap_{S 
 \end{align}
 \end{lemma}
 
-\begin{proof}The forward direction is trivial; we prove the reverse direction. Enumerate $\mathcal{T} = (S_1, \ldots, S_{|\mathcal{T}|})$ and let $\mathbf{y} \in \text{Span}\{M_{S_1}\} \cap \text{Span}\{M_{S_2}\}$. Then there exists some $\mathbf{x}_1$ with support contained in $S_1$ such that $\mathbf{y} = M\mathbf{x}_1$ and some $\mathbf{x}_2$ with support contained in $S_2$ such that $\mathbf{y} = M\mathbf{x}_2$. We therefore have $M(\mathbf{x}_1 - \mathbf{x}_2) = 0$, which implies that $\mathbf{x}_1 = \mathbf{x}_2$ by the spark condition. Hence $\mathbf{x}_1$ and $\mathbf{x}_2$ have the same support contained in both $S_1$ and $S_2$, i.e. $\mathbf{y} \in \text{Span}\{M_{S_1 \cap S_2}\}$. This carries over by induction to the entire sequences of supports in $\mathcal{T}$. 
+\begin{proof}The forward direction is trivial; we prove the reverse direction. Enumerate $\mathcal{T} = (S_1, \ldots, S_{|\mathcal{T}|})$ and let $\mathbf{y} \in \text{Span}\{M_{S_1}\} \cap \text{Span}\{M_{S_2}\}$. Then there exists some $\mathbf{x}_1$ with support contained in $S_1$ such that $\mathbf{y} = M\mathbf{x}_1$ and some $\mathbf{x}_2$ with support contained in $S_2$ such that $\mathbf{y} = M\mathbf{x}_2$. We therefore have $M(\mathbf{x}_1 - \mathbf{x}_2) = 0$, which implies that $\mathbf{x}_1 = \mathbf{x}_2$ by the spark condition. Hence $\mathbf{x}_1$ and $\mathbf{x}_2$ have the same support contained in both $S_1$ and $S_2$, i.e. $\mathbf{y} \in \text{Span}\{M_{S_1 \cap S_2}\}$. This carries over by induction to the entire sequence of supports in $\mathcal{T}$. 
 \end{proof}
 
 %===== DISTANCE TO INTERSECTION LEMMA =====
@@ -751,13 +747,13 @@ Otherwise, blah blah blah (figure this out). Trying to introduce the "spread" of
 
 Definition \ref{RandomDraw}: can I bound the probability of drawing from one of the $m!$ special support sets without explicitly making that restriction?
 
-We first generalize Lemma 3 in \cite{HS11} to the noisy case:
+We first generalize Lemma 3 in \cite{Hillar15} to the noisy case:
 
 \begin{lemma}
 Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{RIP}. With probability one, if $(k+1)$ $k$-sparse vectors $\mathbf{a}_i \in \mathbb{R}^{n \times m}$ are such that $d(A\mathbf{a}_i,V) \leq (??)$ for some $k$-dimensional subspace $V \subset \mathbb{R}^m$ then all of the $(k+1)$ vectors $\mathbf{a}_i$ have the same supports.
 \end{lemma}
 \begin{proof}
-We need only show that the $k+1$ vectors $A\mathbf{a}_i$ are linearly dependent; the rest follows by Lemma 3 from \cite{HS11}. Let these $k+1$ vectors $\mathbf{a}_i$ be indexed by $J$ and let $W = \text{Span}\{A\mathbf{a}_{i \in J}\}$. Then for all $w \in W$ we can write $w = \sum_{i \in J} c_iA\mathbf{a}_i$ for some set of $c_i \in \mathbb{R}$. Letting $v = \sum_{i \in J} c_iv_i$, it follows that
+We need only show that the $k+1$ vectors $A\mathbf{a}_i$ are linearly dependent; the rest follows by Lemma 3 from \cite{Hillar15}. Let these $k+1$ vectors $\mathbf{a}_i$ be indexed by $J$ and let $W = \text{Span}\{A\mathbf{a}_{i \in J}\}$. Then for all $w \in W$ we can write $w = \sum_{i \in J} c_iA\mathbf{a}_i$ for some set of $c_i \in \mathbb{R}$. Letting $v = \sum_{i \in J} c_iv_i$, it follows that
 \[ |w - v| = |\sum_{i \in J} c_i A\mathbf{a}_i - \sum_{i \in J} c_i v_i | 
 \leq \sum_{i \in J} |c_i| |A\mathbf{a}_i - v_i| \leq 2\varepsilon \sum_{i \in J}|c_i| \]
 
@@ -765,7 +761,7 @@ Need RHS less thatn $|w|$ to prove that $\dim(W) \leq \dim(V) = k$\ldots
 \end{proof}
 
 \begin{proof}[Proof of Theorem \ref{Theorem2} ($\varepsilon = 0$)]
-Consider any alternate factorization $\mathbf{y}_i = B\mathbf{b}_i$ for $Y$. Given a support set $S \in {[m]\choose k}$, let $J(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that those $\mathbf{y}$ indexed by $J(S)$ span at most a $k$-dimensional space. By Lemma 3 in \cite{HS11}, either $|J(S)| \leq k$ or with probability one all $\mathbf{a}_j$ with $j \in J(S)$ have the same support $S'$. Since there are only $(k+1)$ vectors $\mathbf{a}_i$ with a given support, the latter case actually implies (with probability one) that $|J(S)| = k+1$. If $N=(k+1){m \choose k}$, though, then with probability one we would reach a contradiction if $|J(S)| \leq k$ for any $S \in {[m] \choose k}$; hence with probability one we have $|J(S)| = k+1$. Can we reach the same conclusion when $N = m(k+1)$? (Perhaps by creating 'virtual data' spanning all supports by those data points with supports in $\mathcal{T}$)?
+Consider any alternate factorization $\mathbf{y}_i = B\mathbf{b}_i$ for $Y$. Given a support set $S \in {[m]\choose k}$, let $J(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that those $\mathbf{y}$ indexed by $J(S)$ span at most a $k$-dimensional space. By Lemma 3 in \cite{Hillar15}, either $|J(S)| \leq k$ or with probability one all $\mathbf{a}_j$ with $j \in J(S)$ have the same support $S'$. Since there are only $(k+1)$ vectors $\mathbf{a}_i$ with a given support, the latter case actually implies (with probability one) that $|J(S)| = k+1$. If $N=(k+1){m \choose k}$, though, then with probability one we would reach a contradiction if $|J(S)| \leq k$ for any $S \in {[m] \choose k}$; hence with probability one we have $|J(S)| = k+1$. Can we reach the same conclusion when $N = m(k+1)$? (Perhaps by creating 'virtual data' spanning all supports by those data points with supports in $\mathcal{T}$)?
 
 \end{proof}
 
