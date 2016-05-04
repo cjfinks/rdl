@@ -101,11 +101,15 @@ Fix positive integers $n, m$, $k < m$, and a cyclic order on $[m]$. If $k$-spars
 
 Specifically, there exist positive $C$ and $\varepsilon_0$ such that the following holds. If $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for $i = 1, \ldots, N$, then provided $\varepsilon < \varepsilon_0$, we have for all $i = 1, \ldots, N$, $j = 1, \ldots, m$  that
 \begin{align}\label{Cstable}
-|\mathbf{b}_i - PD\mathbf{a}_i|_2 &\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( \frac{C^{-1}+|\mathbf{a}_i|_1}{ \sqrt{2k} } \right) \ \ \text{ and }  \ \  |(A-BPD)\mathbf{e}_j|_2 \leq C\varepsilon.%, \ \ \text{ for } i = 1, \ldots, N; \, j = 1, \ldots, m. 
+|(A-BPD)\mathbf{e}_i|_2 \leq C\varepsilon \ \ \text{ for } i = 1, \ldots, m
+\end{align}
+and 
+\begin{align}\label{b-PDa}
+|\mathbf{b}_i - PD\mathbf{a}_i|_2 &\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( \frac{C^{-1}+|\mathbf{a}_i|_1}{ \sqrt{2k} } \right) \ \ \text{for } j = 1, \ldots, N.  
 \end{align}
 \end{theorem}
 
-[*** DISCUSS consequences in terms of the ``same error in terms of the noise when things are small enough"; see abstract ****]
+[*** @chris from chaz: Having the two equations above separately numbered is necessary since they are referred to individually later. DISCUSS consequences in terms of the ``same error in terms of the noise when things are small enough"; see abstract @chris from chaz: huh? what do you mean? ****]
 
 \begin{corollary}\label{DeterministicUniquenessCorollary}
 Given positive integers $n, m$, and $k < m$, there exist $N =  mk{m \choose k}$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
@@ -127,10 +131,11 @@ where $C$ is a positive constant. In contrast, the goal in SCA is to recover bot
 
 [********** Discuss that it would be awesome to find the best dependence of $\varepsilon$ on $\delta$ and best constants and number of samples for this problem **********]
 
-The organization of the rest of this paper is as follows. In Section \ref{DUT}, we state our main tool from combinatorial matrix theory (Lemma \ref{MainLemma}) and then derive from it Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{PUT}, we state and prove probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{mleqm}, we describe how to extend all of these results to the case where we have only an upper bound on the dimensionality of the sparse sources. The final section is a discussion, and an appendix contains the proof of Lemma \ref{MainLemma}.
+The organization of the rest of this paper is as follows. In Section \ref{Preliminaries} we list additional definitions and key lemmas, including our main tool from combinatorial matrix theory (Lemma \ref{MainLemma}). In Section \ref{DUT} we derive Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{PUT}, we state and prove probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{mleqm}, we describe how to extend all of these results to the case where we have only an upper bound on the dimensionality of the sparse sources. The final section is a discussion, and an appendix contains the proof of Lemma \ref{MainLemma}.
+[ **** Make sure to change this as the structure of the paper evolves ****]
 
 
-\section{Preliminaries}
+\section{Preliminaries}\label{Preliminaries}
  First, we introduce some notation. We denote by ${[m] \choose k}$ the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span:
 %
 \[ \text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\} = \left\{ \sum_{i=1}^\ell t_i\mathbf{v}_i : t_1, \ldots, t_\ell \in \mathbb{R}\right\}. \]
@@ -188,7 +193,7 @@ If $A$ has unit norm columns (as is standard in applications) and $0 \leq \varep
 C = \frac{\ell_{2k}(A)}{ \varepsilon_0 \sqrt{2k}}.
 \end{align}
 
-\begin{definition}
+\begin{definition}\label{GapMetricDef}
 Let $V, W$ be subspaces of $\mathbb{R}^m$ and let $d(v,W) := \inf\{|v-w|_2: w \in W\} = |v - \Pi_W v|_2$ where $\Pi_W$ is the orthogonal projection operator onto subspace $W$. The \textbf{gap metric} $\Theta$ on subspaces of $\mathbb{R}^{m}$ is \cite{TheoryOfLinearOperatorsPage69}:
 \begin{equation}\label{SubspaceMetric}
 \Theta(V,W) := \max\left( \sup_{\substack{v \in V \\ |v| = 1}} d(v,W), \sup_{\substack{w \in W \\ |w| = 1}} d(w,V) \right).
@@ -207,15 +212,12 @@ Fix positive integers $n, m$, and $k < m$ and let $T$ be the set of intervals of
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that
 \begin{align}
-\|A - BPD\|_2 \leq \Delta.
+\|(A - BPD)\mathbf{e}_i\|_2 \leq \Delta \indent \text{for all } \i \in [m].
 \end{align}
 \end{lemma}
-[***** This here is now a matrix norm\ldots.is this the correct one?  $\|\cdot \|_2$ for a matrix would be the spectral norm ****]
-We defer the proof of this lemma to Appendix \ref{appendixA}. 
+We defer the proof of this lemma to Appendix \ref{appendixA}. In words, it says that the vectors forming the columns of $A$ are nearly identical to those forming the columns of $B$ provided that for a special set of $m$ subspaces, each spanned by $k$ columns of $A$, there exist $k$ columns of $B$ which span a nearby subspace with respect to the gap metric.
 
-[**** Would be nice to say in words what this Main Lemma is doing ****]
-
-In our proof of robust idenifiability we will make use of the following useful facts about $d$. The first, 
+In our proof of robust idenifiability we will make use of the following useful facts about $d$ (see Definition \ref{GapMetricDef}). The first, 
 \begin{equation}\label{SubspaceMetricSameDim}
 \dim(W) = \dim(V) \implies \sup_{\substack{v \in V \\ |v| = 1}}  d(v,W)  = \sup_{\substack{w \in W \\ |w| = 1}} d(w,V),
 \end{equation}
