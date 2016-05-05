@@ -66,7 +66,7 @@ with $k$-sparse $\mathbf{x}_i$ and where the vector $\mathbf{n}_i$ accounts for 
 
 Even when all $\mathbf{n}_i = 0$, however, there are many solutions to the SCA problem. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{x}_i$, respectively so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = B \tilde X$ for $\tilde X$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $\tilde X = PDX$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The ``uniqueness" of any solution to \eqref{DictionaryLearning} can therefore only be defined up to a transformation by matrices of the form $PD$, which together form an \emph{ambiguity transform group} \cite{?} associated to this particular form of bilinear inverse problem. The group action defines an equivalence class of solutions having the same value of the objective function in \eqref{DictionaryLearning}. 
 
-The question of when every solution $Y = B \tilde X$ must \emph{necessarily} be part of this equivalence class, i.e. of the form $\tilde X = PDX$ and $B = AD^{-1}P^{-1}$ for some $P$ and $D$, determines whether $A$ and $X$ are \emph{identifiable} from $Y$ up to this inherent ambiguity. This was the subject of the theoretical works \cite{Georgiev05, Aharon06} and most recently \cite{Hillar15}. We provide the following \emph{robust} extension to the notion of identifiability in dictionary learning. Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis in $\mathbb{R}^m$. 
+The question of when every solution $Y = B \tilde X$ must \emph{necessarily} be part of this equivalence class, i.e. of the form $\tilde X = PDX$ and $B = AD^{-1}P^{-1}$ for some $P$ and $D$, determines whether $A$ and $X$ are \emph{identifiable} from $Y$ up to this inherent ambiguity. This was the subject of the theoretical works \cite{Georgiev05, Aharon06} and most recently \cite{HS15}. We provide the following \emph{robust} extension to the notion of identifiability in dictionary learning. Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis in $\mathbb{R}^m$. 
 
 \begin{definition}\label{Uniqueness}
 A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ if for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} if for every $\delta \geq 0$ there exists some nonnegative $\varepsilon = \varepsilon(\delta)$ (with $\varepsilon = 0$ only when $\delta =0$) such that if $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfy:
@@ -87,7 +87,7 @@ Fix now a matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \
 Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with bounded noise $\mathbf{n}_i \in \mathbb{R}^n$. When does $Y$ have a unique $k$-sparse representation in $\mathbb{R}^m$?
 \end{problem}
 
-We refine the arguments in \cite{Hillar15} to provide robust identifiability conditions for when the true sources $\mathbf{a}_i$ and mixing matrix $A$ can be ``uniquely" determined from noisy measurements of the form \eqref{LinearModel}. We also reduce their theoretically required number of samples (for the deterministic case) from $N=k{m \choose k}^2$ to $N = mk{m \choose k}$ and provide guarantees for the case when only an upper bound on the number of columns in $A$ is known. Our conditions apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning} since they are derived from the underlying geometry of the dictionary learning problem. 
+We refine the arguments in \cite{HS15} to provide robust identifiability conditions for when the true sources $\mathbf{a}_i$ and mixing matrix $A$ can be ``uniquely" determined from noisy measurements of the form \eqref{LinearModel}. We also reduce their theoretically required number of samples (for the deterministic case) from $N=k{m \choose k}^2$ to $N = mk{m \choose k}$ and provide guarantees for the case when only an upper bound on the number of columns in $A$ is known. Our conditions apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning} since they are derived from the underlying geometry of the dictionary learning problem. 
 
 Evidently, regardless of noise level, a necessary condition for the unique recovery of the unknown $k$-sparse vectors $\mathbf{a}_i$ from mixtures $\mathbf{y}_i$, even when the measurement matrix $A$ is already known, is that $A$ must be injective on the set of $k$-sparse vectors. That is,
 \begin{align}\label{SparkCondition}
@@ -175,7 +175,7 @@ Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$. Setting $\phi_1(A) := 1$, we de
 \end{align}
 where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of closed subspaces of $\mathbb{R}^m$, 
 \begin{align}
-\xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_p} \left(1 - \prod_{i=1}^{p-1} \sin^2\left[ \theta_F \left(V_{\sigma(i)}, \bigcap_{j=i+1}^p V_{\sigma(j)}\right) \right]  \right)^{1/2},
+\xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 - \prod_{i=1}^{k-1} \sin^2\left[ \theta_F \left(V_{\sigma(i)}, \bigcap_{j=i+1}^k V_{\sigma(j)}\right) \right]  \right)^{1/2},
 \end{align}
 %
 and $\frak{S}_k$ is the set of permutations on $k$ elements. 
@@ -213,7 +213,7 @@ Fix positive integers $n, m$, and $k < m$ and let $T$ be the set of intervals of
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that
 \begin{align}
-\|(A - BPD)\mathbf{e}_i\|_2 \leq \Delta \indent \text{for all } \i \in [m].
+\|(A - BPD)\mathbf{e}_i\|_2 \leq \Delta, \indent \text{for all } i \in [m].
 \end{align}
 \end{lemma}
 We defer the proof of this lemma to Appendix \ref{appendixA}. In words, it says that the vectors forming the columns of $A$ are nearly identical to those forming the columns of $B$ provided that for a special set of $m$ subspaces, each spanned by $k$ columns of $A$, there exist $k$ columns of $B$ which span a nearby subspace with respect to the gap metric.
@@ -227,7 +227,7 @@ is proven in \cite{Morris10} (Lemma 3.3). The second is:
 \begin{lemma}\label{MinDimLemma}
 Let $V, W$ be subspaces of $\mathbb{R}^{m}$. Then
 \begin{equation}\label{MinDim}
-d(v,W) < |v|_2 \indent \forall v \in V \implies \dim(V) \leq \dim(W).
+d(v,W) < |v|_2, \indent \forall v \in V \implies \dim(V) \leq \dim(W).
 \end{equation}
 \end{lemma}
 
@@ -647,6 +647,7 @@ We would like to thank Fritz Sommer for turning our attention to the dictionary 
 \end{IEEEbiographynophoto}
 
 \begin{IEEEbiographynophoto}{Christopher J. Hillar}
+completed a B.S. in Mathematics and a B.S. in Computer Science at Yale University.  Supported by an NSF Graduate Research Fellowship, he received his Ph.D. in Mathematics from the University of California (UC), Berkeley in 2005. From 2005-2008, he was a Visiting Assistant Professor and NSF Postdoctoral Fellow at Texas A\&M University. From 2008-2010, he was an NSF Mathematical Sciences Research Institutes Postdoctoral Fellow at the Mathematical Sciences Research Institute (MSRI) in Berkeley, CA.  In 2010, he joined the Redwood Center for Theoretical Neuroscience at UC Berkeley, and in 2011, he  became a research specialist in the Tecott mouse behavioral neuroscience lab at UC San Francisco.
 \end{IEEEbiographynophoto}
 
 %===================================
