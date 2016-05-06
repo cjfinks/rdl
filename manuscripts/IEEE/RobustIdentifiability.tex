@@ -56,7 +56,7 @@ Bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 \arg \min_{\Psi, \mathbf{x}_i} \  \sum_{i=1}^N |\mathbf{y}_i - \Psi\mathbf{x}_i|_2 \indent \text{subject to } |\mathbf{x}_i|_0 \leq k
 \end{align}
 %
-for unknown dictionary $\Psi \in \mathbb{R}^{n \times m}$ and code vectors $\mathbf{x}_1, \ldots, \mathbf{x}_N \in \mathbb{R}^m$ having at most $k \ll n$ nonzero entries (we refer to such vectors as being \emph{$k$-sparse}) and where $m \ll N$ [***list refs***]. Since \eqref{DictionaryLearning} determines a NP-hard problem \cite{Tillman15}, these algorithms typically implement strategies that lead to an approximate solution or an exact solution in some restricted area of the domain, e.g. by replacing the $\ell_0$ pseudo-norm $|\cdot|_0$ (the number of nonzero entries in a vector) with the $\ell_1$-norm $|\cdot|$. See \cite{Zhang} for a comprehensive review of various such strategies. 
+for unknown dictionary $\Psi \in \mathbb{R}^{n \times m}$ and code vectors $\mathbf{x}_1, \ldots, \mathbf{x}_N \in \mathbb{R}^m$ having at most $k \ll m$ nonzero entries (we refer to such vectors as being \emph{$k$-sparse}) and where $m \ll N$ [***list refs***]. Since \eqref{DictionaryLearning} determines a NP-hard problem \cite{Tillman15}, these algorithms typically implement strategies that lead to an approximate solution or an exact solution in some restricted area of the domain, e.g. by replacing the $\ell_0$ pseudo-norm $|\cdot|_0$ (the number of nonzero entries in a vector) with the $\ell_1$-norm $|\cdot|$. See \cite{Zhang} for a comprehensive review of various such strategies. 
 
 Here, we study when solutions to \eqref{DictionaryLearning} are unique, or at least approximately so, given a dataset $Y$. This is of fundamental concern when performing \emph{sparse component analysis} (SCA) \cite{Georgiev05}, wherein one assumes a linear model of data:
 \begin{align}\label{LinearModel}
@@ -64,12 +64,12 @@ Here, we study when solutions to \eqref{DictionaryLearning} are unique, or at le
 \end{align}
 with $k$-sparse $\mathbf{x}_i$ and where the vector $\mathbf{n}_i$ accounts for both noise in the measurements and the degree to which the model deviates from reality (e.g., the true $\mathbf{a}_i$ may only be approximately sparse). The goal of SCA is to estimate the sparse \emph{sources} $\mathbf{x}_i$ from the observed \emph{mixtures} $\mathbf{y}_i$ by approximately solving objective \eqref{DictionaryLearning}.
 
-Even when all $\mathbf{n}_i = 0$, however, there are many solutions to the SCA problem. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{x}_i$, respectively so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = B \tilde X$ for $\tilde X$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $\tilde X = PDX$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The ``uniqueness" of any solution to \eqref{DictionaryLearning} can therefore only be defined up to a transformation by matrices of the form $PD$, which together form an \emph{ambiguity transform group} \cite{?} associated to this particular form of bilinear inverse problem. The group action defines an equivalence class of solutions having the same value of the objective function in \eqref{DictionaryLearning}. 
+Even when all $\mathbf{n}_i = 0$, however, there are many solutions to the SCA problem. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{x}_i$, respectively so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = B \tilde X$ for $\tilde X$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $\tilde X = PDX$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The ``uniqueness" of any solution to \eqref{DictionaryLearning} can therefore only be defined up to a transformation by matrices of the form $PD$, which together form an \emph{ambiguity transform group} \cite{?} associated to this particular bilinear inverse problem. The group action defines an equivalence class of solutions having the same value of the objective function in \eqref{DictionaryLearning}. 
 
-The question of when every solution $Y = B \tilde X$ must \emph{necessarily} be part of this equivalence class, i.e. of the form $\tilde X = PDX$ and $B = AD^{-1}P^{-1}$ for some $P$ and $D$, determines whether $A$ and $X$ are \emph{identifiable} from $Y$ up to this inherent ambiguity. This was the subject of the theoretical works \cite{Georgiev05, Aharon06} and most recently \cite{HS15}. We provide the following \emph{robust} extension to the notion of identifiability in dictionary learning. Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis in $\mathbb{R}^m$. 
+The question of when every solution $Y = B \tilde X$ must \emph{necessarily} be part of this equivalence class, i.e. of the form $\tilde X = PDX$ and $B = AD^{-1}P^{-1}$ for some $P$ and $D$, determines whether $A$ and $X$ are \emph{identifiable} from $Y$ up to this inherent ambiguity. This was the subject of the theoretical works \cite{Georgiev05, Aharon06}, and most recently \cite{HS15}. We provide the following \emph{robust} extension to the notion of identifiability in dictionary learning. Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis in $\mathbb{R}^m$. 
 
 \begin{definition}\label{Uniqueness}
-A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ if for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} if for every $\delta \geq 0$ there exists some nonnegative $\varepsilon = \varepsilon(\delta)$ (with $\varepsilon = 0$ only when $\delta =0$) such that if $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfy:
+A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ if for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} if for every $\delta \geq 0$ there exists a nonnegative $\varepsilon = \varepsilon(\delta)$ (with $\varepsilon > 0$ when $\delta > 0$) such that if $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfy:
 \[|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon, \ \ \text{ for } i = 1, \ldots, N,\]
 %
 then there necessarily exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
@@ -110,17 +110,17 @@ and
 \end{align}
 \end{theorem}
 
-[*** @chris from chaz: Having the two equations above separately numbered is necessary since they are referred to individually later. DISCUSS consequences in terms of the ``same error in terms of the noise when things are small enough"; see abstract @chris from chaz: huh? what do you mean? ****]
+An important interpretation of this result is that for small reconstruction error, the original dictionary and sparse codes are determined up to a commensurate error.  (In other words, we may choose $\varepsilon$ on the same order as $\delta$ in Def.~\ref{Uniqueness}.)
 
 \begin{corollary}\label{DeterministicUniquenessCorollary}
-Given positive integers $n, m$, and $k < m$, there exist $N =  m[(k-1){m \choose k}+1]$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
+Given positive integers $n, m$, and $k < m$, there exist $N =  m(k-1){m \choose k}+m$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
 \end{corollary}
 
 Formulae for $\varepsilon_0$ and $C$ in terms of $A$ and the $\mathbf{a}_i$ are provided in \eqref{epsilon0} and \eqref{Cdef}, below. We also produce a family of $\mathbf{a}_i$ with explicit, numerical values for $\varepsilon_0$ and $C$ in Section \ref{DUT} using ``Vandermonde" matrices. [*** we haven't really finished this yet since it depends on A ***]
 
 % Moreover, the generality of the construction allows us to easily extend the theorem to cases where the $A$ and $\mathbf{a}_i$ are randomly generated.
 [************ Check this to make sure these claims are true *******]
-It is important for us to note where this result fits in the field of \emph{theoretical dictionary learning}. While certain algorithms have been shown to have local converge to a global minimum [ref] or global convergence to a local minimum [ref] of the objective function minimized in \eqref{DictionaryLearning}, as yet there exist no algorithms with guaranteed global convergence to the global solution. A key corollary to our theorem is a universal check for when \emph{any} dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning} by determining whether the reconstruction error of the proposed solution is indeed small enough. 
+It is important for us to note where this result fits in the field of theoretical dictionary learning. While certain algorithms have been shown to have local converge to a global minimum [ref] or global convergence to a local minimum [ref] of the objective function minimized in \eqref{DictionaryLearning}, as yet there exist no algorithms with guaranteed global convergence to the global solution. A key corollary to our theorem is a universal check for when \emph{any} dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning} by determining whether the reconstruction error of the proposed solution is indeed small enough. 
 
 [*******  This is not different enough from previous text ***********]
 It is also informative to elaborate on the relationship of our results to the field of compressive sensing (CS). The theory of CS provides conditions under which it is possible to recover data vectors $\mathbf{x}$ with sparse structure after they have been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi$. The structure usually enforced is that $\mathbf{x} = \Psi \mathbf{a}$ for some known dictionary $\Psi$ and $k$-sparse $\mathbf{a} \in \mathbb{R}^m$. As demonstrated previously, a necessary condition for the unique recovery of $\mathbf{a}$ from $\mathbf{y}$ is that the generation matrix $A = \Phi\Psi$ satisfy the spark condition \eqref{SparkCondition}. CS methods yield accurate recovery of $\mathbf{a}$ provided the dimension $n$ of $\mathbf{y}$ satisfies
@@ -137,9 +137,9 @@ The organization of the rest of this paper is as follows. In Section \ref{Prelim
 
 
 \section{Preliminaries}\label{Preliminaries}
- First, we introduce some notation. We denote by ${[m] \choose k}$ the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span:
+ First, we introduce some notation. We denote by ${[m] \choose k}$ the set of subsets of $[m]$ of cardinality $k$. Recall that $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ is the vector space consisting of their $\mathbb{R}$-linear span.
 %
-\[ \text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\} = \left\{ \sum_{i=1}^\ell t_i\mathbf{v}_i : t_1, \ldots, t_\ell \in \mathbb{R}\right\}. \]
+%\[ \text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\} = \left\{ \sum_{i=1}^\ell t_i\mathbf{v}_i : t_1, \ldots, t_\ell \in \mathbb{R}\right\}. \]
 %
 For a subset $S \subseteq [m]$ and matrix $M \in \mathbb{R}^{n \times m}$ with columns $\{M_1,\ldots,M_m\}$ we let $\text{Span}\{M\} := \text{Span}\{M_1, \ldots, M_m\}$ and define $M_S$ to be the matrix with columns $\{M_i: i \in S\}$. The \emph{lower bound} of a matrix $M \in \mathbb{R}^{n \times m}$ \cite{REF} is 
 \begin{align*}
@@ -155,7 +155,7 @@ and we introduce the following shorthand notation:
   \end{cases}
 \]
 [**** This lower bound should be the smallest singular value of $M$ ****]
-Clearly, if $k < k'$ then $\ell_{k}(M) \geq \ell_{k'}(M) > 0$ for any matrix $M$ with full column rank. We also note that if $M$ is a real matrix then it also has bounded (spectral) matrix norm $\|A\|_2 = \max_{|\mathbf{x}|_2 = 1}|M\mathbf{x}|_2$; hence if $M$ is such that $\ell_{2k}(M) > 0$ then $M$ has the \emph{restricted isometry property} \cite{CandesTao05} familiar from work in the field of compressed sensing. We do not refer to the restricted isometry constant in this work since it is defined with respect to a particular scaling [******** Chaz:  Explain or elaborate more on what this means ********] of the columns of the matrix, whereas we often set our matrices (without loss of generality) to have unit norm columns.
+Clearly, if $k < k'$ then $\ell_{k}(M) \geq \ell_{k'}(M) > 0$ for any matrix $M$ with full column rank. We also note that if $M$ is a real matrix then it also has bounded (spectral) matrix norm $\|A\|_2 = \max_{|\mathbf{x}|_2 = 1}|M\mathbf{x}|_2$; hence if $M$ is such that $\ell_{2k}(M) > 0$, then $M$ has the \emph{restricted isometry property} \cite{CandesTao05} familiar from work in the field of compressed sensing. We do not refer to the restricted isometry constant in this work since it is defined with respect to a particular scaling [******** Chaz:  Explain or elaborate more on what this means ********] of the columns of the matrix, whereas we often set our matrices (without loss of generality) to have unit norm columns.
 
 Whenever $A$ satisfies \eqref{SparkCondition}, there is at least one nonzero \textit{principal} (or \textit{canonical} or \textit{Jordan}) angle [********** Shouldn't we say what this is? **************] between all pairs of subspaces spanned by at most $k$ columns of $A$. (If the largest principal angle between any two of these subspaces is zero, then one subspace is a subset of the other [*********  Why???? ********] which violates the spark condition.) The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, can be defined in terms of its cosine as follows:
 
@@ -266,12 +266,14 @@ P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right), \ \ D = \left(
 %
 we see that \eqref{1D} becomes $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for all $i \in [m]$ where $C=1$. One can check that this matches the value for $C$ given by \eqref{Cdef} in this case. 
 
+\begin{remark}
 The following counter-example demonstrates that robust identifiability cannot be guaranteed in general if we let $1 \geq \varepsilon_0 > \varepsilon \geq\frac{\ell_2(A)}{\sqrt{2}}$. Supposing $n=m$, let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$ and consider the alternate dictionary $B = \left( \mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$. In this case $|A\mathbf{e}_i - B\mathbf{e}_i|_2 = 0$ for $2 < i \leq m$ while $|A\mathbf{e}_j - B\mathbf{e}_2|_2 = 1/\sqrt{2} = \ell_2(A)/\sqrt{2}$ for $j = 1, 2$. Hence there exist 1-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_m \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$, whereas there exist no permutation and diagonal matrices $P$ and $D$ such that $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C=1$ for all $i \in [m]$ since $|(A - BPD)P^{-1}\mathbf{e}_2|_2 = 1 > \varepsilon$ for all permutation matrices $P$.
+\end{remark}
 
 % ======== b - PDa =========
 Note that from this result we can, in general, bound $|\mathbf{b}_i - PD\mathbf{a}_i|_2$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0}, and $C$ is defined as in \eqref{Cdef}. Note that for small enough $\varepsilon$ we have for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$:
 \begin{align*}
-|BPD\mathbf{x}|_2 &\geq | |A\mathbf{x}|_2 - |(A-BPD)\mathbf{x}|_2 | \\
+|BPD\mathbf{x}|_2 &\geq | |A\mathbf{x}|_2 - |(A-BPD)\mathbf{x}|_2 |_2 \\
 &\geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon ) |\mathbf{x}|_2.
 \end{align*}
 Hence $\ell_{2k}(B) \geq \ell_{2k}(A) - \sqrt{2k}C\varepsilon > 0$ and it follows that
@@ -287,7 +289,7 @@ which proves the assertion.
 
 % ========== DEFINITIONS FOR MAIN LEMMA (K>1) ================
 
-It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows from $\varepsilon < \varepsilon_0$ more generally for $k > 1$. Unfortunately, the proof for larger $k$ is more challenging since in general it is nontrivial to produce $P$ and $D$ as in \eqref{PandD}. Our main tool for the proof is a result in combinatorial linear algebra, which we state after making a couple more necessary definitions.
+It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows from $\varepsilon < \varepsilon_0$ more generally for $k > 1$. Unfortunately, the proof for larger $k$ is more challenging since in general it is nontrivial to produce $P$ and $D$ as in \eqref{PandD}. Our main tool for the proof is the combinatorial linear algebra Lemma \ref{MainLemma}.
 
 
 %========          PROOF OF THEOREM 1        ============
@@ -324,7 +326,7 @@ $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C = \frac{\ell_{2k}(A)}{\vare
 % DIFFERENT CODING DIMENSIONS
 %===================================
 
-\section{What if we don't know $m$?}\label{mleqm}
+\section{Unknown representation dimension}\label{mleqm}
 
 [***** How necessary is the spark condition on $B$ here??? *******]
 In this section we state a version of Theorem \ref{DeterministicUniquenessTheorem} and Lemma \ref{MainLemma} assuming that $B$ also satisfies the spark condition (in addition to $A$ satisfying the spark condition). With this additional assumption, we can address the issue of recovering $A \in \mathbb{R}^{n \times m}$ and the $\mathbf{a}_i \in \mathbb{R}^m$ when only an upper bound $m'$ on the number $m$ of sparse sources is known.
@@ -338,7 +340,7 @@ Fix positive integers $n, m, m'$, and $k$ with $k < m \leq m'$. Fix $k$-sparse $
 for some $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ then \eqref{Cstable} holds for some partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ (i.e. the columns of $P$ are either zero or a standard basis vector), diagonal matrix $D \in \mathbb{R}^{m' \times m}$ (i.e. $D_{ij} = 0$ whenever $i \neq j$) and $C$ as defined in \eqref{Cdef}. 
 \end{theorem}
 
-The proof of Theorem \ref{DeterministicUniquenessTheorem2} is very similar to the proof of Theorem \ref{DeterministicUniquenessTheorem}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lemma \ref{MainLemma2}, which we state next, by pigeonholing $k{m' \choose k}$ vectors with respect to $[m']$ holes. The assumption that $B$ also satisfy the spark condition allows us to overcome the complication due to $m < m'$ to prove Lemma \ref{MainLemma2}, since the proof of Lemma \ref{NonEmptyLemma} relies on the fact that $m = m'$. 
+The proof of Theorem \ref{DeterministicUniquenessTheorem2} is very similar to the proof of Theorem \ref{DeterministicUniquenessTheorem}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lemma \ref{MainLemma2}, which we state next, by pigeonholing $k{m' \choose k}$ vectors with respect to $[m']$ holes. The assumption that $B$ also satisfies the spark condition allows us to overcome the complication due to $m < m'$ to prove Lemma \ref{MainLemma2}, since the proof of Lemma \ref{NonEmptyLemma} relies on the fact that $m = m'$. 
 
 \begin{lemma}[Main Lemma for $m \leq m'$]\label{MainLemma2}
 Fix positive integers $n, m, m'$, and $k$ where $k < m \leq m'$ and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition}, with $A$ having unit norm columns. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
@@ -386,7 +388,7 @@ Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability
 We now state our third theorem. Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
 
 \begin{theorem}\label{Theorem3}
-Fix positive integers $k < m$ and $n$ . If $N = m[(k-1){m \choose k}+1]$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+Fix positive integers $k < m$ and $n$ . If $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
 \end{theorem}
 
 \begin{proof}
@@ -394,7 +396,7 @@ By Lemma \ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with prob
 \end{proof}
 
 \begin{corollary}
-Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m[(k-1){m \choose k}+1]$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval then, with probability one, almost every matrix $A \in \mathbb{R}^{n \times m}$ gives $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval then, with probability one, almost every matrix $A \in \mathbb{R}^{n \times m}$ gives $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
 \end{corollary}
 
 
@@ -549,7 +551,7 @@ Suppose now that $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_\sigma(i) 
 % APPENDIX: ADAPTED MAIN LEMMA
 %================================
 
-\section{What if we don't know $m$?}\label{mleqmAppendix}
+\section{Unknown $m$}\label{mleqmAppendix}
 
 In this section we prove Lemma \ref{MainLemma2} from Section \ref{mleqm}.
 
@@ -589,8 +591,8 @@ d\left( \mathbf{u}, \text{Span}\{A_{\sigma(i)}\} \right) \leq \Delta \indent \te
 We therefore have by Lemma \ref{MinDimLemma}, setting $V = \text{Span}\{B_{\cap_{i \in J}\pi(S_\sigma(i))}\})$ and $W = \text{Span}\{A_{\sigma(i)}\}$, that $\dim(V) \leq \dim(W)$. The same arguments can be used to prove \eqref{fact12} with the roles of $A$ and $B$ reversed. Hence, $\dim(V) = \dim(W) = 1$ and it follows that $|\cap_{i \in J} \pi(S_\sigma(i))| = 1$ since the columns of $B_{\cap_{i \in J} \pi(S_\sigma(i))}$ are linearly independent by the spark condition. Thus, the association $\sigma(i) \mapsto \cap_{i \in J} \pi(S_\sigma(i))$ defines a map $\pi: [m] \to [m']$ such that $d\left( \mathbf{u}, \text{Span}\{B_{ \pi(S_\sigma(i))}\}\right) \leq \Delta$ for all $i \in [m]$, i.e. for every canonical basis vector $\mathbf{e}_i \in \mathbb{R}^m$, there exists some $c_i \in \mathbb{R}$ such that $|A\mathbf{e}_i - c_iB\mathbf{e}_{\hat \pi(i)}| \leq \Delta$ where $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}}$. This is exactly the supposition in \eqref{yepyep}.
 \end{proof}
 
-\begin{remark} In general, there may exist combinations of fewer supports with intersection $\{i\}$, e.g. if $m \geq 2k-1$ then $S_\sigma(i - (k-1)) \cap S_\sigma(i) = \{\sigma(i)\}$. For brevity, we have considered a construction that is valid for any $k < m$.
-\end{remark}
+%\begin{remark} In general, there may exist combinations of fewer supports with intersection $\{i\}$, e.g. if $m \geq 2k-1$ then $S_\sigma(i - (k-1)) \cap S_\sigma(i) = \{\sigma(i)\}$. For brevity, we have considered a construction that is valid for any $k < m$.
+%\end{remark}
 
 
 %===================================
