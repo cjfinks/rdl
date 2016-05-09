@@ -81,7 +81,7 @@ then there necessarily exist a permutation matrix $P \in \mathbb{R}^{m \times m}
 
 In short, the $k$-sparse representation of a dataset is robustly identifiable when the only other matrices and $k$-sparse vectors that can well-approximate the data are necessarily close to some permutation and scaling of the original dictionary and codes.
 
-Fix now a matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Set $\delta > 0$ and some $\varepsilon_1, \varepsilon_2 > 0$ such that $\varepsilon_1 + \varepsilon_2 \leq \varepsilon$ and suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset satisfying $|\mathbf{y}_i - A\mathbf{a}_i|_2 < \varepsilon_1$ for $i = 1, \ldots, N$. By the triangle inequality, any alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfying $|\mathbf{y}_i - B\mathbf{b}_i| < \varepsilon_2$ for $i = 1, \ldots, N$ is such that $|A\mathbf{a}_i - B\mathbf{b}_i| < \varepsilon$ for $i = 1, \ldots, N$. Hence every such alternate $B$ and corresponding $\mathbf{b}_i$ must also satisfy \eqref{def1}. In such cases we say the dataset $Y$ has a "unique" $k$-sparse representation in $\mathbb{R}^m$. That is, any two dictionaries and corresponding sets of code vectors that sparsely encode the data well enough must necessarily be near some permutation and scaling of one another. We now state the central problem addressed in this paper:
+Fix now a matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Set $\delta > 0$ and suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset satisfying $|\mathbf{y}_i - A\mathbf{a}_i|_2 \leq \varepsilon_1$ for $i = 1, \ldots, N$ for some $\varepsilon_1 \leq \varepsilon$. Suppose that for some alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ we have $|\mathbf{y}_i - B\mathbf{b}_i|_2 < \varepsilon_2$ for $i = 1, \ldots, N$ and $\varepsilon_2 \leq \varepsilon - \varepsilon_1$. By the triangle inequality we have $|A\mathbf{a}_i - B\mathbf{b}_i| \leq \varepsilon$ for $i = 1, \ldots, N$. Hence every such alternate $B$ and corresponding $\mathbf{b}_i$ must also satisfy \eqref{def1}. In such cases we say the dataset $Y$ has a ``unique" $k$-sparse representation in $\mathbb{R}^m$. That is, any dictionary and corresponding set of code vectors that sparsely encode the data well enough must necessarily be near some permutation and scaling of $A$ and the $\mathbf{a}_i$. We now state the central problem addressed in this paper:
 
 \begin{problem}\label{DUTproblem}
 Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with bounded noise $\mathbf{n}_i \in \mathbb{R}^n$. When does $Y$ have a unique $k$-sparse representation in $\mathbb{R}^m$?
@@ -113,7 +113,7 @@ and
 [*** @chris from chaz: Having the two equations above separately numbered is necessary since they are referred to individually later. DISCUSS consequences in terms of the ``same error in terms of the noise when things are small enough"; see abstract @chris from chaz: huh? what do you mean? ****]
 
 \begin{corollary}\label{DeterministicUniquenessCorollary}
-Given positive integers $n, m$, and $k < m$, there exist $N =  m[(k-1){m \choose k}+1]$ $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
+Given positive integers $n, m$, and $k < m$, there exist $N =  m[(k-1){m \choose k}+1]$ vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
 \end{corollary}
 
 Formulae for $\varepsilon_0$ and $C$ in terms of $A$ and the $\mathbf{a}_i$ are provided in \eqref{epsilon0} and \eqref{Cdef}, below. We also produce a family of $\mathbf{a}_i$ with explicit, numerical values for $\varepsilon_0$ and $C$ in Section \ref{DUT} using ``Vandermonde" matrices. [*** we haven't really finished this yet since it depends on A ***]
@@ -255,8 +255,8 @@ Note that if $c_i = 0$ for some $i$ then $|A\mathbf{e}_i| < 1$ (since $\ell_2(A)
 \begin{align*}
 (|c_i| + |c_j|) \varepsilon
 &\geq |c_j||A\mathbf{e}_i - c_iB\mathbf{e}_{\ell}|_2 + |c_i||c_jB\mathbf{e}_{\ell} - A\mathbf{e}_j|_2 \\
-&\geq |c_jAe_i + c_iAe_j|_2 \\
-&\geq \ell_2(A)|c_je_i + c_ie_j|_2
+&\geq |c_jAe_i - c_iAe_j|_2 \\
+&\geq \ell_2(A)|c_je_i - c_ie_j|_2
 \end{align*}
 %
 which is in contradiction with the fact that $|x|_1 \leq \sqrt{2}|x|_2$ for all $x \in \mathbb{R}^2$ and $\varepsilon < \frac{\ell_2(A)}{\sqrt{2}}$. Hence, $\pi$ is injective. Letting $P$ and $D$ denote the following permutation and diagonal matrices, respectively:
@@ -266,7 +266,7 @@ P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right), \ \ D = \left(
 %
 we see that \eqref{1D} becomes $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for all $i \in [m]$ where $C=1$. One can check that this matches the value for $C$ given by \eqref{Cdef} in this case. 
 
-The following counter-example demonstrates that robust identifiability cannot be guaranteed in general if we let $1 \geq \varepsilon_0 > \varepsilon \geq\frac{\ell_2(A)}{\sqrt{2}}$. Supposing $n=m$, let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$ and consider the alternate dictionary $B = \left( \mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$. In this case $|A\mathbf{e}_i - B\mathbf{e}_i|_2 = 0$ for $2 < i \leq m$ while $|A\mathbf{e}_j - B\mathbf{e}_2|_2 = 1/\sqrt{2} = \ell_2(A)/\sqrt{2}$ for $j = 1, 2$. Hence there exist 1-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_m \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$, whereas there exist no permutation and diagonal matrices $P$ and $D$ such that $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C=1$ for all $i \in [m]$ since $|(A - BPD)P^{-1}\mathbf{e}_2|_2 = 1 > \varepsilon$ for all permutation matrices $P$.
+[*** @chaz from chaz: ?? clarify this ***] The following counter-example demonstrates that robust identifiability does not follow from $\varepsilon < \varepsilon_0$ if $\ell_2(A)/\sqrt{2} < \varepsilon_0 \leq 1$. Consider the case when $n=m$ and $A$ is the identity matrix in $\mathbb{R}^{m \times m}$. Then $\ell_2(A) = 1$ (since $\|A\mathbf{x}\|_2 = \|\mathbf{x}\|_2$ for all $\mathbf{x} \in \mathbb{R}^m$). Consider the alternate dictionary $B = \left( \mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$. We have $|A\mathbf{e}_i - B\mathbf{e}_i|_2 = 0$ for $2 < i \leq m$ while $|A\mathbf{e}_i - B\mathbf{e}_2|_2 = 1/\sqrt{2} = \ell_2(A)/\sqrt{2}$ for $i = 1, 2$. Hence there exist 1-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_m \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$, whereas there exist no permutation and diagonal matrices $P$ and $D$ such that $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for any $C>0$ for all $i \in [m]$ since $|(A - BPD)P^{-1}\mathbf{e}_2|_2 = 1 > \varepsilon$ for all permutation matrices $P$.
 
 % ======== b - PDa =========
 Note that from this result we can, in general, bound $|\mathbf{b}_i - PD\mathbf{a}_i|_2$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0}, and $C$ is defined as in \eqref{Cdef}. Note that for small enough $\varepsilon$ we have for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$:
@@ -317,6 +317,30 @@ We now show that \eqref{Cstable} and \eqref{b-PDa} both follow if $\varepsilon <
 
 Let $\Delta =  \frac{\varepsilon \ell_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$ and note that from our upper bound on $\varepsilon$ we have $\Delta < \frac{\ell_2(A)}{\sqrt{2}}$. Plugging $\Delta$ into \eqref{yeyeye} and then substituting for $\varepsilon_0$, we see that \eqref{GapUpperBound} is satisfied. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in \{1, \ldots, m\}$,
 $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C = \frac{\ell_{2k}(A)}{\varepsilon_0\sqrt{2k}}$. It follows by the arguments at the beginning of this section that \eqref{b-PDa} holds as well.
+\end{proof}
+
+
+\begin{proof}[Proof of Lemma \ref{MainLemma} (Main Lemma)]
+We assume $k \geq 2$ since the case $k = 1$ was proven at the beginning of Section \ref{DUT}. Note that $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$ for some $\sigma \in \frak{S}_m$. We begin by proving that $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) = k$ for all $i \in [m]$. [*** We already proved this for $S' = \pi(S)$ in the proof of Theorem 1 -- should we remove this redundancy? We have to prove it again here though if we want the lemma to stand on its own. ***] Fix $i \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vectors $u \in \text{Span}\{A_{S_\sigma(i)}\}$ that $d(u, \text{Span}\{B_{\pi(S_\sigma(i))}\}) \leq \frac{\phi_k(A)}{k} \Delta < 1$. It follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) \geq \dim(\text{Span}\{A_{S_\sigma(i)}\}) = k$. Since $|\pi(S_\sigma(i))| = k$ we in fact have $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) = k$, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
+
+We will now show that
+\begin{align}\label{fact2}
+|\bigcap_{i \in J} \pi(S_\sigma(i))| \leq |\bigcap_{i \in J} S_\sigma(i) | \indent \text{for all} \indent J \in {[m] \choose k}.
+\end{align}
+
+Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound} we have for all unit vectors $\mathbf{u} \in \cap_{i \in J} \text{Span}\{B_{\pi(S_\sigma(i))}\}$ that $d(\mathbf{u}, \text{Span}\{A_{S_\sigma(i)}\}) \leq \frac{\phi_k(A)}{k} \Delta$ for all $i \in J$. It follows by Lemma \ref{DistanceToIntersectionLemma} that
+\begin{align*}
+d\left( \mathbf{u}, \bigcap_{i \in J} \text{Span}\{A_{S_{\sigma}(i)}\} \right) 
+\leq \frac{ \phi_k(A) \Delta  }{1 - \xi( \{ \text{Span}\{A_{S_{\sigma}(i)}\}: i \in J\} ) } \leq \Delta,
+\end{align*}
+%
+where the second inequality follows immediately from the definition of $\phi_k(A)$. Now, since $\text{Span}\{B_{\cap_{i \in J}\pi(S_\sigma(i))}\} \subseteq \cap_{i \in J} \text{Span}\{B_{\pi(S_\sigma(i))}\}$ and (by Lemma \ref{SpanIntersectionLemma}) $\cap_{i \in J}  \text{Span}\{A_{S_\sigma(i)}\} = \text{Span}\{A_{\cap_{i \in J}  S_\sigma(i)}\}$, we have
+\begin{align}\label{fact1}
+d\left( \mathbf{u}, \text{Span}\{A_{\cap_{i \in J} S_\sigma(i)}\} \right) \leq \Delta \indent \text{for all unit vectors } \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_\sigma(i))}\}.
+\end{align}
+We therefore have by Lemma \ref{MinDimLemma} (since $\Delta < 1$) that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_\sigma(i))}\}) \leq \dim(\text{Span}\{A_{\cap_{i \in J} S_\sigma(i)}\})$ and \eqref{fact2} follows by the linear independence of the columns of $A_{S_\sigma(i)}$ and $B_{\pi(S_\sigma(i))}$ for all $i \in [m]$.
+
+Suppose now that $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_\sigma(i) = \sigma(i)$. By \eqref{fact2} we have that $\cap_{i \in J} \pi(S_\sigma(i))$ is either empty or it contains a single element. Lemma \ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $\sigma(i) \mapsto \cap_{i \in J} \pi(S_\sigma(i))$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_{\sigma(i)}\}$ we have $d\left( \mathbf{u}, \text{Span}\{B_{\hat \pi(\sigma(i))}\}\right) \leq \Delta$ also. Since $i$ is arbitrary and $\sigma$ is just a permutation, it follows that for every canonical basis vector $\mathbf{e}_i \in \mathbb{R}^m$, there exists some $c_i \in \mathbb{R}$ such that $|A\mathbf{e}_i - c_iB\mathbf{e}_{\hat \pi(i)}| \leq \Delta$ where $\Delta < \frac{\ell_2(A)}{\sqrt{2}}$. This is exactly the supposition in \eqref{1D} and the result follows from the subsequent arguments of Section \ref{DUT}. 
 \end{proof}
 
 
