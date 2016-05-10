@@ -267,14 +267,23 @@ P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right), \ \ D = \left(
 we see that \eqref{1D} becomes $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for all $i \in [m]$ where $C=1$. One can check that this matches the value for $C$ given by \eqref{Cdef} in this case. 
 
 \begin{remark}
-[*** @chaz from chaz: ?? clarify this ***] The following counter-example demonstrates that robust identifiability does not follow from $\varepsilon < \varepsilon_0$ if $\ell_2(A)/\sqrt{2} < \varepsilon_0 \leq 1$. Consider the case when $n=m$ and $A$ is the identity matrix in $\mathbb{R}^{m \times m}$. Then $\ell_2(A) = 1$ (since $\|A\mathbf{x}\|_2 = \|\mathbf{x}\|_2$ for all $\mathbf{x} \in \mathbb{R}^m$). Consider the alternate dictionary $B = \left( \mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$. We have $|A\mathbf{e}_i - B\mathbf{e}_i|_2 = 0$ for $2 < i \leq m$ while $|A\mathbf{e}_i - B\mathbf{e}_2|_2 = 1/\sqrt{2} = \ell_2(A)/\sqrt{2}$ for $i = 1, 2$. Hence there exist 1-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_m \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$, whereas there exist no permutation and diagonal matrices $P$ and $D$ such that $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for any $C>0$ for all $i \in [m]$ since $|(A - BPD)P^{-1}\mathbf{e}_2|_2 = 1 > \varepsilon$ for all permutation matrices $P$.
+[*** @chaz from chaz: ?? clarify this ***] We demonstrate with the following counter-example that \eqref{Cstable} does not follow from the remaining assumptions of Theorem \ref{DeterministicUniquenessTheorem} if there exists some $i$ for which $|A\mathbf{a}_i - B\mathbf{b}_i| \geq \varepsilon_0$. Consider again the dataset $\mathbf{a}_i = \mathbf{e}_i$ for $i = 1, \ldots, m$ and let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$. Then $\ell_2(A) = 1$ (since $\|A\mathbf{x}\|_2 = \|\mathbf{x}\|_2$ for all $\mathbf{x} \in \mathbb{R}^m$) and $\varepsilon_0 = 1/\sqrt{2}$. Consider the alternate dictionary $B = \left( \mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$ and let $\mathbf{b}_i = \mathbf{e}_2$ for $i = 1, 2$ and $\mathbf{b}_i = \mathbf{e}_i$ for $i = 3, \ldots, m$. Then $|A\mathbf{e}_i - B\mathbf{e}_i|_2 \leq 1/\sqrt{2}$ for all $i \in [m]$. Hence there exist 1-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_m \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon_0$ for all $i \in [m]$, whereas there exist no permutation and diagonal matrices $P$ and $D$ such that $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C=1$ for all $i \in [m]$ since $|(A - BPD)P^{-1}\mathbf{e}_1|_2 = 1$ for all possible matrices $PD$.
 \end{remark}
 
 % ======== b - PDa =========
-Note that from this result we can, in general, bound $|\mathbf{b}_i - PD\mathbf{a}_i|_2$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0}, and $C$ is defined as in \eqref{Cdef}. Note that for small enough $\varepsilon$ we have for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$:
+Note that from this result we can, in general, bound $|\mathbf{b}_i - PD\mathbf{a}_i|_2$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0}, and $C$ is defined as in \eqref{Cdef}. Note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$ we have by the triangle inequality:
+\begin{align}
+|(A-BPD)\mathbf{x}|_2 
+\leq |(A-BPD)\mathbf{e}_i|_2 |\mathbf{x}|_1 
+\leq C\varepsilon|\mathbf{x}|_1
+\leq \sqrt{2k} C \varepsilon |\mathbf{x}|_2
+\end{align}
+
+Hence for small enough $\varepsilon$ we have:
 \begin{align*}
-|BPD\mathbf{x}|_2 &\geq | |A\mathbf{x}|_2 - |(A-BPD)\mathbf{x}|_2 |_2 \\
-&\geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon ) |\mathbf{x}|_2.
+|BPD\mathbf{x}|_2 
+\geq | |A\mathbf{x}|_2 - |(A-BPD)\mathbf{x}|_2 |
+\geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon ) |\mathbf{x}|_2
 \end{align*}
 Hence $\ell_{2k}(B) \geq \ell_{2k}(A) - \sqrt{2k}C\varepsilon > 0$ and it follows that
 \begin{align*}
@@ -282,10 +291,10 @@ Hence $\ell_{2k}(B) \geq \ell_{2k}(A) - \sqrt{2k}C\varepsilon > 0$ and it follow
 &\leq \frac{1}{\ell_{2k}(B)}|B(\mathbf{b}_i - PD\mathbf{a}_i)|_2 \\
 &\leq \frac{1}{\ell_{2k}(B)} (|B\mathbf{b}_i - A\mathbf{a}_i|_2 + |(A - BPD)\mathbf{a}_i|_2) \\
 &\leq \frac{\varepsilon}{\ell_{2k}(B)}(1+C|\mathbf{a}_i|_1) \\
-&\leq \frac{\varepsilon(1+C|\mathbf{a}_i|_1)}{\ell_{2k}(A) - \sqrt{2k}C\varepsilon}.
+&\leq \frac{\varepsilon(1+C|\mathbf{a}_i|_1)}{\ell_{2k}(A) - \sqrt{2k}C\varepsilon},
 \end{align*}
 %
-which proves the assertion.  
+which proves \eqref{b-PDa}.  
 
 % ========== DEFINITIONS FOR MAIN LEMMA (K>1) ================
 
@@ -590,8 +599,8 @@ Note that if $c_i = 0$ for some $i$, then $|A\mathbf{e}_i| < 1$ (since $\ell_2(A
 \begin{align*}
 (|c_i| + |c_j|) 2\varepsilon
 &\geq |c_j||A\mathbf{e}_i - c_iB\mathbf{e}_{p}|_2 + |c_i||c_jB\mathbf{e}_{p} - A\mathbf{e}_j|_2 \\
-&\geq |c_jAe_i + c_iAe_j|_2 \\
-&\geq \ell_2(A)|c_je_i + c_ie_j|_2
+&\geq |c_jAe_i - c_iAe_j|_2 \\
+&\geq \ell_2(A)|c_je_i - c_ie_j|_2
 \end{align*}
 %
 which is in contradiction with the fact that $|x|_1 \leq \sqrt{2}|x|_2$ for all $x \in \mathbb{R}^2$ and $\Delta < \frac{\ell_2(A)}{\sqrt{2}}$. Hence, $\pi$ is injective. Letting $P$ and $D$ denote the following partial permutation and diagonal matrices, respectively:
