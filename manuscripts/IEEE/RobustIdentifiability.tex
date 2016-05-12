@@ -49,9 +49,27 @@ Bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 % 			INTRODUCTION
 %===================================
 
-[************** ADD all references and make all references have single letter first name and then last name (no middle initial) *********]
 \section{Introduction}
-\IEEEPARstart{A}{} number of modern applications of signal processing derive from the ability to represent signals as a linear combination of few atoms selected from a pre-specified dictionary. As such, a plethora of algorithms have recently been developed to approximately solve the following constrained optimization problem:
+[*** Just fucking around with a possible alternate intro ***] 
+\IEEEPARstart{A}{} number of modern applications of signal processing derive from the ability to approximate signals as a combination of few elements from an atomic set. Given a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure, we therefore wish to be able to write:
+\begin{align}\label{AtomicDecomposition}
+|\mathbf{y}_i - \sum_{j=1}^{k} c_j \mathbf{a}_j|_2 \leq \varepsilon \indent \text{for } c_j \in \mathbb{R} \text{ and } \mathbf{a}_j \in \mathcal{A},
+\end{align}
+%
+where $\mathcal{A} \subset \mathbb{R}^n$ is a set of $m \ll N$ atoms of which only $k \ll m$ need be linearly combined to approximate each signal $\mathbf{y}_i$ to within some acceptable degree of error $\varepsilon$.
+
+A plethora of algorithms \cite{?} have recently been developed to learn such atomic sets as the columns of a \emph{dictionary} matrix $A \in \mathbb{R}^{n \times m}$ by approximately solving the following constrained optimization problem:
+\begin{align}\label{DictionaryLearning}
+\arg \min_{A, \mathbf{x}_i} \  \sum_{i=1}^N |\mathbf{y}_i - A\mathbf{x}_i|_2 \indent \text{subject to } |\mathbf{x}_i|_0 \leq k.
+\end{align}
+%
+The reconstruction coefficients for each $\mathbf{y}_i$ are contained in the \emph{code vectors} $\mathbf{x}_1, \ldots, \mathbf{x}_N \in \mathbb{R}^m$ which have at most $k$ nonzero entries (we refer to such vectors as being \emph{$k$-sparse}). Since \eqref{DictionaryLearning} determines a NP-hard problem \cite{Tillman15}, these algorithms typically implement strategies that lead to an approximate solution or an exact solution in some restricted area of the domain, e.g. by replacing the $\ell_0$ pseudo-norm $|\cdot|_0$ (the number of nonzero entries in a vector) with the $\ell_1$-norm $|\cdot|$. See \cite{Zhang} for a comprehensive review of various such strategies. 
+
+Here, we study when solutions to \eqref{DictionaryLearning} are unique, or at least approximately so, given a dataset $Y$. This is of fundamental concern when performing \emph{sparse component analysis} (SCA) \cite{Georgiev05}, wherein one assumes a linear model of the data $\mathbf{y}_i = A\mathbf{x}_i + \mathbf{n}_i$ 
+
+\section{Introduction}
+[************** ADD all references and make all references have single letter first name and then last name (no middle initial) *********]
+\IEEEPARstart{A}{} number of modern applications of signal processing derive from the ability to represent signals as a linear combination of few atoms selected from a learned dictionary. As such, a plethora of algorithms have recently been developed to approximately solve the following constrained optimization problem:
 \begin{align}\label{DictionaryLearning}
 \arg \min_{\Psi, \mathbf{x}_i} \  \sum_{i=1}^N |\mathbf{y}_i - \Psi\mathbf{x}_i|_2 \indent \text{subject to } |\mathbf{x}_i|_0 \leq k
 \end{align}
@@ -64,7 +82,7 @@ Here, we study when solutions to \eqref{DictionaryLearning} are unique, or at le
 \end{align}
 with $k$-sparse $\mathbf{x}_i$ and where the vector $\mathbf{n}_i$ accounts for both noise in the measurements and the degree to which the model deviates from reality (e.g., the true $\mathbf{a}_i$ may only be approximately sparse). The goal of SCA is to estimate the sparse \emph{sources} $\mathbf{x}_i$ from the observed \emph{mixtures} $\mathbf{y}_i$ by approximately solving objective \eqref{DictionaryLearning}.
 
-Even when all $\mathbf{n}_i = 0$, however, there are many solutions to the SCA problem. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{x}_i$, respectively so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = B \tilde X$ for $\tilde X$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $\tilde X = PDX$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The ``uniqueness" of any solution to \eqref{DictionaryLearning} can therefore only be defined up to a transformation by matrices of the form $PD$, which together form an \emph{ambiguity transform group} \cite{?} associated to this particular bilinear inverse problem. The group action defines an equivalence class of solutions having the same value of the objective function in \eqref{DictionaryLearning}. 
+Even if the uncertainty $\mathbf{n}_i$ required to fit the data is nil, however, there are still many solutions to the SCA problem. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{x}_i$, respectively so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = B \tilde X$ for $\tilde X$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $\tilde X = PDX$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The ``uniqueness" of any solution to \eqref{DictionaryLearning} can therefore only be defined up to a transformation by permutation-scaling matrices of the form $PD$, which together form an \emph{ambiguity transform group} \cite{?} associated to this particular bilinear inverse problem. The action of all possible such permutation-scaling transformations on $A$ and $X$ defines an equivalence class of solutions having the same value of the objective function in \eqref{DictionaryLearning}. 
 
 The question of when every solution $Y = B \tilde X$ must \emph{necessarily} be part of this equivalence class, i.e. of the form $\tilde X = PDX$ and $B = AD^{-1}P^{-1}$ for some $P$ and $D$, determines whether $A$ and $X$ are \emph{identifiable} from $Y$ up to this inherent ambiguity. This was the subject of the theoretical works \cite{Georgiev05, Aharon06}, and most recently \cite{HS15}. We provide the following \emph{robust} extension to the notion of identifiability in dictionary learning. Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis in $\mathbb{R}^m$. 
 
@@ -248,12 +266,12 @@ We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument 
 
 %======== CASE K = 1 ============
 
-Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, consider the case when $k=1$. Here, we have $N = m$ and we set $\mathbf{a}_1, \ldots, \mathbf{a}_N$ to be the standard basis vectors $\mathbf{e}_i \in \mathbb{R}^m$ $(i = 1, \ldots, m)$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} with unit norm columns. Note that \eqref{epsilon0} yields $\varepsilon _0 = \ell_2(A)/\sqrt{2}$ in this case. Suppose that for some $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c_1, \ldots, c_m \in \mathbb{R}$ such that 
+Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, consider the case when $k=1$. Here, we have $N = m$ and we set $\mathbf{a}_1, \ldots, \mathbf{a}_N$ to be the standard basis vectors $\mathbf{e}_i \in \mathbb{R}^m$ $(i = 1, \ldots, m)$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} with unit norm columns. Note that \eqref{epsilon0} yields $\varepsilon _0 = \ell_2(A)/\sqrt{2}$ in this case and that $\ell_2(A) \leq 1$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c_1, \ldots, c_m \in \mathbb{R}$ such that 
 \begin{align}\label{1D}
 |A\mathbf{e}_i - c_iB\mathbf{e}_{\pi(i)}|_2 \leq \varepsilon, \ \ \text{for all} \  i \in [m],
 \end{align}
 and some map $\pi: [m] \to [m]$. 
-Note that if $c_i = 0$ for some $i$ then $|A\mathbf{e}_i|_2 < 1$ (since $\ell_2(A) \leq 1$) which contradicts that $A$ has unit norm columns. We will now show that $\pi$ is necessarily injective (and thus defines a permutation). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then, $|A\mathbf{e}_i - c_iB\mathbf{e}_{\ell}|_2  \leq \varepsilon$ and $|A\mathbf{e}_j - c_jB\mathbf{e}_{\ell}|_2 \leq \varepsilon$. Summing and scaling these two inequalities by $|c_j|$ and $|c_i|$, respectively, we have:
+Note that if $c_i = 0$ for some $i$ then $|A\mathbf{e}_i|_2 < 1/\sqrt{2}$ which contradicts that $A$ has unit norm columns. We will now show that $\pi$ is necessarily injective (and thus defines a permutation). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then, $|A\mathbf{e}_i - c_iB\mathbf{e}_{\ell}|_2  \leq \varepsilon$ and $|A\mathbf{e}_j - c_jB\mathbf{e}_{\ell}|_2 \leq \varepsilon$. Summing and scaling these two inequalities by $|c_j|$ and $|c_i|$, respectively, we have:
 \begin{align*}
 (|c_i| + |c_j|) \varepsilon
 &\geq |c_j||A\mathbf{e}_i - c_iB\mathbf{e}_{\ell}|_2 + |c_i||c_jB\mathbf{e}_{\ell} - A\mathbf{e}_j|_2 \\
@@ -373,7 +391,7 @@ Fix positive integers $n, m, m'$, and $k$ with $k < m \leq m'$. Fix $k$-sparse $
 |A\mathbf{a}_i - B\mathbf{b}_i| < \frac{ \ell_{k}(A) \min(\phi_k(A), \phi_k(B))}{\sqrt{2k^3} } \min_{S \in T} \ell_k(AX_{J(S)}), \  \text{for all} \  i = 1, \ldots, N
 \end{align}
 %
-for some $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$, then \eqref{Cstable} holds for some partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ (the rows and columns of $P$ have at most one nonzero entry), diagonal matrix $D \in \mathbb{R}^{m' \times m}$ ($D_{ij} = 0$ whenever $i \neq j$) and $C$ as defined in \eqref{Cdef}. 
+for some $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$, then \eqref{Cstable} holds for some partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ (each row and column contains at most a single $1$, with all other entries $0$), diagonal matrix $D \in \mathbb{R}^{m' \times m}$ ($D_{ij} = 0$ whenever $i \neq j$) and $C$ as defined in \eqref{Cdef}. 
 \end{theorem}
 [***** is this the correct definition for partial perm matrix that we need??:  the rows and columns of $P$ have at most one nonzero entry ??? *****]
 
