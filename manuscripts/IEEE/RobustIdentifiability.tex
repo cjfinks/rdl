@@ -50,7 +50,7 @@ Bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 %===================================
 
 \section{Introduction}
-[*** Just fucking around with a possible alternate intro ***] 
+[*** Just fucking around with a possible alternate intro that emphasizes learning the dictionary over the codes ***] 
 \IEEEPARstart{A}{} number of modern applications of signal processing derive from the ability to approximate signals as a combination of few elements from an atomic set. Given a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure, we therefore wish to be able to write:
 \begin{align}\label{AtomicDecomposition}
 |\mathbf{y}_i - \sum_{j=1}^{k} c_j \mathbf{a}_j|_2 \leq \varepsilon \indent \text{for } c_j \in \mathbb{R} \text{ and } \mathbf{a}_j \in \mathcal{A},
@@ -74,7 +74,7 @@ Here, we study when solutions to \eqref{DictionaryLearning} are unique, or at le
 \arg \min_{\Psi, \mathbf{x}_i} \  \sum_{i=1}^N |\mathbf{y}_i - \Psi\mathbf{x}_i|_2 \indent \text{subject to } |\mathbf{x}_i|_0 \leq k
 \end{align}
 %
-for unknown dictionary $\Psi \in \mathbb{R}^{n \times m}$ and code vectors $\mathbf{x}_1, \ldots, \mathbf{x}_N \in \mathbb{R}^m$ having at most $k \ll m$ nonzero entries (we refer to such vectors as being \emph{$k$-sparse}) and where $m \ll N$ [***list refs***]. Since \eqref{DictionaryLearning} determines a NP-hard problem \cite{Tillman15}, these algorithms typically implement strategies that lead to an approximate solution or an exact solution in some restricted area of the domain, e.g. by replacing the $\ell_0$ pseudo-norm $|\cdot|_0$ (the number of nonzero entries in a vector) with the $\ell_1$-norm $|\cdot|$. See \cite{Zhang} for a comprehensive review of various such strategies. 
+for unknown dictionary $\Psi \in \mathbb{R}^{n \times m}$ and code vectors $\mathbf{x}_1, \ldots, \mathbf{x}_N \in \mathbb{R}^m$ having at most $k \ll m$ nonzero entries (we refer to such vectors as being \emph{$k$-sparse}) and where $m \ll N$ [***list refs***]. Since \eqref{DictionaryLearning} determines a NP-hard problem \cite{Tillmann15}, these algorithms typically implement strategies that lead to an approximate solution or an exact solution in some restricted area of the domain, e.g. by replacing the $\ell_0$ pseudo-norm $|\cdot|_0$ (the number of nonzero entries in a vector) with the $\ell_1$-norm $|\cdot|$. See \cite{Zhang} for a comprehensive review of various such strategies. 
 
 Here, we study when solutions to \eqref{DictionaryLearning} are unique, or at least approximately so, given a dataset $Y$. This is of fundamental concern when performing \emph{sparse component analysis} (SCA) \cite{Georgiev05}, wherein one assumes a linear model of data:
 \begin{align}\label{LinearModel}
@@ -92,10 +92,9 @@ A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has 
 %
 then there necessarily exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
 \begin{align}\label{def1}
-|\mathbf{b}_i - PD\mathbf{a}_i|_2 \leq \delta \ \ \text{ and } \ \ |(A - BPD)\mathbf{e}_j|_2 \leq \delta, \ \ \text{ for } \ \ i = 1, \ldots, N; \, j = 1, \ldots, m.
+|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_1 \leq \delta \ \ \text{ and } \ \ |(A - BPD)\mathbf{e}_j|_2 \leq \delta, \ \ \text{ for } \ \ i = 1, \ldots, N; \, j = 1, \ldots, m.
 \end{align}
 \end{definition}
-[**** Why not have $|\mathbf{b}_i - PD\mathbf{a}_i|_1$??  that would make more sense since the $\ell_1$ penalty is on the codes.  ***]
 
 In short, the $k$-sparse representation of a dataset is robustly identifiable when the only other matrices and $k$-sparse vectors that can well-approximate the data are necessarily close to some permutation and scaling of the original dictionary and codes.
 
@@ -116,7 +115,7 @@ This is known in the literature as the \emph{spark condition}. Our main result s
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 \begin{theorem}\label{DeterministicUniquenessTheorem}
-Fix positive integers $n, m$, $k < m$, and a cyclic order on $[m]$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ in general linear position supported on that interval then every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
+Fix positive integers $n, m$, $k < m$, and a cyclic order on $[m]$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ in general linear position (or linearly independent for $k=1$) supported on that interval then every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
 
 Specifically, there exist positive $C$ and $\varepsilon_0$ such that the following holds. If $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for $i = 1, \ldots, N$, then provided $\varepsilon < \varepsilon_0$, we have for all $i = 1, \ldots, N$, $j = 1, \ldots, m$  that
 \begin{align}\label{Cstable}
@@ -124,10 +123,9 @@ Specifically, there exist positive $C$ and $\varepsilon_0$ such that the followi
 \end{align}
 and 
 \begin{align}\label{b-PDa}
-|\mathbf{b}_i - PD\mathbf{a}_i|_2 &\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( \frac{C^{-1}+|\mathbf{a}_i|_1}{ \sqrt{2k} } \right) \ \ \text{for } j = 1, \ldots, N.  
+|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_1 &\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right) \ \ \text{for } j = 1, \ldots, N.  
 \end{align}
 \end{theorem}
-[****** Put $|\mathbf{b}_i - PD\mathbf{a}_i|_1$ formulation instead *******]
 An important interpretation of this result is that for small reconstruction error, the original dictionary and sparse codes are determined up to a commensurate error.  (In other words, we may choose $\varepsilon$ on the same order as $\delta$ in Def.~\ref{Uniqueness}.)
 
 \begin{corollary}\label{DeterministicUniquenessCorollary}
@@ -162,7 +160,7 @@ Let ${[m] \choose k}$ be the set of subsets of $[m]$ of cardinality $k$ and $\te
 %
 Also, given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$ with columns $\{M_1,\ldots,M_m\}$, we define $M_S$ to be the matrix with columns $\{M_i: i \in S\}$ and $\text{Span}\{M\} := \text{Span}\{M_1, \ldots, M_m\}$.  The \emph{lower bound} of a matrix $M \in \mathbb{R}^{n \times m}$ \cite{REF} [*** what ref did we have in mind here? ****] is 
 \begin{align*}
-\ell(M) := \sup \{ \alpha : |M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all } \mathbf{x} \in \mathbb{R}^m\}.
+\ell(M) := \max \{ \alpha : |M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all } \mathbf{x} \in \mathbb{R}^m\}.
 \end{align*}
 More generally, for any positive integer $k$, we set:
 \[
@@ -203,7 +201,7 @@ The quantity $\phi$ is based on a value derived in \cite{Deutsch} to describe th
 
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
 
-We are now in a position to explicitly state the constants $C$ and $\varepsilon_0$ referred to in Theorem \ref{DeterministicUniquenessTheorem}. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$, $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$, and $T$ be the set of intervals of length $k$ in a cyclic order of $[m]$, set:
+We are now in a position to explicitly state the constants $C$ and $\varepsilon_0$ referred to in Theorem \ref{DeterministicUniquenessTheorem}. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{m \times N}$, $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$, and $T$ be the set of intervals of length $k$ in a cyclic order of $[m]$, set:
 \begin{align}\label{epsilon0}
 \varepsilon_0 = \frac{ \phi_k(A) \ell_{2k}(A) }{\sqrt{2}k^2} \min_{S \in T} \ell_k(AX_{I(S)}).
 \end{align}
@@ -254,8 +252,6 @@ d(u,V) < |u|_2 \ \ \text{\rm for all } u \in U \setminus{\{0\}} \implies \dim(U)
 \begin{proof}
 We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument ($\dim U + \dim V^\perp > m$) gives a nonzero $u \in U \cap V^\perp$.  In particular, we have $|u - v|_2^2 = |u|_2^2 + |v|_2^2 \geq |u|_2^2$ for all $v \in V$, and thus $d(u,V) \geq |u|_2$.
 \end{proof}
-[****** Check my edits of this Lemma *******]
-
 
  
 %============================================
@@ -266,21 +262,39 @@ We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument 
 
 %======== CASE K = 1 ============
 
-Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, consider the case when $k=1$. Here, we have $N = m$ and we set $\mathbf{a}_1, \ldots, \mathbf{a}_N$ to be the standard basis vectors $\mathbf{e}_i \in \mathbb{R}^m$ $(i = 1, \ldots, m)$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} with unit norm columns. Note that \eqref{epsilon0} yields $\varepsilon _0 = \ell_2(A)/\sqrt{2}$ in this case and that $\ell_2(A) \leq 1$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c_1, \ldots, c_m \in \mathbb{R}$ such that 
+Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, consider the case when $k=1$. Suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_i = c_i\mathbf{e}_i$ $(i = 1, \ldots, m)$ for $c_1, \ldots, c_m \in \mathbb{R}^m/\{0\}$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} with unit norm columns. By \eqref{epsilon0} and \eqref{Cdef} we have:
+\begin{align}
+\varepsilon_0 = \frac{ \phi_1(A) \ell_{2}(A) }{\sqrt{2}} \min_{i \in [m]} \ell_1(c_iA\mathbf{e}_i) = \frac{\ell_2(A)}{\sqrt{2}} \min_{i \in [m]}|c_i|
+\end{align}
+and
+\begin{align}
+C = \frac{\ell_{2}(A)}{ \varepsilon_0 \sqrt{2}} = \max_{i \in [m]} \frac{1}{|c_i|}.
+\end{align} 
+
+Note that by the triangle inequality, for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
+\begin{align}
+\ell_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \sqrt{2},
+\end{align}
+%
+hence $\varepsilon_0 \leq \min_{i \in [m]}|c_i|$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c'_1, \ldots, c'_m \in \mathbb{R}$ such that 
 \begin{align}\label{1D}
-|A\mathbf{e}_i - c_iB\mathbf{e}_{\pi(i)}|_2 \leq \varepsilon, \ \ \text{for all} \  i \in [m],
+|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\pi(i)}|_2 \leq \varepsilon, \ \ \text{for all} \  i \in [m],
 \end{align}
 and some map $\pi: [m] \to [m]$. 
-Note that if $c_i = 0$ for some $i$ then $|A\mathbf{e}_i|_2 < 1/\sqrt{2}$ which contradicts that $A$ has unit norm columns. We will now show that $\pi$ is necessarily injective (and thus defines a permutation). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then, $|A\mathbf{e}_i - c_iB\mathbf{e}_{\ell}|_2  \leq \varepsilon$ and $|A\mathbf{e}_j - c_jB\mathbf{e}_{\ell}|_2 \leq \varepsilon$. Summing and scaling these two inequalities by $|c_j|$ and $|c_i|$, respectively, we have:
+Note that if $c'_i = 0$ for some $i$ then we reach the contradiction $|c_i| = |c_iA\mathbf{e}_i|_2 < \varepsilon_0 \leq \min_{i\in [m]}|c_i|$ (since $A$ has unit norm columns). We will now show that $\pi$ is necessarily injective (and thus defines a permutation). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then, $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2  \leq \varepsilon$ and $|c_jA\mathbf{e}_j - c'_jB\mathbf{e}_{\ell}|_2 \leq \varepsilon$. Summing and scaling these two inequalities by $|c'_j|$ and $|c'_i|$, respectively, we have:
 \begin{align*}
-(|c_i| + |c_j|) \varepsilon
-&\geq |c_j||A\mathbf{e}_i - c_iB\mathbf{e}_{\ell}|_2 + |c_i||c_jB\mathbf{e}_{\ell} - A\mathbf{e}_j|_2 \\
-&\geq |c_jAe_i - c_iAe_j|_2 \\
-&\geq \ell_2(A)|c_je_i - c_ie_j|_2
+(|c'_i| + |c'_j|) \varepsilon
+&\geq |c'_j||c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2 + |c'_i||c'_jB\mathbf{e}_{\ell} - c_jA\mathbf{e}_j|_2 \\
+&\geq |c'_jc_iAe_i - c'_ic_jAe_j|_2 \\
+&\geq \ell_2(A)|c'_jc_ie_i - c'_ic_je_j|_2 \\
+&\geq \frac{\ell_2(A)}{\sqrt{2}}|c'_jc_ie_i - c'_ic_je_j|_1 \\
+&\geq \frac{\ell_2(A)}{\sqrt{2}} \left( |c'_j| - |c'_i| \right) \min_{\ell \in [m]} |c_\ell |
 \end{align*}
 %
-which is in contradiction with the fact that $|x|_1 \leq \sqrt{2}|x|_2$ for all $x \in \mathbb{R}^2$ and $\varepsilon < \frac{\ell_2(A)}{\sqrt{2}}$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right)$ and $D = \text{diag}(c_1,\ldots,c_m)$, 
-we see that \eqref{1D} becomes $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for all $i \in [m]$ where $C=1$. One can check that this matches the value for $C$ given by \eqref{Cdef} in this case. 
+which is in contradiction with the fact that $\varepsilon < \varepsilon_0$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right)$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m})$, we see that \eqref{1D} becomes 
+\begin{align}
+|(A - BPD)\mathbf{e}_i|_2 = |A\mathbf{e}_i - \frac{c'_i}{c_i}B\mathbf{e}_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq C\varepsilon \ \ \text{for all } i \in [m].
+\end{align}
 
 \begin{remark}
 [*** @chaz from chris:  yea, fix this shiz ... @chaz from chaz: ?? clarify this ***] We demonstrate with the following counter-example that \eqref{Cstable} does not follow from the remaining assumptions of Theorem \ref{DeterministicUniquenessTheorem} if there exists some $i$ for which $|A\mathbf{a}_i - B\mathbf{b}_i| \geq \varepsilon_0$. Consider again the dataset $\mathbf{a}_i = \mathbf{e}_i$ for $i = 1, \ldots, m$ and let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$. Then $\ell_2(A) = 1$ (since $\|A\mathbf{x}\|_2 = \|\mathbf{x}\|_2$ for all $\mathbf{x} \in \mathbb{R}^m$) and $\varepsilon_0 = 1/\sqrt{2}$. Consider the alternate dictionary $B = \left( \mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$ and let $\mathbf{b}_i = \mathbf{e}_2$ for $i = 1, 2$ and $\mathbf{b}_i = \mathbf{e}_i$ for $i = 3, \ldots, m$. Then $|A\mathbf{e}_i - B\mathbf{e}_i|_2 \leq 1/\sqrt{2}$ for all $i \in [m]$. Hence there exist 1-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_m \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon_0$ for all $i \in [m]$, whereas there exist no permutation and diagonal matrices $P$ and $D$ such that $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C=1$ for all $i \in [m]$ since $|(A - BPD)P^{-1}\mathbf{e}_1|_2 = 1$ for all possible matrices $PD$.
@@ -289,30 +303,29 @@ we see that \eqref{1D} becomes $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for
 [******** do $|\cdot|_1$ norm version of this ******]
 
 % ======== b - PDa =========
-From this result we can, in general, bound $|\mathbf{b}_i - PD\mathbf{a}_i|_2$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0} and $C$ is defined as in \eqref{Cdef}. Note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$ we have by the triangle inequality:
-\begin{align}
+From this result we can, in general, bound $|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_2$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0} and $C$ is defined as in \eqref{Cdef}. Note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$ we have by the triangle inequality:
+\begin{align*}
 |(A-BPD)\mathbf{x}|_2 
-\leq |(A-BPD)\mathbf{e}_i|_2 |\mathbf{x}|_1 
 \leq C\varepsilon|\mathbf{x}|_1
 \leq \sqrt{2k} C \varepsilon |\mathbf{x}|_2
-\end{align}
+\end{align*}
 
-Thus, for small enough $\varepsilon$, we have:
+Thus,
 \begin{align*}
 |BPD\mathbf{x}|_2 
 \geq | |A\mathbf{x}|_2 - |(A-BPD)\mathbf{x}|_2 |
 \geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon ) |\mathbf{x}|_2.
 \end{align*}
-Hence, $\ell_{2k}(B) \geq \ell_{2k}(A) - \sqrt{2k}C\varepsilon > 0$, and it follows that:
+Hence, $\ell_{2k}(BPD) \geq \ell_{2k}(A) - \sqrt{2k}C\varepsilon$ which is positive by \eqref{Cdef}, and it follows that:
 \begin{align*}
-|\mathbf{b}_i - PD\mathbf{a}_i|_2
-&\leq \frac{1}{\ell_{2k}(B)}|B(\mathbf{b}_i - PD\mathbf{a}_i)|_2 \\
-&\leq \frac{1}{\ell_{2k}(B)} (|B\mathbf{b}_i - A\mathbf{a}_i|_2 + |(A - BPD)\mathbf{a}_i|_2) \\
-&\leq \frac{\varepsilon}{\ell_{2k}(B)}(1+C|\mathbf{a}_i|_1) \\
-&\leq \frac{\varepsilon(1+C|\mathbf{a}_i|_1)}{\ell_{2k}(A) - \sqrt{2k}C\varepsilon},
-\end{align*}
+|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_2
+&\leq \frac{1}{\ell_{2k}(BPD)}|BPD(D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i)|_2 \\
+&\leq \frac{1}{\ell_{2k}(BPD)} (|B\mathbf{b}_i - A\mathbf{a}_i|_2 + |(A - BPD)\mathbf{a}_i|_2) \\
+&\leq \frac{\varepsilon}{\ell_{2k}(BPD)}(1+C|\mathbf{a}_i|_1) \\
+&\leq \frac{\varepsilon(1+C|\mathbf{a}_i|_1)}{\ell_{2k}(A) - C\varepsilon\sqrt{2k}} \\
+&= \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( \frac{C^{-1}+|\mathbf{a}_i|_1}{ \sqrt{2k} } \right) \end{align*},
 %
-which proves \eqref{b-PDa}.  
+where in the last line we have used \eqref{Cdef} to substitute for $C$ in the denominator.  
 
 % ========== DEFINITIONS FOR MAIN LEMMA (K>1) ================
 
