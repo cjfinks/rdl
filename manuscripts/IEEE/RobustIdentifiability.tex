@@ -203,14 +203,13 @@ The quantity $\phi$ is based on a value derived in \cite{Deutsch} to describe th
 
 We are now in a position to explicitly state the constants $C$ and $\varepsilon_0$ referred to in Theorem \ref{DeterministicUniquenessTheorem}. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{m \times N}$, $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$, and $T$ be the set of intervals of length $k$ in a cyclic order of $[m]$, set:
 \begin{align}\label{epsilon0}
-\varepsilon_0 = \frac{ \phi_k(A) \ell_{2k}(A) }{\lambda \sqrt{2}k^2} \min_{S \in T} \ell_k(AX_{I(S)}),
+\varepsilon_0 = \frac{ \phi_k(A) \ell_{2k}(A) }{\rho k^2 \sqrt{2}} \min_{S \in T} \ell_k(AX_{I(S)}),
 \end{align}
 %
-where $\lambda := \max_{i \in [m]} |A\mathbf{e}_i|_2 $. If $A$ has unit norm columns (as is standard in applications) and $0 \leq \varepsilon < \varepsilon_0$, then \eqref{Cstable} and \eqref{b-PDa} hold with
+where $\rho := \max_{i \in [m]} |A\mathbf{e}_i|_2 $. If $A$ has unit norm columns (as is standard in applications) and $0 \leq \varepsilon < \varepsilon_0$, then \eqref{Cstable} and \eqref{b-PDa} hold with
 \begin{align}\label{Cdef}
 C = \frac{\ell_{2k}(A)}{ \varepsilon_0 \sqrt{2k}}.
 \end{align}
-[**** so this ``explicit" $C$ from Theorem 1 requires $A$ unit norm cols? do any of the other explicit numbers require this? ***]
 
 [**** Shouldn't we put here either here or in the Intro the explicit calculation for the Vandermonde matrices construction?? ****]
 
@@ -226,14 +225,14 @@ We are now state our main result from combinatorial matrix theory, generalizing 
 %===========          MAIN LEMMA (K > 1)             =================
 
 \begin{lemma}[Main Lemma]\label{MainLemma}
-Fix positive integers $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition}.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}} \left( \max_{i \in [m]}|A\mathbf{e}_i|_2 \right)^{-1}$ such that 
+Fix positive integers $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition}.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}} (\max_{i \in [m]}|A\mathbf{e}_i|_2)^{-1}$ such that 
 \begin{equation}\label{GapUpperBound}
 \Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta \indent \text{for all} \indent S \in T
 \end{equation}
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
 \begin{align}
-\|(A - BPD)\mathbf{e}_i\|_2 \leq \Delta, \indent \text{for all } i \in [m].
+\|(A - BPD)\mathbf{e}_i\|_2 \leq \Delta \max_{i \in [m]}|A\mathbf{e}_i|_2, \indent \text{for all } i \in [m].
 \end{align}
 \end{lemma}
 We defer the proof of this lemma to Appendix \ref{appendixA}. In words, it says that the vectors forming the columns of $A$ are nearly identical to those forming the columns of $B$ provided that for a special set $T$ of $m$ subspaces, each spanned by $k$ columns of $A$, there exist $k$ columns of $B$ which span a nearby subspace with respect to the gap metric.
@@ -256,6 +255,7 @@ We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument 
 
 %%%---NORMALIZED DICTIONARY LEMMA---%%%
 \begin{lemma}\label{NormalizedDictionaryLemma}
+[*** We could in principle just use this lemma instead to extend norm 1 col proofs to arbitrary length cols. *** ]
 Fix matrices $A, \tilde{A} \in \mathbb{R}^{n \times m}$ where $\tilde{A} = AE$ for some invertible diagonal matrix $E = \text{diag}(\lambda_i) \in \mathbb{R}^{m \times m}$, $\lambda_i \in \mathbb{R}$ for all $i \in [m]$. If there exists a matrix $B \in \mathbb{R}^{n \times m}$ such that $\|(A - B)e_i\| \leq \varepsilon$ for all $i \in [m]$, then the matrix $\tilde{B} = BE$ satisfies $\|(\tilde{A} - \tilde{B})e_i\| \leq \lambda \varepsilon$ for all $i \in [m]$, where $\lambda = \max_i |\lambda_i|$.
 
 This lemma allows us to extend uniqueness guarantees (up to permutation, scaling, and error) for matrices with unit norm columns to those without and vice versa. 
@@ -276,18 +276,18 @@ This lemma allows us to extend uniqueness guarantees (up to permutation, scaling
 
 %======== CASE K = 1 ============
 
-Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, consider the case when $k=1$. Suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_i = c_i\mathbf{e}_i$ $(i = 1, \ldots, m)$ for $c_1, \ldots, c_m \in \mathbb{R}^m/\{0\}$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition}. By \eqref{epsilon0} we have:
+Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, consider the case when $k=1$. Suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_i = c_i\mathbf{e}_i$ $(i = 1, \ldots, m)$ for $c_1, \ldots, c_m \in \mathbb{R}^m/\{0\}$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} and let $\rho = \max_{i \in [m]} |A\mathbf{e}_i|_2$. By \eqref{epsilon0} we have:
 \begin{align}
 \varepsilon_0 
-= \frac{ \phi_1(A) \ell_{2}(A) }{\lambda \sqrt{2}} \min_{i \in [m]} \ell_1(c_iA\mathbf{e}_i) 
-= \frac{\ell_2(A)}{\lambda \sqrt{2}} \min_{i \in [m]}|c_iA\mathbf{e}_i|_2
-\leq \frac{\ell_2(A)}{ \sqrt{2}} \min_{i \in [m]}|c_i| 
+= \frac{ \phi_1(A) \ell_{2}(A) }{\rho \sqrt{2}} \min_{i \in [m]} \ell_1(c_iA\mathbf{e}_i) 
+= \frac{\ell_2(A)}{ \rho \sqrt{2}} \min_{i \in [m]}|c_iA\mathbf{e}_i|_2
+\leq \frac{\ell_2(A)}{ \sqrt{2}} \min_{i \in [m]}|c_i| \\
 \end{align}
 %
-where $\lambda = \max_{i \in [m]} |A\mathbf{e}_i|_2$, and by \eqref{Cdef} we have
+and by \eqref{Cdef} we have
 \begin{align}
-C = \frac{\ell_{2}(A)}{ \varepsilon_0 \sqrt{2}} = \max_{i \in [m]} \frac{\lambda}{|c_iA\mathbf{e}_i|_2} 
-\geq \max_{i \in [m]} |c_i|^{-1}.
+C = \frac{\ell_{2}(A)}{ \varepsilon_0 \sqrt{2}} = \frac{ \rho }{ \min_{i \in [m]} |c_iA\mathbf{e}_i|_2 }
+\geq (\min_{i \in [m]} |c_i|)^{-1}. \\
 \end{align} 
 
 Suppose that for some $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c'_1, \ldots, c'_m \in \mathbb{R}$ and some map $\pi: [m] \to [m]$ such that 
@@ -307,7 +307,7 @@ Note that it can't be the case that $c'_i = 0$ for some $i$ since then we reach 
 %
 which is in contradiction with the fact that $\varepsilon < \varepsilon_0$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right)$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m})$, we see that \eqref{1D} becomes 
 \begin{align}
-|(A - BPD)\mathbf{e}_i|_2 = |A\mathbf{e}_i - \frac{c'_i}{c_i}B\mathbf{e}_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq \max_{i \in [m]} \frac{\varepsilon}{|c_i|} \leq C\varepsilon \ \ \text{for all } i \in [m].
+|(A - BPD)\mathbf{e}_i|_2 = |A\mathbf{e}_i - \frac{c'_i}{c_i}B\mathbf{e}_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq (\min_{i \in [m]} |c_i|)^{-1} \varepsilon \leq C\varepsilon \ \ \text{for all } i \in [m].
 \end{align}
 
 \begin{remark}
@@ -349,7 +349,7 @@ It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows f
 %========          PROOF OF THEOREM 1        ============
 
 \begin{proof}[Proof of Theorem \ref{DeterministicUniquenessTheorem} and Corollary \ref{DeterministicUniquenessCorollary}]
-We may assume that $k > 1$ (the $k=1$ case was verified earlier in this section). First, we produce a set of $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ in general linear position (i.e., any set of $k$ of them are linearly independent). Specifically, let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports, i.e. for each support there are $(k-1){m \choose k}+1$ vectors $a_i$ with that support) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
+We may assume that $k > 1$ (the $k=1$ case was verified earlier in this section). First, we produce a set of $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ in general linear position (i.e., any set of $k$ of them are linearly independent). Specifically, let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, let $T$ be the set of length $k$ intervals in some cyclic ordering of $[m]$ and form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports, i.e. for each support there are $(k-1){m \choose k}+1$ vectors $a_i$ with that support) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 
 Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. 
 
@@ -369,13 +369,21 @@ Hence,
 \sup_{ \substack{ \mathbf{z} \in \text{Span}\{A_{S}\} \\ |\mathbf{z}| = 1} } d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})}.
 \end{align}
 
-We now show that \eqref{Cstable} and \eqref{b-PDa} both follow if $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0}. In fact, to show \eqref{Cstable} we only require $\varepsilon <  \varepsilon_0 \sqrt{k} \ell_2(A)/\ell_{2k}(A)$. In this case the RHS of \eqref {ABSubspaceDistance} is less than 1 and it follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$ (since every $k$ columns of $A$ are linearly independent). Since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) \leq k$, hence $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: T \to {[m] \choose k}$ satisfying
+We now show that \eqref{Cstable} and \eqref{b-PDa} both follow if $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0}. In fact, to show \eqref{Cstable} we only require $\varepsilon <  \frac{\varepsilon_0 \sqrt{k} \ell_2(A)}{\ell_{2k}(A)}$. In this case the RHS of \eqref {ABSubspaceDistance} works out to be strictly less than 1, since:
+\begin{align}\label{rhs}
+\frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})} 
+< \frac{\sqrt{k}}{\ell(AX_{J(S)})} \left( \frac{\varepsilon_0 \sqrt{k} \ell_2(A)}{\ell_{2k}(A)} \right)
+= \frac{\ell_2(A) \phi_k(A)}{\rho \ell(AX_{J(S)}) k \sqrt{2}} \min_{S \in T}\ell_k(AX_{I(S)})
+\leq \frac{\phi_k(A)}{k} \left( \frac{\ell_2(A)}{ \rho \sqrt{2}} \right)
+\end{align}
+%
+where $I(S) = \{i: \text{supp}(\mathbf{a}_i)=S\}$ and since $\ell_2(A) \leq \rho \sqrt{2}$ and $\phi_k(A) \in [0,1]$. It follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$ (since every $k$ columns of $A$ are linearly independent). Since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) \leq k$, hence $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: T \to {[m] \choose k}$ satisfying
 \begin{align}\label{yeyeye}
-\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})} < 1 \indent \text{for all } S \in T.
+\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})} \indent \text{for all } S \in T.
 \end{align}
 
-Let $\Delta =  \frac{\varepsilon \ell_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$ and note that from our upper bound on $\varepsilon$ we have $\Delta < \frac{\ell_2(A)}{\sqrt{2}}$. Plugging $\Delta$ into \eqref{yeyeye} and then substituting for $\varepsilon_0$, we see that \eqref{GapUpperBound} is satisfied. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in \{1, \ldots, m\}$,
-$|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C = \frac{\ell_{2k}(A)}{\varepsilon_0\sqrt{2k}}$. It follows by the arguments at the beginning of this section that \eqref{b-PDa} holds as well.
+From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta$ is satisfied for this support $S$ and $\Delta < \frac{\ell_2(A)}{\rho \sqrt{2}}$ by setting $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\ell(AX_{J(S)})}$. We therefore satisfy \eqref{GapUpperBound} for $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\min_{S \in T} \ell_k(AX_{I(S)})} = \frac{\varepsilon \ell_{2k}(A)}{\varepsilon_0 \rho \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in \{1, \ldots, m\}$,
+$|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C = \frac{ \ell_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$. It follows by the arguments at the beginning of this section that \eqref{b-PDa} holds as well.
 \end{proof}
 
 %===================================
