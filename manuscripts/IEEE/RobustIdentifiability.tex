@@ -95,7 +95,7 @@ Evidently, regardless of noise level, unique recovery of the unknown $k$-sparse 
 \begin{align}\label{SparkCondition}
 A\mathbf{a}_1 = A\mathbf{a}_2 \implies \mathbf{a}_1 = \mathbf{a}_2, \ \ \text{ for all $k$-sparse } \mathbf{a}_1, \mathbf{a}_2 \in \mathbb{R}^m,
 \end{align}
-commonly known in the literature as the \emph{spark condition}. Our main contribution here is the result that this necessary condition on $A$ is also enough to guarantee robust identifiability of $Y$ provided the $\mathbf{a}_i$ are sufficiently diverse.  
+commonly known in the literature as the \emph{spark condition}. Our main contribution here is the result that this necessary condition on $A$ is also enough to guarantee unique recovery of the $\mathbf{a}_i$ when $A$ is itself unknown a priori, provided the $\mathbf{a}_i$ are sufficiently diverse.  
 
 Recall that a \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ in a circular necklace, and that an \textit{interval} is a contiguous sequence of such elements.  %Our main theorem guaranteeing robust identifiability is as follows.
 
@@ -222,7 +222,7 @@ C = \frac{\ell_{2k}(A)}{ \varepsilon_0 \sqrt{2k}}.
 [**** Shouldn't we put here either here or in the Intro the explicit calculation for the Vandermonde matrices construction?? ****]
 
 \begin{definition}\label{GapMetricDef}
-Let $U, V$ be subspaces of $\mathbb{R}^m$ and let $d(u,V) := \inf\{|u-v|_2: v \in W\} = |u - \Pi_V u|_2$ where $\Pi_V$ is the orthogonal projection operator onto subspace $V$. The \textbf{gap metric} $\Theta$ on subspaces of $\mathbb{R}^{m}$ is \cite{TheoryOfLinearOperatorsPage69} [**** which book is this?? ****:
+Let $U, V$ be subspaces of $\mathbb{R}^m$ and let $d(u,V) := \inf\{|u-v|_2: v \in W\} = |u - \Pi_V u|_2$ where $\Pi_V$ is the orthogonal projection operator onto subspace $V$. The \textbf{gap metric} $\Theta$ on subspaces of $\mathbb{R}^{m}$ is \cite{akhiezer2013theory}:
 \begin{equation}\label{SubspaceMetric}
 \Theta(U,V) := \max\left( \sup_{\substack{u \in U, |u|_2 = 1}} d(u,V), \sup_{\substack{v \in V, |v|_2 = 1}} d(v,U) \right).
 \end{equation}
