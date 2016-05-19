@@ -160,10 +160,12 @@ Also, given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$ with columns $
 \ell_k(M) := \max \{ \alpha : |M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m\}.
 \end{align}
 
-Clearly, $\ell_{k}(M) \geq \ell_{k'}(M)$ whenever $k < k'$. Note also that since all real matrices have bounded spectral norms, if $\ell_k(M) > 0$ for some $k$ then $M$ satisfies the \emph{restricted isometry property} \cite{CandesTao05} from compressive sensing, since there exist $\alpha, \beta > 0$ such that:
+Clearly, $\ell_{k}(M) \geq \ell_{k'}(M)$ whenever $k < k'$. Note also that since all real matrices have bounded spectral norms, if $\ell_k(M) > 0$ for some $k$ then $M$ satisfies the \emph{restricted isometry property} (RIP) \cite{CandesTao05} from compressive sensing, since there exist $\alpha, \beta > 0$ such that:
 \begin{align}
 \alpha|\mathbf{x}|_2 \leq |M\mathbf{x}|_2 \leq \beta|\mathbf{x}|_2 \ \ \text{for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m.
 \end{align}
+%
+Scaling $M$ by a factor of $2/(\beta + \alpha)$ yields $\alpha = 1-\delta$ and $\beta = 1+\delta$ for $\delta = (\beta - \alpha)/(\beta + \alpha)$, which is the form in which the RIP is usually presented.
 
 Between any pair of subspaces in a Euclidian space one can define a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles which are invariant to isomorphic transformations of the space. It can be shown that if the principal angles between these subspaces are all zero, then one subspace is a subset of the other. Hence, if $M$ satisfies \eqref{SparkCondition} then there is at least one nonzero such angle between all pairs of subspaces spanned by at most $k$ columns of $M$. The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, can be defined in terms of its cosine as follows:
 
@@ -304,9 +306,7 @@ which contradicts $\varepsilon < \varepsilon_0$. Hence, $\pi$ is injective. Lett
 \end{align}
 
 \begin{remark}
-[*** @chaz from chris:  yea, fix this shiz ... @chaz from chaz: ?? clarify this ***] Note that if $C \geq \varepsilon_0^{-1} \max_{i \in [m]}|A\mathbf{e}_i|$ then the result is trivial.
-
-We demonstrate with the following counter-example that $\pi$ need not necessarily be injective (and thus a permutation) if $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\pi(i)}|_2 \geq \varepsilon_0$ for some $i \in [m]$. Consider the dataset $\mathbf{a}_i = \mathbf{e}_i$ for $i = 1, \ldots, m$ and let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$. Then $\ell_2(A) = 1$ (since $|A\mathbf{x}|_2 = |\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$) and $\varepsilon_0 = 1/\sqrt{2}$. Consider the alternate dictionary $B = \left(\mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$ and let $\mathbf{b}_i = \mathbf{e}_2$ for $i = 1, 2$ and $\mathbf{b}_i = \mathbf{e}_i$ for $i = 3, \ldots, m$. Then $|A\mathbf{a}_i - B\mathbf{b}_i|_2 = \varepsilon_0$ for $i = 1$ and $0$ otherwise. Hence there exist 1-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_m \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon_0$ for all $i \in [m]$, whereas there exist no permutation and diagonal matrices $P$ and $D$ such that $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C=1$ for all $i \in [m]$ since $|(A - BPD)P^{-1}\mathbf{e}_1|_2 = 1$ for all possible matrices $PD$.
+We demonstrate with the following counter-example that \eqref{Cstable} with $C$ as defined in \eqref{Cdef} is not necessarily implied if $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \geq \varepsilon_0$ for some $i \in [m]$. Consider the dataset $\mathbf{a}_i = \mathbf{e}_i$ for $i = 1, \ldots, m$ and let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$. Then $\ell_2(A) = 1$ (since $|A\mathbf{x}|_2 = |\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$) and $\varepsilon_0 = 1/\sqrt{2}$. Consider the alternate dictionary $B = \left(\mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$ and let $\mathbf{b}_i = \mathbf{e}_2$ for $i = 1, 2$ and $\mathbf{b}_i = \mathbf{e}_i$ for $i = 3, \ldots, m$. Then $|A\mathbf{a}_i - B\mathbf{b}_i|_2 = \varepsilon_0$ for $i = 1$ and $0$ otherwise. Hence there exist 1-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_m \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon_0$ for all $i \in [m]$, whereas there exist no permutation and diagonal matrices $P$ and $D$ such that $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C=1$ for all $i \in [m]$ since $|(A - BPD)P^{-1}\mathbf{e}_1|_2 = 1$ for all possible matrices $PD$.
 \end{remark}
 
 % ======== b - PDa =========
