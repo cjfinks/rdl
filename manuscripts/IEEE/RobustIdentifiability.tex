@@ -26,7 +26,7 @@
 \usepackage{array}
 
 % correct bad hyphenation here
-\hyphenation{op-tical net-works semi-conduc-tor}
+%\hyphenation{op-tical net-works semi-conduc-tor}
 
 \begin{document}
 
@@ -38,7 +38,7 @@
 \maketitle
 
 \begin{abstract}
-In sparse component analysis (SCA), a dictionary is learned to linearly code a sparse mixure of signals.  It has been previously established  under mild assumptions (e.g., the spark condition from compressed sensing) that such a coding of sparse data is unique up to a relabelling and scaling of dictionary columns and sparse codes.  Often, however, data is only approximately sparse, and noise is present in the generative SCA model.  We extend the known uniqueness results to this more general setting and prove that approximately sparse datasets are still uniquely coded up to the level of noise in the input.  Our results help explain the ubiquitous finding that diverse SCA algorithms determine unique structure when applied to approximately code the same sparse mixtures.
+In sparse component analysis (SCA), a dictionary is learned to linearly code a sparse mixture of signals.  It has been previously established  under mild assumptions (e.g., the spark condition from compressed sensing) that such a coding of sparse data is unique up to a relabelling and scaling of dictionary columns and sparse codes.  Often, however, data is only approximately sparse, and noise is present in the generative SCA model.  We extend the known uniqueness results to this more general setting and prove that approximately sparse datasets are still uniquely coded up to the level of noise in the input.  Our results help explain the ubiquitous finding that diverse SCA algorithms determine unique structure when applied to approximately code the same sparse mixtures.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -51,12 +51,18 @@ Bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 
 \section{Introduction}
 [************** ADD all references and make all references have single letter first name and then last name (no middle initial) *********]
-\IEEEPARstart{A}{} number of modern applications of signal processing derive from the ability to approximate signals as a combination of few elements from an atomic set. Given a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure, we therefore wish to be able to write each $\mathbf{y_i}$ as
+\IEEEPARstart{A}{} number of modern approaches in signal processing approximate data as sparse linear combinations of the columns of a dictionary matrix. 
+In its m
+
+
+Given a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure, we therefore wish to be able to write each $\mathbf{y_i}$ as
 \begin{align}\label{AtomicDecomposition}
 |\mathbf{y_i} - \sum_{j=1}^{k} c_j \mathbf{a}_j|_2 \leq \varepsilon, \indent \text{for } c_j \in \mathbb{R} \text{ and } \mathbf{a}_j \in \mathcal{A},
 \end{align}
 %
 where $\mathcal{A} \subset \mathbb{R}^n$ is a set of $m \ll N$ atoms of which only $k \ll m$ need be linearly combined to approximate each signal $\mathbf{y}_i$ to within some acceptable degree of error $\varepsilon$.
+
+Donoho: \cite{candes2006near, donoho2006compressed, candes2006stable}.
 
 A plethora of algorithms \cite{?} have recently been developed to learn such atomic sets as the columns of a \emph{dictionary} matrix $A \in \mathbb{R}^{n \times m}$ by approximately solving the following constrained optimization problem:
 \begin{align}\label{DictionaryLearning}
