@@ -164,33 +164,34 @@ The organization of the rest of this paper is as follows. In Section \ref{Prelim
 
 
 \section{Preliminaries}\label{Preliminaries}
-In this section, we review our main tools, which include general notions of angle (Def.~\ref{FriedrichsDefinition}) and distance (Def.~\ref{GapMetricDef}) between vector subspaces as well as a uniqueness result in combinatorial matrix theory (Lemma~\ref{MainLemma}).
-Let ${[m] \choose k}$ be the set of subsets of $[m]$ of cardinality $k$ and $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ be the vector space consisting of their $\mathbb{R}$-linear span.
+In this section, we briefly review standard definitions and outline our main tools, which include general notions of angle (Def.~\ref{FriedrichsDefinition}) and distance (Def.~\ref{GapMetricDef}) between vector subspaces as well as a robust uniqueness result in combinatorial matrix theory (Lemma~\ref{MainLemma}).
+Let ${[m] \choose k}$ be the collection of subsets of $[m] := \{1,\ldots,m\}$ of cardinality $k$, and let $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ be the vector space consisting of their $\mathbb{R}$-linear span.
 %
 %\[ \text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\} = \left\{ \sum_{i=1}^\ell t_i\mathbf{v}_i : t_1, \ldots, t_\ell \in \mathbb{R}\right\}. \]
 %
-Also, given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$ with columns $\{M_1,\ldots,M_m\}$, we define $M_S$ to be the matrix with columns $\{M_i: i \in S\}$ and $\text{Span}\{M\} := \text{Span}\{M_1, \ldots, M_m\}$.  The \emph{lower bound} of a matrix $M \in \mathbb{R}^{n \times m}$ \cite{grcar2010matrix} is the largest number for which $|M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$ and we define the \textit{$k$-restricted lower bound} to be:
-\begin{align}
-\ell_k(M) := \max \{ \alpha : |M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m\}.
-\end{align}
+Also, given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$ with columns $\{M_1,\ldots,M_m\}$, we define $M_S$ to be the submatrix with columns $\{M_j: j \in S\}$ and also set $\text{Span}\{M_S\} := \text{Span}\{M_j : j \in S\}$.  
 
-Clearly, $\ell_{k}(M) \geq \ell_{k'}(M)$ whenever $k < k'$. Note also that since all real matrices have bounded spectral norms, if $\ell_k(M) > 0$ for some $k$ then $M$ satisfies the \emph{restricted isometry property} (RIP) \cite{CandesTao05} from compressive sensing, since there exist $\alpha, \beta > 0$ such that:
+Recall that the \emph{lower bound} of a matrix $M \in \mathbb{R}^{n \times m}$ is the largest number $\alpha$ for which $|M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$ \cite{grcar2010matrix}, and we define more generally the \textit{$k$-restricted lower bound} to be:
+\begin{align}
+L_k(M) := \max \{ \alpha : |M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m\}.
+\end{align}
+Clearly, $L_k(M) \geq L_{k'}(M)$ whenever $k < k'$. Note also that if $L_k(M) > 0$ for some $k$, then $M$ satisfies a \emph{restricted isometry property} (RIP) \cite{CandesTao05} from compressive sensing, since there exist $\alpha, \beta > 0$ such that:
 \begin{align}
 \alpha|\mathbf{x}|_2 \leq |M\mathbf{x}|_2 \leq \beta|\mathbf{x}|_2 \ \ \text{for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m.
 \end{align}
-%
-Scaling $M$ by a factor of $2/(\beta + \alpha)$ yields $\alpha = 1-\delta$ and $\beta = 1+\delta$ for $\delta = (\beta - \alpha)/(\beta + \alpha)$, which is the form in which the RIP is usually presented.
+Letting $\delta = (\beta - \alpha)/(\beta + \alpha)$ and recalling $M$ by $2/(\beta + \alpha)$ yields the familiar presentation of the RIP.
+%Scaling $M$ by $2/(\beta + \alpha)$ yields $\alpha = 1-\delta$ and $\beta = 1+\delta$ for $\delta = (\beta - \alpha)/(\beta + \alpha)$, which is the usual .
 
-Between any pair of subspaces in a Euclidian space one can define a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles which are invariant to isomorphic transformations of the space. It can be shown that if the principal angles between these subspaces are all zero, then one subspace is a subset of the other. Hence, if $M$ satisfies \eqref{SparkCondition} then there is at least one nonzero such angle between all pairs of subspaces spanned by at most $k$ columns of $M$. The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, can be defined in terms of its cosine as follows:
-
+Between any pair of subspaces in Euclidean space one can define a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles which are invariant to orthogonal transformations. It can be shown that if the principal angles between these subspaces are all zero, then one subspace is a subset of the other. Hence, if $M$ satisfies \eqref{SparkCondition}, there is at least one nonzero such angle between all pairs of subspaces spanned by at most $k$ columns of $M$. The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, is defined in terms of its cosine as follows.
 \begin{definition}\label{FriedrichsDefinition}
-The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is the minimal angle formed between unit vectors in $U \cap (U \cap V)^\perp$ and $V \cap (U \cap V)^\perp$. That is,
+The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is the minimal angle formed between unit vectors in $U \cap (U \cap V)^\perp$ and $V \cap (U \cap V)^\perp$; that is,
 \begin{align}
-\cos{\theta_F} := \max\left\{ \frac{ \langle u, v \rangle }{|u||v|}: u \in U \cap (U \cap V)^\perp, v \in V \cap (U \cap V)^\perp \right\}.
+\cos{\theta_F} := \max\left\{ \frac{ \langle u, v \rangle }{|u||v|}: u \in U \cap (U \cap V)^\perp, \, v \in V \cap (U \cap V)^\perp \right\}.
 \end{align}
 \end{definition}
+For example, if $k=2$ and $n=3$ this is the angle between the normal vectors of the two planes. (In this case, there is only one nonzero principal angle between non-identical planes.) 
 
-For example, if $k=2$ and $n=3$ this is the angle between the normal vectors of the two planes. (In this case there is only one nonzero principal angle between non-identical planes.) We also define the following quantity.
+The next definition we need is based on a quantity derived in \cite{Deutsch} to describe the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces. We use it to bound the distance between a point and the intersection of a set of subspaces given an upper bound on the distance from that point to each individual subspace.
 
 \begin{definition}\label{SpecialSupportSet}
 Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$. Setting $\phi_1(A) := 1$, define for $k \geq 2$:
@@ -202,22 +203,21 @@ where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of closed subspaces of $\
 \xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 - \prod_{i=1}^{k-1} \sin^2  \theta_F \left(V_{\sigma(i)}, V_{\sigma(i)} \cap \cdots \cap V_{\sigma(k)}\right)  \right)^{1/2},
 \end{align}
 %
-and $\frak{S}_k$ is the set of permutations on $k$ elements. We note that $\phi_k(A) \in [0,1]$.
+and $\frak{S}_{\ell}$ is the set of permutations (i.e. bijections) on $\ell$ elements.
 \end{definition}
 
-The quantity $\phi$ is based on a value derived in \cite{Deutsch} to describe the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces. We use it to bound the distance between a point and the interesection of a set of subspaces given an upper bound on the distance from that point to each individual subspace. 
-
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
-
-We are now in a position to explicitly state the constants $C$ and $\varepsilon_0$ referred to in Theorem \ref{DeterministicUniquenessTheorem}. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{m \times N}$, $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$, and $T$ be the set of intervals of length $k$ in a cyclic order of $[m]$, set:
+We are now in a position to state explicitly the constants $C$ and $\varepsilon_0$ referred to in Theorem \ref{DeterministicUniquenessTheorem}. Letting $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{m \times N}$, $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$, and $T$ be the set of intervals of length $k$ in a cyclic order of $[m]$, set:
 \begin{align}\label{epsilon0}
-\varepsilon_0 = \frac{ \phi_k(A) \ell_{2k}(A) }{\rho k^2 \sqrt{2}} \min_{S \in T} \ell_k(AX_{I(S)}),
+\varepsilon_0 = \frac{ \phi_k(A) \ell_{2k}(A) }{\rho k^2 \sqrt{2}} \min_{S \in T} L_k(AX_{I(S)}),
 \end{align}
-%
-where $\rho := \max_{i \in [m]} |A\mathbf{e}_i|_2 $. If $A$ has unit norm columns (as is standard in applications) and $0 \leq \varepsilon < \varepsilon_0$, then \eqref{Cstable} and \eqref{b-PDa} hold with
+where $\rho := \max_{j \in [m]} |A_j|_2 $. If $A$ has unit norm columns (as is standard in applications) and $0 \leq \varepsilon < \varepsilon_0$, then \eqref{Cstable} and \eqref{b-PDa} hold with
 \begin{align}\label{Cdef}
-C = \frac{\ell_{2k}(A)}{ \varepsilon_0 \sqrt{2k}}.
+C = \frac{L_{2k}(A)}{ \varepsilon_0 \sqrt{2k}}.
 \end{align}
+Note that if $A$ satisfies the spark condition, then $\phi_k(A), L_{2k}(A) \neq 0$ so that both $C$ and $\varepsilon_0$ are nonzero.
+[********  We should verify this statement ***********]
+
 
 [**** Shouldn't we put here either here or in the Intro the explicit calculation for the Vandermonde matrices construction?? ****]
 
@@ -382,7 +382,7 @@ We now show that \eqref{Cstable} and \eqref{b-PDa} both follow if $\varepsilon <
 \begin{align}\label{rhs}
 \frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})} 
 < \frac{\sqrt{k}}{\ell(AX_{J(S)})} \left( \frac{\varepsilon_0 \sqrt{k} \ell_2(A)}{\ell_{2k}(A)} \right)
-= \frac{\ell_2(A) \phi_k(A)}{\rho \ell(AX_{J(S)}) k \sqrt{2}} \min_{S \in T}\ell_k(AX_{I(S)})
+= \frac{\ell_2(A) \phi_k(A)}{\rho \ell(AX_{J(S)}) k \sqrt{2}} \min_{S \in T}L_k(AX_{I(S)})
 \leq \frac{\phi_k(A)}{k} \left( \frac{\ell_2(A)}{ \rho \sqrt{2}} \right)
 \end{align}
 %
@@ -391,7 +391,7 @@ where $I(S) = \{i: \text{supp}(\mathbf{a}_i)=S\}$ and since $\ell_2(A) \leq \rho
 \Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})} \indent \text{for all } S \in T.
 \end{align}
 
-From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta$ is satisfied for this support $S$ and $\Delta < \frac{\ell_2(A)}{\rho \sqrt{2}}$ by setting $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\ell(AX_{J(S)})}$. We therefore satisfy \eqref{GapUpperBound} for $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\min_{S \in T} \ell_k(AX_{I(S)})} = \frac{\varepsilon \ell_{2k}(A)}{\varepsilon_0 \rho \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in \{1, \ldots, m\}$,
+From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta$ is satisfied for this support $S$ and $\Delta < \frac{\ell_2(A)}{\rho \sqrt{2}}$ by setting $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\ell(AX_{J(S)})}$. We therefore satisfy \eqref{GapUpperBound} for $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\min_{S \in T} L_k(AX_{I(S)})} = \frac{\varepsilon \ell_{2k}(A)}{\varepsilon_0 \rho \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in \{1, \ldots, m\}$,
 $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C = \frac{ \ell_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$. It follows by the arguments at the beginning of this section that \eqref{b-PDa} holds as well.
 \end{proof}
 
@@ -406,7 +406,7 @@ In this section we state a version of Theorem \ref{DeterministicUniquenessTheore
 \begin{theorem}\label{DeterministicUniquenessTheorem2}
 Fix positive integers $n, m, m'$, and $k$ with $k < m \leq m'$. Fix $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ and let $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$ and $I(S) = \{i : \text{supp}(\mathbf{a}_i) = S\}$. If for some cyclic order on $[m]$ the $\mathbf{a}_i$ are such that for every interval of length $k$ in the order there are $(k-1){m' \choose k}+1$ vectors $\mathbf{a}_i$ in general linear position supported on that interval, then the following holds. Every pair of matrices $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfying spark condition \eqref{SparkCondition} are such that if 
 \begin{align}
-|A\mathbf{a}_i - B\mathbf{b}_i| < \frac{ \ell_{k}(A) \min(\phi_k(A), \phi_k(B))}{\sqrt{2k^3} } \min_{S \in T} \ell_k(AX_{I(S)}), \ \  \text{for all} \  i \in [N],
+|A\mathbf{a}_i - B\mathbf{b}_i| < \frac{ L_k(A) \min(\phi_k(A), \phi_k(B))}{\sqrt{2k^3} } \min_{S \in T} L_k(AX_{I(S)}), \ \  \text{for all} \  i \in [N],
 \end{align}
 %
 for some $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$, then \eqref{Cstable} holds for some partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ (there is at most one nonzero entry in each row and column and these nonzero entries are all 1), diagonal matrix $D \in \mathbb{R}^{m' \times m}$ ($D_{ij} = 0$ whenever $i \neq j$) and $C$ as defined in \eqref{Cdef}. 
@@ -768,9 +768,9 @@ We now need the probability that these $r$ subsets contain at least one valid $T
 Assuming $\mathbf{b}_i$ and $PD\mathbf{a}_i$ share the same support:
 \begin{align*}
 |\mathbf{b}_i - PD\mathbf{a}_i| 
-&\leq \frac{1}{\ell_{k}(B)}|B(\mathbf{b}_i - PD\mathbf{a}_i)| \\
-&\leq \frac{1}{\ell_{k}(B)} (|B\mathbf{b}_i - A\mathbf{a}_i| + |(A - BPD)\mathbf{a}_i|) \\
-&\leq \frac{\varepsilon}{\ell_{k}(B)}(1+C|\mathbf{a}_i|_1).
+&\leq \frac{1}{L_k(B)}|B(\mathbf{b}_i - PD\mathbf{a}_i)| \\
+&\leq \frac{1}{L_k(B)} (|B\mathbf{b}_i - A\mathbf{a}_i| + |(A - BPD)\mathbf{a}_i|) \\
+&\leq \frac{\varepsilon}{L_k(B)}(1+C|\mathbf{a}_i|_1).
 \end{align*}
 
 (Can we justify this assumption?) Without this assumption,
@@ -796,7 +796,7 @@ if $\ell_{2k}(A) \geq \sqrt{k}\ell_2(A)$ (see Remark \ref{thm1specs})\ldots\text
 \subsection{Spark Condition implies RIP}
 
 \begin{lemma}
-If a matrix $M \in \mathbb{n \times m}$ has full column rank then $\ell(M) > 0$. Spark condition implies $\ell_k(A) > 0$. \textbf{[re-word this]}
+If a matrix $M \in \mathbb{n \times m}$ has full column rank then $\ell(M) > 0$. Spark condition implies $L_k(A) > 0$. \textbf{[re-word this]}
 \end{lemma}
 
 \begin{proof}
