@@ -64,59 +64,26 @@ Here, rather than study how to obtain such optima, we examine their uniqueness p
 with each \textit{source} $\mathbf{a} \in \mathbb R^m$ containing at most $k$ nonzero entries (such vectors are called \emph{$k$-sparse}).
 The vector $\mathbf{n}$ is an error or \textit{noise} term that accounts for both measurement inaccuracy and the degree to which the model deviates from reality (e.g., the true $\mathbf{a}$ may only be approximately sparse).  In short, the goal of SCA is to estimate a set of sparse sources and a dictionary from noisy measurements by approximately solving objective \eqref{DictionaryLearning}.
 
-Even if the uncertainty $\mathbf{n}$ required to explain the data is exactly zero, however, there are still many solutions to the SCA problem. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = BX'$ for $X'$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $X' = PDX$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Thus, the ``uniqueness" of any solution to \eqref{DictionaryLearning} can only be defined up to an equivalence of mappings of the form $PD$, which together constitute an \emph{ambiguity transform group} \cite{?} associated to this particular bilinear inverse problem \cite{BilinInv}. The question of when every solution $Y = BX'$ must necessarily be part of this equivalence class (i.e., $X' = PDX$ and $B = AD^{-1}P^{-1}$ for some $P$, $D$) was addressed in the theoretical works \cite{Georgiev05, Aharon06, Hillar15} and determines whether $A$ and $X$ are \emph{identifiable} from $Y$ up to this inherent ambiguity.
+Even if the uncertainty $\mathbf{n}$ required to explain the data is exactly zero, however, there are still many solutions to the SCA problem. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = BX'$ for $X'$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $X' = PDX$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Thus, the ``uniqueness" of any solution to \eqref{DictionaryLearning} can only be defined up to an equivalence of mappings of the form $PD$, which together constitute an \emph{ambiguity transform group} \cite{BilinInv} associated to this particular bilinear inverse problem. The question of when every solution $Y = BX'$ must necessarily be part of this equivalence class (i.e., $X' = PDX$ and $B = AD^{-1}P^{-1}$ for some $P$, $D$) was addressed in the theoretical works \cite{Georgiev05, Aharon06, Hillar15} and determines whether $A$ and $X$ are identifiable from $Y$ up to this inherent ambiguity.
 
-We provide the following \emph{robust} extension to the notion of identifiability in dictionary learning.
+We provide the following robust extension to the notion of identifiability in sparse dictionary learning.
 %Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis in $\mathbb{R}^m$. 
 
 \begin{definition}\label{Uniqueness}
 A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ if for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} if for every $\delta \geq 0$ there exists a nonnegative $\varepsilon = \varepsilon(\delta)$ (with $\varepsilon > 0$ when $\delta > 0$) such that if $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfy:
-\[|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon, \ \ \text{ for } i = 1, \ldots, N,\]
+\[|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon,\indent \text{ for } i = 1, \ldots, N,\]
 %
 then there necessarily exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
 \begin{align}\label{def1}
-|\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_1 \leq \delta \ \ \text{ and } \ \ |A_j - (BPD)_j|_2 \leq \delta, \ \ \text{ for } \ \ i = 1, \ldots, N; \, j = 1, \ldots, m.
+|\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_1 \leq \delta \ \ \text{ and } \ \ |A_j - (BPD)_j|_2 \leq \delta,\indent  \text{ for } \ \ i = 1, \ldots, N; \, j = 1, \ldots, m.
 \end{align}
 \end{definition}
 
-In short, the $k$-sparse representation of a dataset is robustly identifiable when the only other matrices and $k$-sparse vectors that can well-approximate the data are necessarily close to some permutation and scaling of the original dictionary and codes.
+In short, a $k$-sparse representation of a dataset is robustly identifiable when the only other matrices and $k$-sparse vectors that can well-approximate the data are necessarily close to some permutation and scaling of the original codes and dictionary.  
 
-
-
-
-
-
-
-%The action of all possible such transformations defines an equivalence class of solutions having the same value of the objective function in \eqref{DictionaryLearning}. 
-
-
-
-
-
-
-
-%Given a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure, we therefore wish to be able to write each $\mathbf{y_i}$ as
-%\begin{align}\label{AtomicDecomposition}
-%|\mathbf{y_i} - \sum_{j=1}^{k} c_j \mathbf{a}_j|_2 \leq \varepsilon, \indent \text{for } c_j \in \mathbb{R} \text{ and } \mathbf{a}_j \in \mathcal{A},
-%\end{align}
-%
-%where $\mathcal{A} \subset \mathbb{R}^n$ is a set of $m \ll N$ atoms of which only $k \ll m$ need be linearly combined to approximate each signal $\mathbf{y}_i$ to within some acceptable degree of error $\varepsilon$.
-
-CS: \cite{candes2006near, donoho2006compressed, candes2006stable}.
-
-%A plethora of algorithms \cite{?} have recently been developed to learn such atomic sets as the columns of a \emph{dictionary} matrix $A \in \mathbb{R}^{n \times m}$ by approximately solving the following constrained optimization problem:
-%
-
-
-
-
-
-Fix now a matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Let $\delta > 0$ and suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset satisfying $|\mathbf{y}_i - A\mathbf{a}_i|_2 \leq \varepsilon/2$ for $i = 1, \ldots, N$, where $\varepsilon$ is as in Def.~\ref{Uniqueness}. % for some $\varepsilon_1 \leq \varepsilon$. 
-Suppose that for some alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$, we have $|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon/2$ for all $i$. 
-% and $\varepsilon_2 \leq \varepsilon - \varepsilon_1$. 
-By the triangle inequality, we have $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$, and thus every such alternate $B$ and $\mathbf{b}_i$ must also satisfy \eqref{def1}. 
-In such cases we say the dataset $Y$ has a \textit{unique} $k$-sparse representation in $\mathbb{R}^m$. 
-%That is, any dictionary and corresponding set of code vectors that sparsely encode the data well enough must necessarily be near some permutation and scaling of $A$ and the $\mathbf{a}_i$. 
+To see how this definition directly applies to approximately sparse datasets, fix $A$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N$ such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ is robustly identifiable. Let $\delta > 0$ and suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ satisfies $|\mathbf{y}_i - A\mathbf{a}_i|_2 \leq \varepsilon/2$ for $i = 1, \ldots, N$, where $\varepsilon$ is as in Def.~\ref{Uniqueness}. % for some $\varepsilon_1 \leq \varepsilon$. 
+If it so happens that some alternate dictionary $B$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N$ also give a coding with $|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon/2$ for all $i$, then by the triangle inequality, we necessarily have every such alternate $B$ and $\mathbf{b}_i$ satisfying \eqref{def1} for some $P$ and $D$. 
+In such cases, we say that the dataset $Y$ has a \textit{unique $k$-sparse representation} in $\mathbb{R}^m$. 
 
 We now state the central problem addressed in this paper.
 
@@ -124,46 +91,70 @@ We now state the central problem addressed in this paper.
 Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with bounded noise $\mathbf{n}_i \in \mathbb{R}^n$. When does $Y$ have a unique $k$-sparse representation in $\mathbb{R}^m$?
 \end{problem}
 
-We refine the arguments in \cite{Hillar15} to provide robust identifiability conditions (Theorem \ref{DeterministicUniquenessTheorem}) which determine when the true sources $\mathbf{a}_i$ and mixing matrix $A$ can be ``uniquely" determined from noisy measurements of the form \eqref{LinearModel}. We also reduce the theoretically required number of samples (for the deterministic case) given in \cite{Hillar15} from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$ and provide guarantees for the case when only an upper bound on the number of columns in $A$ is known (Theorem \ref{DeterministicUniquenessTheorem2}). Finally, we provide probabilistic extensions to these results (Theorems \ref{Theorem2} and \ref{Theorem3}). Our conditions apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning} since they are derived from the underlying geometry of the dictionary learning problem. 
-
-Evidently, regardless of noise level, a necessary condition for the unique recovery of the unknown $k$-sparse vectors $\mathbf{a}_i$ from mixtures $\mathbf{y}_i$, even when the measurement matrix $A$ is already known, is that $A$ must be injective on the set of $k$-sparse vectors. That is,
+Evidently, regardless of noise level, unique recovery of the unknown $k$-sparse vectors $\mathbf{a}_i$ from mixtures $\mathbf{y}_i$ -- even when the measurement matrix $A$ is known -- requires that $A$ be injective on the set of $k$-sparse vectors; that is,
 \begin{align}\label{SparkCondition}
-A\mathbf{a}_1 = A\mathbf{a}_2 \implies \mathbf{a}_1 = \mathbf{a}_2, \ \ \text{ for all $k$-sparse } \mathbf{a}_1, \mathbf{a}_2 \in \mathbb{R}^m.
+A\mathbf{a}_1 = A\mathbf{a}_2 \implies \mathbf{a}_1 = \mathbf{a}_2, \ \ \text{ for all $k$-sparse } \mathbf{a}_1, \mathbf{a}_2 \in \mathbb{R}^m,
 \end{align}
+commonly known in the literature as the \emph{spark condition}. Our main contribution here is the result that this necessary condition on $A$ is also enough to guarantee robust identifiability of $Y$ provided the $\mathbf{a}_i$ are sufficiently diverse.  
 
-This is known in the literature as the \emph{spark condition}. Our main result states that given enough samples, the spark condition is also enough to guarantee robust identifiability of \emph{both} $A$ and the $\mathbf{a}_i$ provided the $\mathbf{a}_i$ are sufficiently diverse.  Recall that a \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ in a circular necklace, and that an \textit{interval} is a contiguous sequence of such elements. 
+Recall that a \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ in a circular necklace, and that an \textit{interval} is a contiguous sequence of such elements.  %Our main theorem guaranteeing robust identifiability is as follows.
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 \begin{theorem}\label{DeterministicUniquenessTheorem}
-Fix positive integers $n, m$, $k < m$, and a cyclic order on $[m]$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ in general linear position (or linearly independent for $k=1$) supported on that interval then every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
+Fix positive integers $n, m$, $k < m$, and a cyclic order on $[m]$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ in general linear position supported on that interval, then every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
 
-Specifically, there exist positive $C$ and $\varepsilon_0$ such that the following holds. If $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for $i = 1, \ldots, N$, then provided $\varepsilon < \varepsilon_0$, we have for all $i = 1, \ldots, N$, $j = 1, \ldots, m$  that
+Specifically, there exist positive constants $C$ and $\varepsilon_0$ such that the following holds. If any matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$, then provided $\varepsilon < \varepsilon_0$, we have
 \begin{align}\label{Cstable}
-|(A-BPD)\mathbf{e}_j|_2 \leq C\varepsilon
+|A_j-(BPD)_j|_2 \leq C\varepsilon,\indent  \text{for all } j \in [m],
 \end{align}
 and 
 \begin{align}\label{b-PDa}
-|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_1 &\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right).
+|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_1 &\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right),\indent  \text{for all } i \in [N].
 \end{align}
 \end{theorem}
-An important interpretation of this result is that for small reconstruction error, the original dictionary and sparse codes are determined up to a commensurate error.  (In other words, we may choose $\varepsilon$ on the same order as $\delta$ in Def.~\ref{Uniqueness}.) Formulae for $\varepsilon_0$ and $C$ in terms of $A$ and the $\mathbf{a}_i$ are provided in \eqref{epsilon0} and \eqref{Cdef}, below. 
+[**** Chaz says there is something weird about $k=1$ and general linear position here ***]
+An important consequence of this result is that for sufficiently small reconstruction error, the original dictionary and sparse codes are determined up to a commensurate error, independent of alternate representation.  (In other words, we may choose $\varepsilon$ on the same order as $\delta$ in Def.~\ref{Uniqueness}.) Formulae for  $C$ and $\varepsilon_0$ in terms of $A$ and the $\mathbf{a}_i$ are provided in \eqref{epsilon0} and \eqref{Cdef}, below. 
 
 \begin{corollary}\label{DeterministicUniquenessCorollary}
 Given positive integers $n, m$, and $k < m$, there exist $N =  m(k-1){m \choose k}+m$ vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
 \end{corollary}
 
+Our proof of Theorem \ref{DeterministicUniquenessTheorem} is a delicate refinement of the arguments in \cite{Hillar15} to handle measurement error.  Here, we also reduce the theoretically required number of samples given by \cite{Hillar15} from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$, and we provide guarantees for the case when only an upper bound on the number of columns in $A$ is known (see Theorem \ref{DeterministicUniquenessTheorem2} below). 
+
+It is also informative to relate our results to the field of compressed sensing (CS) \cite{candes2006near, donoho2006compressed, candes2006stable}. This theory describes conditions under which a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse in some known basis (i.e. $\mathbf{s} = \Psi \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) can be feasibly recovered after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$. The underlying logic is simple: if the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition} then $\mathbf{s}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi^{-1}\mathbf{s}$. The following key result in CS allows for the construction of such compression matrices using random methods. Provided the dimension $n$ of $\mathbf{y}$ satisfies:
+\begin{align}\label{CScondition}
+n \geq \alpha k\log\left(\frac{m}{k}\right),
+\end{align}
+where $\alpha$ is a positive constant, then a ``randomly" generated $A$ satisfies the spark condition with high probability.  But what if we don't know this compression matrix, or the sparsifying basis $A$? Our theorems provide conditions under which $A$ can be robustly identified anyway (given enough samples), even in the presence of noise. 
+
+Given Theorem \ref{DeterministicUniquenessTheorem}, it is also possible to provide probabilistic extensions (Theorems \ref{Theorem2} and \ref{Theorem3}).  To keep our exposition simple, our statements are based upon the following elementary construction of \emph{random sparse vectors} (although many ensembles will suffice, e.g. \cite[Sec.~\S 4]{baraniuk2008simple}).
+
+\begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
+Given the support set for its $k$ nonzero entries, a \textbf{random draw} of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all ${m \choose k}$ of them and then a random draw.
+\end{definition}
+
+We state the main implications of those results (elaborated upon in Section \ref{PUT} more fully) here. Recall that an \emph{algebraic set} is a solution to a finite set of polynomial equations.
+
+\begin{corollary}
+Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from $N = m(k-1){m \choose k}+m$ $k$-sparse samples $\mathbf{a}_i$, consisting of $(k-1){m \choose k}+1$ samples supported on each interval of length $k$ in some cyclic ordering of $[m]$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+\end{corollary}
+
+\begin{corollary}
+Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $[m]$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval then, with probability one, almost every matrix $A \in \mathbb{R}^{n \times m}$ gives a robustly identifiable $Y = \{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$.
+\end{corollary}
+
+It is important to note where this result fits into the field of theoretical dictionary learning. While certain algorithms have been shown to have local converge to a global minimum or global convergence to a local minimum of approximations to \eqref{DictionaryLearning}, to our knowledge there exist no algorithms with guaranteed global convergence to a global solution. Our conditions apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning} since they are derived from the underlying geometry of the dictionary learning problem, providing for a universal check when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}.
+
+% by determining whether the reconstruction error of the proposed solution is indeed small enough.
+
+
+
 We produce such a family of $\mathbf{a}_i$ using ``Vandermonde" matrices in Section \ref{DUT} and calculate explicit numerical bounds on $\varepsilon_0$ and $C$ for such a family in Appendix C. [*** need to finish that...they depend on A too, though... ***] 
 
 % Moreover, the generality of the construction allows us to easily extend the theorem to cases where the $A$ and $\mathbf{a}_i$ are randomly generated.
 [************ Check this to make sure these claims are true *******]
-It is important for us to note where this result fits in the field of theoretical dictionary learning. While certain algorithms have been shown to have local converge to a global minimum [ref] or global convergence to a local minimum [ref] of the objective function minimized in \eqref{DictionaryLearning}, to our knowledge there exist no algorithms with guaranteed global convergence to the global solution. A key corollary to our theorem is a universal check for when \emph{any} dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning} by determining whether the reconstruction error of the proposed solution is indeed small enough. 
 
-It is also informative to relate our results to the field of compressive sensing (CS) \cite{?}. CS theory describes conditions under which a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse in some known basis (i.e. $\mathbf{s} = \Psi \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) can be feasibly recovered after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$. The underlying logic is simple: if the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition} then $\mathbf{s}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi^{-1}\mathbf{s}$. The following key result in CS allows for the construction of such compression matrices using random methods. Provided the dimension $n$ of $\mathbf{y}$ satisfies:
-\begin{align}\label{CScondition}
-n \geq Ck\log\left(\frac{m}{k}\right),
-\end{align}
-%
-where $C$ is a positive constant, then a randomly\footnote{?} generated compression matrix $\Phi$ yields an $A$ that satisfies the spark condition (regardless of the sparsifying basis $\Psi$) with probability one [ *** Chris is this right? Or with high probability? ***]. But what if we don't know this compression matrix, or the sparsifying basis $\Psi$? Our theorems provide conditions under which $A$ can be robustly identified anyway (given enough samples), even in the presence of noise. 
+
 
 
 [********** Discuss that it would be awesome to find the best dependence of $\varepsilon$ on $\delta$ and best constants and number of samples for this problem **********]
