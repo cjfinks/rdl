@@ -169,7 +169,7 @@ Let ${[m] \choose k}$ be the set of subsets of $[m]$ of cardinality $k$ and $\te
 %
 %\[ \text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\} = \left\{ \sum_{i=1}^\ell t_i\mathbf{v}_i : t_1, \ldots, t_\ell \in \mathbb{R}\right\}. \]
 %
-Also, given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$ with columns $\{M_1,\ldots,M_m\}$, we define $M_S$ to be the matrix with columns $\{M_i: i \in S\}$ and $\text{Span}\{M\} := \text{Span}\{M_1, \ldots, M_m\}$.  The \emph{lower bound} of a matrix $M \in \mathbb{R}^{n \times m}$ \cite{Grcar10} is the largest number for which $|M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$ and we define the ``restricted" lower bound to be:
+Also, given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$ with columns $\{M_1,\ldots,M_m\}$, we define $M_S$ to be the matrix with columns $\{M_i: i \in S\}$ and $\text{Span}\{M\} := \text{Span}\{M_1, \ldots, M_m\}$.  The \emph{lower bound} of a matrix $M \in \mathbb{R}^{n \times m}$ \cite{grcar2010matrix} is the largest number for which $|M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$ and we define the \textit{$k$-restricted lower bound} to be:
 \begin{align}
 \ell_k(M) := \max \{ \alpha : |M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m\}.
 \end{align}
