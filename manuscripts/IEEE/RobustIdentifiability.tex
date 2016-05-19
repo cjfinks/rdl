@@ -112,7 +112,6 @@ and
 |D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_1 &\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right),\indent  \text{for all } i \in [N].
 \end{align}
 \end{theorem}
-[**** Chaz says there is something weird about $k=1$ and general linear position here ***]
 An important consequence of this result is that for sufficiently small reconstruction error, the original dictionary and sparse codes are determined up to a commensurate error, independent of alternate representation.  (In other words, we may choose $\varepsilon$ on the same order as $\delta$ in Def.~\ref{Uniqueness}.) Formulae for  $C$ and $\varepsilon_0$ in terms of $A$ and the $\mathbf{a}_i$ are provided in \eqref{epsilon0} and \eqref{Cdef}, below. 
 
 \begin{corollary}\label{DeterministicUniquenessCorollary}
@@ -125,7 +124,7 @@ It is also informative to relate our results to the field of compressed sensing 
 \begin{align}\label{CScondition}
 n \geq \alpha k\log\left(\frac{m}{k}\right),
 \end{align}
-where $\alpha$ is a positive constant, then a ``randomly" generated $A$ satisfies the spark condition with high probability.  But what if we don't know this compression matrix, or the sparsifying basis $A$? Our theorems provide conditions under which $A$ can be robustly identified anyway (given enough samples), even in the presence of noise. 
+where $\alpha$ is a positive constant, then a ``randomly" generated $A$ satisfies the spark condition with high probability.  But what if we don't know this compression matrix, or the sparsifying basis $\Psi$? Our theorems provide conditions under which $A$ can be robustly identified anyway (given enough samples), even in the presence of noise. 
 
 Given Theorem \ref{DeterministicUniquenessTheorem}, it is also possible to provide probabilistic extensions (Theorems \ref{Theorem2} and \ref{Theorem3}).  To keep our exposition simple, our statements are based upon the following elementary construction of \emph{random sparse vectors} (although many ensembles will suffice, e.g. \cite[Sec.~\S 4]{baraniuk2008simple}).
 
