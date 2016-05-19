@@ -26,7 +26,7 @@
 \usepackage{array}
 
 % correct bad hyphenation here
-\hyphenation{op-tical net-works semi-conduc-tor}
+%\hyphenation{op-tical net-works semi-conduc-tor}
 
 \begin{document}
 
@@ -38,11 +38,11 @@
 \maketitle
 
 \begin{abstract}
-In sparse component analysis (SCA), a dictionary is learned to linearly code a sparse mixure of signals.  It has been previously established  under mild assumptions (e.g., the spark condition from compressed sensing) that such a coding of sparse data is unique up to a relabelling and scaling of dictionary columns and sparse codes.  Often, however, data is only approximately sparse, and noise is present in the generative SCA model.  We extend the known uniqueness results to this more general setting and prove that approximately sparse datasets are still uniquely coded up to the level of noise in the input.  Our results help explain the ubiquitous finding that diverse SCA algorithms determine unique structure when applied to approximately code the same sparse mixtures.
+In sparse component analysis (SCA), a dictionary is learned to linearly code a sparse mixture of signals.  It has been previously established  under mild assumptions (e.g., the spark condition from compressed sensing) that such a coding of sparse data is unique up to a relabelling and scaling of dictionary columns and sparse codes.  Often, however, data is only approximately sparse, and noise is present in the generative SCA model.  We extend the known uniqueness results to this more general setting and prove that approximately sparse datasets are still uniquely coded up to the level of noise in the input.  Our results help explain the ubiquitous finding that diverse SCA algorithms determine unique structure when applied to approximately code the same sparse mixtures.
 \end{abstract}
 
 \begin{IEEEkeywords}
-Bilinear inverse problem, identifiability, dictionary learning, sparse coding, matrix factorization, compressed sensing, combinatorial matrix analysis, blind source separation
+Bilinear inverse problem, identifiability, dictionary learning, sparse coding, matrix factorization, compressed sensing, combinatorial linear algebra, blind source separation
 \end{IEEEkeywords}
 
 %===================================
@@ -51,26 +51,41 @@ Bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 
 \section{Introduction}
 [************** ADD all references and make all references have single letter first name and then last name (no middle initial) *********]
-\IEEEPARstart{A}{} number of modern applications of signal processing derive from the ability to approximate signals as a combination of few elements from an atomic set. Given a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure, we therefore wish to be able to write each $\mathbf{y_i}$ as
+\IEEEPARstart{A}{} number of modern approaches to signal processing model datasets $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure as sparse linear combinations of the columns of a learned dictionary matrix $A \in \mathbb R^{n\times m}$.  Typically, this is accomplished by approximately solving the following constrained optimization problem:
+\begin{align}\label{DictionaryLearning}
+\arg \min_{A, \, \mathbf{a}_i} \  \sum_{i=1}^N |\mathbf{y}_i - A\mathbf{a}_i|_2, \indent \text{subject to } |\mathbf{a}_i|_0 \leq k.
+\end{align}
+As the dictionary learning problem \eqref{DictionaryLearning} is NP-hard in general \cite{Tillmann15}, algorithms solving it implement strategies that lead to approximate solutions, typically by replacing the $\ell_0$ pseudo-norm $|\cdot|_0$ (the number of nonzero entries in a vector) with the $\ell_1$-norm $|\cdot|_1$. For a recent comprehensive survey of such techniques, see the review paper \cite{Zhang15}.
+
+Here, rather than study how to obtain such optima, we examine their uniqueness properties. This is of fundamental concern when performing \emph{sparse component analysis} (SCA) \cite{Georgiev05}, wherein the dataset $Y$ is modeled as a sequence of \emph{measurements}:
+\begin{align}\label{LinearModel}
+\mathbf{y} = A\mathbf{a} + \mathbf{n},
+\end{align}
+with each vector $\mathbf{a} \in \mathbb R^m$ containing at most $k$ nonzero entries (such vectors are called \emph{$k$-sparse}) and $\mathbf{n}$ an error or noise term, which .  
+
+The reconstruction coefficients for each $\mathbf{y}_i$ are contained in the \emph{code vectors} $\mathbf{x}_1, \ldots, \mathbf{x}_N \in \mathbb{R}^m$ 
+taken of some sparse \emph{sources} $\mathbf{x}_i$, with the vector $\mathbf{n}_i$ accounting for both measurement noise and the degree to which the model deviates from reality (e.g., the true $\mathbf{x}_i$ may only be approximately sparse). The goal of SCA is to estimate the sources from the observed measurements by approximately solving objective \eqref{DictionaryLearning}.
+
+
+
+
+
+
+
+
+Given a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure, we therefore wish to be able to write each $\mathbf{y_i}$ as
 \begin{align}\label{AtomicDecomposition}
 |\mathbf{y_i} - \sum_{j=1}^{k} c_j \mathbf{a}_j|_2 \leq \varepsilon, \indent \text{for } c_j \in \mathbb{R} \text{ and } \mathbf{a}_j \in \mathcal{A},
 \end{align}
 %
 where $\mathcal{A} \subset \mathbb{R}^n$ is a set of $m \ll N$ atoms of which only $k \ll m$ need be linearly combined to approximate each signal $\mathbf{y}_i$ to within some acceptable degree of error $\varepsilon$.
 
-A plethora of algorithms \cite{?} have recently been developed to learn such atomic sets as the columns of a \emph{dictionary} matrix $A \in \mathbb{R}^{n \times m}$ by approximately solving the following constrained optimization problem:
-\begin{align}\label{DictionaryLearning}
-\arg \min_{A, \mathbf{x}_i} \  \sum_{i=1}^N |\mathbf{y}_i - A\mathbf{x}_i|_2 \indent \text{subject to } |\mathbf{x}_i|_0 \leq k.
-\end{align}
-%
-The reconstruction coefficients for each $\mathbf{y}_i$ are contained in the \emph{code vectors} $\mathbf{x}_1, \ldots, \mathbf{x}_N \in \mathbb{R}^m$ each containing at most $k$ nonzero entries (we refer to such vectors as being \emph{$k$-sparse}). Since \eqref{AtomicDecomposition} determines an NP-hard problem \cite{Tillmann15}, these algorithms typically implement strategies that lead to an approximate solutions through either greedy methods or by replacing the $\ell_0$ pseudo-norm $|\cdot|_0$ (the number of nonzero entries in a vector) with the $\ell_1$-norm $|\cdot|_1$. See \cite{Zhang15} for a comprehensive review of strategies for solving \eqref{DictionaryLearning}. 
+Donoho: \cite{candes2006near, donoho2006compressed, candes2006stable}.
 
-Here, we study when solutions to \eqref{DictionaryLearning} are unique, or at least approximately so, given a dataset $Y$. This is of fundamental concern when performing \emph{sparse component analysis} (SCA) \cite{Georgiev05}, wherein the interpretation of the dataset $Y$ is that of \emph{measurements}
-\begin{align}\label{LinearModel}
-\mathbf{y}_i = A\mathbf{x}_i + \mathbf{n}_i
-\end{align}
+A plethora of algorithms \cite{?} have recently been developed to learn such atomic sets as the columns of a \emph{dictionary} matrix $A \in \mathbb{R}^{n \times m}$ by approximately solving the following constrained optimization problem:
 %
-taken of some sparse \emph{sources} $\mathbf{x}_i$, with the vector $\mathbf{n}_i$ accounting for both measurement noise and the degree to which the model deviates from reality (e.g., the true $\mathbf{x}_i$ may only be approximately sparse). The goal of SCA is to estimate the sources from the observed measurements by approximately solving objective \eqref{DictionaryLearning}.
+
+
 
 Even if the uncertainty $\mathbf{n}_i$ required to explain the data is nil, however, there are still many solutions to the SCA problem. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{x}_i$, respectively so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = BX'$ for $X'$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $X' = PDX$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The ``uniqueness" of any solution to \eqref{DictionaryLearning} can therefore only be defined up to a transformation by permutation-scaling matrices of the form $PD$, which together form an \emph{ambiguity transform group} \cite{?} associated to this particular bilinear inverse problem. The action of all possible such permutation-scaling transformations on $A$ and $X$ defines an equivalence class of solutions having the same value of the objective function in \eqref{DictionaryLearning}. 
 
@@ -306,7 +321,7 @@ which contradicts $\varepsilon < \varepsilon_0$. Hence, $\pi$ is injective. Lett
 \end{align}
 
 \begin{remark}
-We demonstrate with the following counter-example that \eqref{Cstable} with $C$ as defined in \eqref{Cdef} is not necessarily implied if $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \geq \varepsilon_0$ for some $i \in [m]$. Consider the dataset $\mathbf{a}_i = \mathbf{e}_i$ for $i = 1, \ldots, m$ and let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$. Then $\ell_2(A) = 1$ (since $|A\mathbf{x}|_2 = |\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$) and $\varepsilon_0 = 1/\sqrt{2}$. Consider the alternate dictionary $B = \left(\mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$ and let $\mathbf{b}_i = \mathbf{e}_2$ for $i = 1, 2$ and $\mathbf{b}_i = \mathbf{e}_i$ for $i = 3, \ldots, m$. Then $|A\mathbf{a}_i - B\mathbf{b}_i|_2 = \varepsilon_0$ for $i = 1$ and $0$ otherwise. Hence there exist 1-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_m \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon_0$ for all $i \in [m]$, whereas there exist no permutation and diagonal matrices $P$ and $D$ such that $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C=1$ for all $i \in [m]$ since $|(A - BPD)P^{-1}\mathbf{e}_1|_2 = 1$ for all possible matrices $PD$.
+We demonstrate with the following counter-example that \eqref{Cstable} with $C$ as defined in \eqref{Cdef} is not necessarily implied if $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [m]$ only holds for $\varepsilon \geq \varepsilon_0$. Consider the dataset $\mathbf{a}_i = \mathbf{e}_i$ for $i = 1, \ldots, m$ and let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$. Then $\varepsilon_0 = 1/\sqrt{2}$ since $\ell_2(A) = 1$ (we have $|A\mathbf{x}|_2 = |\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$) and $C = 1$. Consider the alternate dictionary $B = \left(\mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$ and let $\mathbf{b}_i = \mathbf{e}_2$ for $i = 1, 2$ and $\mathbf{b}_i = \mathbf{e}_i$ for $i = 3, \ldots, m$. Then $|A\mathbf{a}_i - B\mathbf{b}_i| = 1/\sqrt{2}$ for $i = 1, 2$ and $0$ otherwise, i.e. the smallest $\varepsilon$ for which $|A\mathbf{a}_i - B\mathbf{b}_i| \leq \varepsilon$ for all $i \in [m]$ is $\varepsilon = 1/\sqrt{2} = \varepsilon_0$. If there were permutation and diagonal matrices $P \in \mathbb{R}^{m \times m}$ and $D \in \mathbb{R}^{m \times m}$ such that $|(A-BPD)\mathbf{e}_i| \leq C\varepsilon$ for all $i \in [m]$, then we would reach the contradiction $|\mathbf{e}_1|_2 = |(A-BPD)P^{-1}\mathbf{e}_1|_2 \leq 1/\sqrt{2}$.
 \end{remark}
 
 % ======== b - PDa =========
@@ -843,5 +858,4 @@ Let $\mathbf{y}_i = A\mathbf{a}_i + \eta_i$ for all $i \in \{1, \ldots, N\}$ and
 
 
 \end{document}
-
 
