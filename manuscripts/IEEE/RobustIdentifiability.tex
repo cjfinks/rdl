@@ -189,7 +189,7 @@ The next definition we need is based on a quantity derived in \cite{Deutsch} to 
 \begin{definition}\label{SpecialSupportSet}
 Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$. Setting $\phi_1(A) := 1$, define for $k \geq 2$:
 \begin{align}\label{rho}
-\phi_k(A) := \min_{ S_1,\ldots,S_k \in {[m] \choose k} } \left(1 - \xi( \text{Span}\{A_{S_1}\}, \ldots,  \text{Span}\{A_{S_k}\}) \right),
+\phi_k(A) := \min_{ S_1,\ldots,S_k \in {[m] \choose k} } 1 - \xi( \text{\rm Span}\{A_{S_1}\}, \ldots,  \text{\rm Span}\{A_{S_k}\}),
 \end{align}
 where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of closed subspaces of $\mathbb{R}^m$, 
 \begin{align}
@@ -204,7 +204,7 @@ We are now in a position to state explicitly the constants $C$ and $\varepsilon_
 \begin{align}\label{epsilon0}
 \varepsilon_0 = \frac{ \phi_k(A) L_{2k}(A) }{\rho k^2 \sqrt{2}} \min_{S \in T} L_k(AX_{I(S)}),
 \end{align}
-where $\rho := \max_{j \in [m]} |A_j|_2 $. If $A$ has unit norm columns (as is standard in applications) and $0 \leq \varepsilon < \varepsilon_0$, then \eqref{Cstable} and \eqref{b-PDa} hold with
+where $\rho := \max_{j \in [m]} |A_j|_2 $. [******** why is this unit norm column still here and $\rho$ not mentioned below?? ***********]  If $A$ has unit norm columns (standard in applications) and $0 \leq \varepsilon < \varepsilon_0$, then \eqref{Cstable} and \eqref{b-PDa} hold with
 \begin{align}\label{Cdef}
 C = \frac{L_{2k}(A)}{ \varepsilon_0 \sqrt{2k}}.
 \end{align}
@@ -217,34 +217,34 @@ Note that if $A$ satisfies the spark condition, then $\phi_k(A), L_{2k}(A) \neq 
 \begin{definition}\label{GapMetricDef}
 Let $U, V$ be subspaces of $\mathbb{R}^m$ and let $d(u,V) := \inf\{|u-v|_2: v \in W\} = |u - \Pi_V u|_2$ where $\Pi_V$ is the orthogonal projection operator onto subspace $V$. The \textbf{gap metric} $\Theta$ on subspaces of $\mathbb{R}^{m}$ is \cite{akhiezer2013theory}:
 \begin{equation}\label{SubspaceMetric}
-\Theta(U,V) := \max\left( \sup_{\substack{u \in U, |u|_2 = 1}} d(u,V), \sup_{\substack{v \in V, |v|_2 = 1}} d(v,U) \right).
+\Theta(U,V) := \max\left( \sup_{\substack{u \in U, \, |u|_2 = 1}} d(u,V), \sup_{\substack{v \in V, \, |v|_2 = 1}} d(v,U) \right).
 \end{equation}
 \end{definition}
 
 We are now state our main result from combinatorial matrix theory, generalizing \cite[Lemma 1]{Hillar15} to the noisy case.
 
 %===========          MAIN LEMMA (K > 1)             =================
-
 \begin{lemma}[Main Lemma]\label{MainLemma}
-Fix positive integers $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition}.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}} (\max_{i \in [m]}|A\mathbf{e}_i|_2)^{-1}$ such that 
+Fix positive integers $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with maximum column $\ell_2$-norm $\rho$.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\rho \sqrt{2}}$ such that 
 \begin{equation}\label{GapUpperBound}
-\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta, \indent \text{for all} \indent S \in T,
+\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta, \indent \text{for all } S \in T,
 \end{equation}
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
 \begin{align}
-\|(A - BPD)\mathbf{e}_i\|_2 \leq \Delta \max_{i \in [m]}|A\mathbf{e}_i|_2, \indent \text{for all } i \in [m].
+|A_j - (BPD)_j|_2 \leq \Delta, \indent \text{for all } j \in [m].
 \end{align}
+[********** this last thing had a $\max_{i \in [m]}|A\mathbf{e}_i|_2$ multiplied with a $\Delta$ in it, which shouldn't be there, right? **********]
 \end{lemma}
-We defer the proof of this lemma to Appendix \ref{appendixA}. In words, it says that the vectors forming the columns of $A$ are nearly identical to those forming the columns of $B$ provided that for a special set $T$ of $m$ subspaces, each spanned by $k$ columns of $A$, there exist $k$ columns of $B$ which span a nearby subspace with respect to the gap metric.
+We defer the (technical) proof of this lemma to Appendix \ref{appendixA}. In words, the result says that the vectors forming the columns of $A$ are nearly identical to those forming the columns of $B$ (up to symmetry) provided that for a special set $T$ of $m$ subspaces, each spanned by $k$ columns of $A$, there exist $k$ columns of $B$ which span a nearby subspace with respect to the gap metric.
 
-In our proof of robust identifiability, we will use the following useful facts about the distance $d$ from Def.~\ref{GapMetricDef}. The first, 
+In our proof of robust identifiability, we will also use the following useful facts about the distance $d$ from Def.~\ref{GapMetricDef}. The first, 
 \begin{equation}\label{SubspaceMetricSameDim}
 \dim(W) = \dim(V) \implies \sup_{\substack{v \in V, |v|_2 = 1}}  d(v,W)  = \sup_{\substack{w \in W, |w|_2 = 1}} d(w,V),
 \end{equation}
-is proven in \cite[Lemma 3.3]{Morris10}. The second is:
+can be found in \cite[Lemma 3.3]{Morris10}. The second is:
 \begin{lemma}\label{MinDimLemma}
-Let $U, V$ be subspaces of $\mathbb{R}^{m}$. Then,
+If $U, V$ are subspaces of $\mathbb{R}^{m}$, then
 \begin{equation}\label{MinDim}
 d(u,V) < |u|_2 \ \ \text{\rm for all } u \in U \setminus{\{0\}} \implies \dim(U) \leq \dim(V).
 \end{equation}
@@ -254,19 +254,15 @@ d(u,V) < |u|_2 \ \ \text{\rm for all } u \in U \setminus{\{0\}} \implies \dim(U)
 We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument ($\dim U + \dim V^\perp > m$) gives a nonzero $u \in U \cap V^\perp$.  In particular, we have $|u - v|_2^2 = |u|_2^2 + |v|_2^2 \geq |u|_2^2$ for all $v \in V$, and thus $d(u,V) \geq |u|_2$.
 \end{proof}
 
+Finally, we have the following lemma allowing us to extend uniqueness guarantees (up to permutation, scaling, and error) for matrices with unit norm columns to those without and vice versa.  [*** We could in principle just use this lemma instead to extend norm 1 col proofs to arbitrary length cols. *** ]
 %%%---NORMALIZED DICTIONARY LEMMA---%%%
 \begin{lemma}\label{NormalizedDictionaryLemma}
-[*** We could in principle just use this lemma instead to extend norm 1 col proofs to arbitrary length cols. *** ]
-Fix matrices $A, \tilde{A} \in \mathbb{R}^{n \times m}$ where $\tilde{A} = AE$ for some invertible diagonal matrix $E = \text{diag}(\lambda_i) \in \mathbb{R}^{m \times m}$, $\lambda_i \in \mathbb{R}$ for all $i \in [m]$. If there exists a matrix $B \in \mathbb{R}^{n \times m}$ such that $\|(A - B)e_i\| \leq \varepsilon$ for all $i \in [m]$, then the matrix $\tilde{B} = BE$ satisfies $\|(\tilde{A} - \tilde{B})e_i\| \leq \lambda \varepsilon$ for all $i \in [m]$, where $\lambda = \max_i |\lambda_i|$.
-
-This lemma allows us to extend uniqueness guarantees (up to permutation, scaling, and error) for matrices with unit norm columns to those without and vice versa. 
+Fix matrices $A, \tilde{A} \in \mathbb{R}^{n \times m}$ where $\tilde{A} = AE$ for some invertible diagonal matrix $E = \text{\rm diag}(\lambda_1,\ldots,\lambda_m) \in \mathbb{R}^{m \times m}$. If there exists a matrix $B \in \mathbb{R}^{n \times m}$ such that $|A_j - B_j|_2 \leq \varepsilon$ for all $j \in [m]$, then the matrix $\tilde{B} = BE$ satisfies $|\tilde{A}_j - \tilde{B}_j| \leq \lambda \varepsilon$ for all $j \in [m]$, where $\lambda = \max_j |\lambda_j|$.
 \end{lemma}
-
-\emph{Proof of Lemma \ref{NormalizedDictionaryLemma}:} For all $i \in [m]$, we have:
-\begin{align*}
-\|(\tilde{A} - \tilde{B})e_i\| = \|(A-B)Ee_i\| = |\lambda_i| \|(A-B)e_i\| \leq |\lambda_i| \varepsilon \leq \lambda \varepsilon 
-\indent \blacksquare
-\end{align*}
+\begin{proof}
+For all $j \in [m]$, we have
+\[|\tilde{A}_j - \tilde{B}_j|_2 = |(AE-BE)_j|_2 = |\lambda_j| |A_j- B_j|_2 \leq |\lambda_j| \varepsilon \leq \lambda \varepsilon.\]
+\end{proof}
 
  
 %============================================
@@ -276,8 +272,8 @@ This lemma allows us to extend uniqueness guarantees (up to permutation, scaling
 \section{Deterministic Identifiability}\label{DUT}
 
 %======== CASE K = 1 ============
-
-Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, consider the case when $k=1$. Suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_i = c_i\mathbf{e}_i$ $(i = 1, \ldots, m)$ for $c_1, \ldots, c_m \in \mathbb{R}^m/\{0\}$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} and let $\rho = \max_{i \in [m]} |A\mathbf{e}_i|_2$. By \eqref{epsilon0} we have:
+Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis vectors in $\mathbb R^m$.
+Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, consider when $k=1$. Suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_j = c_j \mathbf{e}_j$ for $c_j \in \mathbb{R} \setminus \{0\}$, $j \in [m]$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} and let $\rho = \max_{i \in [m]} |A\mathbf{e}_i|_2$. By \eqref{epsilon0} we have:
 \begin{align}
 \varepsilon_0 
 = \frac{ \phi_1(A) \ell_{2}(A) }{\rho \sqrt{2}} \min_{i \in [m]} \ell_1(c_iA\mathbf{e}_i) 
@@ -318,11 +314,11 @@ We demonstrate with the following counter-example that \eqref{Cstable} with $C$ 
 
 % ======== b - PDa =========
 \begin{remark}\label{b-PDaProof}
-From this result we can, in general, bound $|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_1$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0} and $C$ is defined as in \eqref{Cdef}. Note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$ we have by the triangle inequality:
+From this result we can, in general, bound $|\mathbf{a}_i - D^{-1}P^{-1}\mathbf{b}_i|_1$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0} and $C$ is defined as in \eqref{Cdef}. Note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$ we have by the triangle inequality:
 \begin{align*}
 |(A-BPD)\mathbf{x}|_2 
 \leq C\varepsilon|\mathbf{x}|_1
-\leq \sqrt{2k} C \varepsilon |\mathbf{x}|_2
+\leq C \varepsilon \sqrt{2k}  |\mathbf{x}|_2.
 \end{align*}
 
 Thus,
@@ -331,11 +327,11 @@ Thus,
 \geq | |A\mathbf{x}|_2 - |(A-BPD)\mathbf{x}|_2 |
 \geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon ) |\mathbf{x}|_2.
 \end{align*}
-Hence, $\ell_{2k}(BPD) \geq \ell_{2k}(A) - \sqrt{2k}C\varepsilon$ which is positive by \eqref{Cdef}, and it follows that:
+Hence, $\ell_{2k}(BPD) \geq \ell_{2k}(A) - C\varepsilon \sqrt{2k}$ which is positive by \eqref{Cdef}, and it follows that:
 \begin{align*}
 |D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_1
-&\leq \sqrt{2k} |D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_2 \\
-&\leq \frac{\sqrt{2k}}{\ell_{2k}(BPD)}|BPD(D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i)|_2 \\
+&\leq \sqrt{2k} |\mathbf{a}_i - D^{-1}P^{-1}\mathbf{b}_i|_2 \\
+&\leq \frac{\sqrt{2k}}{\ell_{2k}(BPD)}|BPD(\mathbf{a}_i - D^{-1}P^{-1}\mathbf{b}_i)|_2 \\
 &\leq \frac{\sqrt{2k}}{\ell_{2k}(BPD)} (|B\mathbf{b}_i - A\mathbf{a}_i|_2 + |(A - BPD)\mathbf{a}_i|_2) \\
 &\leq \frac{\varepsilon\sqrt{2k}}{\ell_{2k}(BPD)}(1+C|\mathbf{a}_i|_1) \\
 &\leq \frac{\varepsilon\sqrt{2k}(1+C|\mathbf{a}_i|_1)}{\ell_{2k}(A) - C\varepsilon\sqrt{2k}} \\
@@ -355,36 +351,36 @@ It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows f
 \begin{proof}[Proof of Theorem \ref{DeterministicUniquenessTheorem} and Corollary \ref{DeterministicUniquenessCorollary}]
 Let $T$ be the set of intervals of length $k$ in the given cyclic order of $[m]$.  From above, we may assume that $k > 1$. The first step is to produce a set of $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ in general linear position (i.e., any $k$ of them are linearly independent). Specifically, let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 
-Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of indices $J(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S'$, respectively.
+Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of indices $I(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in I(S)$ have supports $S$ and $S'$, respectively.
 
-Let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$ and $\tilde{X} = (\mathbf{b}_1 \cdots \mathbf{b}_N)$ be the matrices formed by horizontally stacking the column vectors $\mathbf{a}_i$ and, respectively, the $\mathbf{b}_i$. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent, i.e. $\ell(AX_{J(S)}) > 0$, and form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{z} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = AX_{J(S)}\mathbf{c}$. Letting $\mathbf{z'} = B\tilde{X}_{J(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
+Let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$ and $\tilde{X} = (\mathbf{b}_1 \cdots \mathbf{b}_N)$ be the matrices formed by horizontally stacking the column vectors $\mathbf{a}_i$ and, respectively, the $\mathbf{b}_i$. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{I(S)}$ are linearly independent, i.e. $\ell(AX_{I(S)}) > 0$, and form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{z} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = AX_{I(S)}\mathbf{c}$. Letting $\mathbf{z'} = B\tilde{X}_{I(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
 \begin{align*}
-|\mathbf{z} - \mathbf{z'}|_2 = |\sum_{j=1}^N c_i(AX_{J(S)} - B\tilde{X}_{J(S)})\mathbf{e}_j|_2 
+|\mathbf{z} - \mathbf{z'}|_2 = |\sum_{j=1}^N c_i(AX_{I(S)} - B\tilde{X}_{I(S)})\mathbf{e}_j|_2 
 \leq \varepsilon \sum_{j=1}^N |c_j| 
 \leq \varepsilon |\mathbf{c}|_2 \sqrt{k}  
-\leq \frac{\varepsilon \sqrt{k}}{\ell(AX_{J(S)})} |AX_{J(S)}\mathbf{c}|_2.
-= \frac{\varepsilon \sqrt{k}}{\ell(AX_{J(S)})} |\mathbf{z}|_2.
+\leq \frac{\varepsilon \sqrt{k}}{\ell(AX_{I(S)})} |AX_{I(S)}\mathbf{c}|_2
+= \frac{\varepsilon \sqrt{k}}{\ell(AX_{I(S)})} |\mathbf{z}|_2.
 \end{align*}
 
 Hence,
 \begin{align}\label{ABSubspaceDistance}
-\sup_{ \substack{ \mathbf{z} \in \text{Span}\{A_{S}\} \\ |\mathbf{z}|_2 = 1} } d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})}.
+\sup_{ \substack{ \mathbf{z} \in \text{Span}\{A_{S}\} \\ |\mathbf{z}|_2 = 1} } d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{I(S)})}.
 \end{align}
 
 We now show that \eqref{Cstable} and \eqref{b-PDa} both follow if $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0}. In fact, to show \eqref{Cstable} we only require $\varepsilon <  \frac{\varepsilon_0 \sqrt{k} \ell_2(A)}{\ell_{2k}(A)}$. In this case the RHS of \eqref {ABSubspaceDistance} works out to be strictly less than 1, since:
 \begin{align}\label{rhs}
-\frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})} 
-< \frac{\sqrt{k}}{\ell(AX_{J(S)})} \left( \frac{\varepsilon_0 \sqrt{k} \ell_2(A)}{\ell_{2k}(A)} \right)
-= \frac{\ell_2(A) \phi_k(A)}{\rho \ell(AX_{J(S)}) k \sqrt{2}} \min_{S \in T}L_k(AX_{I(S)})
+\frac{\varepsilon\sqrt{k}}{\ell(AX_{I(S)})} 
+< \frac{\sqrt{k}}{\ell(AX_{I(S)})} \left( \frac{\varepsilon_0 \sqrt{k} \ell_2(A)}{\ell_{2k}(A)} \right)
+= \frac{\ell_2(A) \phi_k(A)}{\rho \ell(AX_{I(S)}) k \sqrt{2}} \min_{S \in T}L_k(AX_{I(S)})
 \leq \frac{\phi_k(A)}{k} \left( \frac{\ell_2(A)}{ \rho \sqrt{2}} \right)
 \end{align}
 %
 where $I(S) = \{i: \text{supp}(\mathbf{a}_i)=S\}$ and since $\ell_2(A) \leq \rho \sqrt{2}$ and $\phi_k(A) \in [0,1]$. It follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$ (since every $k$ columns of $A$ are linearly independent). Since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) \leq k$, hence $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: T \to {[m] \choose k}$ satisfying
 \begin{align}\label{yeyeye}
-\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})} \indent \text{for all } S \in T.
+\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{I(S)})} \indent \text{for all } S \in T.
 \end{align}
 
-From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta$ is satisfied for this support $S$ and $\Delta < \frac{L_2(A)}{\rho \sqrt{2}}$ by setting $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\ell(AX_{J(S)})}$. We therefore satisfy \eqref{GapUpperBound} for $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\min_{S \in T} L_k(AX_{I(S)})} = \frac{\varepsilon L_{2k}(A)}{\varepsilon_0 \rho \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $j \in [m]$,
+From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta$ is satisfied for this support $S$ and $\Delta < \frac{L_2(A)}{\rho \sqrt{2}}$ by setting $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\ell(AX_{I(S)})}$. We therefore satisfy \eqref{GapUpperBound} for $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\min_{S \in T} L_k(AX_{I(S)})} = \frac{\varepsilon L_{2k}(A)}{\varepsilon_0 \rho \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $j \in [m]$,
 $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C = \frac{ L_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$. It follows by the arguments in Remark \ref{b-PDaProof} that \eqref{b-PDa} holds as well.
 \end{proof}
 
@@ -853,12 +849,12 @@ Need right-hand side less thatn $|w|$ to prove that $\dim(W) \leq \dim(V) = k$\l
 \end{proof}
 
 \begin{proof}[Proof of Theorem \ref{Theorem2} ($\varepsilon = 0$)]
-Consider any alternate factorization $\mathbf{y}_i = B\mathbf{b}_i$ for $Y$. Given a support set $S \in {[m]\choose k}$, let $J(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that those $\mathbf{y}$ indexed by $J(S)$ span at most a $k$-dimensional space. By Lemma 3 in \cite{Hillar15}, either $|J(S)| \leq k$ or with probability one all $\mathbf{a}_j$ with $j \in J(S)$ have the same support $S'$. Since there are only $(k+1)$ vectors $\mathbf{a}_i$ with a given support, the latter case actually implies (with probability one) that $|J(S)| = k+1$. If $N=(k+1){m \choose k}$, though, then with probability one we would reach a contradiction if $|J(S)| \leq k$ for any $S \in {[m] \choose k}$; hence with probability one we have $|J(S)| = k+1$. Can we reach the same conclusion when $N = m(k+1)$? (Perhaps by creating 'virtual data' spanning all supports by those data points with supports in $\mathcal{T}$)?
+Consider any alternate factorization $\mathbf{y}_i = B\mathbf{b}_i$ for $Y$. Given a support set $S \in {[m]\choose k}$, let $I(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that those $\mathbf{y}$ indexed by $I(S)$ span at most a $k$-dimensional space. By Lemma 3 in \cite{Hillar15}, either $|I(S)| \leq k$ or with probability one all $\mathbf{a}_j$ with $j \in I(S)$ have the same support $S'$. Since there are only $(k+1)$ vectors $\mathbf{a}_i$ with a given support, the latter case actually implies (with probability one) that $|I(S)| = k+1$. If $N=(k+1){m \choose k}$, though, then with probability one we would reach a contradiction if $|I(S)| \leq k$ for any $S \in {[m] \choose k}$; hence with probability one we have $|I(S)| = k+1$. Can we reach the same conclusion when $N = m(k+1)$? (Perhaps by creating 'virtual data' spanning all supports by those data points with supports in $\mathcal{T}$)?
 
 \end{proof}
 
 \begin{proof}[Proof of Theorem \ref{Theorem2}]
-Let $\mathbf{y}_i = A\mathbf{a}_i + \eta_i$ for all $i \in \{1, \ldots, N\}$ and suppose there is some $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ such that $|\mathbf{y}_i - B\mathbf{b}_i| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Then by the triangle inequality we have $|A\mathbf{a}_i - B\mathbf{b}_i| \leq 2\varepsilon$ for all $i \in \{1, \ldots, N\}$. Given a support set $S \in {[m]\choose k}$, let $J(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that for all $j \in J(S)$ there exists some $v \in \text{Span}\{B_S\}$ such that $|A\mathbf{a}_i - v| \leq 2\varepsilon$. By Lemma (??), with probability one, either $|J(S)| \leq k$ for all $\mathbf{a}_j$ with $j \in J(S)$ have the same support.
+Let $\mathbf{y}_i = A\mathbf{a}_i + \eta_i$ for all $i \in \{1, \ldots, N\}$ and suppose there is some $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ such that $|\mathbf{y}_i - B\mathbf{b}_i| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Then by the triangle inequality we have $|A\mathbf{a}_i - B\mathbf{b}_i| \leq 2\varepsilon$ for all $i \in \{1, \ldots, N\}$. Given a support set $S \in {[m]\choose k}$, let $I(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that for all $j \in I(S)$ there exists some $v \in \text{Span}\{B_S\}$ such that $|A\mathbf{a}_i - v| \leq 2\varepsilon$. By Lemma (??), with probability one, either $|I(S)| \leq k$ for all $\mathbf{a}_j$ with $j \in I(S)$ have the same support.
 \end{proof}
 
 
