@@ -51,7 +51,7 @@ Bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 
 \section{Introduction}
 [************** ADD all references and make all references have single letter first name and then last name (no middle initial) *********]
-\IEEEPARstart{A}{} number of modern approaches to signal processing model datasets $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure as sparse linear combinations of the columns of a learned dictionary matrix $A \in \mathbb R^{n\times m}$.  Typically, this is accomplished by approximately solving the following constrained optimization problem:
+\IEEEPARstart{A}{} number of modern approaches to signal processing model datasets $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure as sparse linear combinations of the columns $\{A_1,\ldots,A_m\}$ of a learned \textit{dictionary} matrix $A \in \mathbb R^{n\times m}$.  Typically, this is accomplished by approximately solving the following constrained optimization problem:
 \begin{align}\label{DictionaryLearning}
 \arg \min_{A, \, \mathbf{a}_i} \  \sum_{i=1}^N |\mathbf{y}_i - A\mathbf{a}_i|_2, \indent \text{subject to } |\mathbf{a}_i|_0 \leq k.
 \end{align}
@@ -61,35 +61,13 @@ Here, rather than study how to obtain such optima, we examine their uniqueness p
 \begin{align}\label{LinearModel}
 \mathbf{y} = A\mathbf{a} + \mathbf{n},
 \end{align}
-with each vector $\mathbf{a} \in \mathbb R^m$ containing at most $k$ nonzero entries (such vectors are called \emph{$k$-sparse}) and $\mathbf{n}$ an error or noise term, which .  
+with each \textit{source} $\mathbf{a} \in \mathbb R^m$ containing at most $k$ nonzero entries (such vectors are called \emph{$k$-sparse}).
+The vector $\mathbf{n}$ is an error or \textit{noise} term that accounts for both measurement inaccuracy and the degree to which the model deviates from reality (e.g., the true $\mathbf{a}$ may only be approximately sparse).  In short, the goal of SCA is to estimate a set of sparse sources and a dictionary from noisy measurements by approximately solving objective \eqref{DictionaryLearning}.
 
-The reconstruction coefficients for each $\mathbf{y}_i$ are contained in the \emph{code vectors} $\mathbf{x}_1, \ldots, \mathbf{x}_N \in \mathbb{R}^m$ 
-taken of some sparse \emph{sources} $\mathbf{x}_i$, with the vector $\mathbf{n}_i$ accounting for both measurement noise and the degree to which the model deviates from reality (e.g., the true $\mathbf{x}_i$ may only be approximately sparse). The goal of SCA is to estimate the sources from the observed measurements by approximately solving objective \eqref{DictionaryLearning}.
+Even if the uncertainty $\mathbf{n}$ required to explain the data is exactly zero, however, there are still many solutions to the SCA problem. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = BX'$ for $X'$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $X' = PDX$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Thus, the ``uniqueness" of any solution to \eqref{DictionaryLearning} can only be defined up to an equivalence of mappings of the form $PD$, which together constitute an \emph{ambiguity transform group} \cite{?} associated to this particular bilinear inverse problem \cite{BilinInv}. The question of when every solution $Y = BX'$ must necessarily be part of this equivalence class (i.e., $X' = PDX$ and $B = AD^{-1}P^{-1}$ for some $P$, $D$) was addressed in the theoretical works \cite{Georgiev05, Aharon06, Hillar15} and determines whether $A$ and $X$ are \emph{identifiable} from $Y$ up to this inherent ambiguity.
 
-
-
-
-
-
-
-
-Given a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure, we therefore wish to be able to write each $\mathbf{y_i}$ as
-\begin{align}\label{AtomicDecomposition}
-|\mathbf{y_i} - \sum_{j=1}^{k} c_j \mathbf{a}_j|_2 \leq \varepsilon, \indent \text{for } c_j \in \mathbb{R} \text{ and } \mathbf{a}_j \in \mathcal{A},
-\end{align}
-%
-where $\mathcal{A} \subset \mathbb{R}^n$ is a set of $m \ll N$ atoms of which only $k \ll m$ need be linearly combined to approximate each signal $\mathbf{y}_i$ to within some acceptable degree of error $\varepsilon$.
-
-Donoho: \cite{candes2006near, donoho2006compressed, candes2006stable}.
-
-A plethora of algorithms \cite{?} have recently been developed to learn such atomic sets as the columns of a \emph{dictionary} matrix $A \in \mathbb{R}^{n \times m}$ by approximately solving the following constrained optimization problem:
-%
-
-
-
-Even if the uncertainty $\mathbf{n}_i$ required to explain the data is nil, however, there are still many solutions to the SCA problem. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{x}_i$, respectively so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = BX'$ for $X'$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $X' = PDX$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. The ``uniqueness" of any solution to \eqref{DictionaryLearning} can therefore only be defined up to a transformation by permutation-scaling matrices of the form $PD$, which together form an \emph{ambiguity transform group} \cite{?} associated to this particular bilinear inverse problem. The action of all possible such permutation-scaling transformations on $A$ and $X$ defines an equivalence class of solutions having the same value of the objective function in \eqref{DictionaryLearning}. 
-
-The question of when every solution $Y = BX'$ must \emph{necessarily} be part of this equivalence class, i.e. of the form $X' = PDX$ and $B = AD^{-1}P^{-1}$ for some $P$ and $D$, determines whether $A$ and $X$ are \emph{identifiable} from $Y$ up to this inherent ambiguity. This was the subject of the theoretical works \cite{Georgiev05, Aharon06}, and most recently \cite{Hillar15}. We provide the following \emph{robust} extension to the notion of identifiability in dictionary learning. Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis in $\mathbb{R}^m$. 
+We provide the following \emph{robust} extension to the notion of identifiability in dictionary learning.
+%Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis in $\mathbb{R}^m$. 
 
 \begin{definition}\label{Uniqueness}
 A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ if for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} if for every $\delta \geq 0$ there exists a nonnegative $\varepsilon = \varepsilon(\delta)$ (with $\varepsilon > 0$ when $\delta > 0$) such that if $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfy:
@@ -97,11 +75,41 @@ A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has 
 %
 then there necessarily exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
 \begin{align}\label{def1}
-|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_1 \leq \delta \ \ \text{ and } \ \ |(A - BPD)\mathbf{e}_j|_2 \leq \delta, \ \ \text{ for } \ \ i = 1, \ldots, N; \, j = 1, \ldots, m.
+|\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_1 \leq \delta \ \ \text{ and } \ \ |A_j - (BPD)_j|_2 \leq \delta, \ \ \text{ for } \ \ i = 1, \ldots, N; \, j = 1, \ldots, m.
 \end{align}
 \end{definition}
 
 In short, the $k$-sparse representation of a dataset is robustly identifiable when the only other matrices and $k$-sparse vectors that can well-approximate the data are necessarily close to some permutation and scaling of the original dictionary and codes.
+
+
+
+
+
+
+
+%The action of all possible such transformations defines an equivalence class of solutions having the same value of the objective function in \eqref{DictionaryLearning}. 
+
+
+
+
+
+
+
+%Given a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure, we therefore wish to be able to write each $\mathbf{y_i}$ as
+%\begin{align}\label{AtomicDecomposition}
+%|\mathbf{y_i} - \sum_{j=1}^{k} c_j \mathbf{a}_j|_2 \leq \varepsilon, \indent \text{for } c_j \in \mathbb{R} \text{ and } \mathbf{a}_j \in \mathcal{A},
+%\end{align}
+%
+%where $\mathcal{A} \subset \mathbb{R}^n$ is a set of $m \ll N$ atoms of which only $k \ll m$ need be linearly combined to approximate each signal $\mathbf{y}_i$ to within some acceptable degree of error $\varepsilon$.
+
+CS: \cite{candes2006near, donoho2006compressed, candes2006stable}.
+
+%A plethora of algorithms \cite{?} have recently been developed to learn such atomic sets as the columns of a \emph{dictionary} matrix $A \in \mathbb{R}^{n \times m}$ by approximately solving the following constrained optimization problem:
+%
+
+
+
+
 
 Fix now a matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Let $\delta > 0$ and suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is a dataset satisfying $|\mathbf{y}_i - A\mathbf{a}_i|_2 \leq \varepsilon/2$ for $i = 1, \ldots, N$, where $\varepsilon$ is as in Def.~\ref{Uniqueness}. % for some $\varepsilon_1 \leq \varepsilon$. 
 Suppose that for some alternate $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$, we have $|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon/2$ for all $i$. 
