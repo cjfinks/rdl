@@ -120,11 +120,11 @@ Given positive integers $n, m$, and $k < m$, there exist $N =  m(k-1){m \choose 
 
 Our proof of Theorem \ref{DeterministicUniquenessTheorem} is a delicate refinement of the arguments in \cite{Hillar15} to handle measurement error.  Here, we also reduce the theoretically required number of samples given by \cite{Hillar15} from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$, and we provide guarantees for the case when only an upper bound on the number of columns in $A$ is known (see Theorem \ref{DeterministicUniquenessTheorem2} below). 
 
-It is also informative to relate our results to the field of compressed sensing (CS) \cite{candes2006near, donoho2006compressed, candes2006stable}. This theory describes conditions under which a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse in some known basis (i.e. $\mathbf{s} = \Psi \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) can be feasibly recovered after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$. The underlying logic is simple: if the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition} then $\mathbf{s}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi^{-1}\mathbf{s}$. The following key result in CS allows for the construction of such compression matrices using random methods. Provided the dimension $n$ of $\mathbf{y}$ satisfies:
+It is informative to relate our results to the field of compressed sensing (CS) \cite{candes2006near, donoho2006compressed, candes2006stable}. This theory describes conditions under which a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse in some known basis (i.e. $\mathbf{s} = \Psi \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) can be feasibly recovered after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$. The underlying logic is simple: if the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition} then $\mathbf{s}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi^{-1}\mathbf{s}$. A key result in CS is that a random\footnote{Should we cite Baraniuk again here?} compression matrix $\Phi$ yields an $A$ satisfying the spark condition with high probability provided the dimension $n$ of $\mathbf{y}$ satisfies:
 \begin{align}\label{CScondition}
 n \geq \alpha k\log\left(\frac{m}{k}\right),
 \end{align}
-where $\alpha$ is a positive constant, then a ``randomly" generated $A$ satisfies the spark condition with high probability.  But what if we don't know this compression matrix, or the sparsifying basis $\Psi$? Our theorems provide conditions under which $A$ can be robustly identified anyway (given enough samples), even in the presence of noise. 
+where $\alpha$ is a positive constant dependent on the distribution from which the entries of $\Phi$ are drawn. [*** does it depend on $\Psi$ as well? ***] But what if we don't know $\Phi$? Our theorems provide conditions under which $\mathbf{x}$ can be reconstructed anyway (given enough samples), even in the presence of noise. 
 
 Given Theorem \ref{DeterministicUniquenessTheorem}, it is also possible to provide probabilistic extensions (Theorems \ref{Theorem2} and \ref{Theorem3}).  To keep our exposition simple, our statements are based upon the following elementary construction of \emph{random sparse vectors} (although many ensembles will suffice, e.g. \cite[Sec.~\S 4]{baraniuk2008simple}).
 
@@ -135,14 +135,12 @@ Given the support set for its $k$ nonzero entries, a \textbf{random draw} of $\m
 We state the main implications of those results (elaborated upon in Section \ref{PUT} more fully) here. Recall that an \emph{algebraic set} is a solution to a finite set of polynomial equations.
 
 \begin{corollary}
-Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from $N = m(k-1){m \choose k}+m$ $k$-sparse samples $\mathbf{a}_i$, consisting of $(k-1){m \choose k}+1$ samples supported on each interval of length $k$ in some cyclic ordering of $[m]$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from a random draw of $N = m(k-1){m \choose k}+m$ $k$-sparse vectors $\mathbf{a}_i$, consisting of $(k-1){m \choose k}+1$ samples supported on each interval of length $k$ in some cyclic ordering of $[m]$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
 \end{corollary}
 
 \begin{corollary}
 Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $[m]$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval then, with probability one, almost every matrix $A \in \mathbb{R}^{n \times m}$ gives a robustly identifiable $Y = \{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$.
 \end{corollary}
-
-It is important to note where this result fits into the field of theoretical dictionary learning. While certain algorithms have been shown to have local converge to a global minimum or global convergence to a local minimum of approximations to \eqref{DictionaryLearning}, to our knowledge there exist no algorithms with guaranteed global convergence to a global solution. Our conditions apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning} since they are derived from the underlying geometry of the dictionary learning problem, providing for a universal check when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}.
 
 % by determining whether the reconstruction error of the proposed solution is indeed small enough.
 
@@ -150,13 +148,7 @@ It is important to note where this result fits into the field of theoretical dic
 
 We produce such a family of $\mathbf{a}_i$ using ``Vandermonde" matrices in Section \ref{DUT} and calculate explicit numerical bounds on $\varepsilon_0$ and $C$ for such a family in Appendix C. [*** need to finish that...they depend on A too, though... ***] 
 
-% Moreover, the generality of the construction allows us to easily extend the theorem to cases where the $A$ and $\mathbf{a}_i$ are randomly generated.
-[************ Check this to make sure these claims are true *******]
-
-
-
-
-[********** Discuss that it would be awesome to find the best dependence of $\varepsilon$ on $\delta$ and best constants and number of samples for this problem **********]
+% Moreover, the generality of the construction allows us to easily extend the theorem to cases where the $A$ and $\mathbf{a}_i$ are randomly generated
 
 The organization of the rest of this paper is as follows. In Section \ref{Preliminaries} we list additional definitions and key lemmas, including our main tool from combinatorial matrix theory (Lemma \ref{MainLemma}). In Section \ref{DUT} we derive Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{PUT}, we state and prove probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem}. In Section \ref{mleqm}, we describe how to extend all of these results to the case where we have only an upper bound on the dimensionality of the sparse sources. The final section is a discussion, and an appendix contains the proof of Lemma \ref{MainLemma}.
 [ **** Make sure to change this as the structure of the paper evolves ****]
@@ -323,7 +315,7 @@ We demonstrate with the following counter-example that \eqref{Cstable} with $C$ 
 \end{remark}
 
 % ======== b - PDa =========
-\begin{remark}
+\begin{remark}\label{b-PDaProof}
 From this result we can, in general, bound $|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_1$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0} and $C$ is defined as in \eqref{Cdef}. Note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$ we have by the triangle inequality:
 \begin{align*}
 |(A-BPD)\mathbf{x}|_2 
@@ -361,7 +353,7 @@ It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows f
 \begin{proof}[Proof of Theorem \ref{DeterministicUniquenessTheorem} and Corollary \ref{DeterministicUniquenessCorollary}]
 Let $T$ be the set of intervals of length $k$ in the given cyclic order of $[m]$.  From above, we may assume that $k > 1$. The first step is to produce a set of $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ in general linear position (i.e., any $k$ of them are linearly independent). Specifically, let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 
-Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of indices $I(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in I(S)$ have supports $S$ and $S'$, respectively.
+Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of indices $J(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S'$, respectively.
 
 Let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$ and $\tilde{X} = (\mathbf{b}_1 \cdots \mathbf{b}_N)$ be the matrices formed by horizontally stacking the column vectors $\mathbf{a}_i$ and, respectively, the $\mathbf{b}_i$. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent, i.e. $\ell(AX_{J(S)}) > 0$, and form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{z} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = AX_{J(S)}\mathbf{c}$. Letting $\mathbf{z'} = B\tilde{X}_{J(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
 \begin{align*}
@@ -391,7 +383,7 @@ where $I(S) = \{i: \text{supp}(\mathbf{a}_i)=S\}$ and since $\ell_2(A) \leq \rho
 \end{align}
 
 From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta$ is satisfied for this support $S$ and $\Delta < \frac{\ell_2(A)}{\rho \sqrt{2}}$ by setting $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\ell(AX_{J(S)})}$. We therefore satisfy \eqref{GapUpperBound} for $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\min_{S \in T} \ell_k(AX_{I(S)})} = \frac{\varepsilon \ell_{2k}(A)}{\varepsilon_0 \rho \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i \in \{1, \ldots, m\}$,
-$|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C = \frac{ \ell_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$. It follows by the arguments at the beginning of this section that \eqref{b-PDa} holds as well.
+$|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C = \frac{ \ell_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$. It follows by the arguments in Remark \ref{b-PDaProof} that \eqref{b-PDa} holds as well.
 \end{proof}
 
 %===================================
@@ -411,17 +403,17 @@ Fix positive integers $n, m, m'$, and $k$ with $k < m \leq m'$. Fix $k$-sparse $
 for some $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$, then \eqref{Cstable} holds for some partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ (there is at most one nonzero entry in each row and column and these nonzero entries are all 1), diagonal matrix $D \in \mathbb{R}^{m' \times m}$ ($D_{ij} = 0$ whenever $i \neq j$) and $C$ as defined in \eqref{Cdef}. 
 \end{theorem}
 
-The proof of Theorem \ref{DeterministicUniquenessTheorem2} is very similar to the proof of Theorem \ref{DeterministicUniquenessTheorem}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lemma \ref{MainLemma2}, which we state next, by pigeonholing $k{m' \choose k}$ vectors with respect to holes $[m']$. The assumption that $B$ also satisfies the spark condition allows us to overcome the complication due to $m < m'$ to prove Lemma \ref{MainLemma2}, since the proof of Lemma \ref{NonEmptyLemma} relies on the fact that $m = m'$. 
+The proof of Theorem \ref{DeterministicUniquenessTheorem2} is very similar to the proof of Theorem \ref{DeterministicUniquenessTheorem}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lemma \ref{MainLemma2}, which we state next, by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$. The assumption that $B$ also satisfies the spark condition allows us to overcome the complication due to $m < m'$ to prove Lemma \ref{MainLemma2}, since the proof of Lemma \ref{NonEmptyLemma} relies on the fact that $m = m'$. 
 
 \begin{lemma}[Main Lemma for $m \leq m'$]\label{MainLemma2}
-Fix positive integers $n, m, m'$, and $k$ where $k < m \leq m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition}, with $A$ having unit norm columns. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
+Fix positive integers $n, m, m'$, and $k$ where $k < m \leq m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition}. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}} (\max_{i \in [m]}|A\mathbf{e}_i|_2)^{-1}$ such that 
 \begin{equation}\label{GapUpperBound2}
 \Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \Delta }{k} \min(\phi_k(A), \phi_k(B)), \ \text{for all} \ S \in T,
 \end{equation}
 %
 then there exist a partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ such that
 \begin{align}
-|(A - BPD)\mathbf{e}_i|_2 \leq \Delta, \ \text{for all} \ i \in [m].
+|(A - BPD)\mathbf{e}_i|_2 \leq \Delta \max_{i \in [m]}|A\mathbf{e}_i|_2, \ \text{for all} \ i \in [m].
 \end{align}
 \end{lemma}
 
@@ -434,13 +426,7 @@ We again defer the proof of this lemma to Appendix \ref{mleqmAppendix}.
 
 \section{Probabilistic Identifiability}\label{PUT}
 
-We next give precise statements of our probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem}, along with brief proofs relying largely to the methods used in \cite{Hillar15}. Our statements are based upon the following elementary construction of \emph{random sparse vectors} (although many ensembles will suffice, e.g. \cite[\S 4]{baraniuk2008simple}).
-
-\begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
-Given the support set for its $k$ nonzero entries, a random draw of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all ${m \choose k}$ of them and then a random draw.
-\end{definition}
-
-Our proofs rely on the following lemma, the proof of which can be found in \cite[Lemma 3]{Hillar15}:
+We next give precise statements of our probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem}, which apply to random sparse vectors as defined in Definition \ref{RandomDraw}. Our brief proofs relying largely on the following lemma, the proof of which can be found in \cite[Lemma 3]{Hillar15}:
 \begin{lemma}\label{Hillar15lemma2}
 Fix positive integers $n, m$ and $k < m$ and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $M\mathbf{a}_1, \ldots, M\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors.
 \end{lemma}
@@ -454,9 +440,10 @@ By Lemma \ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with prob
 \end{proof} 
 
 \begin{corollary}
-Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from $N = m(k-1){m \choose k}+m$ $k$-sparse samples $\mathbf{a}_i$, consisting of $(k-1){m \choose k}+1$ samples supported by each interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from a random draw of $N = m(k-1){m \choose k}+m$ $k$-sparse vectors $\mathbf{a}_i$, consisting of $(k-1){m \choose k}+1$ samples supported by each interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
 \end{corollary}
-We now state our third theorem. Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
+
+Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
 
 \begin{theorem}\label{Theorem3}
 Fix positive integers $k < m$ and $n$ . If $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $[m]$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval, then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
@@ -476,6 +463,11 @@ Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m(k-1){m \
 %===================================
 
 \section{Discussion}
+
+[************ Check this to make sure these claims are true *******]
+It is important to note where this result fits into the field of theoretical dictionary learning. While certain algorithms have been shown to have local converge to a global minimum or global convergence to a local minimum of approximations to \eqref{DictionaryLearning}, to our knowledge there exist no algorithms with guaranteed global convergence to a global solution. Our conditions apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning} since they are derived from the underlying geometry of the dictionary learning problem, providing for a universal check when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}.
+
+[********** Discuss that it would be awesome to find the best dependence of $\varepsilon$ on $\delta$ and best constants and number of samples for this problem **********]
 
 
 Another implication of our theorem is the determination of an overcompleteness regime dimensionality of any dataset with respect to $\varepsilon$. If you coded very well some data sparsely then you can do a check and if that check holds up then anyone else who codes the data sparsely too has learned the same dictionary. 
