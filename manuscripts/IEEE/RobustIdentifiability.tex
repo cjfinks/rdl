@@ -120,11 +120,11 @@ Given positive integers $n, m$, and $k < m$, there exist $N =  m(k-1){m \choose 
 
 Our proof of Theorem \ref{DeterministicUniquenessTheorem} is a delicate refinement of the arguments in \cite{Hillar15} to handle measurement error.  Here, we also reduce the theoretically required number of samples given by \cite{Hillar15} from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$, and we provide guarantees for the case when only an upper bound on the number of columns in $A$ is known (see Theorem \ref{DeterministicUniquenessTheorem2} below). 
 
-It is informative to relate our results to the field of compressed sensing (CS) \cite{candes2006near, donoho2006compressed, candes2006stable}. This theory describes conditions under which a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse in some known basis (i.e. $\mathbf{s} = \Psi \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) can be feasibly recovered after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$. The underlying logic is simple: if the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition} then $\mathbf{s}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi^{-1}\mathbf{s}$. A key result in CS is that a random\footnote{Should we cite Baraniuk again here?} compression matrix $\Phi$ yields an $A$ satisfying the spark condition with high probability provided the dimension $n$ of $\mathbf{y}$ satisfies:
+It is informative to relate our results to the field of compressed sensing (CS) \cite{candes2006near, donoho2006compressed, candes2006stable}. This theory describes conditions under which a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse in some known basis (i.e. $\mathbf{s} = \Psi \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) can be feasibly recovered after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$. The underlying logic is simple: if the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition} then $\mathbf{s}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi^{-1}\mathbf{s}$. A key result in CS is that a random\footnote{[*** @chris: Should we cite Baraniuk again here? ***]} compression matrix $\Phi$ yields an $A$ satisfying the spark condition with high probability provided the dimension $n$ of $\mathbf{y}$ satisfies:
 \begin{align}\label{CScondition}
 n \geq \alpha k\log\left(\frac{m}{k}\right),
 \end{align}
-where $\alpha$ is a positive constant dependent on the distribution from which the entries of $\Phi$ are drawn. [*** does it depend on $\Psi$ as well? ***] But what if we don't know $\Phi$? Our theorems provide conditions under which $\mathbf{x}$ can be reconstructed anyway (given enough samples), even in the presence of noise. 
+where $\alpha$ is a positive constant dependent on the distribution from which the entries of $\Phi$ are drawn. [*** @chris: does it depend on $\Psi$ as well? ***] But what if we don't know $\Phi$? Our theorems provide conditions under which $\mathbf{x}$ can be reconstructed anyway (given enough samples), even in the presence of noise. 
 
 Given Theorem \ref{DeterministicUniquenessTheorem}, it is also possible to provide probabilistic extensions (Theorems \ref{Theorem2} and \ref{Theorem3}).  To keep our exposition simple, our statements are based upon the following elementary construction of \emph{random sparse vectors} (although many ensembles will suffice, e.g. \cite[Sec.~\S 4]{baraniuk2008simple}).
 
@@ -166,16 +166,16 @@ Recall that the \emph{lower bound} of a matrix $M \in \mathbb{R}^{n \times m}$ i
 \begin{align}
 L_k(M) := \max \{ \alpha : |M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m\}.
 \end{align}
-Clearly, $L_k(M) \geq L_{k'}(M)$ whenever $k < k'$. Note also that if $L_k(M) > 0$ for some $k$, then $M$ satisfies a \emph{restricted isometry property} (RIP) \cite{CandesTao05} from compressive sensing, since there exist $\alpha, \beta > 0$ such that:
+Clearly, $L_k(M) \geq L_{k'}(M)$ whenever $k < k'$.  A simple compactness argument can be made to show that $M$ satisfies the spark condition if and only if $L_k(M) > 0$. Note also that if $L_k(M) > 0$ for some $k$ if and only if $M$ can be rescaled to satisfy a \emph{restricted isometry property} (RIP) \cite{CandesTao05} from compressive sensing, since there exist $\alpha, \beta > 0$ such that:
 \begin{align}
 \alpha|\mathbf{x}|_2 \leq |M\mathbf{x}|_2 \leq \beta|\mathbf{x}|_2 \ \ \text{for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m.
 \end{align}
-Letting $\delta = (\beta - \alpha)/(\beta + \alpha)$ and recalling $M$ by $2/(\beta + \alpha)$ yields the familiar presentation of the RIP.
+Letting $\delta = (\beta - \alpha)/(\beta + \alpha)$ and rescaling $M$ by $2/(\beta + \alpha)$ yields the familiar presentation of the RIP. 
 %Scaling $M$ by $2/(\beta + \alpha)$ yields $\alpha = 1-\delta$ and $\beta = 1+\delta$ for $\delta = (\beta - \alpha)/(\beta + \alpha)$, which is the usual .
 
-Between any pair of subspaces in Euclidean space one can define a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles which are invariant to orthogonal transformations. It can be shown that if the principal angles between these subspaces are all zero, then one subspace is a subset of the other. Hence, if $M$ satisfies \eqref{SparkCondition}, there is at least one nonzero such angle between all pairs of subspaces spanned by at most $k$ columns of $M$. The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, is defined in terms of its cosine as follows.
+Between any pair of subspaces in Euclidean space one can define a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles which are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other. Hence, if $M$ satisfies \eqref{SparkCondition}, there is at least one nonzero such angle between all pairs of subspaces spanned by at most $k$ columns of $M$. The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, is defined in terms of its cosine as follows.
 \begin{definition}\label{FriedrichsDefinition}
-The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is:
+The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is \cite{Deutsch}:
 \begin{align}
 \cos{\theta_F} := \max\left\{ \langle u, v \rangle: u \in U \cap (U \cap V)^\perp \cap \mathcal{B}_{\ell_2}, \, v \in V \cap (U \cap V)^\perp \cap \mathcal{B}_{\ell_2}, \right\}.
 \end{align}
@@ -193,7 +193,7 @@ Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$. Setting $\phi_1(A) := 1$, defin
 \end{align}
 where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of closed subspaces of $\mathbb{R}^m$, 
 \begin{align}
-\xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 - \prod_{i=1}^{k-1} \sin^2  \theta_F \left(V_{\sigma(i)}, V_{\sigma(i)} \cap \cdots \cap V_{\sigma(k)}\right)  \right)^{1/2},
+\xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 - \prod_{i=1}^{k-1} \sin^2  \theta_F \left(V_{\sigma(i)}, V_{\sigma(i+1)} \cap \cdots \cap V_{\sigma(k)}\right)  \right)^{1/2},
 \end{align}
 %
 and $\frak{S}_{\ell}$ is the set of permutations (i.e. bijections) on $\ell$ elements. 
@@ -204,11 +204,11 @@ We are now in a position to state explicitly the constants $C$ and $\varepsilon_
 \begin{align}\label{epsilon0}
 \varepsilon_0 = \frac{ \phi_k(A) L_{2k}(A) }{\rho k^2 \sqrt{2}} \min_{S \in T} L_k(AX_{I(S)}),
 \end{align}
-where $\rho := \max_{j \in [m]} |A_j|_2 $. [******** why is this unit norm column still here and $\rho$ not mentioned below?? ***********]  If $A$ has unit norm columns (standard in applications) and $0 \leq \varepsilon < \varepsilon_0$, then \eqref{Cstable} and \eqref{b-PDa} hold with
+where $\rho := \max_{j \in [m]} |A_j|_2 $. If $0 \leq \varepsilon < \varepsilon_0$, then \eqref{Cstable} and \eqref{b-PDa} hold with
 \begin{align}\label{Cdef}
 C = \frac{L_{2k}(A)}{ \varepsilon_0 \sqrt{2k}}.
 \end{align}
-Note that if $A$ satisfies the spark condition, then $\phi_k(A), L_{2k}(A) \neq 0$ so that both $C$ and $\varepsilon_0$ are nonzero.
+Note that if $A$ satisfies the spark condition, then $\phi_k(A), L_{2k}(A) > 0$ so that both $C$ and $\varepsilon_0$ are nonzero provided $\min_{S \in T} L_k(AX_{I(S)}) > 0$.
 [********  We should verify this statement ***********]
 
 
@@ -225,16 +225,15 @@ We are now state our main result from combinatorial matrix theory, generalizing 
 
 %===========          MAIN LEMMA (K > 1)             =================
 \begin{lemma}[Main Lemma]\label{MainLemma}
-Fix positive integers $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with maximum column $\ell_2$-norm $\rho$.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\rho \sqrt{2}}$ such that 
+Fix positive integers $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with maximum column $\ell_2$-norm $\rho$.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
 \begin{equation}\label{GapUpperBound}
-\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta, \indent \text{for all } S \in T,
+\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{\rho k} \Delta, \indent \text{for all } S \in T,
 \end{equation}
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
 \begin{align}
 |A_j - (BPD)_j|_2 \leq \Delta, \indent \text{for all } j \in [m].
 \end{align}
-[********** this last thing had a $\max_{i \in [m]}|A\mathbf{e}_i|_2$ multiplied with a $\Delta$ in it, which shouldn't be there, right? **********]
 \end{lemma}
 We defer the (technical) proof of this lemma to Appendix \ref{appendixA}. In words, the result says that the vectors forming the columns of $A$ are nearly identical to those forming the columns of $B$ (up to symmetry) provided that for a special set $T$ of $m$ subspaces, each spanned by $k$ columns of $A$, there exist $k$ columns of $B$ which span a nearby subspace with respect to the gap metric.
 
@@ -353,36 +352,36 @@ It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows f
 \begin{proof}[Proof of Theorem \ref{DeterministicUniquenessTheorem} and Corollary \ref{DeterministicUniquenessCorollary}]
 Let $T$ be the set of intervals of length $k$ in the given cyclic order of $[m]$.  From above, we may assume that $k > 1$. The first step is to produce a set of $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ in general linear position (i.e., any $k$ of them are linearly independent). Specifically, let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 
-Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of indices $I(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in I(S)$ have supports $S$ and $S'$, respectively.
+Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of indices $I(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ [*** @chris: keep this as J(S) not I(S). We use I(S) later ***] have supports $S$ and $S'$, respectively.
 
-Let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$ and $\tilde{X} = (\mathbf{b}_1 \cdots \mathbf{b}_N)$ be the matrices formed by horizontally stacking the column vectors $\mathbf{a}_i$ and, respectively, the $\mathbf{b}_i$. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{I(S)}$ are linearly independent, i.e. $\ell(AX_{I(S)}) > 0$, and form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{z} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = AX_{I(S)}\mathbf{c}$. Letting $\mathbf{z'} = B\tilde{X}_{I(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
+Let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$ and $\tilde{X} = (\mathbf{b}_1 \cdots \mathbf{b}_N)$ be the matrices formed by horizontally stacking the column vectors $\mathbf{a}_i$ and, respectively, the $\mathbf{b}_i$. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{I(S)}$ are linearly independent, i.e. $\ell(AX_{I(S)}) > 0$, and form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{z} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = AX_{J(S)}\mathbf{c}$. Letting $\mathbf{z'} = B\tilde{X}_{J(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
 \begin{align*}
-|\mathbf{z} - \mathbf{z'}|_2 = |\sum_{j=1}^N c_i(AX_{I(S)} - B\tilde{X}_{I(S)})\mathbf{e}_j|_2 
+|\mathbf{z} - \mathbf{z'}|_2 = |\sum_{j=1}^N c_i(AX_{J(S)} - B\tilde{X}_{I(S)})\mathbf{e}_j|_2 
 \leq \varepsilon \sum_{j=1}^N |c_j| 
 \leq \varepsilon |\mathbf{c}|_2 \sqrt{k}  
-\leq \frac{\varepsilon \sqrt{k}}{\ell(AX_{I(S)})} |AX_{I(S)}\mathbf{c}|_2
-= \frac{\varepsilon \sqrt{k}}{\ell(AX_{I(S)})} |\mathbf{z}|_2.
+\leq \frac{\varepsilon \sqrt{k}}{\ell(AX_{JS)})} |AX_{J(S)}\mathbf{c}|_2
+= \frac{\varepsilon \sqrt{k}}{\ell(AX_{J(S)})} |\mathbf{z}|_2.
 \end{align*}
 
 Hence,
 \begin{align}\label{ABSubspaceDistance}
-\sup_{ \substack{ \mathbf{z} \in \text{Span}\{A_{S}\} \\ |\mathbf{z}|_2 = 1} } d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{I(S)})}.
+\sup_{ \substack{ \mathbf{z} \in \text{Span}\{A_{S}\} \\ |\mathbf{z}|_2 = 1} } d(\mathbf{z}, \text{Span}\{B_{S'}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})}.
 \end{align}
 
 We now show that \eqref{Cstable} and \eqref{b-PDa} both follow if $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0}. In fact, to show \eqref{Cstable} we only require $\varepsilon <  \frac{\varepsilon_0 \sqrt{k} \ell_2(A)}{\ell_{2k}(A)}$. In this case the RHS of \eqref {ABSubspaceDistance} works out to be strictly less than 1, since:
 \begin{align}\label{rhs}
-\frac{\varepsilon\sqrt{k}}{\ell(AX_{I(S)})} 
-< \frac{\sqrt{k}}{\ell(AX_{I(S)})} \left( \frac{\varepsilon_0 \sqrt{k} \ell_2(A)}{\ell_{2k}(A)} \right)
-= \frac{\ell_2(A) \phi_k(A)}{\rho \ell(AX_{I(S)}) k \sqrt{2}} \min_{S \in T}L_k(AX_{I(S)})
+\frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})} 
+< \frac{\sqrt{k}}{\ell(AX_{J(S)})} \left( \frac{\varepsilon_0 \sqrt{k} \ell_2(A)}{\ell_{2k}(A)} \right)
+= \frac{\ell_2(A) \phi_k(A)}{\rho \ell(AX_{J(S)}) k \sqrt{2}} \min_{S \in T}L_k(AX_{I(S)})
 \leq \frac{\phi_k(A)}{k} \left( \frac{\ell_2(A)}{ \rho \sqrt{2}} \right)
 \end{align}
 %
 where $I(S) = \{i: \text{supp}(\mathbf{a}_i)=S\}$ and since $\ell_2(A) \leq \rho \sqrt{2}$ and $\phi_k(A) \in [0,1]$. It follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$ (since every $k$ columns of $A$ are linearly independent). Since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) \leq k$, hence $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: T \to {[m] \choose k}$ satisfying
 \begin{align}\label{yeyeye}
-\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{I(S)})} \indent \text{for all } S \in T.
+\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})} \indent \text{for all } S \in T.
 \end{align}
 
-From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta$ is satisfied for this support $S$ and $\Delta < \frac{L_2(A)}{\rho \sqrt{2}}$ by setting $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\ell(AX_{I(S)})}$. We therefore satisfy \eqref{GapUpperBound} for $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\min_{S \in T} L_k(AX_{I(S)})} = \frac{\varepsilon L_{2k}(A)}{\varepsilon_0 \rho \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $j \in [m]$,
+From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta$ is satisfied for this support $S$ and $\Delta < \frac{L_2(A)}{\rho \sqrt{2}}$ by setting $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\ell(AX_{J(S)})}$. We therefore satisfy \eqref{GapUpperBound} for $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\min_{S \in T} L_k(AX_{I(S)})} = \frac{\varepsilon L_{2k}(A)}{\varepsilon_0 \rho \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $j \in [m]$,
 $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C = \frac{ L_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$. It follows by the arguments in Remark \ref{b-PDaProof} that \eqref{b-PDa} holds as well.
 \end{proof}
 
@@ -511,13 +510,13 @@ Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly i
 %===== DISTANCE TO INTERSECTION LEMMA =====
 
 \begin{lemma}\label{DistanceToIntersectionLemma}
-Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be subspaces of $\mathbb{R}^m$ and let $V = \bigcap \mathcal{V}$. For every $\mathbf{x} \in \mathbb{R}^m$, we have
-\begin{equation}\label{DTILeq}
-|\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2,
-\end{equation}
-where the expression for $\xi$ is given in Def.~\ref{SpecialSupportSet}.
+Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be subspaces of $\mathbb{R}^m$ and let $V = \bigcap \mathcal{V}$. For every $\mathbf{x} \in \mathbb{R}^m$,
+\begin{align}\label{DTILeq}
+|\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k |x - \Pi_{V_i} x|_2,
+\end{align}
 \end{lemma}
-
+%
+provided $\xi(\mathcal{V}) \neq 1$, where the expression for $\xi$ is given in Def.~\ref{SpecialSupportSet}.
 
 \begin{proof} 
 Fix $\mathbf{x} \in \mathbb{R}^m$ and $k \geq 2$. The proof can be subdivided into two steps. First, we will show that for any $\sigma \in \frak{S}_k$,
