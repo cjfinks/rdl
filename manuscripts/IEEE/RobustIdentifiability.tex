@@ -271,6 +271,8 @@ For all $j \in [m]$, we have
 
 \section{Deterministic Identifiability}\label{DUT}
 
+[*******  todo:  change all things like $A\mathbf{e}_i$ to $A_i$,  $B\mathbf{e}_{\pi(i)}$ to $B_{\pi(i)}$ *******]
+
 %======== CASE K = 1 ============
 Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis vectors in $\mathbb R^m$.
 Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, consider when $k=1$. Suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_j = c_j \mathbf{e}_j$ for $c_j \in \mathbb{R} \setminus \{0\}$, $j \in [m]$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} and let $\rho = \max_{i \in [m]} |A\mathbf{e}_i|_2$. By \eqref{epsilon0} we have:
@@ -284,7 +286,7 @@ Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, 
 and by \eqref{Cdef} we have
 \begin{align}
 C = \frac{\ell_{2}(A)}{ \varepsilon_0 \sqrt{2}} = \frac{ \rho }{ \min_{i \in [m]} |c_iA\mathbf{e}_i|_2 }
-\geq (\min_{i \in [m]} |c_i|)^{-1}. \\
+\geq \frac{1}{\min_{i \in [m]} |c_i|}. \\
 \end{align} 
 
 Suppose that for some $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c'_1, \ldots, c'_m \in \mathbb{R}$ and some map $\pi: [m] \to [m]$ such that 
@@ -305,7 +307,7 @@ Note that $c'_i \neq 0$ for all $i$ since then otherwise we reach the contradict
 %
 which contradicts $\varepsilon < \varepsilon_0$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right)$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m})$, we see that \eqref{1D} becomes 
 \begin{align}
-|(A - BPD)\mathbf{e}_i|_2 = |A\mathbf{e}_i - \frac{c'_i}{c_i}B\mathbf{e}_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq (\min_{i \in [m]} |c_i|)^{-1} \varepsilon \leq C\varepsilon \ \ \text{for all } i \in [m].
+|(A - BPD)\mathbf{e}_i|_2 = |A\mathbf{e}_i - \frac{c'_i}{c_i}B\mathbf{e}_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq \frac{\varepsilon}{\min_{i \in [m]} |c_i|}  \leq C\varepsilon \ \ \text{for all } i \in [m].
 \end{align}
 
 \begin{remark}
@@ -314,7 +316,7 @@ We demonstrate with the following counter-example that \eqref{Cstable} with $C$ 
 
 % ======== b - PDa =========
 \begin{remark}\label{b-PDaProof}
-From this result we can, in general, bound $|\mathbf{a}_i - D^{-1}P^{-1}\mathbf{b}_i|_1$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0} and $C$ is defined as in \eqref{Cdef}. Note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$ we have by the triangle inequality:
+From this result we can, in general, bound $|\mathbf{a}_i - D^{-1}P^{-1}\mathbf{b}_i|_1$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_0$, with $\varepsilon_0$ as defined in \eqref{epsilon0} and $C$ as in \eqref{Cdef}. Note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$ we have by the triangle inequality:
 \begin{align*}
 |(A-BPD)\mathbf{x}|_2 
 \leq C\varepsilon|\mathbf{x}|_1
@@ -393,10 +395,10 @@ In this section we state a version of Theorem \ref{DeterministicUniquenessTheore
 \begin{theorem}\label{DeterministicUniquenessTheorem2}
 Fix positive integers $n, m, m'$, and $k$ with $k < m \leq m'$. Fix $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ and let $X  = (\mathbf{a}_1 \cdots \mathbf{a}_N) \in \mathbb{R}^{n \times N}$ and $I(S) = \{i : \text{supp}(\mathbf{a}_i) = S\}$. Let
 \begin{align}\label{epsilon0'}
-\varepsilon'_0 = \frac{ L_{2k}(A) \min(\phi_k(A), \phi_k(B))}{\rho \sqrt{2k^3} } \min_{S \in T} L_k(AX_{I(S)}), \ \  \text{for all} \  i \in [N]
+\varepsilon'_0 = \frac{ L_{2k}(A) \min(\phi_k(A), \phi_k(B))}{\rho \sqrt{2k^3} } \min_{S \in T} L_k(AX_{I(S)}),\indent \text{for all } i \in [N],
 \end{align}
 %
-where $\rho = \max_{i \in [m]} |A\mathbf{e}_i|_2$ and
+where $\rho = \max_{j \in [m]} |A_j|_2$ and
 \begin{align}\label{C'}
 C = \frac{L_{2k}(A)}{ \varepsilon'_0 \sqrt{2k}}.
 \end{align}
@@ -406,14 +408,14 @@ If for some cyclic order on $[m]$ the $\mathbf{a}_i$ are such that for every int
 The proof of Theorem \ref{DeterministicUniquenessTheorem2} is very similar to the proof of Theorem \ref{DeterministicUniquenessTheorem}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lemma \ref{MainLemma2}, which we state next, by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$. The assumption that $B$ also satisfies the spark condition allows us to overcome the complication due to $m < m'$ to prove Lemma \ref{MainLemma2}, since the proof of Lemma \ref{NonEmptyLemma} relies on the fact that $m = m'$. 
 
 \begin{lemma}[Main Lemma for $m \leq m'$]\label{MainLemma2}
-Fix positive integers $n, m, m'$, and $k$ where $k < m \leq m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition}. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}} (\max_{i \in [m]}|A\mathbf{e}_i|_2)^{-1}$ such that 
+Fix positive integers $n, m, m'$, and $k$ where $k < m \leq m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\rho \sqrt{2}}$ such that 
 \begin{equation}\label{GapUpperBound2}
-\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \Delta }{k} \min(\phi_k(A), \phi_k(B)), \ \text{for all} \ S \in T,
+\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \Delta }{k} \min(\phi_k(A), \phi_k(B)), \indent \text{for all } S \in T,
 \end{equation}
 %
 then there exist a partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ such that
 \begin{align}
-|(A - BPD)\mathbf{e}_i|_2 \leq \Delta \max_{i \in [m]}|A\mathbf{e}_i|_2, \ \text{for all} \ i \in [m].
+|A_j - (BPD)_j|_2 \leq \rho \Delta, \indent \text{for all } j \in [m].
 \end{align}
 \end{lemma}
 
@@ -428,7 +430,7 @@ We again defer the proof of this lemma to Appendix \ref{mleqmAppendix}.
 
 We next give precise statements of our probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem}, which apply to random sparse vectors as defined in Definition \ref{RandomDraw}. Our brief proofs relying largely on the following lemma, the proof of which can be found in \cite[Lemma 3]{Hillar15}:
 \begin{lemma}\label{Hillar15lemma2}
-Fix positive integers $n, m$ and $k < m$ and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $M\mathbf{a}_1, \ldots, M\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors.
+Fix positive integers $n, m$, $k < m$, and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $M\mathbf{a}_1, \ldots, M\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors.
 \end{lemma}
 
 \begin{theorem}\label{Theorem2}
@@ -490,6 +492,77 @@ Identifying uniqueness: the bispectrum collapses the equivalence class of $PD$ m
 
 In this section, we prove Lemma \ref{MainLemma}, which is the main ingredient in our proof of Theorem \ref{DeterministicUniquenessTheorem}. For readers willing to assume a priori that the spark condition holds for $B$ as well as for $A$, a shorter proof of this case (Lemma \ref{MainLemma2} from Section \ref{mleqm}) is provided in Appendix \ref{mleqmAppendix}. This additional assumption simplifies the argument and allows us to extend stability conditions to the case where only an upper bound on $m$ is known. 
 
+We now prove some auxiliary lemmas before deriving Lemma \ref{MainLemma}.  Given a collection of sets $\mathcal{T}$, we let $\cap \mathcal{T}$ denote their intersection.
+
+%===== SPAN INTERSECTION LEMMA =====
+
+\begin{lemma}\label{SpanIntersectionLemma}
+Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly independent, then for any $\mathcal{T} \subseteq \bigcup_{\ell \leq k} {[m] \choose \ell}$,
+\begin{align}
+%y \in \text{Span}\{M_{\cap \mathcal{T}}\}  \Longleftrightarrow y \in \bigcap_{S \in \mathcal{T}} \text{Span}\{M_S\}.
+\text{\rm Span}\{M_{\cap \mathcal{T}}\}  = \bigcap_{S \in \mathcal{T}} \text{\rm Span}\{M_S\}.
+\end{align}
+\end{lemma}
+
+\begin{proof}By induction, it is enough to prove the lemma when $|\mathcal{T}| = 2$. The proof now follows directly from the assumption.
+% The forward direction is trivial; we prove the reverse direction. Enumerate $\mathcal{T} = (S_1, \ldots, S_{|\mathcal{T}|})$ and let $\mathbf{y} \in \text{Span}\{M_{S_1}\} \cap \text{Span}\{M_{S_2}\}$. Then there exists some $\mathbf{x}_1$ with support contained in $S_1$ such that $\mathbf{y} = M\mathbf{x}_1$ and some $\mathbf{x}_2$ with support contained in $S_2$ such that $\mathbf{y} = M\mathbf{x}_2$. We therefore have $M(\mathbf{x}_1 - \mathbf{x}_2) = 0$, which implies that $\mathbf{x}_1 = \mathbf{x}_2$ by the spark condition. Hence $\mathbf{x}_1$ and $\mathbf{x}_2$ have the same support contained in both $S_1$ and $S_2$, i.e. $\mathbf{y} \in \text{Span}\{M_{S_1 \cap S_2}\}$. This carries over by induction to the entire sequence of supports in $\mathcal{T}$. 
+\end{proof}
+
+%===== DISTANCE TO INTERSECTION LEMMA =====
+
+\begin{lemma}\label{DistanceToIntersectionLemma}
+Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be subspaces of $\mathbb{R}^m$ and let $V = \bigcap \mathcal{V}$. For every $\mathbf{x} \in \mathbb{R}^m$, we have
+\begin{equation}\label{DTILeq}
+|\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2,
+\end{equation}
+where the expression for $\xi$ is given in Def.~\ref{SpecialSupportSet}.
+\end{lemma}
+
+
+\begin{proof} 
+Fix $\mathbf{x} \in \mathbb{R}^m$ and $k \geq 2$. The proof can be subdivided into two steps. First, we will show that for any $\sigma \in \frak{S}_k$,
+\begin{align}\label{induction}
+|\mathbf{x} - \Pi_V\mathbf{x}|_2 \leq \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2 + |\Pi_{V_{\sigma(k)}}\Pi_{V_{\sigma(k-1)}}\cdots\Pi_{V_{\sigma(1)}} \mathbf{x} - \Pi_V \mathbf{x}|_2.
+\end{align}
+%
+Assume without loss of generality that $\sigma(i) = i$ for all $i \in [m]$. We have by the triangle inequality that
+\begin{align*}
+|\mathbf{x} - \Pi_V\mathbf{x}|_2 &= |\mathbf{x} - \Pi_{V_k} \mathbf{x}|_2 + |\Pi_{V_k}(I - \Pi_{V_{k-1}}) \mathbf{x}|_2 + |\Pi_{V_k}\Pi_{V_{k-1}}\mathbf{x} - \Pi_V\mathbf{x}|_2 \\
+&\leq \sum_{i=k-1}^k|\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2 + |\Pi_{V_k}\Pi_{V_{k-1}} \mathbf{x} - \Pi_V \mathbf{x}|_2,
+\end{align*}
+%
+where in the second line we have used the fact that $\|\Pi_{V_k}\|_2 \leq 1$. If $k=2$ then we are done; otherwise, we may repeat this manipulation another $k-2$ times until we arrive at \eqref{induction}. Next, we show how the result \eqref{DTILeq} follows from \eqref{induction}. To do so, we make use of the following result from \cite[Theorem 9.33]{Deutsch}:
+\begin{align}\label{dti2}
+|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V\mathbf{x}|_2 \leq c |\mathbf{x}|_2 \indent \text{for all} \indent \mathbf{x} \in \mathbb{R}^m.
+\end{align}
+%
+where $c:= \left[1 - \prod_{i=1}^{k-1}(1-c_i^2)\right]^{1/2}$ and $c_i = \cos\theta_F\left(V_i, \cap_{j=i+1}^kV_j\right)$. Note that
+\begin{align}\label{dti1}
+|(\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1})(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2 
+&= |(\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1}) \mathbf{x} - \Pi_V \mathbf{x} |_2,
+\end{align}
+%
+since $\Pi_{V_\ell} \Pi_V = \Pi_V$ for all $\ell = 1, \ldots, k$ and $\Pi_V^2 = \Pi_V$.
+%
+We therefore have by \eqref{dti2} and \eqref{dti1} that
+\begin{align*}
+|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x} |_2
+&= |(\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1})(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2 \\
+&\leq c |\mathbf{x} - \Pi_V\mathbf{x}|_2.
+\end{align*}
+
+Substituting the left-hand side into \eqref{induction}, we get
+\begin{align*}
+|\mathbf{x} - \Pi_V\mathbf{x}|_2 \leq \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2 + c |\mathbf{x} - \Pi_V\mathbf{x}|_2,
+\end{align*}
+%
+from which it follows that
+\begin{align}\label{ceq}
+|\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - c} \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2.
+\end{align}
+Since the permutation $\sigma$ we chose was arbitrary, we can replace $c$ in \eqref{ceq} with $\xi(\mathcal{V})$ to obtain \eqref{DTILeq}.
+\end{proof}
+
 Given positive integers $k < m$ and a permutation $\sigma \in \frak{S}_m$ (where $\frak{S}_m$ denotes the \textit{symmetric group} of bijections on $m$ elements), let
 \begin{align}
 S_\sigma(i) := \{1+\sigma(i), \ldots, 1+\sigma(i + (k-1)) \} \indent \text{for} \indent i = 0, \ldots, m-1
@@ -497,76 +570,7 @@ S_\sigma(i) := \{1+\sigma(i), \ldots, 1+\sigma(i + (k-1)) \} \indent \text{for} 
 %
 with addition modulo $m$. In words, the $S_\sigma(i)$ are the intervals of length $k$ within the set of elements of $\{1, \ldots, m\}$ arranged in the cyclic order $\sigma(1), \ldots, \sigma(m)$.
 
-We now prove some auxiliary lemmas before deriving Lemma \ref{MainLemma}.
-
-%===== SPAN INTERSECTION LEMMA =====
-
-\begin{lemma}\label{SpanIntersectionLemma}
-Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly independent, then for any $\mathcal{T} \subseteq \bigcup_{\ell \leq k} {[m] \choose \ell}$,
-\begin{align}
-y \in \text{Span}\{M_{\cap \mathcal{T}}\}  \Longleftrightarrow y \in \bigcap_{S \in \mathcal{T}} \text{Span}\{M_S\}.
-\end{align}
-\end{lemma}
-
-\begin{proof}The forward direction is trivial; we prove the reverse direction. Enumerate $\mathcal{T} = (S_1, \ldots, S_{|\mathcal{T}|})$ and let $\mathbf{y} \in \text{Span}\{M_{S_1}\} \cap \text{Span}\{M_{S_2}\}$. Then there exists some $\mathbf{x}_1$ with support contained in $S_1$ such that $\mathbf{y} = M\mathbf{x}_1$ and some $\mathbf{x}_2$ with support contained in $S_2$ such that $\mathbf{y} = M\mathbf{x}_2$. We therefore have $M(\mathbf{x}_1 - \mathbf{x}_2) = 0$, which implies that $\mathbf{x}_1 = \mathbf{x}_2$ by the spark condition. Hence $\mathbf{x}_1$ and $\mathbf{x}_2$ have the same support contained in both $S_1$ and $S_2$, i.e. $\mathbf{y} \in \text{Span}\{M_{S_1 \cap S_2}\}$. This carries over by induction to the entire sequence of supports in $\mathcal{T}$. 
-\end{proof}
-
-%===== DISTANCE TO INTERSECTION LEMMA =====
-
-\begin{lemma}\label{DistanceToIntersectionLemma}
-Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be a set of closed subspaces of $\mathbb{R}^m$ and let $V = \bigcap \mathcal{V}$. For every $\mathbf{x} \in \mathbb{R}^m$,
-\begin{align}\label{DTILeq}
-|\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k |x - \Pi_{V_i} x|_2,
-\end{align}
-\end{lemma}
-where the expression for $\xi$ is given in Def.~\ref{SpecialSupportSet}.
-
-\begin{proof} 
-Fix $x \in \mathbb{R}^m$ and $k \geq 2$. The proof can be subdivided into two steps. First, we will show that for any $\sigma \in \frak{S}_k$,
-\begin{align}\label{induction}
-|x - \Pi_Vx|_2 \leq \sum_{i=1}^k |x - \Pi_{V_i} x|_2 + |\Pi_{V_{\sigma(k)}}\Pi_{V_{\sigma(k-1)}}\cdots\Pi_{V_{\sigma(1)}} x - \Pi_V x|_2.
-\end{align}
-%
-Assume without loss of generality that $\sigma(i) = i$ for all $i \in [m]$. We have by the triangle inequality that
-\begin{align*}
-|x - \Pi_Vx|_2 &= |x - \Pi_{V_k} x|_2 + |\Pi_{V_k}(I - \Pi_{V_{k-1}}) x|_2 + |\Pi_{V_k}\Pi_{V_{k-1}}x - \Pi_Vx|_2 \\
-&\leq \sum_{i=k-1}^k|x - \Pi_{V_i} x|_2 + |\Pi_{V_k}\Pi_{V_{k-1}} x - \Pi_V x|_2,
-\end{align*}
-%
-where in the second line we have used the fact that $|\Pi_{V_k}|_2 \leq 1$. If $k=2$ then we are done; otherwise, we may repeat this manipulation another $k-2$ times until we arrive at \eqref{induction}. Next, we show how the result \eqref{DTILeq} follows from \eqref{induction}. To do so, we make use of the following result from \cite[Theorem 9.33]{Deutsch}:
-\begin{align}\label{dti2}
-|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} x - \Pi_Vx|_2 \leq c |x|_2 \indent \text{for all} \indent x \in \mathbb{R}^m.
-\end{align}
-%
-where $c:= \left[1 - \prod_{i=1}^{k-1}(1-c_i^2)\right]^{1/2}$ and $c_i = \cos\theta_F\left(V_i, \cap_{j=i+1}^kV_j\right)$. Note that
-\begin{align}\label{dti1}
-|(\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1})(x - \Pi_Vx) - \Pi_V(x - \Pi_Vx)|_2 
-&= |(\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1}) x - \Pi_V x |_2,
-\end{align}
-%
-since $\Pi_{V_\ell} \Pi_V = \Pi_V$ for all $\ell = 1, \ldots, k$ and $\Pi_V^2 = \Pi_V$.
-%
-We therefore have by \eqref{dti2} and \eqref{dti1} that
-\begin{align*}
-|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} x - \Pi_V x |_2
-&= |(\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1})(x - \Pi_Vx) - \Pi_V(x - \Pi_Vx)|_2 \\
-&\leq c |x - \Pi_Vx|_2.
-\end{align*}
-
-Substituting the left-hand side into \eqref{induction}, we get
-\begin{align*}
-|x - \Pi_Vx|_2 \leq \sum_{i=1}^k |x - \Pi_{V_i} x|_2 + c |x - \Pi_Vx|_2,
-\end{align*}
-%
-from which it follows that
-\begin{align}\label{ceq}
-|x - \Pi_V x|_2 \leq \frac{1}{1 - c} \sum_{i=1}^k |x - \Pi_{V_i} x|_2.
-\end{align}
-Since the permutation $\sigma$ we chose was arbitrary, we can replace $c$ in \eqref{ceq} with $\xi(\mathcal{V})$ to obtain \eqref{DTILeq}.
-\end{proof}
-
 %======= GRAPH THEORY LEMMA =======
-
 \begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$, $\sigma \in \frak{S}_m$, and let $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$. Suppose there exists a map $\pi: T \to {\mathbb{Z}/m\mathbb{Z} \choose k}$ such that for all $J \in {[m] \choose k}$,
 \begin{align}\label{EmptyToEmpty}
  \bigcap_{i \in J} S_\sigma(i) = \emptyset \ \Longrightarrow \ \bigcap_{i \in J} \pi(S_\sigma(i)) = \emptyset.
@@ -583,9 +587,9 @@ If there existed some $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then we wo
 %==== PROOF OF MAIN LEMMA =======
 
 \begin{proof}[Proof of Lemma \ref{MainLemma} (Main Lemma)]
-We assume $k \geq 2$ since the case $k = 1$ was proven at the beginning of Section \ref{DUT}. Note that $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$ for some $\sigma \in \frak{S}_m$. We begin by proving that $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) = k$ for all $i \in [m]$. [*** We already proved this for $S' = \pi(S)$ in the proof of Theorem 1 -- should we remove this redundancy? We have to prove it again here though if we want the lemma to stand on its own. ***] Fix $i \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vectors $u \in \text{Span}\{A_{S_\sigma(i)}\}$ that $d(u, \text{Span}\{B_{\pi(S_\sigma(i))}\}) \leq \frac{\phi_k(A)}{k} \Delta$ for $\Delta < \frac{\ell_2(A)}{\sqrt{2}} \left( \max_{i \in [m]} |A\mathbf{e}_i| \right)^{-1}$. By definition of $\ell_2(A)$ we have for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
+We assume $k \geq 2$ since the case $k = 1$ was proven at the beginning of Section \ref{DUT}. Note that $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$ for some $\sigma \in \frak{S}_m$. We begin by proving that $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) = k$ for all $i \in [m]$. [*** We already proved this for $S' = \pi(S)$ in the proof of Theorem 1 -- should we remove this redundancy? We have to prove it again here though if we want the lemma to stand on its own. ***] Fix $j \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vectors $u \in \text{Span}\{A_{S_\sigma(i)}\}$ that $d(u, \text{Span}\{B_{\pi(S_\sigma(i))}\}) \leq \frac{\phi_k(A)}{k} \Delta$ for $\Delta < \frac{L_2(A)}{\rho \sqrt{2}}$. By definition of $\ell_2(A)$ we have for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
 \begin{align}
-\ell_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \max_{i \in [m]} |A\mathbf{e}_i|_2 \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \sqrt{2} \max_{i \in [m]}|A\mathbf{e}_i|_2
+L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}
 \end{align}
 
 Hence $\Delta < 1$. Since $\phi_k \in [0,1]$ we have $d(u, \text{Span}\{B_{\pi(S_\sigma(i))}\}) < 1$ and it follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) \geq \dim(\text{Span}\{A_{S_\sigma(i)}\}) = k$. Since $|\pi(S_\sigma(i))| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S_\sigma(i))}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
@@ -740,123 +744,123 @@ completed a B.S. in Mathematics and a B.S. in Computer Science at Yale Universit
 % 			SCRAP PAPER
 %===================================
 
-\section*{SCRAP PAPER}
-
-\subsection{ Random sampling to fill a set of cyclic intervals }
-\begin{problem}
-Fix $m$ and $k < m$. What is the probability that $N$ random $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ satisfy: for every interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$ there are at least $p = k{m \choose k}$ vectors $\mathbf{a}_i$ supported on that interval?
-\end{problem}
-
-There are $\frac{m!}{m} = (m-1)!$ cyclic orders on $m$ elements and the set of intervals of length $k$ in a given order is invariant to reversal of the order. There are therefore $\frac{(m-1)!}{2}$ sets $T \in { {[m] \choose k} \choose m}$ which consist of all length $k$ intervals in some cyclic order of $\{1, \ldots, m\}$. We want to know the probability that for at least one such $T$, every $S \in T$ has at least $mp$ samples.
-
-Fix one such $T$ and suppose we have $N_T$ random $k$-sparse vectors $\mathbf{a}_i$ with supports in $T$. The number of possible ways in which there can be at least $p$ of these vectors supported on every support $S \in T$ is the number of nonnegative integer solutions $d_i$ to the equation
-\[ (d_1 + p) + \ldots + (d_m + p) = N_T.\]
+%\section*{SCRAP PAPER}
 %
-In general, the number of nonnegative integer solutions to the equation $d_1 + \ldots + d_m = M$ is ${M+m-1 \choose m-1}$. Hence, the probability that for every $S \in T$ there are at least $p$ vectors $\mathbf{a}_i$ supported on $S$ is:
-\[ q(N_T) = \frac{ { N_T-m(p-1)-1 \choose m-1 } }{ {N_T+m-1 \choose m-1} } \]
-
-We need at least $mp$ supports allocated to at least one such $T$ to have nonzero probability of success. Suppose the $N$ vectors are distributed over only $m$ supports. Then the probability that these $m$ supports form a valid set $T$ is $\frac{(m-1)!}{2} / { {m \choose k} \choose m}$ and the probability that every interval $S \in T$ has at least $mp$ vectors is 
-\[ q(N) \frac{(m-1)!}{2} / { {m \choose k} \choose m}\]
-
-Suppose now they are distributed over $m+1$ supports. Either these $m+1$ supports contain a single valid $T$ or no valid $T$. The probability that they contain a single valid $T$ is ${m+1 \choose m} \frac{(m-1)!}{2} / { {m \choose k} \choose m} = \frac{(m+1)!}{2m} / { {m \choose k} \choose m}$.
-
-\emph{Ideas:} The probability of filling all the intervals of length $k$ in any two cyclic orders is the same. Hence $q_{\sigma_i} = q_{\sigma_j}$ for all cyclic orders $\sigma_i, \sigma_j$. If we have filled every interval of length $k$ in all cyclic orders then we have filled all supports (right? seems right).
-
-The number of possible ways in which there can be at least $p$ of these vectors supported on every one of $r$ subsets is the number of nonnegative integer solutions $d_i$ to the equation
-\[ d_1 + \ldots + d_{{m \choose k} }= N - rp.\]
-
-We now need the probability that these $r$ subsets contain at least one valid $T$.  This is one minus the probability that they contain no valid $T$. 
-
-\subsection{Bounding b - PDa}
-
-Assuming $\mathbf{b}_i$ and $PD\mathbf{a}_i$ share the same support:
-\begin{align*}
-|\mathbf{b}_i - PD\mathbf{a}_i| 
-&\leq \frac{1}{L_k(B)}|B(\mathbf{b}_i - PD\mathbf{a}_i)| \\
-&\leq \frac{1}{L_k(B)} (|B\mathbf{b}_i - A\mathbf{a}_i| + |(A - BPD)\mathbf{a}_i|) \\
-&\leq \frac{\varepsilon}{L_k(B)}(1+C|\mathbf{a}_i|_1).
-\end{align*}
-
-(Can we justify this assumption?) Without this assumption,
-
-\begin{align*}
-|\mathbf{b}_i - PD\mathbf{a}_i| 
-&\leq \frac{1}{\ell_{2k}(B)}|B(\mathbf{b}_i - PD\mathbf{a}_i)| \\
-&\leq \frac{1}{\ell_{2k}(B)} (|B\mathbf{b}_i - A\mathbf{a}_i| + |(A - BPD)\mathbf{a}_i|) \\
-&\leq \frac{\varepsilon}{\ell_{2k}(B)}(1+C|\mathbf{a}_i|_1).
-\end{align*}
-
-How do we know $\ell_{2k}(B) > 0$? For all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$,
-\begin{align*}
-|B\mathbf{x}|_2 
-&\geq | |A(P^{-1}D^{-1}\mathbf{x})|_2 - |(A-BPD)P^{-1}D^{-1}\mathbf{x}|_2 | \\
-&\geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon)|P^{-1}D^{-1}\mathbf{x}|_2 \\
-&\geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon)|D|_2|\mathbf{x}|_2 \\
-&\geq (\ell_{2k}(A) - \sqrt{k}\ell_2(A))|D|_2|\mathbf{x}|_2. 
-\end{align*}
+%\subsection{ Random sampling to fill a set of cyclic intervals }
+%\begin{problem}
+%Fix $m$ and $k < m$. What is the probability that $N$ random $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ satisfy: for every interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$ there are at least $p = k{m \choose k}$ vectors $\mathbf{a}_i$ supported on that interval?
+%\end{problem}
 %
-if $\ell_{2k}(A) \geq \sqrt{k}\ell_2(A)$ (see Remark \ref{thm1specs})\ldots\textbf{umm..} 
-
-\subsection{Spark Condition implies RIP}
-
-\begin{lemma}
-If a matrix $M \in \mathbb{n \times m}$ has full column rank then $\ell(M) > 0$. Spark condition implies $L_k(A) > 0$. \textbf{[re-word this]}
-\end{lemma}
-
-\begin{proof}
-Consider the compact set $\mathcal{C} = \{c \in \mathbb{R}^k: |c|_2 = 1\}$ and the continuous map
-\begin{align*}
-\phi: \mathcal{C} &\to \mathbb{R} \\
-(c_1, \ldots, c_k) &\mapsto |\sum_{j = 1}^k c_j \mathbf{a}_{i_j}|_2.
-\end{align*}
-
-By general linear position of the $\mathbf{a}_i$, we know that $0 \notin \phi(\mathcal{C})$. Since $\mathcal{C}$ is compact, we have by continuity of $\phi$ that $\phi(\mathcal{C})$ is also compact; hence it is closed and bounded. Therefore $0$ can't be a limit point of $\phi(\mathcal{C})$ and there must be some $\rho > 0$ such that the neighbourhood $\{x: x < \rho\} \subseteq \mathbb{R} \setminus \phi(\mathcal{C})$. Hence $\phi(c) \geq \rho$ for all $c \in \mathcal{C}$. The result follows by the association $c \mapsto \frac{c}{|c|_2}$ and the fact that there are only finitely many subsets of $k$ vectors $\mathbf{a}_i$ (actually, for our purposes we need only consider those subsets of $k$ vectors $\mathbf{a}_i$ having the same support), hence there is some minimal $\rho$ satisfying \eqref{DataSpread} for all of them. (We refer the reader to the Appendix for a lower bound on $\rho$ given as a function of $k$ and an arithmetic sequence $\gamma_1, \ldots, \gamma_N$ used to generate the $a_i$.)
-\end{proof}
-
-%========================
-%            INTRODUCTION
-%========================
-
-      
-\subsection{Introduction}
-
-We also require the data to satisfy certain properties. Consider the problem where we wish to identify the mixing matrix $A$ from the mixtures $\mathbf{y}_i$ when the sources $\mathbf{a}_i$ are known. In this case, a necessary condition for uniqueness of $A$ given $\mathbf{y}_i = A \mathbf{a}_i + \mathbf{\eta}_i$ (even when $\mathbf{\eta}_i=0$) is:
-\begin{align}\label{SparkCondition2}
-A^{(1)}_{i,:}(\mathbf{a}_1 \cdots \mathbf{a}_N) = A^{(2)}_{i,:}(\mathbf{a}_1 \cdots \mathbf{a}_N)  \text{ for all } i \in [n] \implies A^{(1)}  = A^{(2)} \indent \text{for all } A^{(1)}, A^{(2)} \in \mathbb{R}^{n \times m}.
-\end{align}
-
-Otherwise, blah blah blah (figure this out). Trying to introduce the "spread" of the data as a necessary condition.
-
-%===================================
-% PROOFS OF PROBABILISTIC THEOREMS
-%===================================
-
-\subsection{Proofs of Probabilistic Theorems}\label{PUTproof}
-
-Definition \ref{RandomDraw}: can I bound the probability of drawing from one of the $m!$ special support sets without explicitly making that restriction?
-
-We first generalize Lemma 3 in \cite{Hillar15} to the noisy case:
-
-\begin{lemma}
-Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{RIP}. With probability one, if $(k+1)$ $k$-sparse vectors $\mathbf{a}_i \in \mathbb{R}^{n \times m}$ are such that $d(A\mathbf{a}_i,V) \leq (??)$ for some $k$-dimensional subspace $V \subset \mathbb{R}^m$ then all of the $(k+1)$ vectors $\mathbf{a}_i$ have the same supports.
-\end{lemma}
-\begin{proof}
-We need only show that the $k+1$ vectors $A\mathbf{a}_i$ are linearly dependent; the rest follows by Lemma 3 from \cite{Hillar15}. Let these $k+1$ vectors $\mathbf{a}_i$ be indexed by $J$ and let $W = \text{Span}\{A\mathbf{a}_{i \in J}\}$. Then for all $w \in W$ we can write $w = \sum_{i \in J} c_iA\mathbf{a}_i$ for some set of $c_i \in \mathbb{R}$. Letting $v = \sum_{i \in J} c_iv_i$, it follows that
-\[ |w - v| = |\sum_{i \in J} c_i A\mathbf{a}_i - \sum_{i \in J} c_i v_i | 
-\leq \sum_{i \in J} |c_i| |A\mathbf{a}_i - v_i| \leq 2\varepsilon \sum_{i \in J}|c_i| \]
-
-Need right-hand side less thatn $|w|$ to prove that $\dim(W) \leq \dim(V) = k$\ldots
-\end{proof}
-
-\begin{proof}[Proof of Theorem \ref{Theorem2} ($\varepsilon = 0$)]
-Consider any alternate factorization $\mathbf{y}_i = B\mathbf{b}_i$ for $Y$. Given a support set $S \in {[m]\choose k}$, let $I(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that those $\mathbf{y}$ indexed by $I(S)$ span at most a $k$-dimensional space. By Lemma 3 in \cite{Hillar15}, either $|I(S)| \leq k$ or with probability one all $\mathbf{a}_j$ with $j \in I(S)$ have the same support $S'$. Since there are only $(k+1)$ vectors $\mathbf{a}_i$ with a given support, the latter case actually implies (with probability one) that $|I(S)| = k+1$. If $N=(k+1){m \choose k}$, though, then with probability one we would reach a contradiction if $|I(S)| \leq k$ for any $S \in {[m] \choose k}$; hence with probability one we have $|I(S)| = k+1$. Can we reach the same conclusion when $N = m(k+1)$? (Perhaps by creating 'virtual data' spanning all supports by those data points with supports in $\mathcal{T}$)?
-
-\end{proof}
-
-\begin{proof}[Proof of Theorem \ref{Theorem2}]
-Let $\mathbf{y}_i = A\mathbf{a}_i + \eta_i$ for all $i \in \{1, \ldots, N\}$ and suppose there is some $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ such that $|\mathbf{y}_i - B\mathbf{b}_i| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Then by the triangle inequality we have $|A\mathbf{a}_i - B\mathbf{b}_i| \leq 2\varepsilon$ for all $i \in \{1, \ldots, N\}$. Given a support set $S \in {[m]\choose k}$, let $I(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that for all $j \in I(S)$ there exists some $v \in \text{Span}\{B_S\}$ such that $|A\mathbf{a}_i - v| \leq 2\varepsilon$. By Lemma (??), with probability one, either $|I(S)| \leq k$ for all $\mathbf{a}_j$ with $j \in I(S)$ have the same support.
-\end{proof}
-
+%There are $\frac{m!}{m} = (m-1)!$ cyclic orders on $m$ elements and the set of intervals of length $k$ in a given order is invariant to reversal of the order. There are therefore $\frac{(m-1)!}{2}$ sets $T \in { {[m] \choose k} \choose m}$ which consist of all length $k$ intervals in some cyclic order of $\{1, \ldots, m\}$. We want to know the probability that for at least one such $T$, every $S \in T$ has at least $mp$ samples.
+%
+%Fix one such $T$ and suppose we have $N_T$ random $k$-sparse vectors $\mathbf{a}_i$ with supports in $T$. The number of possible ways in which there can be at least $p$ of these vectors supported on every support $S \in T$ is the number of nonnegative integer solutions $d_i$ to the equation
+%\[ (d_1 + p) + \ldots + (d_m + p) = N_T.\]
+%%
+%In general, the number of nonnegative integer solutions to the equation $d_1 + \ldots + d_m = M$ is ${M+m-1 \choose m-1}$. Hence, the probability that for every $S \in T$ there are at least $p$ vectors $\mathbf{a}_i$ supported on $S$ is:
+%\[ q(N_T) = \frac{ { N_T-m(p-1)-1 \choose m-1 } }{ {N_T+m-1 \choose m-1} } \]
+%
+%We need at least $mp$ supports allocated to at least one such $T$ to have nonzero probability of success. Suppose the $N$ vectors are distributed over only $m$ supports. Then the probability that these $m$ supports form a valid set $T$ is $\frac{(m-1)!}{2} / { {m \choose k} \choose m}$ and the probability that every interval $S \in T$ has at least $mp$ vectors is 
+%\[ q(N) \frac{(m-1)!}{2} / { {m \choose k} \choose m}\]
+%
+%Suppose now they are distributed over $m+1$ supports. Either these $m+1$ supports contain a single valid $T$ or no valid $T$. The probability that they contain a single valid $T$ is ${m+1 \choose m} \frac{(m-1)!}{2} / { {m \choose k} \choose m} = \frac{(m+1)!}{2m} / { {m \choose k} \choose m}$.
+%
+%\emph{Ideas:} The probability of filling all the intervals of length $k$ in any two cyclic orders is the same. Hence $q_{\sigma_i} = q_{\sigma_j}$ for all cyclic orders $\sigma_i, \sigma_j$. If we have filled every interval of length $k$ in all cyclic orders then we have filled all supports (right? seems right).
+%
+%The number of possible ways in which there can be at least $p$ of these vectors supported on every one of $r$ subsets is the number of nonnegative integer solutions $d_i$ to the equation
+%\[ d_1 + \ldots + d_{{m \choose k} }= N - rp.\]
+%
+%We now need the probability that these $r$ subsets contain at least one valid $T$.  This is one minus the probability that they contain no valid $T$. 
+%
+%\subsection{Bounding b - PDa}
+%
+%Assuming $\mathbf{b}_i$ and $PD\mathbf{a}_i$ share the same support:
+%\begin{align*}
+%|\mathbf{b}_i - PD\mathbf{a}_i| 
+%&\leq \frac{1}{L_k(B)}|B(\mathbf{b}_i - PD\mathbf{a}_i)| \\
+%&\leq \frac{1}{L_k(B)} (|B\mathbf{b}_i - A\mathbf{a}_i| + |(A - BPD)\mathbf{a}_i|) \\
+%&\leq \frac{\varepsilon}{L_k(B)}(1+C|\mathbf{a}_i|_1).
+%\end{align*}
+%
+%(Can we justify this assumption?) Without this assumption,
+%
+%\begin{align*}
+%|\mathbf{b}_i - PD\mathbf{a}_i| 
+%&\leq \frac{1}{\ell_{2k}(B)}|B(\mathbf{b}_i - PD\mathbf{a}_i)| \\
+%&\leq \frac{1}{\ell_{2k}(B)} (|B\mathbf{b}_i - A\mathbf{a}_i| + |(A - BPD)\mathbf{a}_i|) \\
+%&\leq \frac{\varepsilon}{\ell_{2k}(B)}(1+C|\mathbf{a}_i|_1).
+%\end{align*}
+%
+%How do we know $\ell_{2k}(B) > 0$? For all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$,
+%\begin{align*}
+%|B\mathbf{x}|_2 
+%&\geq | |A(P^{-1}D^{-1}\mathbf{x})|_2 - |(A-BPD)P^{-1}D^{-1}\mathbf{x}|_2 | \\
+%&\geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon)|P^{-1}D^{-1}\mathbf{x}|_2 \\
+%&\geq (\ell_{2k}(A) - \sqrt{2k}C\varepsilon)|D|_2|\mathbf{x}|_2 \\
+%&\geq (\ell_{2k}(A) - \sqrt{k}\ell_2(A))|D|_2|\mathbf{x}|_2. 
+%\end{align*}
+%%
+%if $\ell_{2k}(A) \geq \sqrt{k}\ell_2(A)$ (see Remark \ref{thm1specs})\ldots\textbf{umm..} 
+%
+%\subsection{Spark Condition implies RIP}
+%
+%\begin{lemma}
+%If a matrix $M \in \mathbb{n \times m}$ has full column rank then $\ell(M) > 0$. Spark condition implies $L_k(A) > 0$. \textbf{[re-word this]}
+%\end{lemma}
+%
+%\begin{proof}
+%Consider the compact set $\mathcal{C} = \{c \in \mathbb{R}^k: |c|_2 = 1\}$ and the continuous map
+%\begin{align*}
+%\phi: \mathcal{C} &\to \mathbb{R} \\
+%(c_1, \ldots, c_k) &\mapsto |\sum_{j = 1}^k c_j \mathbf{a}_{i_j}|_2.
+%\end{align*}
+%
+%By general linear position of the $\mathbf{a}_i$, we know that $0 \notin \phi(\mathcal{C})$. Since $\mathcal{C}$ is compact, we have by continuity of $\phi$ that $\phi(\mathcal{C})$ is also compact; hence it is closed and bounded. Therefore $0$ can't be a limit point of $\phi(\mathcal{C})$ and there must be some $\rho > 0$ such that the neighbourhood $\{x: x < \rho\} \subseteq \mathbb{R} \setminus \phi(\mathcal{C})$. Hence $\phi(c) \geq \rho$ for all $c \in \mathcal{C}$. The result follows by the association $c \mapsto \frac{c}{|c|_2}$ and the fact that there are only finitely many subsets of $k$ vectors $\mathbf{a}_i$ (actually, for our purposes we need only consider those subsets of $k$ vectors $\mathbf{a}_i$ having the same support), hence there is some minimal $\rho$ satisfying \eqref{DataSpread} for all of them. (We refer the reader to the Appendix for a lower bound on $\rho$ given as a function of $k$ and an arithmetic sequence $\gamma_1, \ldots, \gamma_N$ used to generate the $a_i$.)
+%\end{proof}
+%
+%%========================
+%%            INTRODUCTION
+%%========================
+%
+%      
+%\subsection{Introduction}
+%
+%We also require the data to satisfy certain properties. Consider the problem where we wish to identify the mixing matrix $A$ from the mixtures $\mathbf{y}_i$ when the sources $\mathbf{a}_i$ are known. In this case, a necessary condition for uniqueness of $A$ given $\mathbf{y}_i = A \mathbf{a}_i + \mathbf{\eta}_i$ (even when $\mathbf{\eta}_i=0$) is:
+%\begin{align}\label{SparkCondition2}
+%A^{(1)}_{i,:}(\mathbf{a}_1 \cdots \mathbf{a}_N) = A^{(2)}_{i,:}(\mathbf{a}_1 \cdots \mathbf{a}_N)  \text{ for all } i \in [n] \implies A^{(1)}  = A^{(2)} \indent \text{for all } A^{(1)}, A^{(2)} \in \mathbb{R}^{n \times m}.
+%\end{align}
+%
+%Otherwise, blah blah blah (figure this out). Trying to introduce the "spread" of the data as a necessary condition.
+%
+%%===================================
+%% PROOFS OF PROBABILISTIC THEOREMS
+%%===================================
+%
+%\subsection{Proofs of Probabilistic Theorems}\label{PUTproof}
+%
+%Definition \ref{RandomDraw}: can I bound the probability of drawing from one of the $m!$ special support sets without explicitly making that restriction?
+%
+%We first generalize Lemma 3 in \cite{Hillar15} to the noisy case:
+%
+%\begin{lemma}
+%Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{RIP}. With probability one, if $(k+1)$ $k$-sparse vectors $\mathbf{a}_i \in \mathbb{R}^{n \times m}$ are such that $d(A\mathbf{a}_i,V) \leq (??)$ for some $k$-dimensional subspace $V \subset \mathbb{R}^m$ then all of the $(k+1)$ vectors $\mathbf{a}_i$ have the same supports.
+%\end{lemma}
+%\begin{proof}
+%We need only show that the $k+1$ vectors $A\mathbf{a}_i$ are linearly dependent; the rest follows by Lemma 3 from \cite{Hillar15}. Let these $k+1$ vectors $\mathbf{a}_i$ be indexed by $J$ and let $W = \text{Span}\{A\mathbf{a}_{i \in J}\}$. Then for all $w \in W$ we can write $w = \sum_{i \in J} c_iA\mathbf{a}_i$ for some set of $c_i \in \mathbb{R}$. Letting $v = \sum_{i \in J} c_iv_i$, it follows that
+%\[ |w - v| = |\sum_{i \in J} c_i A\mathbf{a}_i - \sum_{i \in J} c_i v_i | 
+%\leq \sum_{i \in J} |c_i| |A\mathbf{a}_i - v_i| \leq 2\varepsilon \sum_{i \in J}|c_i| \]
+%
+%Need right-hand side less thatn $|w|$ to prove that $\dim(W) \leq \dim(V) = k$\ldots
+%\end{proof}
+%
+%\begin{proof}[Proof of Theorem \ref{Theorem2} ($\varepsilon = 0$)]
+%Consider any alternate factorization $\mathbf{y}_i = B\mathbf{b}_i$ for $Y$. Given a support set $S \in {[m]\choose k}$, let $I(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that those $\mathbf{y}$ indexed by $I(S)$ span at most a $k$-dimensional space. By Lemma 3 in \cite{Hillar15}, either $|I(S)| \leq k$ or with probability one all $\mathbf{a}_j$ with $j \in I(S)$ have the same support $S'$. Since there are only $(k+1)$ vectors $\mathbf{a}_i$ with a given support, the latter case actually implies (with probability one) that $|I(S)| = k+1$. If $N=(k+1){m \choose k}$, though, then with probability one we would reach a contradiction if $|I(S)| \leq k$ for any $S \in {[m] \choose k}$; hence with probability one we have $|I(S)| = k+1$. Can we reach the same conclusion when $N = m(k+1)$? (Perhaps by creating 'virtual data' spanning all supports by those data points with supports in $\mathcal{T}$)?
+%
+%\end{proof}
+%
+%\begin{proof}[Proof of Theorem \ref{Theorem2}]
+%Let $\mathbf{y}_i = A\mathbf{a}_i + \eta_i$ for all $i \in \{1, \ldots, N\}$ and suppose there is some $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ such that $|\mathbf{y}_i - B\mathbf{b}_i| \leq \varepsilon$ for all $i \in \{1, \ldots, N\}$. Then by the triangle inequality we have $|A\mathbf{a}_i - B\mathbf{b}_i| \leq 2\varepsilon$ for all $i \in \{1, \ldots, N\}$. Given a support set $S \in {[m]\choose k}$, let $I(S) = \{j: \text{supp}(\mathbf{b}_j) \subseteq S\}$ and note that for all $j \in I(S)$ there exists some $v \in \text{Span}\{B_S\}$ such that $|A\mathbf{a}_i - v| \leq 2\varepsilon$. By Lemma (??), with probability one, either $|I(S)| \leq k$ for all $\mathbf{a}_j$ with $j \in I(S)$ have the same support.
+%\end{proof}
+%
 
 
 
