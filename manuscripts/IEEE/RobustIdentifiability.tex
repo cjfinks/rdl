@@ -132,7 +132,7 @@ Given Theorem \ref{DeterministicUniquenessTheorem}, it is also possible to provi
 Given the support set for its $k$ nonzero entries, a \textbf{random draw} of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all ${m \choose k}$ of them and then a random draw.
 \end{definition}
 
-We state the main implications of those results (elaborated upon in Section \ref{PUT} more fully) here. Recall that an \emph{algebraic set} is a solution to a finite set of polynomial equations.
+We state the main implications of those results (elaborated upon in Section \ref{PUT} more fully) here. % Recall that an \emph{algebraic set} is a solution to a finite set of polynomial equations.
 
 \begin{corollary}
 Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from a random draw of $N = m(k-1){m \choose k}+m$ $k$-sparse vectors $\mathbf{a}_i$, consisting of $(k-1){m \choose k}+1$ samples supported on each interval of length $k$ in some cyclic ordering of $[m]$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
@@ -166,14 +166,14 @@ Recall that the \emph{lower bound} of a matrix $M \in \mathbb{R}^{n \times m}$ i
 \begin{align}
 L_k(M) := \max \{ \alpha : |M\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m\}.
 \end{align}
-Clearly, $L_k(M) \geq L_{k'}(M)$ whenever $k < k'$.  A simple compactness argument can be made to show that $M$ satisfies the spark condition if and only if $L_k(M) > 0$. Note also that if $L_k(M) > 0$ for some $k$ if and only if $M$ can be rescaled to satisfy a \emph{restricted isometry property} (RIP) \cite{CandesTao05} from compressive sensing, since there exist $\alpha, \beta > 0$ such that:
+Clearly, $L_k(M) \geq L_{k'}(M)$ whenever $k < k'$. Note that $L_k(M) > 0$ for some $k$ if and only if $M$ can be rescaled to satisfy a \emph{restricted isometry property} (RIP) \cite{CandesTao05} from compressive sensing, since there exist $\alpha, \beta > 0$ such that:
 \begin{align}
 \alpha|\mathbf{x}|_2 \leq |M\mathbf{x}|_2 \leq \beta|\mathbf{x}|_2 \ \ \text{for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m.
 \end{align}
-Letting $\delta = (\beta - \alpha)/(\beta + \alpha)$ and rescaling $M$ by $2/(\beta + \alpha)$ yields the familiar presentation of the RIP. 
+Letting $\delta = (\beta - \alpha)/(\beta + \alpha)$ and rescaling $M$ by $2/(\beta + \alpha)$ yields the familiar presentation of the RIP. A simple compactness argument can be made to show that any matrix $M$ satisfying the spark condition is such that $L_{2k}(M) > 0$. 
 %Scaling $M$ by $2/(\beta + \alpha)$ yields $\alpha = 1-\delta$ and $\beta = 1+\delta$ for $\delta = (\beta - \alpha)/(\beta + \alpha)$, which is the usual .
 
-Between any pair of subspaces in Euclidean space one can define a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles which are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other. Hence, if $M$ satisfies \eqref{SparkCondition}, there is at least one nonzero such angle between all pairs of subspaces spanned by at most $k$ columns of $M$. The smallest nonzero principal angle between a pair of subspaces, known also as the Friedrichs angle, is defined in terms of its cosine as follows.
+Between any pair of subspaces in Euclidean space one can define the following generalized ``angle'':
 \begin{definition}\label{FriedrichsDefinition}
 The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is \cite{Deutsch}:
 \begin{align}
@@ -182,7 +182,7 @@ The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ b
 %
 where $\mathcal{B}_{\ell_2} = \{ x: |x|_2 \leq 1\}$ is the unit $\ell_2$-ball in $\mathbf{R}^n$.
 \end{definition}
-For example, if $k=2$ and $n=3$ this is the angle between the normal vectors of the two planes. (In this case, there is only one nonzero principal angle between non-identical planes.) 
+For example, if $k=2$ and $n=3$ this is the angle between the normal vectors of the two planes. In higher dimensions, the Friedrichs angle is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces which are invariant to orthogonal transformations. These angles and are all zero if and only if one subspace is a subset of the other; otherwise, the Friedrichs angle is the smallest nonzero such angle. Hence, there is a positive Friedrichs angle between all pairs of subspaces spanned by at most $k$ columns of any matrix $M$ satisfying the spark condition. 
 
 The next definition we need is based on a quantity derived in \cite{Deutsch} to describe the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces. We use it to bound the distance between a point and the intersection of a set of subspaces given an upper bound on the distance from that point to each individual subspace.
 
@@ -208,9 +208,10 @@ where $\rho := \max_{j \in [m]} |A_j|_2 $. If $0 \leq \varepsilon < \varepsilon_
 \begin{align}\label{Cdef}
 C = \frac{L_{2k}(A)}{ \varepsilon_0 \sqrt{2k}}.
 \end{align}
-Note that if $A$ satisfies the spark condition, then $\phi_k(A), L_{2k}(A) > 0$ so that both $C$ and $\varepsilon_0$ are nonzero provided $\min_{S \in T} L_k(AX_{I(S)}) > 0$.
-[********  We should verify this statement ***********]
 
+\begin{remark}\label{nonzero}
+If $A$ satisfies the spark condition then a simple compactness argument can be made to show that $L_{2k}(A) > 0$. We also have that $\phi_k(A) > 0$, since $\phi_k(A) = 0$ only when $\text{Span}(A_{S_1}) \supseteq \text{Span}(A_{S_2}) \cap \ldots, \cap \text{Span}(A_{S_k})$ for some $S_1, \ldots, S_k \in {[m] \choose k}$. Hence $C$ and $\varepsilon_0$ are nonzero provided $\min_{S \in T} L_k(AX_{I(S)}) > 0$. 
+\end{remark}
 
 [**** Shouldn't we put here either here or in the Intro the explicit calculation for the Vandermonde matrices construction?? ****]
 
@@ -225,14 +226,14 @@ We are now state our main result from combinatorial matrix theory, generalizing 
 
 %===========          MAIN LEMMA (K > 1)             =================
 \begin{lemma}[Main Lemma]\label{MainLemma}
-Fix positive integers $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with maximum column $\ell_2$-norm $\rho$.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
+Fix positive integers $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with maximum column $\ell_2$-norm $\rho$.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\rho \sqrt{2}}$ such that 
 \begin{equation}\label{GapUpperBound}
-\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{\rho k} \Delta, \indent \text{for all } S \in T,
+\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta, \indent \text{for all } S \in T,
 \end{equation}
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
 \begin{align}
-|A_j - (BPD)_j|_2 \leq \Delta, \indent \text{for all } j \in [m].
+|A_j - (BPD)_j|_2 \leq \rho \Delta, \indent \text{for all } j \in [m].
 \end{align}
 \end{lemma}
 We defer the (technical) proof of this lemma to Appendix \ref{appendixA}. In words, the result says that the vectors forming the columns of $A$ are nearly identical to those forming the columns of $B$ (up to symmetry) provided that for a special set $T$ of $m$ subspaces, each spanned by $k$ columns of $A$, there exist $k$ columns of $B$ which span a nearby subspace with respect to the gap metric.
@@ -270,43 +271,40 @@ For all $j \in [m]$, we have
 
 \section{Deterministic Identifiability}\label{DUT}
 
-[*******  todo:  change all things like $A\mathbf{e}_i$ to $A_i$,  $B\mathbf{e}_{\pi(i)}$ to $B_{\pi(i)}$ *******]
-
 %======== CASE K = 1 ============
 Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis vectors in $\mathbb R^m$.
 Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, consider when $k=1$. Suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_j = c_j \mathbf{e}_j$ for $c_j \in \mathbb{R} \setminus \{0\}$, $j \in [m]$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} and let $\rho = \max_{i \in [m]} |A\mathbf{e}_i|_2$. By \eqref{epsilon0} we have:
 \begin{align}
 \varepsilon_0 
-= \frac{ \phi_1(A) \ell_{2}(A) }{\rho \sqrt{2}} \min_{i \in [m]} \ell_1(c_iA\mathbf{e}_i) 
-= \frac{\ell_2(A)}{ \rho \sqrt{2}} \min_{i \in [m]}|c_iA\mathbf{e}_i|_2
+= \frac{ \phi_1(A) \ell_{2}(A) }{\rho \sqrt{2}} \min_{i \in [m]} \ell_1(c_iA_i) 
+= \frac{\ell_2(A)}{ \rho \sqrt{2}} \min_{i \in [m]}|c_iA_i|_2
 \leq \frac{\ell_2(A)}{ \sqrt{2}} \min_{i \in [m]}|c_i| \\
 \end{align}
 %
 and by \eqref{Cdef} we have
 \begin{align}
-C = \frac{\ell_{2}(A)}{ \varepsilon_0 \sqrt{2}} = \frac{ \rho }{ \min_{i \in [m]} |c_iA\mathbf{e}_i|_2 }
-\geq \frac{1}{\min_{i \in [m]} |c_i|}. \\
+C = \frac{\ell_{2}(A)}{ \varepsilon_0 \sqrt{2}} \geq (\min_{i \in [m]} |c_i|)^{-1}.
 \end{align} 
 
 Suppose that for some $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c'_1, \ldots, c'_m \in \mathbb{R}$ and some map $\pi: [m] \to [m]$ such that 
 \begin{align}\label{1D}
-|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\pi(i)}|_2 \leq \varepsilon \ \ \text{for all} \  i \in [m].
+|c_iA_i - c'_iB_{\pi(i)}|_2 \leq \varepsilon \ \ \text{for all} \  i \in [m].
 \end{align} 
-Note that $c'_i \neq 0$ for all $i$ since then otherwise we reach the contradiction $|c_iA\mathbf{e}_i|_2 < \varepsilon_0 \leq (\ell_2(A)/\sqrt{2}) \min_{i \in [m]}|c_i| \leq \min_{i\in [m]}|c_iA\mathbf{e}_i|_2$ (by definition of $\ell_2(A)$). We will now show that $\pi$ is necessarily injective (and thus defines a permutation). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then, $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2  \leq \varepsilon$ and $|c_jA\mathbf{e}_j - c'_jB\mathbf{e}_{\ell}|_2 \leq \varepsilon$. Using the triangle inequality followed by application of the definition of $\ell$, we have:
+Note that $c'_i \neq 0$ for all $i$ since then otherwise we reach the contradiction $|c_iA_i|_2 < \varepsilon_0 \leq (\ell_2(A)/\sqrt{2}) \min_{i \in [m]}|c_i| \leq \min_{i\in [m]}|c_iA_i|_2$ (by definition of $\ell_2(A)$). We will now show that $\pi$ is necessarily injective (and thus defines a permutation). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then, $|c_iA_i - c'_iB_{\ell}|_2  \leq \varepsilon$ and $|c_jA_j - c'_jB_{\ell}|_2 \leq \varepsilon$. Using the triangle inequality followed by application of the definition of $\ell$, we have:
 %Summing and scaling these two inequalities by $|c'_j|$ and $|c'_i|$, respectively, we have:
 \begin{align*}
 (|c'_i| + |c'_j|) \varepsilon
-&\geq |c'_j||c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2 + |c'_i||c'_jB\mathbf{e}_{\ell} - c_jA\mathbf{e}_j|_2 \\
-&\geq |c'_jc_iAe_i - c'_ic_jAe_j|_2 \\
-&\geq \ell_2(A)|c'_jc_ie_i - c'_ic_je_j|_2 \\
-&\geq \frac{\ell_2(A)}{\sqrt{2}}|c'_jc_ie_i - c'_ic_je_j|_1 \\
+&\geq |c'_j||c_iA_i - c'_iB_{\ell}|_2 + |c'_i||c'_jB_{\ell} - c_jA_j|_2 \\
+&\geq |c'_jc_iA_i - c'_ic_jA_j|_2 \\
+&\geq \ell_2(A)|c'_jc_i\mathbf{e}_i - c'_ic_j\mathbf{e}_j|_2 \\
+&\geq \frac{\ell_2(A)}{\sqrt{2}}|c'_jc_i\mathbf{e}_i - c'_ic_j\mathbf{e}_j|_1 \\
 &\geq \frac{\ell_2(A)}{\sqrt{2}} \left( |c'_j| + |c'_i| \right) \min_{\ell \in [m]} |c_\ell | \\
 &\geq \varepsilon_0 \left( |c'_j| + |c'_i| \right),
 \end{align*}
 %
 which contradicts $\varepsilon < \varepsilon_0$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right)$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m})$, we see that \eqref{1D} becomes 
 \begin{align}
-|(A - BPD)\mathbf{e}_i|_2 = |A\mathbf{e}_i - \frac{c'_i}{c_i}B\mathbf{e}_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq \frac{\varepsilon}{\min_{i \in [m]} |c_i|}  \leq C\varepsilon \ \ \text{for all } i \in [m].
+|(A - BPD)_i|_2 = |A_i - \frac{c'_i}{c_i}B_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq C\varepsilon \ \ \text{for all } i \in [m].
 \end{align}
 
 \begin{remark}
@@ -354,9 +352,9 @@ Let $T$ be the set of intervals of length $k$ in the given cyclic order of $[m]$
 
 Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of indices $I(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ [*** @chris: keep this as J(S) not I(S). We use I(S) later ***] have supports $S$ and $S'$, respectively.
 
-Let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$ and $\tilde{X} = (\mathbf{b}_1 \cdots \mathbf{b}_N)$ be the matrices formed by horizontally stacking the column vectors $\mathbf{a}_i$ and, respectively, the $\mathbf{b}_i$. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{I(S)}$ are linearly independent, i.e. $\ell(AX_{I(S)}) > 0$, and form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{z} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = AX_{J(S)}\mathbf{c}$. Letting $\mathbf{z'} = B\tilde{X}_{J(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
+Let $X = (\mathbf{a}_1 \cdots \mathbf{a}_N)$ and $\tilde{X} = (\mathbf{b}_1 \cdots \mathbf{b}_N)$ be the matrices formed by horizontally stacking the column vectors $\mathbf{a}_i$ and, respectively, the $\mathbf{b}_i$. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent, i.e. $\ell(AX_{J(S)}) > 0$, and form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{z} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = AX_{J(S)}\mathbf{c}$. Letting $\mathbf{z'} = BX'_{J(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
 \begin{align*}
-|\mathbf{z} - \mathbf{z'}|_2 = |\sum_{j=1}^N c_i(AX_{J(S)} - B\tilde{X}_{I(S)})\mathbf{e}_j|_2 
+|\mathbf{z} - \mathbf{z'}|_2 = |\sum_{j=1}^N c_i(AX_{J(S)} - BX'_{J(S)})\mathbf{e}_j|_2 
 \leq \varepsilon \sum_{j=1}^N |c_j| 
 \leq \varepsilon |\mathbf{c}|_2 \sqrt{k}  
 \leq \frac{\varepsilon \sqrt{k}}{\ell(AX_{JS)})} |AX_{J(S)}\mathbf{c}|_2
@@ -381,7 +379,7 @@ where $I(S) = \{i: \text{supp}(\mathbf{a}_i)=S\}$ and since $\ell_2(A) \leq \rho
 \Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})} \indent \text{for all } S \in T.
 \end{align}
 
-From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta$ is satisfied for this support $S$ and $\Delta < \frac{L_2(A)}{\rho \sqrt{2}}$ by setting $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\ell(AX_{J(S)})}$. We therefore satisfy \eqref{GapUpperBound} for $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\min_{S \in T} L_k(AX_{I(S)})} = \frac{\varepsilon L_{2k}(A)}{\varepsilon_0 \rho \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $j \in [m]$,
+From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{k} \Delta$ is satisfied for this support $S$ and $\Delta < \frac{L_2(A)}{\rho \sqrt{2}}$ by setting $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\ell(AX_{J(S)})}$ (see Remark \label{nonzero} for why $\phi_k(A) \neq 0$). We therefore satisfy \eqref{GapUpperBound} for $\Delta = \frac{\varepsilon k\sqrt{k}}{\phi_k(A)\min_{S \in T} L_k(AX_{I(S)})} = \frac{\varepsilon L_{2k}(A)}{\varepsilon_0 \rho \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $j \in [m]$,
 $|(A - BPD)\mathbf{e}_i|_2 \leq C\varepsilon$ for $C = \frac{ L_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$. It follows by the arguments in Remark \ref{b-PDaProof} that \eqref{b-PDa} holds as well.
 \end{proof}
 
@@ -566,6 +564,22 @@ Combining this last inequality with \eqref{induction} and rearranging, we arrive
 %|\mathbf{x} - \Pi_V\mathbf{x}|_2 \leq \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2 + z |\mathbf{x} - \Pi_V\mathbf{x}|_2,
 %\end{align*}
 %from which it follows that
+%=======
+%%
+%We therefore have by \eqref{dti2} and \eqref{dti1} that
+%\begin{align*}
+%|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x} |_2
+%&= |(\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1})(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2 \\
+%&\leq c |\mathbf{x} - \Pi_V\mathbf{x}|_2.
+%\end{align*}
+%
+%Substituting the left-hand side into \eqref{induction}, we get
+%\begin{align*}
+%|\mathbf{x} - \Pi_V\mathbf{x}|_2 \leq \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2 + c |\mathbf{x} - \Pi_V\mathbf{x}|_2,
+%\end{align*}
+%%
+%from which it follows (provided $c \neq 1$) that
+%>>>>>>> 8b98d274b6212fdd622059a4b4eb6c256d2a8ad9
 \begin{align}\label{ceq}
 |\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - z} \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2.
 \end{align}
@@ -646,27 +660,26 @@ In this section we prove Lemma \ref{MainLemma2} from Section \ref{mleqm}. We con
 %
 and by \eqref{Cdef} we have
 \begin{align}
-C = \frac{L_{2}(A)}{ \varepsilon'_0 \sqrt{2}} = \frac{ \rho }{ \min_{j \in [m]} |c_iA_j|_2 }
-\geq (\min_{i \in [m]} |c_i|)^{-1}. \\
+C = \frac{L_{2}(A)}{ \varepsilon'_0 \sqrt{2}} \geq (\min_{j \in [m]} |c_j|)^{-1}. 
 \end{align} 
 
-Suppose that for some $B \in \mathbb{R}^{n \times m'}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^{m'}$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon_0$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c'_1, \ldots, c'_m \in \mathbb{R}$ and some map $\pi: [m] \to [m']$ such that 
+Suppose that for some $B \in \mathbb{R}^{n \times m'}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^{m'}$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon'_0$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c'_1, \ldots, c'_m \in \mathbb{R}$ and some map $\pi: [m] \to [m']$ such that 
 \begin{align}\label{1D}
 |c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\pi(i)}|_2 \leq \varepsilon \ \ \text{for all} \  j \in [m].
 \end{align} 
-Note that $c'_i \neq 0$ for all $i$ since then otherwise we reach the contradiction $|c_iA\mathbf{e}_i|_2 < \varepsilon_0 \leq (\ell_2(A)/\sqrt{2}) \min_{i \in [m]}|c_i| \leq \min_{i\in [m]}|c_iA\mathbf{e}_i|_2$ (by definition of $\ell_2(A)$). We will now show that $\pi$ is necessarily injective (and thus defines a permutation on $m$ elements). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m']$. Then, $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2  \leq \varepsilon$ and $|c_jA\mathbf{e}_j - c'_jB\mathbf{e}_{\ell}|_2 \leq \varepsilon$. Using the triangle inequality followed by application of the definition of $\ell$, we have:
+Note that $c'_i \neq 0$ for all $i$ since then otherwise we reach the contradiction $|c_iA\mathbf{e}_i|_2 < \varepsilon'_0 \leq (\ell_2(A)/\sqrt{2}) \min_{i \in [m]}|c_i| \leq \min_{i\in [m]}|c_iA\mathbf{e}_i|_2$ (by definition of $\ell_2(A)$). We will now show that $\pi$ is necessarily injective (and thus defines a permutation on $m$ elements). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m']$. Then, $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2  \leq \varepsilon$ and $|c_jA\mathbf{e}_j - c'_jB\mathbf{e}_{\ell}|_2 \leq \varepsilon$. Using the triangle inequality followed by application of the definition of $\ell$, we have:
 %Summing and scaling these two inequalities by $|c'_j|$ and $|c'_i|$, respectively, we have:
 \begin{align*}
 (|c'_i| + |c'_j|) \varepsilon
 &\geq |c'_j||c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2 + |c'_i||c'_jB\mathbf{e}_{\ell} - c_jA\mathbf{e}_j|_2 \\
 &\geq |c'_jc_iAe_i - c'_ic_jAe_j|_2 \\
-&\geq \ell_2(A)|c'_jc_ie_i - c'_ic_je_j|_2 \\
+&\geq L_2(A)|c'_jc_ie_i - c'_ic_je_j|_2 \\
 &\geq \frac{L_2(A)}{\sqrt{2}}|c'_jc_ie_i - c'_ic_je_j|_1 \\
 &\geq \frac{L_2(A)}{\sqrt{2}} \left( |c'_j| + |c'_i| \right) \min_{\ell \in [m]} |c_\ell | \\
-&\geq \varepsilon_0 \left( |c'_j| + |c'_i| \right),
+&\geq \varepsilon'_0 \left( |c'_j| + |c'_i| \right),
 \end{align*}
 %
-which contradicts $\varepsilon < \varepsilon_0$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m}) \in \mathbb{R}^{m' \times m}$, we see that \eqref{1D} becomes 
+which contradicts $\varepsilon < \varepsilon'_0$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m}) \in \mathbb{R}^{m' \times m}$, we see that \eqref{1D} becomes 
 \begin{align}
 |(A - BPD)\mathbf{e}_i|_2 = |A\mathbf{e}_i - \frac{c'_i}{c_i}B\mathbf{e}_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq (\min_{i \in [m]} |c_i|)^{-1} \varepsilon \leq C\varepsilon \ \ \text{for all } i \in [m].
 \end{align}
@@ -684,7 +697,8 @@ where the second inequality is by definition of $\phi_k(A)$. Now, since $\text{S
 \begin{align}\label{fact12}
 d\left( \mathbf{u}, \text{Span}\{A_{\sigma(i)}\} \right) \leq \Delta \indent \text{for all} \indent \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}.
 \end{align}
-We therefore have by Lemma \ref{MinDimLemma}, setting $V = \text{Span}\{B_{\cap_{i \in J}\pi(S_\sigma(i))}\})$ and $W = \text{Span}\{A_{\sigma(i)}\}$, that $\dim(V) \leq \dim(W)$. The same arguments can be used to prove \eqref{fact12} with the roles of $A$ and $B$ reversed. Hence, $\dim(V) = \dim(W) = 1$ and it follows that $|\cap_{i \in J} \pi(S_\sigma(i))| = 1$ since the columns of $B_{\cap_{i \in J} \pi(S_\sigma(i))}$ are linearly independent by the spark condition. Thus, the association $\sigma(i) \mapsto \cap_{i \in J} \pi(S_\sigma(i))$ defines a map $\pi: [m] \to [m']$ such that $d\left( \mathbf{u}, \text{Span}\{B_{ \pi(S_\sigma(i))}\}\right) \leq \Delta$ for all $i \in [m]$, i.e. for every canonical basis vector $\mathbf{e}_i \in \mathbb{R}^m$, there exists some $c_i \in \mathbb{R}$ such that $|A\mathbf{e}_i - c_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \Delta$ where $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}} \min_{i \in [m]} |c_i|$. This is exactly the supposition in \eqref{yepyep}.
+We therefore have by Lemma \ref{MinDimLemma}, setting $V = \text{Span}\{B_{\cap_{i \in J}\pi(S_\sigma(i))}\})$ and $W = \text{Span}\{A_{\sigma(i)}\}$, that $\dim(V) \leq \dim(W)$. The same arguments can be used to prove \eqref{fact12} with the roles of $A$ and $B$ reversed. Hence, $\dim(V) = \dim(W) = 1$ and it follows that $|\cap_{i \in J} \pi(S_\sigma(i))| = 1$ since the columns of $B_{\cap_{i \in J} \pi(S_\sigma(i))}$ are linearly independent by the spark condition. Thus, the association $\sigma(i) \mapsto \cap_{i \in J} \pi(S_\sigma(i))$ defines a map $\pi: [m] \to [m']$ such that $d\left( \mathbf{u}, \text{Span}\{B_{ \pi(S_\sigma(i))}\}\right) \leq \Delta$ for all $i \in [m]$.
+Since $i$ is arbitrary and $\sigma$ is just a permutation, it follows that for every canonical basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \Delta$ where $\Delta < \frac{\ell_2(A)}{\sqrt{2}} \min_{i \in [m]} |c_i|$. This is exactly the supposition in \eqref{1D}.
 
 %\begin{remark} In general, there may exist combinations of fewer supports with intersection $\{i\}$, e.g. if $m \geq 2k-1$ then $S_\sigma(i - (k-1)) \cap S_\sigma(i) = \{\sigma(i)\}$. For brevity, we have considered a construction that is valid for any $k < m$.
 %\end{remark}
