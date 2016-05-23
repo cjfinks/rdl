@@ -62,7 +62,7 @@ Here, rather than study how to obtain such optima, we examine their uniqueness p
 \mathbf{y} = A\mathbf{a} + \mathbf{n},
 \end{align}
 with each \textit{source} $\mathbf{a} \in \mathbb R^m$ containing at most $k$ nonzero entries (such vectors are called \emph{$k$-sparse}).
-The vector $\mathbf{n}$ is an error or \textit{noise} term that accounts for both measurement inaccuracy and the degree to which the model deviates from reality (e.g., the true $\mathbf{a}$ may only be approximately sparse).  In short, the goal of SCA is to estimate a set of sparse sources and a dictionary from noisy measurements by approximately solving objective \eqref{DictionaryLearning}.
+The vector $\mathbf{n}$ is an error or \textit{noise} term that accounts for both measurement inaccuracy and the degree to which the model deviates from reality (e.g., the true $\mathbf{a}$ may only be approximately sparse).  The goal of SCA is to estimate a set of sparse sources and a dictionary from noisy measurements by approximately solving objective \eqref{DictionaryLearning}.
 
 Even if the uncertainty $\mathbf{n}$ required to explain the data is exactly zero, however, there are still many solutions to the SCA problem. Let $Y$ and $X$ be the matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = BX'$ for $X'$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $X' = PDX$ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Thus, the ``uniqueness" of any solution to \eqref{DictionaryLearning} can only be defined up to an equivalence of mappings of the form $PD$, which together constitute an \emph{ambiguity transform group} \cite{BilinInv} associated to this particular bilinear inverse problem. The question of when every solution $Y = BX'$ must necessarily be part of this equivalence class (i.e., $X' = PDX$ and $B = AD^{-1}P^{-1}$ for some $P$, $D$) was addressed in the theoretical works \cite{Georgiev05, Aharon06, Hillar15} and determines whether $A$ and $X$ are identifiable from $Y$ up to this inherent ambiguity.
 
@@ -79,10 +79,10 @@ then there necessarily exist a permutation matrix $P \in \mathbb{R}^{m \times m}
 \end{align}
 \end{definition}
 
-In short, a $k$-sparse representation of a dataset is robustly identifiable when the only other matrices and $k$-sparse vectors that can well-approximate the data are necessarily close to some permutation and scaling of the original codes and dictionary.  
+In short, a $k$-sparse representation of a dataset is robustly identifiable when the only other matrices and $k$-sparse vectors that can well-approximate it are necessarily close to some permutation and scaling of the original codes and dictionary.  
 
 To see how this definition directly applies to approximately sparse datasets, fix $A$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N$ such that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ is robustly identifiable. Let $\delta > 0$ and suppose that $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ satisfies $|\mathbf{y}_i - A\mathbf{a}_i|_2 \leq \varepsilon/2$ for $i = 1, \ldots, N$, where $\varepsilon$ is as in Def.~\ref{Uniqueness}. % for some $\varepsilon_1 \leq \varepsilon$. 
-If it so happens that some alternate dictionary $B$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N$ also give a coding with $|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon/2$ for all $i$, then by the triangle inequality, we necessarily have every such alternate $B$ and $\mathbf{b}_i$ satisfying \eqref{def1} for some $P$ and $D$. 
+If it so happens that some alternate dictionary $B$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N$ also give a coding with $|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon/2$ for all $i$, then by the triangle inequality, we necessarily have every such alternate $B$ and $\mathbf{b}_i$ satisfy \eqref{def1} for some $P$ and $D$. 
 In such cases, we say that the dataset $Y$ has a \textit{unique $k$-sparse representation} in $\mathbb{R}^m$. 
 
 We now state the central problem addressed in this paper.
@@ -91,11 +91,11 @@ We now state the central problem addressed in this paper.
 Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with bounded noise $\mathbf{n}_i \in \mathbb{R}^n$. When does $Y$ have a unique $k$-sparse representation in $\mathbb{R}^m$?
 \end{problem}
 
-Evidently, regardless of noise level, unique recovery of the unknown $k$-sparse vectors $\mathbf{a}_i$ from mixtures $\mathbf{y}_i$ -- even when the measurement matrix $A$ is known -- requires that $A$ be injective on the set of $k$-sparse vectors; that is,
+Evidently, regardless of noise level, unique recovery of the unknown $k$-sparse vectors $\mathbf{a}_i$ from mixtures $\mathbf{y}_i$ requires that $A$ be injective on the set of $k$-sparse vectors; that is,
 \begin{align}\label{SparkCondition}
 A\mathbf{a}_1 = A\mathbf{a}_2 \implies \mathbf{a}_1 = \mathbf{a}_2, \ \ \text{ for all $k$-sparse } \mathbf{a}_1, \mathbf{a}_2 \in \mathbb{R}^m,
 \end{align}
-commonly known in the literature as the \emph{spark condition}. Our main contribution here is the result that this necessary condition on $A$ is also enough to guarantee unique recovery of the $\mathbf{a}_i$ when $A$ is itself unknown a priori, provided the $\mathbf{a}_i$ are sufficiently diverse.  
+commonly known in the literature as the \emph{spark condition}. Our main contribution here is that this necessary condition on $A$ is also enough to guarantee unique recovery of the $\mathbf{a}_i$ when $A$ is itself unknown a priori, provided the $\mathbf{a}_i$ are sufficiently diverse.  
 
 Recall that a \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ in a circular necklace, and that an \textit{interval} is a contiguous sequence of such elements.  %Our main theorem guaranteeing robust identifiability is as follows.
 
@@ -109,7 +109,7 @@ Specifically, there exist positive constants $C$ and $\varepsilon_0$ such that t
 \end{align}
 and 
 \begin{align}\label{b-PDa}
-|D^{-1}P^{-1}\mathbf{b}_i - \mathbf{a}_i|_1 &\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right),\indent  \text{for all } i \in [N].
+|\mathbf{a}_i - D^{-1}P^{-1}\mathbf{b}_i|_1 &\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right),\indent  \text{for all } i \in [N].
 \end{align}
 \end{theorem}
 An important consequence of this result is that for sufficiently small reconstruction error, the original dictionary and sparse codes are determined up to a commensurate error, independent of alternate representation.  (In other words, we may choose $\varepsilon$ on the same order as $\delta$ in Def.~\ref{Uniqueness}.) Formulae for  $C$ and $\varepsilon_0$ in terms of $A$ and the $\mathbf{a}_i$ are provided in \eqref{epsilon0} and \eqref{Cdef}, below. 
@@ -196,7 +196,7 @@ where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of closed subspaces of $\
 \xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 - \prod_{i=1}^{k-1} \sin^2  \theta_F \left(V_{\sigma(i)}, V_{\sigma(i+1)} \cap \cdots \cap V_{\sigma(k)}\right)  \right)^{1/2},
 \end{align}
 %
-and $\frak{S}_{\ell}$ is the set of permutations (i.e. bijections) on $\ell$ elements. 
+and $\frak{S}_{k}$ is the set of permutations (i.e. bijections) on $k$ elements. 
 \end{definition}
 
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
@@ -586,32 +586,36 @@ Combining this last inequality with \eqref{induction} and rearranging, we arrive
 Finally, since the ordering of the subspaces is arbitrary, we can replace $z$ in \eqref{ceq} with $\xi(\mathcal{V})$ to obtain \eqref{DTILeq}.
 \end{proof}
 
-Given positive integers $k < m$ and a permutation $\sigma \in \frak{S}_m$ (where $\frak{S}_m$ denotes the \textit{symmetric group} of bijections on $m$ elements), let
-\begin{align}
-S_\sigma(i) := \{1+\sigma(i), \ldots, 1+\sigma(i + (k-1)) \} \indent \text{for} \indent i = 0, \ldots, m-1
-\end{align}
-%
-with addition modulo $m$. In words, the $S_\sigma(i)$ are the intervals of length $k$ within the set of elements of $\{1, \ldots, m\}$ arranged in the cyclic order $\sigma(1), \ldots, \sigma(m)$.
+%Given positive integers $k < m$ and a permutation $\sigma \in \frak{S}_m$ (where $\frak{S}_m$ denotes the \textit{symmetric group} of bijections on $m$ elements), let
+%\begin{align}
+%S_\sigma(i) := \{1+\sigma(i), \ldots, 1+\sigma(i + (k-1)) \} \indent \text{for} \indent i = 0, \ldots, m-1
+%\end{align}
+%%
+%with addition modulo $m$. In words, the $S_\sigma(i)$ are the intervals of length $k$ within the set of elements of $\{1, \ldots, m\}$ arranged in the cyclic order $\sigma(1), \ldots, \sigma(m)$.
 
-[********** note that in the $k =1$ case, this lemma is vacuous ********]
+
+[********** this proof still needs to be made slicker (also, i think that the variable names in this proof here could be made nicer...) ********]
 %======= GRAPH THEORY LEMMA =======
-\begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$, $\sigma \in \frak{S}_m$, and let $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$. Suppose there exists a map $\pi: T \to {\mathbb{Z}/m\mathbb{Z} \choose k}$ such that for all $J \in {[m] \choose k}$,
+\begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$, and let $T = \{S_1, \ldots, S_m\}$ be the set of length $k$ intervals in a cyclic order of $[m]$. Suppose there exists a map $\pi: T \to {[m] \choose k}$ such that for all $J \in {[m] \choose k}$, we have
 \begin{align}\label{EmptyToEmpty}
- \bigcap_{j \in J} S_\sigma(j) = \emptyset \ \Longrightarrow \ \bigcap_{j \in J} \pi(S_\sigma(j)) = \emptyset.
+ \bigcap_{j \in J} S_j = \emptyset \ \Longrightarrow \ \bigcap_{j \in J} \pi(S_j) = \emptyset.
 \end{align}
 %
-Then  $\pi(S_\sigma(j)) \cap \cdots \cap \pi(S_\sigma(j+(k-1))) \neq \emptyset$ for all $j \in \mathbb{Z}/m\mathbb{Z}$.
+Then, $\pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k}) \neq \emptyset$ for $j_1,\ldots,j_k$ consecutive modulo $m$.
 \end{lemma}
 
-\begin{proof} Consider the set $Q_m = \{ (i,j) : i \in \mathbb{Z}/m\mathbb{Z}, j \in \pi(S_\sigma(i)) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $p \in \mathbb{Z}/m\mathbb{Z}$ and $J \in {[m] \choose k}$ such that $(i, p) \in Q_m$ for all $i \in J$. Hence, $p \in \cap_{i \in J} \pi(S_\sigma(i))$ and by \eqref{EmptyToEmpty} there must be some $v \in \mathbb{Z}/m\mathbb{Z}$ such that $\sigma(v) \in \cap_{i \in J} S_\sigma(i)$. This is only possible (since $|J| = k$) if the elements of $J$ are consecutive in $\mathbb{Z}/m\mathbb{Z}$, i.e. $J = \{v - (k-1), \ldots, v\}$. (The only elements in $T$ that contain $\sigma(v)$ are $S_\sigma(v-(k-1)), \ldots, S_\sigma(v)$.)
+\begin{proof} Consider the set $Q_m = \{ (r,t) : t \in [m], r \in \pi(S_t) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $q \in [m]$ and $J \in {[m] \choose k}$ such that $(q, j) \in Q_m$ for all $j \in J$. In particular, we have $q \in \cap_{j \in J} \pi(S_j)$ so that from \eqref{EmptyToEmpty} there must be some $p \in [m]$ with $p \in \cap_{j \in J} S_j$. Since $|J| = k$, this is only possible if the elements of $J = \{j_1, \ldots, j_k\}$ are consecutive modulo $m$.
+% i.e. $J = \{v - (k-1), \ldots, v\}$. (The only elements in $T$ that contain $\sigma(v)$ are $S_\sigma(v-(k-1)), \ldots, S_\sigma(v)$.)
 
-If there existed some $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then we would have $p \in \pi(S_\sigma(i)) \cap \pi(S_\sigma(v - k+1)) \cap \cdots \cap \pi(S_\sigma(v))$ and \eqref{EmptyToEmpty} would imply that the intersection of every $k$-element subset of $\{S_\sigma(i)\} \cup \{S_\sigma(j): j \in J\}$ is non-empty. This would only be possible if $\{i\} \cup J = \mathbb{Z}/m\mathbb{Z}$, in which case the result then trivially holds since then $p \in \pi(S_\sigma(i))$ for all $i \in [m]$. If there exists no additional $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then by letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate we have $|Q_{m-1}| = (m-1)k$ and the result follows by iterating the above arguments.
+We next argue that no other $t$ has $q \in \pi(S_t)$.  Suppose now that $t \notin J$ is such that $q \in \pi(S_t)$; then, we would have $q \in \pi(S_t) \cap \pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})$ and \eqref{EmptyToEmpty} would imply that the intersection of every $k$-element subset of $\{S_t\} \cup \{S_j: j \in J\}$ is nonempty. This would only be possible if $\{t\} \cup J = [m]$, in which case the result then trivially holds since then $q \in \pi(S_i)$ for all $i \in [m]$.  Finally, letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $q$ as a first coordinate, we have $|Q_{m-1}| = (m-1)k$ and the result follows by iterating the above arguments [**** why? ****].  
 \end{proof}
 
 %==== PROOF OF MAIN LEMMA =======
 
 \begin{proof}[Proof of Lemma \ref{MainLemma} (Main Lemma)]
-We assume $k \geq 2$ since the case $k = 1$ was proven at the beginning of Section \ref{DUT}. Note that $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$ for some $\sigma \in \frak{S}_m$. We begin by proving that $\dim(\text{Span}\{B_{\pi(S_\sigma(j))}\}) = k$ for all $j \in [m]$. [*** We already proved this for $S' = \pi(S)$ in the proof of Theorem 1 -- should we remove this redundancy? We have to prove it again here though if we want the lemma to stand on its own. ***] Fix $j \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vectors $\mathbf{u} \in \text{Span}\{A_{S_\sigma(i)}\}$ that $d(u, \text{Span}\{B_{\pi(S_\sigma(i))}\}) \leq \frac{\phi_k(A)}{k} \Delta$ for $\Delta < \frac{L_2(A)}{\rho \sqrt{2}}$. By definition of $\ell_2(A)$ we have for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
+We assume $k \geq 2$ since the case $k = 1$ was proven at the beginning of Section \ref{DUT}. Note that $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$ for some $\sigma \in \frak{S}_m$. We begin by proving that $\dim(\text{Span}\{B_{\pi(S_\sigma(j))}\}) = k$ for all $j \in [m]$. 
+%[*** We already proved this for $S' = \pi(S)$ in the proof of Theorem 1 -- should we remove this redundancy? We have to prove it again here though if we want the lemma to stand on its own. ***] 
+Fix $j \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vectors $\mathbf{u} \in \text{Span}\{A_{S_\sigma(i)}\}$ that $d(u, \text{Span}\{B_{\pi(S_\sigma(i))}\}) \leq \frac{\phi_k(A)}{k} \Delta$ for $\Delta < \frac{L_2(A)}{\rho \sqrt{2}}$. By definition of $\ell_2(A)$ we have for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
 \begin{align}
 L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}
 \end{align}
@@ -708,35 +712,35 @@ Since $i$ is arbitrary and $\sigma$ is just a permutation, it follows that for e
 % 		APPENDIX: CALCULATING C
 %===================================
 
-\section{Calculating C}
-
-[********  Incorporate this better into the main text what the point of this is *********]
-
-In this section we demonstrate how an upper bound on the constant $C$ can be derived for a particular $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$. \textbf{[Alternatively, see Lemma 2.2 in Grcar??????? - A matrix lower bound, for a lower bound on rectangular matrices (though not k-restricted)]}
-
-%=== MATRIX LOWER BOUND LEMMA ===
-
-\begin{lemma}\label{MatrixLowerBoundLemma}
-Let $\gamma_1 < \cdots < \gamma_N$ be distinct numbers with $\gamma_{i+1} = \gamma_i + \delta$ and form the $k \times N$ Vandermonde matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$. Then for all $S \in {[N] \choose k}$, we have
-\begin{align}
-	|V_S \mathbf{x}|_2 > \rho |\mathbf{x}|_1, \indent \text{for all} \indent \mathbf{x} \in \mathbb{R}^k,
-\end{align}
-where \[\indent \rho := \frac{\delta^k}{\sqrt{k}} \left( \frac{k-1}{k} \right)^\frac{k-1}{2} \prod_{i = 1}^k (\gamma_1 + (i-1)\delta).\]
-\end{lemma}
-
-
-\begin{proof} 
-The determinant of the Vandermonde matrix is
-\begin{align}
-	\det(V) = \prod_{1 \leq j \leq k} \gamma_j \prod_{1 \leq i \leq j \leq k} (\gamma_j - \gamma_i) \geq \delta^k \prod_{i = 1}^k (\gamma_1 + (i-1)\delta).
-\end{align}	
-Since the $\gamma_i$ are distinct, the determinant of any $k \times k$ submatrix of $V$ is nonzero; hence $V_S$ is nonsingular for all $S \in {[N] \choose k}$. Suppose $\mathbf{x} \in \mathbb{R}^k$. Then $|\mathbf{x}|_2 = |V_S^{-1} V_S \mathbf{x}|_2 \leq \|V_S^{-1}\|_2 |V_S \mathbf{x}|_2$, implying $|V_S \mathbf{x}|_2 \geq \|V_S^{-1}\|_2^{-1}|\mathbf{x}|_2 \geq \frac{1}{\sqrt{k}} \|V_S\|_2^{-1}|\mathbf{x}|_1$. For the Euclidean norm we have $\|V_S^{-1}\|_2^{-1} = \sigma_{\min}(V_S)$, where $\sigma_{\min}$ is the smallest singular value of $V_S$. A lower bound for the smallest singular value of a nonsingular matrix $M \in \mathbb{R}^{k \times k}$ is given in \cite{hong1992lower}:
-\begin{align}
-	\sigma_{\min}(M) > \left( \frac{k-1}{k} \right)^\frac{k-1}{2} |\det M|,
-\end{align}
+%\section{Calculating C}
 %
-and the result follows. 
-\end{proof}
+%[********  Incorporate this better into the main text what the point of this is *********]
+%
+%In this section we demonstrate how an upper bound on the constant $C$ can be derived for a particular $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$. \textbf{[Alternatively, see Lemma 2.2 in Grcar??????? - A matrix lower bound, for a lower bound on rectangular matrices (though not k-restricted)]}
+%
+%%=== MATRIX LOWER BOUND LEMMA ===
+%
+%\begin{lemma}\label{MatrixLowerBoundLemma}
+%Let $\gamma_1 < \cdots < \gamma_N$ be distinct numbers with $\gamma_{i+1} = \gamma_i + \delta$ and form the $k \times N$ Vandermonde matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$. Then for all $S \in {[N] \choose k}$, we have
+%\begin{align}
+%	|V_S \mathbf{x}|_2 > \rho |\mathbf{x}|_1, \indent \text{for all} \indent \mathbf{x} \in \mathbb{R}^k,
+%\end{align}
+%where \[\indent \rho := \frac{\delta^k}{\sqrt{k}} \left( \frac{k-1}{k} \right)^\frac{k-1}{2} \prod_{i = 1}^k (\gamma_1 + (i-1)\delta).\]
+%\end{lemma}
+%
+%
+%\begin{proof} 
+%The determinant of the Vandermonde matrix is
+%\begin{align}
+%	\det(V) = \prod_{1 \leq j \leq k} \gamma_j \prod_{1 \leq i \leq j \leq k} (\gamma_j - \gamma_i) \geq \delta^k \prod_{i = 1}^k (\gamma_1 + (i-1)\delta).
+%\end{align}	
+%Since the $\gamma_i$ are distinct, the determinant of any $k \times k$ submatrix of $V$ is nonzero; hence $V_S$ is nonsingular for all $S \in {[N] \choose k}$. Suppose $\mathbf{x} \in \mathbb{R}^k$. Then $|\mathbf{x}|_2 = |V_S^{-1} V_S \mathbf{x}|_2 \leq \|V_S^{-1}\|_2 |V_S \mathbf{x}|_2$, implying $|V_S \mathbf{x}|_2 \geq \|V_S^{-1}\|_2^{-1}|\mathbf{x}|_2 \geq \frac{1}{\sqrt{k}} \|V_S\|_2^{-1}|\mathbf{x}|_1$. For the Euclidean norm we have $\|V_S^{-1}\|_2^{-1} = \sigma_{\min}(V_S)$, where $\sigma_{\min}$ is the smallest singular value of $V_S$. A lower bound for the smallest singular value of a nonsingular matrix $M \in \mathbb{R}^{k \times k}$ is given in \cite{hong1992lower}:
+%\begin{align}
+%	\sigma_{\min}(M) > \left( \frac{k-1}{k} \right)^\frac{k-1}{2} |\det M|,
+%\end{align}
+%%
+%and the result follows. 
+%\end{proof}
 
 %===================================
 % 		ACKNOWLEDGEMENT
