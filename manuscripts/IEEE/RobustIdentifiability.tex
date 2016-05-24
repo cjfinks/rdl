@@ -170,7 +170,7 @@ Clearly, $L_k(M) \geq L_{k'}(M)$ whenever $k < k'$. Note that $L_k(M) > 0$ for s
 \begin{align}
 \alpha|\mathbf{x}|_2 \leq |M\mathbf{x}|_2 \leq \beta|\mathbf{x}|_2 \ \ \text{for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m.
 \end{align}
-Letting $\delta = (\beta - \alpha)/(\beta + \alpha)$ and rescaling $M$ by $2/(\beta + \alpha)$ yields the familiar presentation of the RIP. A simple compactness argument can be made to show that any matrix $M$ satisfying the spark condition is such that $L_{2k}(M) > 0$. 
+Letting $\delta = (\beta - \alpha)/(\beta + \alpha)$ and rescaling $M$ by $2/(\beta + \alpha)$ yields the familiar presentation of the RIP. 
 %Scaling $M$ by $2/(\beta + \alpha)$ yields $\alpha = 1-\delta$ and $\beta = 1+\delta$ for $\delta = (\beta - \alpha)/(\beta + \alpha)$, which is the usual .
 
 Between any pair of subspaces in Euclidean space one can define the following generalized ``angle'':
@@ -595,17 +595,20 @@ with addition modulo $m$. In words, the $S_\sigma(i)$ are the intervals of lengt
 
 [********** note that in the $k =1$ case, this lemma is vacuous ********]
 %======= GRAPH THEORY LEMMA =======
-\begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$, $\sigma \in \frak{S}_m$, and let $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$. Suppose there exists a map $\pi: T \to {\mathbb{Z}/m\mathbb{Z} \choose k}$ such that for all $J \in {[m] \choose k}$,
+\begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$, $\sigma \in \frak{S}_m$, and let $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$. Suppose there exists a map $\pi: T \to {\mathbb{Z}/m\mathbb{Z} \choose k}$ such that for all $I \in {[m] \choose k}$,
 \begin{align}\label{EmptyToEmpty}
- \bigcap_{j \in J} S_\sigma(j) = \emptyset \ \Longrightarrow \ \bigcap_{j \in J} \pi(S_\sigma(j)) = \emptyset.
+ \bigcap_{j \in I} S_\sigma(i) = \emptyset \ \Longrightarrow \ \bigcap_{i \in I} \pi(S_\sigma(j)) = \emptyset.
 \end{align}
 %
-Then  $\pi(S_\sigma(j)) \cap \cdots \cap \pi(S_\sigma(j+(k-1))) \neq \emptyset$ for all $j \in \mathbb{Z}/m\mathbb{Z}$.
+Then  $\pi(S_\sigma(v - (k-1))) \cap \cdots \cap \pi(S_\sigma(v)) \neq \emptyset$ for all $v \in \mathbb{Z}/m\mathbb{Z}$.
 \end{lemma}
 
-\begin{proof} Consider the set $Q_m = \{ (i,j) : i \in \mathbb{Z}/m\mathbb{Z}, j \in \pi(S_\sigma(i)) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $p \in \mathbb{Z}/m\mathbb{Z}$ and $J \in {[m] \choose k}$ such that $(i, p) \in Q_m$ for all $i \in J$. Hence, $p \in \cap_{i \in J} \pi(S_\sigma(i))$ and by \eqref{EmptyToEmpty} there must be some $v \in \mathbb{Z}/m\mathbb{Z}$ such that $\sigma(v) \in \cap_{i \in J} S_\sigma(i)$. This is only possible (since $|J| = k$) if the elements of $J$ are consecutive in $\mathbb{Z}/m\mathbb{Z}$, i.e. $J = \{v - (k-1), \ldots, v\}$. (The only elements in $T$ that contain $\sigma(v)$ are $S_\sigma(v-(k-1)), \ldots, S_\sigma(v)$.)
+\begin{proof}
+Consider the set $Q_m = \{ (i,j) : i \in \mathbb{Z}/m\mathbb{Z}, j \in \pi(S_\sigma(i)) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $p \in \mathbb{Z}/m\mathbb{Z}$ and $J \in {[m] \choose k}$ such that $(i, p) \in Q_m$ for all $i \in J$. Hence, $p \in \cap_{i \in J} \pi(S_\sigma(i))$ and by \eqref{EmptyToEmpty} there must be some $v \in \mathbb{Z}/m\mathbb{Z}$ such that $\sigma(v) \in \cap_{i \in J} S_\sigma(i)$. This is only possible (since $|J| = k$) if the elements of $J$ are consecutive in $\mathbb{Z}/m\mathbb{Z}$, i.e. $J = \{v - (k-1), \ldots, v\}$. (The only elements in $T$ that contain $\sigma(v)$ are $S_\sigma(v-(k-1)), \ldots, S_\sigma(v)$.)
 
-If there existed some $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then we would have $p \in \pi(S_\sigma(i)) \cap \pi(S_\sigma(v - k+1)) \cap \cdots \cap \pi(S_\sigma(v))$ and \eqref{EmptyToEmpty} would imply that the intersection of every $k$-element subset of $\{S_\sigma(i)\} \cup \{S_\sigma(j): j \in J\}$ is non-empty. This would only be possible if $\{i\} \cup J = \mathbb{Z}/m\mathbb{Z}$, in which case the result then trivially holds since then $p \in \pi(S_\sigma(i))$ for all $i \in [m]$. If there exists no additional $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then by letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate we have $|Q_{m-1}| = (m-1)k$ and the result follows by iterating the above arguments.
+If there existed some $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then we would have $p \in \pi(S_\sigma(i)) \cap \pi(S_\sigma(v - k+1)) \cap \cdots \cap \pi(S_\sigma(v))$ and \eqref{EmptyToEmpty} would imply that the intersection of every $k$-element subset of $\{S_\sigma(i)\} \cup \{S_\sigma(j): j \in J\}$ is non-empty. This would only be possible if $\{i\} \cup J = \mathbb{Z}/m\mathbb{Z}$, in which case the result then trivially holds since then $p \in \pi(S_\sigma(i))$ for all $i \in [m]$. If there exists no additional $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then by letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $p$ as a second coordinate we have $|Q_{m-1}| = (m-1)k$ and the result follows by iterating the above, as we now demonstrate with the following inductive argument.
+
+Fix positive $r < m$ and suppose there exists some $V_r \in {\mathbb{Z}/m\mathbb{Z} \choose r}$ such that $\cap_{j = 0}^{k-1} \pi(S_\sigma(v' - j)) \neq \emptyset$ for all $v' \in V_r$. Let $R_r$ be a set containing one element of $\cap_{j = 0}^{k-1} \pi(S_\sigma(v' - j))$ for each $v' \in V_r$ and suppose there are $(m-r)k$ elements of $Q_m$ with second coordinate not contained in $R_r$. Let $Q_{m-r}$ be the set of such elements. (From above we see that for the case $r=1$, we satisfy all these criteria by letting $V_1=\{v\}$ and $R_1 = \{p\}$.) By the pigeon-hole principle there is some $p_r \in \mathbb{Z}/m\mathbb{Z} \setminus R_r$ and $J_r \in {[m] \choose k}$ such that $(i, p_r) \in Q_{m-r}$ for all $i \in J_r$. It follows by the same arguments as above that $J_r = \{v_r - (k-1), \ldots, v_r\}$ for some $v_r \in \mathbb{Z}/m\mathbb{Z}$ and that either the result follows or there exists no additional $i \notin J_r$ such that $p_r \in \pi(S_\sigma(i))$. In the latter case, letting $V_{r+1} = V_r \cup \{v_r\}$ and $R_{r+1} = R_r \cup \{p_r\}$, there are $(m-(r+1))k$ elements of $Q_m$ with second coordinate not contained in $R_{r+1}$ and this completes the proof by induction.
 \end{proof}
 
 %==== PROOF OF MAIN LEMMA =======
