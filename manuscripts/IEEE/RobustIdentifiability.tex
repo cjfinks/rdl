@@ -594,7 +594,6 @@ Finally, since the ordering of the subspaces is arbitrary, we can replace $z$ in
 %with addition modulo $m$. In words, the $S_\sigma(i)$ are the intervals of length $k$ within the set of elements of $\{1, \ldots, m\}$ arranged in the cyclic order $\sigma(1), \ldots, \sigma(m)$.
 
 
-[********** this proof still needs to be made slicker (also, i think that the variable names in this proof here could be made nicer...) ********]
 %======= GRAPH THEORY LEMMA =======
 [*** CHAZ VERSION ***]
 \begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$, $\sigma \in \frak{S}_m$, and let $T = \{S_\sigma(1), \ldots, S_\sigma(m)\}$. Suppose there exists a map $\pi: T \to {\mathbb{Z}/m\mathbb{Z} \choose k}$ such that for all $I \in {[m] \choose k}$,
@@ -613,7 +612,7 @@ If there existed some $i \notin J$ such that $p \in \pi(S_\sigma(i))$ then we wo
 Fix positive $r < m$ and suppose there exists some $V_r \in {\mathbb{Z}/m\mathbb{Z} \choose r}$ such that $\cap_{j = 0}^{k-1} \pi(S_\sigma(v' - j)) \neq \emptyset$ for all $v' \in V_r$. Let $R_r$ be a set containing one element of $\cap_{j = 0}^{k-1} \pi(S_\sigma(v' - j))$ for each $v' \in V_r$ and suppose there are $(m-r)k$ elements of $Q_m$ with second coordinate not contained in $R_r$. Let $Q_{m-r}$ be the set of such elements. (From above we see that for the case $r=1$, we satisfy all these criteria by letting $V_1=\{v\}$ and $R_1 = \{p\}$.) By the pigeon-hole principle there is some $p_r \in \mathbb{Z}/m\mathbb{Z} \setminus R_r$ and $J_r \in {[m] \choose k}$ such that $(i, p_r) \in Q_{m-r}$ for all $i \in J_r$. It follows by the same arguments as above that $J_r = \{v_r - (k-1), \ldots, v_r\}$ for some $v_r \in \mathbb{Z}/m\mathbb{Z}$ and that either the result follows or there exists no additional $i \notin J_r$ such that $p_r \in \pi(S_\sigma(i))$. In the latter case, letting $V_{r+1} = V_r \cup \{v_r\}$ and $R_{r+1} = R_r \cup \{p_r\}$, there are $(m-(r+1))k$ elements of $Q_m$ with second coordinate not contained in $R_{r+1}$ and this completes the proof by induction.
 \end{proof}
 
-[*** CHRIS VERSION ***]
+[*** FINAL VERSION ***]
 \begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$, and let $T = \{S_1, \ldots, S_m\}$ be the set of length $k$ intervals in a cyclic order of $[m]$. Suppose there exists a map $\pi: T \to {[m] \choose k}$ such that for all $J \in {[m] \choose k}$, we have
 \begin{align}\label{EmptyToEmpty}
  \bigcap_{j \in J} S_j = \emptyset \ \Longrightarrow \ \bigcap_{j \in J} \pi(S_j) = \emptyset.
@@ -625,9 +624,17 @@ Then, $\pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k}) \neq \emptyset$ for $j_1,\ldot
 \begin{proof} Consider the set $Q_m = \{ (r,t) : t \in [m], r \in \pi(S_t) \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $q \in [m]$ and $J \in {[m] \choose k}$ such that $(q, j) \in Q_m$ for all $j \in J$. In particular, we have $q \in \cap_{j \in J} \pi(S_j)$ so that from \eqref{EmptyToEmpty} there must be some $p \in [m]$ with $p \in \cap_{j \in J} S_j$. Since $|J| = k$, this is only possible if the elements of $J = \{j_1, \ldots, j_k\}$ are consecutive modulo $m$.
 % i.e. $J = \{v - (k-1), \ldots, v\}$. (The only elements in $T$ that contain $\sigma(v)$ are $S_\sigma(v-(k-1)), \ldots, S_\sigma(v)$.)
 
-We next argue that no other $t$ has $q \in \pi(S_t)$.  Suppose now that $t \notin J$ is such that $q \in \pi(S_t)$; then, we would have $q \in \pi(S_t) \cap \pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})$ and \eqref{EmptyToEmpty} would imply that the intersection of every $k$-element subset of $\{S_t\} \cup \{S_j: j \in J\}$ is nonempty. This would only be possible if $\{t\} \cup J = [m]$, in which case the result then trivially holds since then $q \in \pi(S_i)$ for all $i \in [m]$.  Finally, letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $q$ as a first coordinate, we have $|Q_{m-1}| = (m-1)k$ and the result follows by iterating the above arguments [**** why? ****].  
-\end{proof}
+We next consider if any other $t \notin J$ is such that $q \in \pi(S_t)$. Suppose there were such a $t$; then, we would have $q \in \pi(S_t) \cap \pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})$ and \eqref{EmptyToEmpty} would imply that the intersection of every $k$-element subset of $\{S_t\} \cup \{S_j: j \in J\}$ is nonempty. This would only be possible if $\{t\} \cup J = [m]$, in which case the result then trivially holds since then $q \in \pi(S_j)$ for all $j \in [m]$.  Suppose now there exists no such $t$; then letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $q$ as a first coordinate, we have $|Q_{m-1}| = (m-1)k$. 
 
+By iterating the above arguments we arrive at a partitioning of $Q_m$ into sets $R_i = Q_i \setminus Q_{i-1}$ for $i = 1, \ldots, m$, each having a unique element of $[m]$ as a first coordinate common to all $k$ elements while having second coordinates which form a consecutive set modulo $m$. 
+
+To show that, in fact, every set of $k$ consecutive integers modulo $m$ form the set of second coordinates of some $R_i$, we can use instead the slightly stronger assumption available to us:
+\begin{align}
+|\bigcap_{i \in J} \pi(S_\sigma(i))| \leq |\bigcap_{i \in J} S_\sigma(i) | \ \ \text{for all} \ J \in {[m] \choose k}.
+\end{align}
+
+This guarantees that no two distinct sets $R_i$ can have the same set of second coordinates (lest $2 \leq 1$). Hence, since there are only $m$ sets of $k$ consecutive integers modulo $m$, this association must be a one-to-one correspondence with $\{R_1, \ldots, R_m\}$.
+\end{proof}
 %==== PROOF OF MAIN LEMMA =======
 
 \begin{proof}[Proof of Lemma \ref{MainLemma} (Main Lemma)]
