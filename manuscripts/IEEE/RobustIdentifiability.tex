@@ -471,14 +471,26 @@ It is important to note where this result fits into the field of theoretical dic
 
 Another implication of our theorem is the determination of an overcompleteness regime dimensionality of any dataset with respect to $\varepsilon$. If you coded very well some data sparsely then you can do a check and if that check holds up then anyone else who codes the data sparsely too has learned the same dictionary. 
 
-The theory of CS informs also informs another practical consequence of our result. Since our derived sample complexity is independent of the ambient dimension of the data, $n$, given a lower bound on the sparsity of the latent variables $\mathbf{a}_i$ we can generate a random matrix to compress the data to a dimension in the regime of \eqref{CScondition} before applying a dictionary learning. This could significantly reduce the computational cost of dictionary learning when the sparsity is high by reducing the number of parameters required to define each dictionary element. Such improvements are crucial to scaling up dictionary learning to larger datasets. \textbf{[Is this actually a significant computational boost..?]}
+The theory of CS informs also informs another practical consequence of our result. Since our derived sample complexity is independent of the ambient dimension of the data, $n$, given a lower bound on the sparsity of the latent variables $\mathbf{a}_i$ we can generate a random matrix to compress the data to a dimension in the regime of \eqref{CScondition} before applying a dictionary learning. This could significantly reduce the computational cost of dictionary learning when the sparsity is high by reducing the number of parameters required to define each dictionary element. Such improvements are crucial to scaling up dictionary learning to larger datasets. \textbf{[Is this actually a significant computational boost..?]}  
+
+%\cite{sadler1992shift, krieger1997higher, giannakis1989signal}
 
 Uniqueness in data analysis.
 
 [********* Make some brief comments about possibile conseuqences for the brain / representability of signals, etc *********]
 
-
 Identifying uniqueness: the bispectrum collapses the equivalence class of $PD$ matrices to a point.
+
+% \cite{bartelt1984phase, kakarala2012bispectrum} 
+
+First bispectrum ref:  \cite{tukey1953spectral}
+
+General groups: \cite{kakarala2012bispectrum}
+
+Fast CS camera: \cite{smart2015ultrafast}
+
+% \cite{gao2014single}
+
 
 %========================================
 %      	APPENDIX: COMBINATORICS
