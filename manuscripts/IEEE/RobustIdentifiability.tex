@@ -54,7 +54,7 @@ Bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 \begin{align}\label{DictionaryLearning}
 \arg \min_{A, \, \mathbf{a}_i} \  \sum_{i=1}^N |\mathbf{y}_i - A\mathbf{a}_i|_2, \indent \text{subject to } |\mathbf{a}_i|_0 \leq k.
 \end{align}
-As the dictionary learning problem \eqref{DictionaryLearning} is NP-hard in general \cite{Tillmann15}, algorithms solving it implement strategies that lead to approximate solutions, typically by replacing the $\ell_0$ pseudo-norm $|\cdot|_0$ (the number of nonzero entries in a vector) with the $\ell_1$-norm $|\cdot|_1$. For a recent comprehensive survey of such techniques, see the review paper \cite{Zhang15}.
+As the dictionary learning problem \eqref{DictionaryLearning} is NP-hard in general \cite{Tillmann15}, algorithms solving it implement strategies that lead to approximate solutions, for example by replacing the $\ell_0$ pseudo-norm $|\cdot|_0$ (the number of nonzero entries in a vector) with the $\ell_1$-norm $|\cdot|_1$. For a recent comprehensive survey of such techniques, see the review paper \cite{Zhang15}.
 
 Here, rather than study how to obtain such optima, we examine their uniqueness properties. This is of fundamental concern when performing \emph{sparse component analysis} (SCA) \cite{Georgiev05}, wherein the dataset $Y$ is modeled as a sequence of \emph{measurements}:
 \begin{align}\label{LinearModel}
@@ -223,14 +223,14 @@ We are now state our main result from combinatorial matrix theory, generalizing 
 
 %===========          MAIN LEMMA (K > 1)             =================
 \begin{lemma}[Main Lemma]\label{MainLemma}
-Fix positive integers $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with maximum column $\ell_2$-norm $\rho$.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
+Fix positive integers $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} with maximum column $\ell_2$-norm $\rho$.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
 \begin{equation}\label{GapUpperBound}
-\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{\rho k} \Delta, \indent \text{for all } S \in T,
+\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{\rho k} \delta, \indent \text{for all } S \in T,
 \end{equation}
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
 \begin{align}
-|A_j - (BPD)_j|_2 \leq \Delta, \indent \text{for all } j \in [m].
+|A_j - (BPD)_j|_2 \leq \delta, \indent \text{for all } j \in [m].
 \end{align}
 \end{lemma}
 We defer the (technical) proof of this lemma to Appendix \ref{appendixA}. In words, the result says that the vectors forming the columns of $A$ are nearly identical to those forming the columns of $B$ (up to symmetry) provided that for a special set $T$ of $m$ subspaces, each spanned by $k$ columns of $A$, there exist $k$ columns of $B$ which span a nearby subspace with respect to the gap metric.
@@ -376,7 +376,7 @@ where $I(S) = \{i: \text{supp}(\mathbf{a}_i)=S\}$. Since $\ell_2(A) \leq \rho \s
 \Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\varepsilon\sqrt{k}}{\ell(AX_{J(S)})} \indent \text{for all } S \in T.
 \end{align}
 
-From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{\rho k} \Delta$ is satisfied for this support $S$ and $\Delta < \frac{L_2(A)}{\sqrt{2}}$ by setting $\Delta = \frac{ \rho k}{ \phi_k(A) } \left(  \frac{\varepsilon \sqrt{k}}{\ell(AX_{J(S)})} \right)$ (see Remark \ref{nonzero} for why $\phi_k(A) \neq 0$). We therefore satisfy \eqref{GapUpperBound} for $\Delta = \varepsilon \rho k^{3/2}(\phi_k(A) \min_{S \in T} L_k(AX_{I(S)}))^{-1} = \frac{\varepsilon L_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $j \in [m]$,
+From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{\rho k} \delta$ is satisfied for this support $S$ and $\delta < \frac{L_2(A)}{\sqrt{2}}$ by setting $\delta = \frac{ \rho k}{ \phi_k(A) } \left(  \frac{\varepsilon \sqrt{k}}{\ell(AX_{J(S)})} \right)$ (see Remark \ref{nonzero} for why $\phi_k(A) \neq 0$). We therefore satisfy \eqref{GapUpperBound} for $\delta = \varepsilon \rho k^{3/2}(\phi_k(A) \min_{S \in T} L_k(AX_{I(S)}))^{-1} = \frac{\varepsilon L_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$. It follows by Lemma \ref{MainLemma} that there exists a permutation matrix $P \in \mathbb{R}^{m \times m}$ and a diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $j \in [m]$,
 $|A_j - (BPD)_j|_2 \leq C\varepsilon$ for $C = \frac{ L_{2k}(A)}{\varepsilon_0 \sqrt{2k}}$. It follows by the arguments in Remark \ref{b-PDaProof} that \eqref{b-PDa} holds as well.
 \end{proof}
 
@@ -402,14 +402,14 @@ Let $T$ be the set of all length $k$ intervals in some cyclic ordering of $[m]$.
 The proof of Theorem \ref{DeterministicUniquenessTheorem2} is very similar to the proof of Theorem \ref{DeterministicUniquenessTheorem}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lemma \ref{MainLemma2}, which we state next, by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$. This insures that we can establish a one-to-one correspondence between subspaces spanned by the $m'$ columns of $B$ and nearby subspaces spanned by the $m$ columns of $A$ despite the fact that $m < m'$. By requiring $B$ to also satisfy the spark condition, we remove the dependency of Lemma \ref{MainLemma} on Lemma \ref{NonEmptyLemma} (which requires that $m = m'$), resulting in Lemma \ref{MainLemma2}.
 
 \begin{lemma}[Main Lemma for $m < m'$]\label{MainLemma2}
-Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\Delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
+Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\delta < \frac{\ell_{2}(A)}{\sqrt{2}}$ such that 
 \begin{equation}\label{GapUpperBound2}
-\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \Delta }{\rho k} \min(\phi_k(A), \phi_k(B)), \indent \text{for all } S \in T,
+\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \delta }{\rho k} \min(\phi_k(A), \phi_k(B)), \indent \text{for all } S \in T,
 \end{equation}
 %
 then there exist a partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ such that
 \begin{align}
-|A_j - (BPD)_j|_2 \leq \Delta, \indent \text{for all } j \in [m].
+|A_j - (BPD)_j|_2 \leq \delta, \indent \text{for all } j \in [m].
 \end{align}
 \end{lemma}
 
@@ -461,8 +461,13 @@ We note that the formulae for $\varepsilon_0$ and $C$ derived in the determinist
 
 \section{Discussion}
 
-[************ Check this to make sure these claims are true *******]
-It is important to note where this result fits into the field of theoretical dictionary learning. While certain algorithms have been shown to have local converge to a global minimum or global convergence to a local minimum of approximations to \eqref{DictionaryLearning}, to our knowledge there exist no algorithms with guaranteed global convergence to a global solution. Our conditions apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning} since they are derived from the underlying geometry of the dictionary learning problem, providing for a universal check when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}.
+Theorem \eqref{DeterministicUniquenessTheorem} is a stability result akin to that in \cite{donoho2006stable}, only now for the case when the dictionary matrix is unknown.
+
+Theorem \eqref{DeterministicUniquenessTheorem} derives from the underlying geometry of the dictionary learning problem, and therefore provides a universal check for when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}. This is similar in spirit to the test provided in \cite{gribonval2006simple} for the case where the dictionary matrix is known a priori. 
+	
+
+
+While certain algorithms have been shown to have local converge to a global minimum or global convergence to a local minimum of approximations to \eqref{DictionaryLearning}, to our knowledge there exist no algorithms with guaranteed global convergence to a global solution. Our conditions apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning} since they are derived from the underlying geometry of the dictionary learning problem, providing for a universal check when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}.
 
 [********** Discuss that it would be awesome to find the best dependence of $\varepsilon$ on $\delta$ and best constants and number of samples for this problem **********]
 
@@ -497,7 +502,7 @@ Fast CS camera: \cite{smart2015ultrafast}
 \appendices
 \section{Combinatorial Matrix Theory}\label{appendixA}
 
-In this section, we prove Lemma \ref{MainLemma}, which is the main ingredient in our proof of Theorem \ref{DeterministicUniquenessTheorem}. For readers willing to assume a priori that the spark condition holds for $B$ as well as for $A$, a shorter proof of this case (Lemma \ref{MainLemma2} from Section \ref{mleqm}) is provided in Appendix \ref{mleqmAppendix}. This additional assumption simplifies the argument and allows us to extend stability conditions to the case where only an upper bound on $m$ is known. 
+In this section, we prove Lemma \ref{MainLemma}, which is the main ingredient in our proof of Theorem \ref{DeterministicUniquenessTheorem}. For readers willing to assume a priori that the spark condition holds for $B$ as well as for $A$, a shorter proof of this case (Lemma \ref{MainLemma2} from Section \ref{mleqm}) is provided in Appendix \ref{mleqmAppendix}. This additional assumption simplifies the argument and allows us to extend robust identifiability conditions to the case where only an upper bound on $m$ is known. 
 
 We now prove some auxiliary lemmas before deriving Lemma \ref{MainLemma}.  Given a collection of sets $\mathcal{T}$, we let $\cap \mathcal{T}$ denote their intersection.
 
@@ -626,33 +631,33 @@ By iterating the above arguments we arrive at a partitioning of $Q_m$ into sets 
 \begin{proof}[Proof of Lemma \ref{MainLemma} (Main Lemma)]
 We assume $k \geq 2$ since the case $k = 1$ was proven at the beginning of Section \ref{DUT}. Let $S_1, \ldots, S_m$ be the set of contiguous length $k$ intervals in some cyclic ordering of $[m]$. We begin by proving that $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$ for all $i \in [m]$. 
 %[*** We already proved this for $S' = \pi(S)$ in the proof of Theorem 1 -- should we remove this redundancy? We have to prove it again here though if we want the lemma to stand on its own. ***] 
-Fix $i \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vectors $\mathbf{u} \in \text{Span}\{A_{S_i}\}$ that $d(u, \text{Span}\{B_{\pi(S_i)}\}) \leq \frac{\phi_k(A)}{\rho k} \Delta$ for $\Delta < \frac{L_2(A)}{ \sqrt{2}}$. By definition of $L_2(A)$ we have for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
+Fix $i \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vectors $\mathbf{u} \in \text{Span}\{A_{S_i}\}$ that $d(u, \text{Span}\{B_{\pi(S_i)}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for $\delta < \frac{L_2(A)}{ \sqrt{2}}$. By definition of $L_2(A)$ we have for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
 \begin{align}
 L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}
 \end{align}
 
-Hence $\Delta < \rho$. Since $\phi_k \in [0,1]$ we have $d(u, \text{Span}\{B_{\pi(S_i)}\}) < 1$ and it follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_i)}\}) \geq \dim(\text{Span}\{A_{S_i}\}) = k$. Since $|\pi(S_i)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
+Hence $\delta < \rho$. Since $\phi_k \in [0,1]$ we have $d(u, \text{Span}\{B_{\pi(S_i)}\}) < 1$ and it follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_i)}\}) \geq \dim(\text{Span}\{A_{S_i}\}) = k$. Since $|\pi(S_i)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
 
 We will now show that
 \begin{align}\label{fact2}
 |\bigcap_{i \in J} \pi(S_i)| \leq |\bigcap_{i \in J} S_i | \ \ \text{for all} \ J \in {[m] \choose k}.
 \end{align}
 
-Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound} we have for all unit vectors $\mathbf{u} \in \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$ that $d(\mathbf{u}, \text{Span}\{A_{S_i}\}) \leq \frac{\phi_k(A)}{\rho k} \Delta$ for all $j \in J$, where $\Delta < \frac{L_2(A)}{\sqrt{2}}$. It follows by Lemma \ref{DistanceToIntersectionLemma} that
+Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound} we have for all unit vectors $\mathbf{u} \in \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$ that $d(\mathbf{u}, \text{Span}\{A_{S_i}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for all $j \in J$, where $\delta < \frac{L_2(A)}{\sqrt{2}}$. It follows by Lemma \ref{DistanceToIntersectionLemma} that
 \begin{align*}
 d\left( \mathbf{u}, \bigcap_{i \in J} \text{Span}\{A_{S_j}\} \right) 
-\leq \frac{\Delta}{\rho} \left( \frac{ \phi_k(A) }{1 - \xi( \{ \text{Span}\{A_{S_i}\}: i \in J\} ) } \right) \leq \frac{\Delta}{\rho},
+\leq \frac{\delta}{\rho} \left( \frac{ \phi_k(A) }{1 - \xi( \{ \text{Span}\{A_{S_i}\}: i \in J\} ) } \right) \leq \frac{\delta}{\rho},
 \end{align*}
 %
 where the second inequality follows immediately from the definition of $\phi_k(A)$. 
 
 Now, since \mbox{$\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\} \subseteq \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$} and (by Lemma \ref{SpanIntersectionLemma}) $\cap_{i \in J}  \text{Span}\{A_{S_i}\} = \text{Span}\{A_{\cap_{i \in J}  S_i}\}$, we have
 \begin{align}\label{fact1}
-d\left( \mathbf{u}, \text{Span}\{A_{\cap_{i \in J} S_i}\} \right) \leq \frac{\Delta}{\rho} \indent \text{for all unit vectors } \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}.
+d\left( \mathbf{u}, \text{Span}\{A_{\cap_{i \in J} S_i}\} \right) \leq \frac{\delta}{\rho} \indent \text{for all unit vectors } \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}.
 \end{align}
-We therefore have by Lemma \ref{MinDimLemma} (since $\Delta/\rho < 1$) that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}) \leq \dim(\text{Span}\{A_{\cap_{i \in J} S_i}\})$ and \eqref{fact2} follows by the linear independence of the columns of $A_{S_i}$ and $B_{\pi(S_i)}$ for all $i \in [m]$.
+We therefore have by Lemma \ref{MinDimLemma} (since $\delta/\rho < 1$) that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}) \leq \dim(\text{Span}\{A_{\cap_{i \in J} S_i}\})$ and \eqref{fact2} follows by the linear independence of the columns of $A_{S_i}$ and $B_{\pi(S_i)}$ for all $i \in [m]$.
 
-Suppose now that $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. By \eqref{fact2} we have that $\cap_{i \in J} \pi(S_i)$ is either empty or it contains a single element. Lemma \ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $i \mapsto \cap_{i \in J} \pi(S_i)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_i\}$ we have $d\left( \mathbf{u}, \text{Span}\{B_{\hat \pi(i)}\}\right) \leq \Delta/\rho$ also. Since $i$ is arbitrary, it follows that for every canonical basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ and $\varepsilon = \Delta/\rho$, there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{j \in [m]} c_i$. This is exactly the supposition in \eqref{1D} and the result follows from the subsequent arguments of Section \ref{DUT}. 
+Suppose now that $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. By \eqref{fact2} we have that $\cap_{i \in J} \pi(S_i)$ is either empty or it contains a single element. Lemma \ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $i \mapsto \cap_{i \in J} \pi(S_i)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_i\}$ we have $d\left( \mathbf{u}, \text{Span}\{B_{\hat \pi(i)}\}\right) \leq \delta/\rho$ also. Since $i$ is arbitrary, it follows that for every canonical basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{j \in [m]} c_i$. This is exactly the supposition in \eqref{1D} and the result follows from the subsequent arguments of Section \ref{DUT}. 
 \end{proof}
 
 \begin{remark} In general, there may exist combinations of fewer supports with intersection $\{i\}$, e.g. if $m \geq 2k-1$ then $S_{i - (k-1)} \cap S_i = \{i\}$. For brevity, we have considered a construction that is valid for any $k < m$.
@@ -702,18 +707,18 @@ which contradicts $\varepsilon < \varepsilon'_0$. Hence, $\pi$ is injective. Let
 
 %=== PROOF OF ADAPTED MAIN LEMMA ===
 
-Now suppose $k \geq 2$ and let $S_1, \ldots, S_m$ be the set of contiguous length $k$ intervals in some cyclic ordering of $[m]$. Fix $i \in [m]$ and let $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. Assumption \eqref{GapUpperBound2} implies that for all unit vectors $\mathbf{u} \in \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$ we have $d(\mathbf{u}, \text{Span}\{A_{S_j}\}) \leq \frac{\phi_k(A)}{\rho k} \Delta$ for all $j \in J$, with $\Delta < \frac{L_2(A)}{\sqrt{2}}$. By Lemma \ref{DistanceToIntersectionLemma} we have that:
+Now suppose $k \geq 2$ and let $S_1, \ldots, S_m$ be the set of contiguous length $k$ intervals in some cyclic ordering of $[m]$. Fix $i \in [m]$ and let $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. Assumption \eqref{GapUpperBound2} implies that for all unit vectors $\mathbf{u} \in \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$ we have $d(\mathbf{u}, \text{Span}\{A_{S_j}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for all $j \in J$, with $\delta < \frac{L_2(A)}{\sqrt{2}}$. By Lemma \ref{DistanceToIntersectionLemma} we have that:
 \begin{align}\label{sym2}
 d\left( \mathbf{u}, \bigcap_{j \in J} \text{Span}\{A_{S_j}\} \right) 
-\leq \frac{\Delta}{\rho} \left( \frac{\phi_k(A)}{1 - \xi(\{ \text{Span}\{A_{S_j}\} : j \in J \})} \right) \leq \frac{\Delta}{\rho},
+\leq \frac{\delta}{\rho} \left( \frac{\phi_k(A)}{1 - \xi(\{ \text{Span}\{A_{S_j}\} : j \in J \})} \right) \leq \frac{\delta}{\rho},
 \end{align}
 %
 where the second inequality is by definition of $\phi_k(A)$. Now, since $\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\} \subseteq \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$ and (by Lemma \ref{SpanIntersectionLemma}) $\cap_{i \in J}  \text{Span}\{A_{S_i}\} = \text{Span}\{A_i\}$, we have
 \begin{align}\label{fact12}
-d\left( \mathbf{u}, \text{Span}\{A_i\} \right) \leq \frac{\Delta}{\rho} \indent \text{for all} \indent \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}.
+d\left( \mathbf{u}, \text{Span}\{A_i\} \right) \leq \frac{\delta}{\rho} \indent \text{for all} \indent \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}.
 \end{align}
-We therefore have by Lemma \ref{MinDimLemma}, setting $V = \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\})$ and $W = \text{Span}\{A_i\}$, that $\dim(V) \leq \dim(W)$. The same arguments can be used to prove \eqref{fact12} with the roles of $A$ and $B$ reversed. Hence, $\dim(V) = \dim(W) = 1$ and it follows that $|\cap_{i \in J} \pi(S_i)| = 1$ since the columns of $B_{\cap_{i \in J} \pi(S_i)}$ are linearly independent by the spark condition. Thus, the association $i \mapsto \cap_{i \in J} \pi(S_i)$ defines a map $\pi: [m] \to [m']$ such that $d\left( \mathbf{u}, \text{Span}\{B_{ \pi(S_i)}\}\right) \leq \Delta/\rho$ for all $i \in [m]$.
-Since $i$ is arbitrary, it follows that for every canonical basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ and $\varepsilon = \Delta/\rho$, there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{\ell_2(A)}{\sqrt{2}} \min_{i \in [m]} |c_i|$. This is exactly the supposition in \eqref{1D2}.
+We therefore have by Lemma \ref{MinDimLemma}, setting $V = \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\})$ and $W = \text{Span}\{A_i\}$, that $\dim(V) \leq \dim(W)$. The same arguments can be used to prove \eqref{fact12} with the roles of $A$ and $B$ reversed. Hence, $\dim(V) = \dim(W) = 1$ and it follows that $|\cap_{i \in J} \pi(S_i)| = 1$ since the columns of $B_{\cap_{i \in J} \pi(S_i)}$ are linearly independent by the spark condition. Thus, the association $i \mapsto \cap_{i \in J} \pi(S_i)$ defines a map $\pi: [m] \to [m']$ such that $d\left( \mathbf{u}, \text{Span}\{B_{ \pi(S_i)}\}\right) \leq \delta/\rho$ for all $i \in [m]$.
+Since $i$ is arbitrary, it follows that for every canonical basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{\ell_2(A)}{\sqrt{2}} \min_{i \in [m]} |c_i|$. This is exactly the supposition in \eqref{1D2}.
 
 %\begin{remark} In general, there may exist combinations of fewer supports with intersection $\{i\}$, e.g. if $m \geq 2k-1$ then $S_\sigma(i - (k-1)) \cap S_\sigma(i) = \{\sigma(i)\}$. For brevity, we have considered a construction that is valid for any $k < m$.
 %\end{remark}
