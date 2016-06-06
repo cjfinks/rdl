@@ -90,13 +90,12 @@ Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be genera
 
 From the arguments preceding the statement of this problem we see that any solution to Problem \ref{DUTproblem} is a solution to Problem \ref{RepProblem}. [*** but not vice versa ***]
 
-
-Evidently, we cannot hope to guarantee the robust identifiability of unknown $k$-sparse sources $\mathbf{a}$ from measurements $\mathbf{y} = A\mathbf{a} + \mathbf{n}$ if $A$ is not injective on the set of $k$-sparse vectors; that is, $A$ must satisfy:
+Evidently, for any fixed $A$ an unknown $k$-sparse source $\mathbf{a}$ can only be robustly identified from measurements $\mathbf{y}$ of the form \eqref{LinearModel} if $A$ is injective on the set of $k$-sparse vectors; that is, $A$ must satisfy:
 \begin{align}\label{SparkCondition}
 A\mathbf{a}_1 = A\mathbf{a}_2 \implies \mathbf{a}_1 = \mathbf{a}_2, \ \ \text{ for all $k$-sparse } \mathbf{a}_1, \mathbf{a}_2 \in \mathbb{R}^m,
 \end{align}
 %
-commonly known in the literature as the \emph{spark condition}. The recently emergent field of compressed sensing (\cite{candes2006near, donoho2006compressed, candes2006stable}) has provided further qualificatory conditions on the matrix $A$ which enable efficient recovery of $\mathbf{a}$ by a variety of methods when $A$ is known. Our main contribution here is that even without this prior knowledge, the matrix $A$ and sources $\mathbf{a}_i$ are robustly identifiable in the sense of Def.~\ref{Uniqueness} from enough sufficiently diverse samples $\mathbf{y}_i$. 
+commonly known in the literature as the \emph{spark condition}. As it turns out, even if $A$ is unknown a priori this condition is enough to guarantee that both $A$ and the $\mathbf{a}_i$ are robustly identifiable from enough sufficiently diverse samples $\mathbf{y}_i$.
 
 %\begin{align}
 %\varepsilon' \geq |\mathbf{y}_1 - \mathbf{y}_2|_2 
