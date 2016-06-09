@@ -55,7 +55,7 @@ Bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 \min_{A, \, \mathbf{a}_i} \  \sum_{i=1}^N |\mathbf{a}_i|_0 \text{ subject to } |\mathbf{y}_i - A\mathbf{a}_i|_2 \leq \varepsilon \tag{$P_0$}
 \end{align}
 %
-or equivalently
+for some $\varepsilon > 0$, or equivalently for some $k \in \mathbb{N}$:
 \begin{align*}
 \min_{A, \, \mathbf{a}_i} \  \sum_{i=1}^N |\mathbf{y}_i - A\mathbf{a}_i|_2 \ \ \text{s.t.} \ \ |\mathbf{a}_i|_0 \leq k.
 \end{align*}
@@ -74,14 +74,18 @@ Even if the uncertainty $\mathbf{n}$ required to explain the data is exactly zer
 We address an issue left unanswered by these works, and that is the question of whether solutions to \eqref{DictionaryLearning} remain close in some sense to the original $A$ and $\mathbf{a}_i$ when the uncertainty in the model is nonzero. In particular, we demonstrate that under certain general conditions, $A$ and the $\mathbf{a}_i$ are \emph{robustly identifiable} -- that is, they remain the unique solution to \eqref{DictionaryLearning} (up to inherent ambiguities) in the noiseless limit.
 
 \begin{definition}\label{Uniqueness}
-A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ if for some dictionary $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} if for every $\delta_1, \delta_2 \geq 0$ there exists a nonnegative $\varepsilon = \varepsilon(\delta_1, \delta_2)$ (with $\varepsilon > 0$ when $\delta_1 > 0$ and $\delta_2 > 0$) such that if $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfy:
+A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation} in $\mathbb{R}^m$ if for some dictionary $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{robustly identifiable} if for every $\delta_1, \delta_2 \geq 0$ there exists a nonnegative $\varepsilon = \varepsilon(\delta_1, \delta_2)$ (with $\varepsilon > 0$ when  $\delta_1, \delta_2 > 0$) such that if $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfy:
 \[|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon,\indent \text{ for } i = 1, \ldots, N,\]
 %
 then there necessarily exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
 \begin{align}\label{def1}
-|A_j - (BPD)_j|_2 \leq \delta_1 \ \ \text{and} \ \ |\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_1 \leq \delta_2 \  \ \text{ for } \ \ j = 1, \ldots, m; i = 1, \ldots, N
+|A_j - (BPD)_j|_2 \leq \delta_1 \ \ \text{and} \ \ |\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_1 \leq \delta_2 \  \ \text{ for } \ \ j = 1, \ldots, m; \ \ i = 1, \ldots, N.
 \end{align}
 \end{definition}
+
+
+
+
 
 \begin{problem}\label{DUTproblem}
 Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$. When does $Y$ have a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$?
@@ -91,19 +95,24 @@ To see how a solution to this problem directly informs the interpretation of rep
 If it so happens that some alternate dictionary $B$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N$ also satisfy $|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon/2$ for all $i$, then by the triangle inequality, we necessarily have that every such alternate $B$ and $\mathbf{b}_i$ satisfy \eqref{def1} for some $P$ and $D$.
 
 \begin{problem}\label{RepProblem}
-Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be such that $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with bounded noise $|\mathbf{n}_i|_2 \leq \varepsilon$. When do global solutions to \eqref{DictionaryLearning} identify $A$ and/or the $\mathbf{a}_i$ up to a given error as in \eqref{def1}?
+Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be such that $\mathbf{y}_i = A\mathbf{a}_i  + \mathbf{n}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$ with bounded noise $|\mathbf{n}_i|_2 \leq \varepsilon$. When do global solutions to \eqref{DictionaryLearning} identify $A$ and the $\mathbf{a}_i$ up to a given error as in \eqref{def1}?
 \end{problem}
 
-From the arguments preceding the statement of this problem we see that any solution to Problem \ref{DUTproblem} is a solution to Problem \ref{RepProblem}. [*** but not vice versa ***]
-
-One can easily deduce the following necessary condition on the matrix $A$ by setting $\delta_1 = \delta_2 = 0$ in \eqref{def1}:
+By the arguments preceding the statement of this problem, any solution to Problem \ref{DUTproblem} is a solution to Problem \ref{RepProblem}. Our main finding is that provided the matrix $A$ satisfies: 
 \begin{align}\label{SparkCondition}
 A\mathbf{a}_1 = A\mathbf{a}_2 \implies \mathbf{a}_1 = \mathbf{a}_2, \ \ \text{ for all $k$-sparse } \mathbf{a}_1, \mathbf{a}_2 \in \mathbb{R}^m,
 \end{align}
+%
+commonly referred to in the literature as the \emph{spark condition}, then the $k$-sparse representation of $Y$ in Problem \ref{DUTproblem} is robustly identifiable if the data are sufficiently diverse. 
 
-[ *** Actually, this is kind of out of my ass. The $\mathbf{a}_i$ probably have to form a basis or something and even then I'm not sure it's that easy to deduce. I mean we only have a finite set of points to identify, so $A$ really need only be injective on those points, or maybe the proofs require injectivity over the supports of those points (i.e. the supports in some cyclic order of $[m]$). Should we introduce the spark condition without explaining why it's necessary..? Or am I over-thinking this? *** ]
+We note first how the spark condition relates to \emph{lower bound} \cite{grcar2010matrix} of a matrix $A$ (i.e. the largest number $\alpha$ such that $|A\mathbf{x}|_2 > \alpha|\mathbf{x}|_2$ for all $\mathbf{x}$). One can show by a simple compactness argument that every injective matrix has a nonzero lower bound; hence this holds true for every submatrix formed from $2k$ columns of a matrix $A$ satisfying the spark condition. We therefore define the following domain-restricted generalization of the lower bound of a matrix:
+\begin{align}
+L_k(A) := \max \{ \alpha : |A\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m\}.
+\end{align} 
+Clearly, $L_k(A) \geq L_{k'}(A)$ whenever $k < k'$ and $L_{2k}(A) > 0$ for any $A$ satisfying \eqref{SparkCondition}. 
 
-This condition is commonly known in the literature as the \emph{spark condition} and states that $A$ is injective on the set of $k$-sparse vectors. Our main result states that this condition is enough to guarantee that both $A$ and the $\mathbf{a}_i$ are robustly identifiable from a sufficiently diverse set of samples $\mathbf{y}_i$.
+Recall that a \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ in a circular necklace, and that an \textit{interval} is a contiguous sequence of such elements.  
+
 
 %\begin{align}
 %\varepsilon' \geq |\mathbf{y}_1 - \mathbf{y}_2|_2 
@@ -114,22 +123,23 @@ This condition is commonly known in the literature as the \emph{spark condition}
 %
 %provided $\varepsilon \leq \frac{1}{2}\alpha|\mathbf{a}_1 - \mathbf{a}_2|_2$. That is, $|\mathbf{y}_1 - \mathbf{y}_2|_2 \leq \varepsilon' \implies |\mathbf{a}_1 - \mathbf{a}_2|_2 \leq \delta$ for $\delta = \alpha^{-1}( \varepsilon' + 2\varepsilon)$.
 
-Recall that a \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ in a circular necklace, and that an \textit{interval} is a contiguous sequence of such elements.  
+
 
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 \begin{theorem}\label{DeterministicUniquenessTheorem}
 Fix positive integers $n, m$, $k < m$, and a cyclic order on $[m]$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ in general linear position supported on that interval, then every matrix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} generates $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a robustly identifiable $k$-sparse representation.
 
-Specifically, there exist positive constants $C$ and $\varepsilon_0$ such that the following holds. If any matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$, then provided $\varepsilon < \varepsilon_0$, we have
+Specifically, there exists $\varepsilon_0 > 0$ such that the following holds. If any matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$, then provided $\varepsilon < \frac{L_2(A)}{\sqrt{2}}\varepsilon_0$, we have
 \begin{align}\label{Cstable}
-|A_j-(BPD)_j|_2 \leq C\varepsilon,\indent  \text{for all } j \in [m].
+|A_j-(BPD)_j|_2 \leq \frac{\varepsilon}{\varepsilon_0},\indent  \text{for all } j \in [m].
 \end{align}
-Furthermore, there exists some $\varepsilon_1 \leq \varepsilon_0$ such that if $\varepsilon < \varepsilon_1$ then $B$ also satisfies the spark condition [*** should we maybe state how the $2k$ lower bound of $B$ converges to that of $A$ as eps goes to 0? *** ], and:
+Moreover, if $\varepsilon < \frac{L_{2k}(A)}{\sqrt{2k}}\varepsilon_0 $ then $B$ also satisfies the spark condition, and:
 \begin{align}\label{b-PDa}
-|\mathbf{a}_i - D^{-1}P^{-1}\mathbf{b}_i|_1 &\leq \frac{\varepsilon }{\varepsilon_1 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right),\indent  \text{for all } i \in [N].
+|\mathbf{a}_i - D^{-1}P^{-1}\mathbf{b}_i|_1 &\leq \frac{\varepsilon }{ \varepsilon_0 L_{2k}(A)/\sqrt{2k} - \varepsilon} \left( \varepsilon_0+|\mathbf{a}_i|_1 \right),\indent  \text{for all } i \in [N].
 \end{align}
 \end{theorem}
+[ *** Haven't changed the definition of $\varepsilon_0$ yet, nor the proofs, to reflect this new way of stating the Theorem *** ]
 [ *** We haven't shown that $\text{supp}(\mathbf{b}_i) = \text{supp}(\mathbf{a}_i)$. Is this a problem? *** ]
 An important consequence of this result is that for sufficiently small reconstruction error, the original dictionary and sparse vectors are determined up to a commensurate error, independent of alternate representation.  (In other words, we may choose $\varepsilon$ on the same order as $\delta_1$ or $\delta_2$ in Def.~\ref{Uniqueness}.) Formulae for  $C, \varepsilon_0$ and $\varepsilon_1$ in terms of $A$ and the $\mathbf{a}_i$ are provided in \eqref{epsilon0} and \eqref{Cdef}, below. 
 
@@ -139,13 +149,13 @@ Given positive integers $n, m$, and $k < m$, there exist $N =  m(k-1){m \choose 
 
 Our proof of Theorem \ref{DeterministicUniquenessTheorem} is a delicate refinement of the arguments in \cite{Hillar15} to handle measurement error.  Here, we also reduce the theoretically required number of samples given by \cite{Hillar15} from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$, and we provide guarantees for the case when only an upper bound on the number of columns in $A$ is known (see Theorem \ref{DeterministicUniquenessTheorem2} below). 
 
-Given Theorem \ref{DeterministicUniquenessTheorem}, it is straightforward to provide probabilistic extensions by drawing on a key result from the recently emergent field of compressed sensing (CS) \cite{candes2006near, donoho2006compressed, candes2006stable}. Briefly, CS theory describes conditions under which a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse enough in some known basis (i.e. $\mathbf{s} = \Psi \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) can be feasibly recovered after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x} + \mathbf{n}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$ with additive noise $\mathbf{n}$. The underlying logic is simple: if the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition} then $\mathbf{s}$ is robustly identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be approximately reconstructed as $\Psi^{-1}\mathbf{s}$. The key result we refer to is that a random\footnote{[*** @chris: Should we cite Baraniuk again here? ***]} compression matrix $\Phi$ yields an $A$ satisfying the spark condition with high probability provided the dimension $n$ of $\mathbf{y}$ satisfies:
+Given Theorem \ref{DeterministicUniquenessTheorem}, it is straightforward to provide probabilistic extensions (Theorems \ref{Theorem2} and \ref{Theorem3}) by drawing on a key result from the recently emergent field of compressed sensing (CS) \cite{candes2006near, donoho2006compressed, candes2006stable}. Briefly, CS theory describes conditions under which a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse enough in some known basis (i.e. $\mathbf{s} = \Psi \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) can be feasibly recovered after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x} + \mathbf{n}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$ with additive noise $\mathbf{n}$. The underlying logic is simple: if the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition} then $\mathbf{s}$ is robustly identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be approximately reconstructed as $\Psi^{-1}\mathbf{s}$. The key result we refer to is that a random\footnote{[*** @chris: Should we cite Baraniuk again here? ***]} compression matrix $\Phi$ yields an $A$ satisfying the spark condition with high probability provided the dimension $n$ of $\mathbf{y}$ satisfies:
 \begin{align}\label{CScondition}
 n \geq \alpha k\log\left(\frac{m}{k}\right),
 \end{align}
 where $\alpha$ is a positive constant dependent on the distribution from which the entries of $\Phi$ are drawn. [*** @chris: does it depend on $\Psi$ as well? ***] But what if we don't know $\Phi$? Our theorems demonstrate that the matrix $A$ can still be estimated up to an inherent permutation-scaling ambiguity by examining a sufficiently diverse set of samples $\mathbf{y}_1, \ldots, \mathbf{y}_N$. The signals $\mathbf{x}_i$ can then be reconstructed up to the degeneracy imparted by these inherent ambiguities as well. 
 
-We state here the main implications of our probabilistic results (Theorems \ref{Theorem2} and \ref{Theorem3}). To keep our exposition simple, our probabilistic statements are based upon the following elementary construction of \emph{random sparse vectors} (although many ensembles will suffice, e.g. \cite[Sec.~\S 4]{baraniuk2008simple}).
+We state here the main implications of our probabilistic results. To keep our exposition simple, our statements are based upon the following elementary construction of \emph{random sparse vectors} (although many ensembles will suffice, e.g. \cite[Sec.~\S 4]{baraniuk2008simple}).
 
 \begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
 Given the support set for its $k$ nonzero entries, a \textbf{random draw} of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly from the interval $[0, 1] \subset \mathbb{R}$, independently. When a support set is not specified, a random draw is a choice of one support set uniformly from all ${m \choose k}$ of them and then a random draw.
@@ -189,14 +199,14 @@ Letting $\delta = (\beta - \alpha)/(\beta + \alpha)$ and rescaling $M$ by $2/(\b
 
 Between any pair of subspaces in Euclidean space one can define the following generalized ``angle'':
 \begin{definition}\label{FriedrichsDefinition}
-The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is \cite{Deutsch}:
+The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is defined in terms of its cosine as \cite{Deutsch}:
 \begin{align}
 \cos{\theta_F} := \max\left\{ \langle u, v \rangle: u \in U \cap (U \cap V)^\perp \cap \mathcal{B}, \, v \in V \cap (U \cap V)^\perp \cap \mathcal{B}, \right\}.
 \end{align}
 %
 where $\mathcal{B} = \{ x: |x|_2 \leq 1\}$ is the unit $\ell_2$-ball in $\mathbb{R}^n$.
 \end{definition}
-For example, for $n=3$ and $k=1$ this is simply the angle between vectors, and for $k=2$ it is the angle between the normal vectors of two planes. In higher dimensions, the Friedrichs angle is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces which are invariant to orthogonal transformations. These angles and are all zero if and only if one subspace is a subset of the other; otherwise, the Friedrichs angle is the smallest nonzero such angle. Hence, there is a positive Friedrichs angle between all pairs of subspaces spanned by at most $k$ columns of any matrix $M$ satisfying the spark condition. 
+For example, for $n=3$ and $k=1$ this is simply the angle between vectors, and for $k=2$ it is the angle between the normal vectors of two planes. In higher dimensions, the Friedrichs angle is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces which are invariant to orthogonal transformations. These angles and are all zero if and only if one subspace is a subset of the other; otherwise, the Friedrichs angle is the smallest nonzero such angle. 
 
 The next definition we need is based on a quantity derived in \cite{Deutsch} to describe the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces. We use it to bound the distance between a point and the intersection of a set of subspaces given an upper bound on the distance from that point to each individual subspace.
 
@@ -222,7 +232,6 @@ where $\rho := \max_{j \in [m]} |A_j|_2 $ and let
 \begin{align}\label{Cdef}
 C = \frac{L_{2}(A)}{ \sqrt{2}} \varepsilon_0^{-1} \ \ \text{and} \ \ \varepsilon_1 = \frac{L_{2k}(A)}{\sqrt{2k}} C^{-1}.
 \end{align}
-If $0 \leq \varepsilon < \varepsilon_0$, then \eqref{Cstable} holds with $C$ defined above, and if $\varepsilon < \varepsilon_1$ then \eqref{b-PDa} holds as well.
 
 \begin{remark}\label{nonzero}
 If $A$ satisfies the spark condition then a simple compactness argument can be made to show that $L_{2k}(A) > 0$. We also have that $\phi_k(A) > 0$, since $\phi_k(A) = 0$ only when $\text{Span}(A_{S_1}) \supseteq \text{Span}(A_{S_2}) \cap \ldots, \cap \text{Span}(A_{S_k})$ for some $S_1, \ldots, S_k \in {[m] \choose k}$. Hence $C, \varepsilon_0$ and $\varepsilon_1$ are nonzero provided $\min_{S \in T} L_k(AX_{I(S)}) > 0$. 
@@ -267,15 +276,15 @@ d(u,V) < |u|_2 \ \ \text{\rm for all } u \in U \setminus{\{0\}} \implies \dim(U)
 We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument ($\dim U + \dim V^\perp > m$) gives a nonzero $u \in U \cap V^\perp$.  In particular, we have $|u - v|_2^2 = |u|_2^2 + |v|_2^2 \geq |u|_2^2$ for all $v \in V$, and thus $d(u,V) \geq |u|_2$.
 \end{proof}
 
-Finally, we have the following lemma allowing us to extend uniqueness guarantees (up to permutation, scaling, and error) for matrices with unit norm columns to those without and vice versa.  [*** We could in principle just use this lemma instead to extend norm 1 col proofs to arbitrary length cols. *** ]
+%Finally, we have the following lemma allowing us to extend uniqueness guarantees (up to permutation, scaling, and error) for matrices with unit norm columns to those without and vice versa.  [*** We could in principle just use this lemma instead to extend norm 1 col proofs to arbitrary length cols. *** ]
 %%%---NORMALIZED DICTIONARY LEMMA---%%%
-\begin{lemma}\label{NormalizedDictionaryLemma}
-Fix matrices $A, \tilde{A} \in \mathbb{R}^{n \times m}$ where $\tilde{A} = AE$ for some invertible diagonal matrix $E = \text{\rm diag}(\lambda_1,\ldots,\lambda_m) \in \mathbb{R}^{m \times m}$. If there exists a matrix $B \in \mathbb{R}^{n \times m}$ such that $|A_j - B_j|_2 \leq \varepsilon$ for all $j \in [m]$, then the matrix $\tilde{B} = BE$ satisfies $|\tilde{A}_j - \tilde{B}_j| \leq \lambda \varepsilon$ for all $j \in [m]$, where $\lambda = \max_j |\lambda_j|$.
-\end{lemma}
-\begin{proof}
-For all $j \in [m]$, we have
-\[|\tilde{A}_j - \tilde{B}_j|_2 = |(AE-BE)_j|_2 = |\lambda_j| |A_j- B_j|_2 \leq |\lambda_j| \varepsilon \leq \lambda \varepsilon.\]
-\end{proof}
+%\begin{lemma}\label{NormalizedDictionaryLemma}
+%Fix matrices $A, \tilde{A} \in \mathbb{R}^{n \times m}$ where $\tilde{A} = AE$ for some invertible diagonal matrix $E = \text{\rm diag}(\lambda_1,\ldots,\lambda_m) \in \mathbb{R}^{m \times m}$. If there exists a matrix $B \in \mathbb{R}^{n \times m}$ such that $|A_j - B_j|_2 \leq \varepsilon$ for all $j \in [m]$, then the matrix $\tilde{B} = BE$ satisfies $|\tilde{A}_j - \tilde{B}_j| \leq \lambda \varepsilon$ for all $j \in [m]$, where $\lambda = \max_j |\lambda_j|$.
+%\end{lemma}
+%\begin{proof}
+%For all $j \in [m]$, we have
+%\[|\tilde{A}_j - \tilde{B}_j|_2 = |(AE-BE)_j|_2 = |\lambda_j| |A_j- B_j|_2 \leq |\lambda_j| \varepsilon \leq \lambda \varepsilon.\]
+%\end{proof}
 
  
 %============================================
@@ -326,7 +335,7 @@ We demonstrate with the following counter-example that \eqref{Cstable} with $C$ 
 
 % ======== b - PDa =========
 \begin{remark}\label{b-PDaProof}
-From this result we can, in general, bound $|\mathbf{a}_i - D^{-1}P^{-1}\mathbf{b}_i|_1$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_1$, with $\varepsilon_1$ as defined in \eqref{epsilon0} and $C$ as in \eqref{Cdef}. Note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$ we have by the triangle inequality:
+From this result we can, in general, bound $|\mathbf{a}_i - D^{-1}P^{-1}\mathbf{b}_i|_1$ as well. Specifically, we will show that \eqref{b-PDa} always follows from \eqref{Cstable} when $\varepsilon < \varepsilon_1$, with $\varepsilon_1$ as defined in \eqref{Cdef}. Note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$ we have by the triangle inequality:
 \begin{align*}
 |(A-BPD)\mathbf{x}|_2 
 \leq C\varepsilon|\mathbf{x}|_1
@@ -451,11 +460,6 @@ Fix positive integers $n, m$, $k < m$, and $A \in \mathbb{R}^{n \times m}$ satis
 By Lemma \ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. Apply Theorem \ref{DeterministicUniquenessTheorem}.
 \end{proof} 
 
-[ *** We stated this corollary in the intro. I don't suppose we need to state it again...? ***]
-\begin{corollary}
-Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from a random draw of $N = m(k-1){m \choose k}+m$ $k$-sparse vectors $\mathbf{a}_i$, consisting of $(k-1){m \choose k}+1$ samples supported by each interval of length $k$ in some cyclic ordering of $\{1, \ldots, m\}$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
-\end{corollary}
-
 Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
 
 \begin{theorem}\label{Theorem3}
@@ -466,12 +470,7 @@ Fix positive integers $k < m$ and $n$ . If $N = m(k-1){m \choose k}+m$ randomly 
 By Lemma \ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. By the same arguments made in the proof of Theorem 3 in \cite{Hillar15}, the set of matrices $A$ that fail to satisfy \eqref{SparkCondition} form an algebraic set of measure zero. Apply Theorem \ref{DeterministicUniquenessTheorem}.
 \end{proof}
 
-[ *** We stated this corollary in the intro. I don't suppose we need to state it again...? ***]
-\begin{corollary}
-Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $[m]$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval then, with probability one, almost every matrix $A \in \mathbb{R}^{n \times m}$ gives $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
-\end{corollary}
-
-We note that the formulae for $\varepsilon_0$ and $C$ derived in the deterministic case are derived for the \emph{worst case} noise, which (depending on the choice of noise distribution) may have very small probability of occurrence in practice. In particular, for fixed $k$, the larger the ambient dimension of $\mathbf{y}$, the smaller the probability that randomly generated noise points in a direction which conflates signals generated by distinct sparse sources. 
+We note that the formulae for $\varepsilon_0, \varepsilon_1$ and $C$ derived in the deterministic case are derived for the \emph{worst case} noise, which (depending on the choice of noise distribution) may have very small probability of occurrence in practice. In particular, for fixed $k$, the larger the ambient dimension of $\mathbf{y}$, the smaller the probability that randomly generated noise points in a direction which conflates signals generated by distinct sparse sources. 
 
 %===================================
 % 			DISCUSSION
