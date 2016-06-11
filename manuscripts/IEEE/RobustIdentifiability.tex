@@ -530,22 +530,28 @@ C_0 = 2\frac{1-(1-\sqrt{2})\delta_{2k}}{1-(1-\sqrt{2})\delta_{2k}}, \ \ C_2 = 4\
 
 Theorem \eqref{DeterministicUniquenessTheorem} is a stability result akin to that in \cite{donoho2006stable}, only now for the case when the dictionary matrix is unknown.
 
-Theorem \eqref{DeterministicUniquenessTheorem} derives from the underlying geometry of the dictionary learning problem, and therefore provides a universal check for when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}. This is similar in spirit to the test provided in \cite{gribonval2006simple} for the case where the dictionary matrix is known a priori. 
-	
+We present five applications of our main result.
 
-
-While certain algorithms have been shown to have local converge to a global minimum or global convergence to a local minimum of approximations to \eqref{DictionaryLearning}, to our knowledge there exist no algorithms with guaranteed global convergence to a global solution. Our conditions apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning} since they are derived from the underlying geometry of the dictionary learning problem, providing for a universal check when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}.
-
-[********** Discuss that it would be awesome to find the best dependence of $\varepsilon$ on $\delta$ and best constants and number of samples for this problem **********]
-
+\textbf{Theory of SCA and its relationship to CS}.
 
 Another implication of our theorem is the determination of an overcompleteness regime dimensionality of any dataset with respect to $\varepsilon$. If you coded very well some data sparsely then you can do a check and if that check holds up then anyone else who codes the data sparsely too has learned the same dictionary. 
 
 The theory of CS informs also informs another practical consequence of our result. Since our derived sample complexity is independent of the ambient dimension of the data, $n$, given a lower bound on the sparsity of the latent variables $\mathbf{a}_i$ we can generate a random matrix to compress the data to a dimension in the regime of \eqref{CScondition} before applying a dictionary learning. This could significantly reduce the computational cost of dictionary learning when the sparsity is high by reducing the number of parameters required to define each dictionary element. Such improvements are crucial to scaling up dictionary learning to larger datasets. \textbf{[Is this actually a significant computational boost..?]}  
 
-%\cite{sadler1992shift, krieger1997higher, giannakis1989signal}
+
+
+
+\textbf{Computation Theory}.
+
+Decidability (deterministic checks), Smoothed analysis 
+
+\textbf{Signal Processing}.
+
+Uniqueness of receptive fields.
+
 
 Uniqueness in data analysis.
+
 
 [********* Make some brief comments about possibile conseuqences for the brain / representability of signals, etc *********]
 
@@ -557,7 +563,36 @@ First bispectrum ref:  \cite{tukey1953spectral}
 
 General groups: \cite{kakarala2012bispectrum}
 
+
+
+
+\textbf{Brain Communication Theory}.
+
+Theory works in the noisy case.
+
+
+
+
+\textbf{Engineering}.
+
+
 Fast CS camera: \cite{smart2015ultrafast}
+
+
+
+
+Theorem \eqref{DeterministicUniquenessTheorem} derives from the underlying geometry of the dictionary learning problem, and therefore provides a universal check for when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}. This is similar in spirit to the test provided in \cite{gribonval2006simple} for the case where the dictionary matrix is known a priori. 
+	
+
+
+While certain algorithms have been shown to have local converge to a global minimum or global convergence to a local minimum of approximations to \eqref{DictionaryLearning}, to our knowledge there exist no algorithms with guaranteed global convergence to a global solution. Our conditions apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning} since they are derived from the underlying geometry of the dictionary learning problem, providing for a universal check when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}.
+
+[********** Discuss that it would be awesome to find the best dependence of $\varepsilon$ on $\delta$ and best constants and number of samples for this problem **********]
+
+
+
+%\cite{sadler1992shift, krieger1997higher, giannakis1989signal}
+
 
 % \cite{gao2014single}
 
