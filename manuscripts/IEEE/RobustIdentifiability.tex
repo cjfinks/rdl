@@ -50,7 +50,7 @@ Bilinear inverse problem, identifiability, dictionary learning, sparse coding, m
 %===================================
 
 \section{Introduction}
-\IEEEPARstart{A}{} number of modern approaches to signal processing model datasets $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$  with unknown structure as lying near a collection of low-dimensional subspaces spanned by the columns $\{A_1,\ldots,A_m\}$ of a learned \textit{dictionary} matrix $A \in \mathbb R^{n\times m}$. The implied forward model is that of a sequence of linear \emph{measurements}:
+\IEEEPARstart{A}{} number of modern approaches to signal processing model datasets $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with unknown structure as lying near a collection of low-dimensional subspaces spanned by the columns $\{A_1,\ldots,A_m\}$ of a learned \textit{dictionary} matrix $A \in \mathbb R^{n\times m}$. The implied forward model is that of a sequence of linear \emph{measurements}:
 \begin{align}\label{LinearModel}
 \mathbf{y} = A\mathbf{a} + \mathbf{n}
 \end{align}
@@ -440,65 +440,6 @@ By Lemma \ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with prob
 \end{proof}
 
 We note that the formula for $C$ derived in the deterministic case was derived for the \emph{worst case} noise, which (depending on the noise distribution) may have very small probability of occurrence. In particular, for fixed $k$, the larger the ambient dimension of $\mathbf{y}$, the smaller the probability that randomly generated noise points in a direction which conflates signals lying near distinct $k$-dimensional subspaces. 
-
-\section{Implications for Dictionary Learning by Constrained Optimization}
-
-In this section we apply our results to constrained optimization problems commonly used to solve \eqref{InverseProblem}. The first is:
-\begin{align}\label{DictionaryLearning}
-\min_{A, \, \mathbf{a}_i} \  \sum_{i=1}^N |\mathbf{a}_i|_0 \text{ subject to } |\mathbf{y}_i - A\mathbf{a}_i|_2 \leq \varepsilon \tag{$P_0$},
-\end{align}
-%
-or equivalently,
-\begin{align*}
-\min_{A, \, \mathbf{a}_i} \  \sum_{i=1}^N |\mathbf{y}_i - A\mathbf{a}_i|_2 \ \ \text{s.t.} \ \ |\mathbf{a}_i|_0 \leq k.
-\end{align*}
-
-As the dictionary learning problem \eqref{DictionaryLearning} is NP-hard \cite{razaviyayn2015computational, Tillmann15}, in practice one often resorts to efficient heuristics, e.g. replacing the $\ell_0$-(pseudo-)norm $|\cdot|_0$ (the number of nonzero entries in a vector) with the $\ell_1$-norm $|\cdot|_1$. For a recent comprehensive survey of techniques for solving \eqref{DictionaryLearning}, see the review paper \cite{Zhang15}.
-
-\begin{problem}\label{DL0}
-When are global solutions to \eqref{DictionaryLearning} unique up to noise and inherent permutation-scaling ambiguities?
-\end{problem}
-
-At first glance one might think that the same conditions guaranteeing the well-posedness of \eqref{InverseProblem} solve Problem \ref{DL0}, but it need not be the case that the solution to \eqref{DictionaryLearning} necessarily satisfies $|\mathbf{a}_i|_0 \leq k$ for all $i = 1, \ldots, N$. When is this the case? 
-
-We also consider the following variation of the dictionary learning problem:
-\begin{align}\label{DictionaryLearningL1}
-\min_{A, \, \mathbf{a}_i}  \sum_{i=1}^N  |\mathbf{a}_i|_1 \ \ \text{ subject to } |\mathbf{y}_i - A\mathbf{a}_i|_2 \leq \varepsilon \tag{$P_1$}
-\end{align}
-
-\begin{problem}\label{DL1}
-When are global solutions to \eqref{DictionaryLearningL1} unique up to noise and inherent permutation-scaling ambiguities?
-\end{problem}
-
-\begin{conjecture}
-\end{conjecture}
-
-\begin{proof}
-Since $A$ satisfies the spark condition we have $L_{2k}(A) > 0$. Note that $L_{2k}(A) > 0$ if and only if $A$ can be rescaled to satisfy the \emph{restricted isometry property} (RIP) \cite{CandesTao05} from compressive sensing, since there exist $\alpha, \beta > 0$ such that:
-\begin{align}
-\alpha|\mathbf{x}|_2 \leq |A\mathbf{x}|_2 \leq \beta|\mathbf{x}|_2 \ \ \text{for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m.
-\end{align}
-Letting $\delta = (\beta - \alpha)/(\beta + \alpha)$ and rescaling $A$ by $2/(\beta + \alpha)$ yields the familiar presentation of the RIP. 
-
-We continue the proof assuming $A$ is scaled to satisfy the RIP with constant $\delta_{2k}$ and borrow the following result from CS:
-
-\begin{theorem}
-Suppose that $A$ satisfies the RIP of order $2k$ with $\delta_{2k} < \sqrt{2} - 1$ and let $\mathbf{y} = A\mathbf{a} + \mathbf{n}$ where $|\mathbf{n}|_2 < \varepsilon$. Then the solution $\mathbf{a}'$ to:
-\begin{align}
-\mathbf{a}' = \arg \min_\mathbf{a} |\mathbf{a}|_1 \ \ \text{subject to } |A\mathbf{a} - \mathbf{y}| \leq \varepsilon
-\end{align}
- obeys:
-\begin{align}
-|\mathbf{a}' - \mathbf{a}|_2 \leq C_0\frac{\sigma_k(\mathbf{a})_1}{\sqrt{k}} + C_2\varepsilon
-\end{align}
-%
-where
-\begin{align}
-C_0 = 2\frac{1-(1-\sqrt{2})\delta_{2k}}{1-(1-\sqrt{2})\delta_{2k}}, \ \ C_2 = 4\frac{?}{?}
-\end{align}
-\end{theorem}
-
-\end{proof}
 
 %===================================
 % 			DISCUSSION
