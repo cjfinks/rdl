@@ -38,7 +38,7 @@
 \maketitle
 
 \begin{abstract}
-In sparse component analysis (SCA), a dictionary is learned to linearly code a sparse mixture of signals.  It has been previously established  under mild assumptions (e.g., the spark condition from compressed sensing) that such a coding of sparse data is unique up to a relabelling and scaling of dictionary columns and sparse codes.  Often, however, data is only approximately sparse, and noise is present in the generative SCA model.  We extend the known uniqueness results to this more general setting and prove that approximately sparse datasets are still uniquely coded up to the level of noise in the input.  Our results help explain the ubiquitous finding that diverse SCA algorithms determine unique structure when applied to approximately code the same sparse mixtures.
+In sparse component analysis (SCA), a dictionary is learned to linearly code a sparse mixture of signals.  It has been previously established  under mild assumptions (e.g., the spark condition from compressed sensing) that such a coding of sparse data is unique up to a relabelling and scaling of dictionary columns and sparse codes.  Often, however, data is only approximately sparse, and noise is present in the generative SCA model.  We extend the known uniqueness results to this more general setting and prove that approximately sparse datasets are still uniquely coded up to the level of noise in the input.  Our results help explain the ubiquitous finding that diverse SCA algorithms determine unique structure when applied to approximately code the same sparse mixtures.  We close with several applications.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -405,26 +405,23 @@ We note that the formula for $C$ derived in the deterministic case was derived f
 %===================================
 \section{Discussion}
 
-In this note, we generalize uniqueness of SCA to the case of deterministic noise.  Somewhat surprisingly, almost every dictionary and sufficient quantity of sparse codes are uniquely determined up to the error in sampling and inherent symmetries (uniform relabeling and scaling).  To convince the reader of the general usefulness of this result, we elaborate briefly on the following five application areas.
+In this note, we generalize uniqueness of the exact ($\varepsilon = 0$) SCA dictionary coding problem (\ref{InverseProblem}) to the case of deterministic noise ($\varepsilon > 0$).  Somewhat surprisingly, as long as standard assumptions from compressed sensing are met, almost every dictionary and sufficient quantity of sparse codes are uniquely determined up to the error in sampling and the problem's inherent symmetries (uniform relabeling and scaling).  To convince the reader of the general usefulness of this result, we elaborate briefly on five diverse application areas.
 
 \textbf{Sparse Coding Theory}.  
 Sparse coding or sparse component analysis is a common tool for uncovering structure in complex datasets. 
 %However, the literature contains a plethora of different approaches for implementing it, each one with its own proof of convergence to a local minimum.
-While certain algorithms have been shown to have local converge to a global minimum or global convergence to a local minimum of approximations to \eqref{DictionaryLearning}, to our knowledge there exist no algorithms with guaranteed global convergence to a global solution. Our conditions apply regardless of whichever algorithm is used to solve \eqref{DictionaryLearning} since they are derived from the underlying geometry of the dictionary learning problem, providing for a universal check when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}.
+While certain algorithms have been shown to have local converge to a global minimum or global convergence to a local minimum of approximations to \eqref{InverseProblem}, to our knowledge there exist no algorithms with guaranteed global convergence to a global solution. Our conditions apply regardless of whichever algorithm is used to solve \eqref{InverseProblem} since they are derived from the underlying geometry of the dictionary learning problem, providing for a universal check when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{InverseProblem}.
 
 Theorem \eqref{DeterministicUniquenessTheorem} is a stability result akin to that in \cite{donoho2006stable, candes2006stable}, only now for the case when the dictionary matrix is unknown.
 
 Another implication of our theorem is the determination of an overcompleteness regime dimensionality of any dataset with respect to $\varepsilon$. If you coded very well some data sparsely then you can do a check and if that check holds up then anyone else who codes the data sparsely too has learned the same dictionary. 
 
-The theory of CS informs also informs another practical consequence of our result. Since our derived sample complexity is independent of the ambient dimension of the data, $n$, given a lower bound on the sparsity of the latent variables $\mathbf{a}_i$ we can generate a random matrix to compress the data to a dimension in the regime of \eqref{CScondition} before applying a dictionary learning. This could significantly reduce the computational cost of dictionary learning when the sparsity is high by reducing the number of parameters required to define each dictionary element. Such improvements are crucial to scaling up dictionary learning to larger datasets. \textbf{[Is this actually a significant computational boost..?]}  
-
 \textbf{Mathematics of Computation}.
-Theorem \eqref{DeterministicUniquenessTheorem} derives from the underlying geometry of the dictionary learning problem, and therefore provides a universal check for when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{DictionaryLearning}. This is similar in spirit to the test provided in \cite{gribonval2006simple} for the case where the dictionary matrix is known a priori. 
-	
-[********** Discuss that it would be awesome to find the best dependence of $\varepsilon$ on $\delta$ and best constants and number of samples for this problem **********]
-Decidability (deterministic checks),  
+Theorem \eqref{DeterministicUniquenessTheorem} derives from the underlying geometry of the dictionary learning problem, and therefore provides a universal check for when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{InverseProblem}. This is similar in spirit to the test provided in \cite{gribonval2006simple} for the case where the dictionary matrix is known a priori. 
 
-Another field of computation for which our main results have consequences is that of smoothed analysis \cite{spielman2004smoothed}.  The main idea there is that certain algorithms having bad worst case behavior, nonetheless, are efficient if certain (typically Lebesgue measure zero) pathological input sets are avoided.  In the case of SCA, our results imply that if there is an efficient ``smoothed" algorithm, then only for a measure zero set of inputs will this algorithm fail to determine the unique original solution. 
+Given that a robust version of uniqueness in SCA is possible, it would be useful to determine the best dependence of $\delta_1, \delta_2$ on $\varepsilon$ possible.  In the case of $k = 1$, the best possible bounds are given by [********  CHAZ?? ***********].  We encourage the sparse coding community to extend our results and find a tight dependency of all the parameters, both for the sake of theory and practical applications.
+
+Another field of computation for which our main results have consequences is that of smoothed analysis \cite{spielman2004smoothed}.  The main idea there is that certain algorithms having bad worst case behavior, nonetheless, are efficient if certain (typically Lebesgue measure zero) pathological input sets are avoided.  In the case of SCA, our results imply that if there is an efficient ``smoothed" algorithm, then only for a measure zero set of inputs will this algorithm fail to determine the unique original solution.  We note that avoiding ``bad" (NP-hard) sets of inputs is necessary in the case of SCA \cite{Tillmann15}.
 
 \textbf{Signal Processing and Data Analysis}.
 
@@ -459,7 +456,6 @@ Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly i
 \end{lemma}
 
 \begin{proof}By induction, it is enough to prove the lemma when $|\mathcal{T}| = 2$. The proof now follows directly from the assumption.
-% The forward direction is trivial; we prove the reverse direction. Enumerate $\mathcal{T} = (S_1, \ldots, S_{|\mathcal{T}|})$ and let $\mathbf{y} \in \text{Span}\{M_{S_1}\} \cap \text{Span}\{M_{S_2}\}$. Then there exists some $\mathbf{x}_1$ with support contained in $S_1$ such that $\mathbf{y} = M\mathbf{x}_1$ and some $\mathbf{x}_2$ with support contained in $S_2$ such that $\mathbf{y} = M\mathbf{x}_2$. We therefore have $M(\mathbf{x}_1 - \mathbf{x}_2) = 0$, which implies that $\mathbf{x}_1 = \mathbf{x}_2$ by the spark condition. Hence $\mathbf{x}_1$ and $\mathbf{x}_2$ have the same support contained in both $S_1$ and $S_2$, i.e. $\mathbf{y} \in \text{Span}\{M_{S_1 \cap S_2}\}$. This carries over by induction to the entire sequence of supports in $\mathcal{T}$. 
 \end{proof}
 
 %===== DISTANCE TO INTERSECTION LEMMA =====
@@ -480,26 +476,8 @@ For each $\ell \in \{2, \ldots, k+1\}$ (when $\ell = k+1$, the product $\Pi_{V_k
 \begin{equation}
 |\Pi_{V_k} \cdots \Pi_{V_{\ell}}\mathbf{x} - \Pi_V \mathbf{x}|  \leq  |\Pi_{V_k} \cdots \Pi_{V_{\ell-1}}\mathbf{x} - \Pi_V \mathbf{x}| + 
 |\mathbf{x} - \Pi_{V_{\ell-1}}\mathbf{x}|.
-%\begin{split}
-%|\Pi_{V_k} \cdots \Pi_{V_{\ell}}\mathbf{x} - \Pi_V \mathbf{x}| & \ \leq |\Pi_{V_k} \cdots \Pi_{V_{\ell-1}}\mathbf{x} - \Pi_V \mathbf{x}| + 
-%|\Pi_{V_k} \cdots \Pi_{V_{\ell}}(I - \Pi_{V_{\ell-1}}) \mathbf{x}|\\
-%& \ \leq  |\Pi_{V_k} \cdots \Pi_{V_{\ell-1}}\mathbf{x} - \Pi_V \mathbf{x}| + 
-%|\mathbf{x} - \Pi_{V_{\ell-1}}\mathbf{x}|.
-%\end{split}
 \end{equation}
 Summing these inequalities over $\ell$ gives (\ref{induction}).
-%will show that for any $\sigma \in \frak{S}_k$,
-%\begin{align}\label{induction}
-%|\mathbf{x} - \Pi_V\mathbf{x}|_2 \leq \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2 + |\Pi_{V_{\sigma(k)}}\Pi_{V_{\sigma(k-1)}}\cdots\Pi_{V_{\sigma(1)}} \mathbf{x} - \Pi_V \mathbf{x}|_2.
-%\end{align}
-%%
-%Assume without loss of generality that $\sigma(i) = i$ for all $i \in [m]$. We have by the triangle inequality that
-%\begin{align*}
-%|\mathbf{x} - \Pi_V\mathbf{x}|_2 &= |\mathbf{x} - \Pi_{V_k} \mathbf{x}|_2 + |\Pi_{V_k}(I - \Pi_{V_{k-1}}) \mathbf{x}|_2 + |\Pi_{V_k}\Pi_{V_{k-1}}\mathbf{x} - \Pi_V\mathbf{x}|_2 \\
-%&\leq \sum_{i=k-1}^k|\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2 + |\Pi_{V_k}\Pi_{V_{k-1}} \mathbf{x} - \Pi_V \mathbf{x}|_2,
-%\end{align*}
-%%
-%where in the second line we have used the fact that $\|\Pi_{V_k}\|_2 \leq 1$. If $k=2$ then we are done; otherwise, we may repeat this manipulation another $k-2$ times until we arrive at \eqref{induction}. 
 
 Next, we show how the result \eqref{DTILeq} follows from \eqref{induction} from the following result of \cite[Theorem 9.33]{Deutsch}:
 \begin{align}\label{dti2}
@@ -512,44 +490,14 @@ where $z= \left[1 - \prod_{\ell =1}^{k-1}(1-z_{\ell}^2)\right]^{1/2}$ and $z_{\e
 \end{align}
 since $\Pi_{V_\ell} \Pi_V = \Pi_V$ for all $\ell = 1, \ldots, k$ and $\Pi_V^2 = \Pi_V$.
 Therefore by \eqref{dti2} and \eqref{dti1}, it follows that
-%\begin{align*}
 \[|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x} |_2
 = |\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1}(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2  \leq z |\mathbf{x} - \Pi_V\mathbf{x}|_2.\]
-%\end{align*}
 Combining this last inequality with \eqref{induction} and rearranging, we arrive at
-%\begin{align*}
-%|\mathbf{x} - \Pi_V\mathbf{x}|_2 \leq \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2 + z |\mathbf{x} - \Pi_V\mathbf{x}|_2,
-%\end{align*}
-%from which it follows that
-%=======
-%%
-%We therefore have by \eqref{dti2} and \eqref{dti1} that
-%\begin{align*}
-%|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x} |_2
-%&= |(\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1})(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2 \\
-%&\leq c |\mathbf{x} - \Pi_V\mathbf{x}|_2.
-%\end{align*}
-%
-%Substituting the left-hand side into \eqref{induction}, we get
-%\begin{align*}
-%|\mathbf{x} - \Pi_V\mathbf{x}|_2 \leq \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2 + c |\mathbf{x} - \Pi_V\mathbf{x}|_2,
-%\end{align*}
-%%
-%from which it follows (provided $c \neq 1$) that
-%>>>>>>> 8b98d274b6212fdd622059a4b4eb6c256d2a8ad9
 \begin{align}\label{ceq}
 |\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - z} \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2.
 \end{align}
 Finally, since the ordering of the subspaces is arbitrary, we can replace $z$ in \eqref{ceq} with $\xi(\mathcal{V})$ to obtain \eqref{DTILeq}.
 \end{proof}
-
-%Given positive integers $k < m$ and a permutation $\sigma \in \frak{S}_m$ (where $\frak{S}_m$ denotes the \textit{symmetric group} of bijections on $m$ elements), let
-%\begin{align}
-%S_\sigma(i) := \{1+\sigma(i), \ldots, 1+\sigma(i + (k-1)) \} \indent \text{for} \indent i = 0, \ldots, m-1
-%\end{align}
-%%
-%with addition modulo $m$. In words, the $S_\sigma(i)$ are the intervals of length $k$ within the set of elements of $\{1, \ldots, m\}$ arranged in the cyclic order $\sigma(1), \ldots, \sigma(m)$.
-
 
 %======= GRAPH THEORY LEMMA =======
 
@@ -562,17 +510,15 @@ Then, $|\pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})| = 1$ for $j_1,\ldots,j_k$ co
 \end{lemma}
 
 \begin{proof} Consider the set $Q_m = \{ (r,t) : r \in \pi(S_t), t \in [m] \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $q \in [m]$ and $J \in {[m] \choose k}$ such that $(q, j) \in Q_m$ for all $j \in J$. In particular, we have $q \in \cap_{j \in J} \pi(S_j)$ so that from \eqref{NonEmpty} there must be some $p \in [m]$ with $p \in \cap_{j \in J} S_j$. Since $|J| = k$, this is only possible if the elements of $J = \{j_1, \ldots, j_k\}$ are consecutive modulo $m$, in which case $|\cap_{j \in J} S_j| = 1$. Hence $|\cap_{j \in J} \pi(S_j)| = 1$ as well.
-% i.e. $J = \{v - (k-1), \ldots, v\}$. (The only elements in $T$ that contain $\sigma(v)$ are $S_\sigma(v-(k-1)), \ldots, S_\sigma(v)$.)
 
 We next consider if any other $t \notin J$ is such that $q \in \pi(S_t)$. Suppose there were such a $t$; then, we would have $q \in \pi(S_t) \cap \pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})$ and \eqref{NonEmpty} would imply that the intersection of every $k$-element subset of $\{S_t\} \cup \{S_j: j \in J\}$ is nonempty. This would only be possible if $\{t\} \cup J = [m]$, in which case the result then trivially holds since then $q \in \pi(S_j)$ for all $j \in [m]$.  Suppose now there exists no such $t$; then letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $q$ as a first coordinate, we have $|Q_{m-1}| = (m-1)k$. 
 
 By iterating the above arguments we arrive at a partitioning of $Q_m$ into sets $R_i = Q_i \setminus Q_{i-1}$ for $i = 1, \ldots, m$, each having a unique element of $[m]$ as a first coordinate common to all $k$ elements while having second coordinates which form a consecutive set modulo $m$. In fact, every set of $k$ consecutive integers modulo $m$ is the set of second coordinates of some $R_i$. This must be the case because for every consecutive set $J$ we have $|\cap_{j \in J} S_j| = 1$, whereas if $J$ is the set of second coordinates for two distinct sets $R_i$ we would have $|\cap_{j \in J} \pi(S_j)| \geq 2$, which violates \eqref{NonEmpty}. 
 \end{proof}
-%==== PROOF OF MAIN LEMMA =======
 
+%==== PROOF OF MAIN LEMMA =======
 \begin{proof}[Proof of Lemma \ref{MainLemma} (Main Lemma)]
 We assume $k \geq 2$ since the case $k = 1$ was proven at the beginning of Section \ref{DUT}. Let $S_1, \ldots, S_m$ be the set of contiguous length $k$ intervals in some cyclic ordering of $[m]$. We begin by proving that $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$ for all $i \in [m]$. 
-%[*** We already proved this for $S' = \pi(S)$ in the proof of Theorem 1 -- should we remove this redundancy? We have to prove it again here though if we want the lemma to stand on its own. ***] 
 Fix $i \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vectors $\mathbf{u} \in \text{Span}\{A_{S_i}\}$ that $d(u, \text{Span}\{B_{\pi(S_i)}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for $\delta < \frac{L_2(A)}{ \sqrt{2}}$. By definition of $L_2(A)$ we have for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
 \begin{align}
 L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}
@@ -590,7 +536,7 @@ Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound} we have for all unit vecto
 d\left( \mathbf{u}, \bigcap_{i \in J} \text{Span}\{A_{S_j}\} \right) 
 \leq \frac{\delta}{\rho} \left( \frac{ \phi_k(A) }{1 - \xi( \{ \text{Span}\{A_{S_i}\}: i \in J\} ) } \right) \leq \frac{\delta}{\rho},
 \end{align*}
-%
+
 where the second inequality follows immediately from the definition of $\phi_k(A)$. 
 
 Now, since \mbox{$\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\} \subseteq \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$} and (by Lemma \ref{SpanIntersectionLemma}) $\cap_{i \in J}  \text{Span}\{A_{S_i}\} = \text{Span}\{A_{\cap_{i \in J}  S_i}\}$, we have
@@ -608,7 +554,6 @@ Suppose now that $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. By
 %================================
 % APPENDIX: ADAPTED MAIN LEMMA
 %================================
-
 \section{Unknown $m$}\label{mleqmAppendix}
 
 In this section we prove Lemma \ref{MainLemma2} from Section \ref{mleqm}. We consider the case when $k=1$ before showing how the case for $k>1$ reduces to this. Suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_i = c_i\mathbf{e}_i$ $(i = 1, \ldots, m)$ for $c_1, \ldots, c_m \in \mathbb{R}^m/\{0\}$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} and let $\rho = \max_{i \in [m]} |A\mathbf{e}_i|_2$. By \eqref{Cdef'} we have:
@@ -630,7 +575,6 @@ Suppose that for some $B \in \mathbb{R}^{n \times m'}$ and 1-sparse $\mathbf{b}_
 |c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\pi(i)}|_2 \leq \varepsilon \ \ \text{for all} \  j \in [m].
 \end{align} 
 Note that $c'_i \neq 0$ for all $i$ since then otherwise we reach the contradiction $|c_iA\mathbf{e}_i|_2 < \varepsilon'_0 \leq (L_2(A)/\sqrt{2}) \min_{i \in [m]}|c_i| \leq \min_{i\in [m]}|c_iA\mathbf{e}_i|_2$ (by definition of $L_2(A)$). We will now show that $\pi$ is necessarily injective (and thus defines a permutation on $m$ elements). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m']$. Then, $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2  \leq \varepsilon$ and $|c_jA\mathbf{e}_j - c'_jB\mathbf{e}_{\ell}|_2 \leq \varepsilon$. Using the triangle inequality followed by application of the definition of $L$, we have:
-%Summing and scaling these two inequalities by $|c'_j|$ and $|c'_i|$, respectively, we have:
 \begin{align*}
 (|c'_i| + |c'_j|) \varepsilon
 &\geq |c'_j||c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2 + |c'_i||c'_jB\mathbf{e}_{\ell} - c_jA\mathbf{e}_j|_2 \\
@@ -645,7 +589,6 @@ which contradicts $\varepsilon < \varepsilon'_0$. Hence, $\pi$ is injective. Let
 \begin{align}
 |(A - BPD)\mathbf{e}_i|_2 = |A\mathbf{e}_i - \frac{c'_i}{c_i}B\mathbf{e}_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq (\min_{i \in [m]} |c_i|)^{-1} \varepsilon \leq C\varepsilon \ \ \text{for all } i \in [m].
 \end{align}
-
 
 %=== PROOF OF ADAPTED MAIN LEMMA ===
 Now suppose $k \geq 2$ and let $S_1, \ldots, S_m$ be the set of contiguous length $k$ intervals in some cyclic ordering of $[m]$. Fix $i \in [m]$ and let $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. Assumption \eqref{GapUpperBound2} implies that for all unit vectors $\mathbf{u} \in \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$ we have $d(\mathbf{u}, \text{Span}\{A_{S_j}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for all $j \in J$, with $\delta < \frac{L_2(A)}{\sqrt{2}}$. By Lemma \ref{DistanceToIntersectionLemma} we have that:
@@ -665,8 +608,7 @@ Since $i$ is arbitrary, it follows that for every canonical basis vector $\mathb
 % 		ACKNOWLEDGEMENT
 %===================================
 \section*{Acknowledgment}
-We would like to thank Fritz Sommer for turning our attention to the dictionary learning problem. We also thank Bizzyskillet on SoundCloud for "The No-Exam Jams", which played on repeat during many long hours of designing proofs. Finally, we thank Ian Morris for posting \eqref{SubspaceMetricSameDim} and a reference to his proof of it on the internet (``Stack Exchange").
-Thank german dude who visited Redwood.  Thank Darren Rhea for early explorations in this problem.
+We thank Darren Rhea and Fritz Sommer for useful comments, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} with a reference to his proof of it on the internet (``Stack Exchange").
 
 %===================================
 % 			REFERENCES
