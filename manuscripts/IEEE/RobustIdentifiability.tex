@@ -30,7 +30,7 @@
 
 \begin{document}
 
-\title{Robust Identifiability in Sparse Coding}
+\title{Robust Identifiability in Sparse Component Analysis}
 
 \author{Charles~J.~Garfinkle,  Christopher~J.~Hillar
 \thanks{The research of Garfinkle and Hillar was conducted while at the Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA; e-mails: cjg@berkeley.edu, chillar@msri.org.  Hillar was supported, in part, by National Science Foundation grants IIS-1219212 and IIS-1219199.}}
@@ -38,7 +38,7 @@
 \maketitle
 
 \begin{abstract}
-In sparse component analysis (SCA), a dictionary is learned to linearly code a sparse mixture of signals.  It has been previously established  under mild assumptions (e.g., the spark condition from compressed sensing) that such a coding of sparse data is unique up to a relabelling and scaling of dictionary columns and sparse codes.  Often, however, data is only approximately sparse, and noise is present in the generative SCA model.  We extend the known uniqueness results to this more general setting and prove that approximately sparse datasets are still uniquely coded up to the level of noise in the input.  Our results help explain the ubiquitous finding that diverse SCA algorithms determine unique structure when applied to approximately code the same sparse mixtures.  We also discuss several applications.% to signal processing, neuroscience, and engineering.
+It has been previously established under mild assumptions (e.g., the spark condition from compressed sensing) that the problem of inferring a dictionary matrix with respect to which a dataset admits a sparse representation has a unique solution up to inherent relabeling and scaling of the dictionary columns \cite{Hillar15}. We extend these known results to incorporate uncertainty in the generative model of the data and prove that dictionaries and the sparse representations they admit are still unique up to a commensurate error. Our results help explain the ubiquitous finding that diverse dictionary learning and sparse coding algorithms determine similar features when applied to approximately code the same sparse mixtures.  We also discuss several applications.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -452,7 +452,7 @@ In the SCA framework, it is assumed that the model in \eqref{LinearModel} descri
 
 \textbf{Smoothed Analysis}.
 %Theorem \eqref{DeterministicUniquenessTheorem} derives from the underlying geometry of the dictionary learning problem, and therefore provides a universal check for when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{InverseProblem}. %This is similar in spirit to the test provided in \cite{gribonval2006simple} for the case where the dictionary matrix is known a priori. 
-The main idea in smoothed analysis \cite{spielman2004smoothed} is that certain algorithms having bad worst case behavior, nonetheless, are efficient if certain (typically Lebesgue measure zero) pathological input sets are avoided.  In the case of SCA, our results imply that if there is an efficient ``smoothed" algorithm, then only for a measure zero set of inputs will this algorithm fail to determine the unique original solution.  We note that avoiding ``bad" (NP-hard) sets of inputs is necessary in the case of SCA \cite{Tillmann15}.
+The main idea in smoothed analysis \cite{spielman2004smoothed} is that certain algorithms having bad worst case behavior, nonetheless, are efficient if certain (typically Lebesgue measure zero) pathological input sets are avoided.  In the case of SCA, our results imply that if there is an efficient ``smoothed" algorithm, then only for a measure zero set of inputs will this algorithm fail to determine the unique original solution.  We note that avoiding ``bad" (NP-hard) sets of inputs is necessary in the case of SCA \cite{razaviyayn2015computational}.
 
 \textbf{Communication Theory}.
 In \cite{coulter2010adaptive} and \cite{isely2010deciphering} it was posited that sparse features of natural data could be passed through a communication bottleneck in the brain using random projections followed by unsupervised learning of sparse codes.  A necessary condition for this theory to work is that there is a unique solution to the SCA problem.  This was verified in the case of data sampled without noise in \cite{Hillar15}.  The present work extends this theory to the more realistic case of sampling noise.
@@ -632,7 +632,7 @@ Since $i$ is arbitrary, it follows that for every canonical basis vector $\mathb
 % 		ACKNOWLEDGEMENT
 %===================================
 \section*{Acknowledgment}
-We thank Darren Rhea and Fritz Sommer for useful comments, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} with a reference to his proof of it on the internet (``Stack Exchange").
+We thank Fritz Sommer for turning our attention to the dictionary learning problem. We would also like to thank Darren Rhea for early explorations of this problem, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} with a reference to his proof of it on StackExchange.com. Finally, we thank Bizzyskillet of Soudcloud.com for the ``No Exam Jams'', which played on repeat during many long hours of designing proofs.
 
 %===================================
 % 			REFERENCES
