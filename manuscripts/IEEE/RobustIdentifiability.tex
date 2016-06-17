@@ -38,7 +38,7 @@
 \maketitle
 
 \begin{abstract}
-Sparse coding or sparse dictionary learning methods have exposed ostensible underlying sparse structure in many kinds of natural data. Here, we generalize previous results guaranteeing when the generating dictionary and sparse codes of data with such structure are indeed identifiable up to the permutation-scaling ambiguities inherent to this inference problem \cite{Hillar15}. We show that given a sufficiently diverse set of data samples this problem is indeed well-posed; that is, there exists a unique solution (up to inherent ambiguities) that changes continuously with the amount of measurement noise. We also provide guarantees for the case when only an upper bound on the number of columns in the generating dictionary is known. Our results help to justify instances in data analysis where sparse structure learned from the data is interpreted as reflecting true underlying structure rather than being a mere artifact of the particular algorithm being applied. We discuss potential applications of this result to smoothed analysis, communication theory and applied physics and engineering. 
+Sparse coding or sparse dictionary learning methods have exposed ostensible underlying sparse structure in many kinds of natural data. Here, we generalize previous results guaranteeing when the generating dictionary and sparse codes of data with such structure are indeed identifiable up to the permutation-scaling ambiguities inherent to this inference problem \cite{Hillar15}. We show that given a sufficiently diverse set of data samples this problem is indeed well-posed; that is, there exists a unique solution (up to inherent ambiguities) that changes continuously with the amount of measurement noise. We also provide guarantees for the case when only an upper bound on the number of columns in the generating dictionary is known. Our results help to justify data analyses wherein sparse structure learned from the data is interpreted as reflecting true underlying structure rather than being a mere artifact of the particular algorithm being applied. We discuss applications of this result to smoothed analysis, communication theory and applied physics and engineering. 
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -270,7 +270,7 @@ Note that $c'_i \neq 0$ for all $i$ since then otherwise (by definition of $L_2(
 &\geq |c'_jc_iA_i - c'_ic_jA_j|_2 \\
 &\geq L_2(A)|c'_jc_i\mathbf{e}_i - c'_ic_j\mathbf{e}_j|_2 \\
 &\geq \frac{L_2(A)}{\sqrt{2}}|c'_jc_i\mathbf{e}_i - c'_ic_j\mathbf{e}_j|_1 \\
-&\geq \frac{L_2(A)}{\sqrt{2}} \left( |c'_j| + |c'_i| \right) \min_{\ell \in [m]} |c_\ell | \\
+&\geq \frac{L_2(A)}{\sqrt{2}} \left( |c'_j| + |c'_i| \right) \min_{\ell \in [m]} |c_\ell |
 \end{align*}
 %
 which is in contradiction with \eqref{C1} and our upper bound on $\varepsilon$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right)$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m})$, we see that \eqref{1D} becomes 
@@ -448,18 +448,18 @@ In this note, we generalize the known uniqueness of solutions to \eqref{InverseP
 %
 
 \textbf{Sparse Component Analysis (SCA)}.  
-In the SCA framework, it is assumed that the model in \eqref{LinearModel} describes some real physical process and the goal is to infer the underlying \emph{sources} $\mathbf{a}_i$ and \emph{mixing matrix} $A$ from the data. Many algorithms exist for this purpose and it is common in applications of machine learning to data science for practitioners of these techniques to interpret learned features (e.g., the columns of $A$) as representing the inherent structure of the data. In most instances, however, it is unclear that such learned representations are not merely artifacts of the particular method of inference. Here, our results suggest that uniqueness of this decomposition is the norm rather than the exception. In particular, the robust uniqueness proven here gives justification for declaring that unique features of the data (e.g. feature-tuned field potentials of neural populations  \cite{agarwal2014spatially}) have been found. Specifically, one could (in principle) check that the reconstruction error using $k$-sparse codes is indeed small enough over a sufficiently diverse set of samples. To this end, it would be useful to determine for general $k$ the best dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) possible as well as the minimum possible sample size $N$. We encourage the sparse coding community to extend our results and find a tight dependency of all the parameters, both for the sake of theory and practical applications.
+In the SCA framework, it is assumed that the model in \eqref{LinearModel} describes some real physical process and the goal is to infer the true underlying sparse codes $\mathbf{a}_i$ and dictionary $A$ from the data. While it is possible that the results of such inference may take on values idiosyncratic to the particular sparse coding algorithm being applied, our results suggest that uniqueness of this decomposition is the norm rather than the exception. In particular, the robust uniqueness proven here gives justification for declaring that learned features (e.g. the feature-tuned field potentials in \cite{agarwal2014spatially}) are indeed representative of intrinsic structure in the data. To this end, it would be useful to determine for general $k$ the best dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) possible as well as the minimum possible sample size $N$. We encourage the sparse coding community to extend our results and find a tight dependency of all the parameters, both for the sake of theory and practical applications.
 
 
 \textbf{Smoothed Analysis}.
 %Theorem \eqref{DeterministicUniquenessTheorem} derives from the underlying geometry of the dictionary learning problem, and therefore provides a universal check for when any dictionary learning algorithm has converged to (near) a global minimum of \eqref{InverseProblem}. %This is similar in spirit to the test provided in \cite{gribonval2006simple} for the case where the dictionary matrix is known a priori. 
-The main idea in smoothed analysis \cite{spielman2004smoothed} is that certain algorithms having bad worst case behavior, nonetheless, are efficient if certain (typically Lebesgue measure zero) pathological input sets are avoided.  In the case of SCA, our results imply that if there is an efficient ``smoothed" algorithm, then only for a measure zero set of inputs will this algorithm fail to determine the unique original solution.  We note that avoiding ``bad" (NP-hard) sets of inputs is necessary for dictionary learning \cite{razaviyayn2015computational}.
+The main idea in smoothed analysis \cite{spielman2004smoothed} is that certain algorithms having bad worst case behavior, nonetheless, are efficient if certain (typically Lebesgue measure zero) pathological input sets are avoided.  In the case of SCA, our results imply that if there is an efficient ``smoothed" algorithm, then only for a measure zero set of inputs will this algorithm fail to determine the unique original solution.  We note that avoiding ``bad" (NP-hard) sets of inputs is necessary for dictionary learning \cite{razaviyayn2015computational, Tillmann15}.
 
 \textbf{Communication Theory}.
 In \cite{coulter2010adaptive} and \cite{isely2010deciphering} it was posited that sparse features of natural data could be passed through a communication bottleneck in the brain using random projections followed by unsupervised learning of sparse codes.  A necessary condition for this theory to work is that there is a unique solution to the SCA problem.  This was verified in the case of data sampled without noise in \cite{Hillar15}.  The present work extends this theory to the more realistic case of sampling noise.
 
 \textbf{Applied Physics and Engineering}.
-As a final application domain, we consider engineering applications.  Several groups have found ways to utilized compressed sensing for signal processing tasks, such as digital image compression \cite{SinglePixelCamera} (the ``single-pixel camera") and, more recently, the design of an ultrafast camera \cite{gao2014single} capable of capturing one hundred billion frames per second. Given such effective uses of classical CS, it is only a matter of time before these systems utilize learning in SCA to code and process data.  In this case, guarantees such as the ones offered by our main theorems allow any such device to be compared to any other (having different initial parameters and data samples) as long as the data originates from the same system.
+As a final application domain, we consider engineering applications.  Several groups have found ways to utilized compressed sensing for signal processing tasks, such as digital image compression \cite{SinglePixelCamera} (the ``single-pixel camera") and, more recently, the design of an ultrafast camera \cite{gao2014single} capable of capturing one hundred billion frames per second. Given such effective uses of classical CS, it is only a matter of time before these systems utilize sparse coding algorithms to code and process data. In this case, guarantees such as the ones offered by our main theorems allow any such device to be compared to any other (having different initial parameters and data samples) as long as the data originates from the same system.
 
 %========================================
 %      	APPENDIX: COMBINATORICS
@@ -582,41 +582,33 @@ Suppose now that $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. By
 \section{Unknown Representation Dimension}\label{mleqmAppendix}
 
 In this section we prove Lemma \ref{MainLemma2} from Section \ref{mleqm}. We consider the case when $k=1$ before showing how the case for $k>1$ reduces to this. Suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_i = c_i\mathbf{e}_i$ $(i = 1, \ldots, m)$ for $c_1, \ldots, c_m \in \mathbb{R}^m/\{0\}$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} and let $\rho = \max_{i \in [m]} |A\mathbf{e}_i|_2$. By \eqref{Cdef'} we have:
-\begin{align}
-\varepsilon_0' 
-= \frac{ L_2(A) \min(\phi_1(A), \phi_1(B))}{\rho \sqrt{2} } \min_{S \in T} L_1(AX_{I(S)})
-= \frac{ L_2(A) }{\rho \sqrt{2} } \min_{j \in [m]} L_1(c_j A_j) 
-= \frac{L_2(A)}{ \rho \sqrt{2}} \min_{j \in [m]}|c_jA_j|_2
-\leq \frac{L_2(A)}{ \sqrt{2}} \min_{j \in [m]}|c_j|
+\begin{align}\label{C'1}
+C' = \left( \frac{ \sqrt{k^3}}{ \min(\phi_1(A), \phi_1(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{i \in [m]} \ell_1(c_iA_i) }
+= \sqrt{k^3} \left( \frac{\max_{j \in [m]} |A_j|_2}{\min_{i \in [m]}|c_iA_i|_2} \right)
+\geq \max_{i \in [m]}|c_i|^{-1}, 
 \end{align}
-%
-and by \eqref{Cdef} we have
-\begin{align}
-C = \frac{L_{2}(A)}{ \varepsilon'_0 \sqrt{2}} \geq (\min_{j \in [m]} |c_j|)^{-1}. 
-\end{align} 
 
-Suppose that for some $B \in \mathbb{R}^{n \times m'}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^{m'}$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \varepsilon'_0$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c'_1, \ldots, c'_m \in \mathbb{R}$ and some map $\pi: [m] \to [m']$ such that 
+Suppose that for some $B \in \mathbb{R}^{n \times m'}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^{m'}$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ for all $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c'_1, \ldots, c'_m \in \mathbb{R}$ and some map $\pi: [m] \to [m']$ such that 
 \begin{align}\label{1D2}
 |c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\pi(i)}|_2 \leq \varepsilon \ \ \text{for all} \  j \in [m].
 \end{align} 
-Note that $c'_i \neq 0$ for all $i$ since then otherwise we reach the contradiction $|c_iA\mathbf{e}_i|_2 < \varepsilon'_0 \leq (L_2(A)/\sqrt{2}) \min_{i \in [m]}|c_i| \leq \min_{i\in [m]}|c_iA\mathbf{e}_i|_2$ (by definition of $L_2(A)$). We will now show that $\pi$ is necessarily injective (and thus defines a permutation on $m$ elements). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m']$. Then, $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2  \leq \varepsilon$ and $|c_jA\mathbf{e}_j - c'_jB\mathbf{e}_{\ell}|_2 \leq \varepsilon$. Using the triangle inequality followed by application of the definition of $L$, we have:
+Note that $c'_i \neq 0$ for all $i$ since then otherwise (by definition of $L_2(A)$) we reach the contradiction $|c_iA\mathbf{e}_i|_2 < \min_{i\in [m]}|c_iA\mathbf{e}_i|_2$. We will now show that $\pi$ is necessarily injective (and thus defines a permutation on $m$ elements). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m']$. Then, $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2  \leq \varepsilon$ and $|c_jA\mathbf{e}_j - c'_jB\mathbf{e}_{\ell}|_2 \leq \varepsilon$. Using the triangle inequality followed by application of the definition of $L$, we have:
 \begin{align*}
 (|c'_i| + |c'_j|) \varepsilon
 &\geq |c'_j||c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\ell}|_2 + |c'_i||c'_jB\mathbf{e}_{\ell} - c_jA\mathbf{e}_j|_2 \\
 &\geq |c'_jc_iAe_i - c'_ic_jAe_j|_2 \\
 &\geq L_2(A)|c'_jc_ie_i - c'_ic_je_j|_2 \\
 &\geq \frac{L_2(A)}{\sqrt{2}}|c'_jc_ie_i - c'_ic_je_j|_1 \\
-&\geq \frac{L_2(A)}{\sqrt{2}} \left( |c'_j| + |c'_i| \right) \min_{\ell \in [m]} |c_\ell | \\
-&\geq \varepsilon'_0 \left( |c'_j| + |c'_i| \right),
+&\geq \frac{L_2(A)}{\sqrt{2}} \left( |c'_j| + |c'_i| \right) \min_{\ell \in [m]} |c_\ell |
 \end{align*}
 %
-which contradicts $\varepsilon < \varepsilon'_0$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m}) \in \mathbb{R}^{m' \times m}$, we see that \eqref{1D} becomes 
+which contradicts \eqref{C'1} and our upper bound on $\varepsilon$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m}) \in \mathbb{R}^{m' \times m}$, we see that \eqref{1D} becomes 
 \begin{align}
-|(A - BPD)\mathbf{e}_i|_2 = |A\mathbf{e}_i - \frac{c'_i}{c_i}B\mathbf{e}_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq (\min_{i \in [m]} |c_i|)^{-1} \varepsilon \leq C\varepsilon \ \ \text{for all } i \in [m].
+|(A - BPD)\mathbf{e}_i|_2 = |A\mathbf{e}_i - \frac{c'_i}{c_i}B\mathbf{e}_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq \max_{i \in [m]} |c_i|^{-1} \varepsilon \leq C'\varepsilon \ \ \text{for all } i \in [m].
 \end{align}
 
 %=== PROOF OF ADAPTED MAIN LEMMA ===
-Now suppose $k \geq 2$ and let $S_1, \ldots, S_m$ be the set of contiguous length $k$ intervals in some cyclic ordering of $[m]$. Fix $i \in [m]$ and let $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. Assumption \eqref{GapUpperBound2} implies that for all unit vectors $\mathbf{u} \in \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$ we have $d(\mathbf{u}, \text{Span}\{A_{S_j}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for all $j \in J$, with $\delta < \frac{L_2(A)}{\sqrt{2}}$. By Lemma \ref{DistanceToIntersectionLemma} we have that:
+Now suppose $k \geq 2$ and let $S_1, \ldots, S_m$ be the set of contiguous length $k$ intervals in some cyclic ordering of $[m]$. Fix $i \in [m]$ and let $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. Let $\rho = \max_{j \in [m]}|A_j|_2$. Assumption \eqref{GapUpperBound2} implies that for all unit vectors $\mathbf{u} \in \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$ we have $d(\mathbf{u}, \text{Span}\{A_{S_j}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for all $j \in J$, with $\delta < \frac{L_2(A)}{\sqrt{2}}$. By Lemma \ref{DistanceToIntersectionLemma} we have that:
 \begin{align}\label{sym2}
 d\left( \mathbf{u}, \bigcap_{j \in J} \text{Span}\{A_{S_j}\} \right) 
 \leq \frac{\delta}{\rho} \left( \frac{\phi_k(A)}{1 - \xi(\{ \text{Span}\{A_{S_j}\} : j \in J \})} \right) \leq \frac{\delta}{\rho},
@@ -633,7 +625,8 @@ Since $i$ is arbitrary, it follows that for every canonical basis vector $\mathb
 % 		ACKNOWLEDGEMENT
 %===================================
 \section*{Acknowledgment}
-We thank Fritz Sommer for turning our attention to the dictionary learning problem. We would also like to thank Darren Rhea for early explorations of this problem, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} with a reference to his proof of it on StackExchange.com. Finally, we thank Bizzyskillet of Soudcloud.com for the ``No Exam Jams'', which played on repeat during many long hours of designing proofs.
+We thank Fritz Sommer for turning our attention to the dictionary learning problem. We would also like to thank Darren Rhea for early explorations of this problem, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} with a reference to his proof of it on the internet (www.stackexchange.com). 
+%Finally, we thank Bizzyskillet of Soudcloud.com for the ``No Exam Jams'', which played on repeat during many long hours of designing proofs.
 
 %===================================
 % 			REFERENCES
@@ -645,6 +638,7 @@ We thank Fritz Sommer for turning our attention to the dictionary learning probl
 % 			BIOGRAPHY
 %===================================
 \begin{IEEEbiographynophoto}{Charles J. Garfinkle}
+completed a B.S. in Physics and Chemistry at McGill University. He began his Ph.D. in Neuroscience at UC Berkeley in 2013 and joined the lab of Fritz Sommer at the Redwood Center for Theoretical Neuroscience in 2014.
 \end{IEEEbiographynophoto}
 
 \begin{IEEEbiographynophoto}{Christopher J. Hillar}
