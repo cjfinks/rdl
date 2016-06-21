@@ -330,11 +330,11 @@ Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim 
 %
 have supports $S$ and $S'$, respectively.
 
-Let $X$ and $\tilde{X}$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\mathbf{b}_i$, respectively. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent, i.e. $L(AX_{J(S)}) > 0$, and therefore form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{z} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = AX_{J(S)}\mathbf{c}$. Letting $\mathbf{z'} = BX'_{J(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
+Let $X$ and $X'$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\mathbf{b}_i$, respectively. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent, i.e. $L(AX_{J(S)}) > 0$, and therefore form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{z} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = AX_{J(S)}\mathbf{c}$. Letting $\mathbf{z'} = BX'_{J(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
 \begin{align*}
 |\mathbf{z} - \mathbf{z'}|_2 = |\sum_{j=1}^N c_i(AX_{J(S)} - BX'_{J(S)})\mathbf{e}_j|_2 
 \leq \varepsilon \sum_{j=1}^N |c_j| 
-\leq \varepsilon |\mathbf{c}|_2 \sqrt{k}  
+\leq \varepsilon \sqrt{k}  |\mathbf{c}|_2  
 \leq \frac{\varepsilon \sqrt{k}}{L(AX_{JS)})} |AX_{J(S)}\mathbf{c}|_2
 = \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |\mathbf{z}|_2.
 \end{align*}
@@ -351,7 +351,7 @@ We now show that \eqref{Cstable} follows if $\varepsilon < \frac{L_2(A)}{\sqrt{2
 \leq \frac{\phi_k(A)}{\rho k} \left( \frac{L_2(A)}{\sqrt{2}} \right),
 \end{align}
 %
-Since $L_2(A) \leq \rho \sqrt{2}$ and $\phi_k(A) \in [0,1]$, we have that the RHS of \eqref{ABSubspaceDistance} is strictly less than one. It follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$ (since every $k$ columns of $A$ are linearly independent). Since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) \leq k$, hence $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: T \to {[m] \choose k}$ satisfying
+Since $L_2(A) \leq \rho \sqrt{2}$ and $\phi_k(A) \leq 1$, we have that the RHS of \eqref{ABSubspaceDistance} is strictly less than one. It follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$ (since every $k$ columns of $A$ are linearly independent). Since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) \leq k$; hence, $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: T \to {[m] \choose k}$ satisfying
 \begin{align}\label{yeyeye}
 \Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\varepsilon\sqrt{k}}{L(AX_{J(S)})} \indent \text{for all } S \in T.
 \end{align}
@@ -380,9 +380,9 @@ Fix positive integers $n, m, m'$, and $k$ with $k < m \leq m'$ and fix a cyclic 
 for some partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ (there is at most one nonzero entry in each row and column and these nonzero entries are all one) and diagonal matrix $D \in \mathbb{R}^{m' \times m}$ ($D_{ij} = 0$ whenever $i \neq j$). 
 \end{theorem}
 
-In other words, the columns of the learned dictionary $B$ contain (up to noise, and after appropriate scaling) the columns of the original dictionary $A$. One can then show by similar manipulations as contained in Remark \ref{b-PDaProof} that the coefficients in each $\mathbf{a}_i$ form (up to noise) a scaled subset of the coefficients in $\mathbf{b}_i$. The constant $\tilde C$ is given by:
+In other words, the columns of the learned dictionary $B$ contain (up to noise, and after appropriate scaling) the columns of the original dictionary $A$. One can then show by manipulations similar to those contained in Remark \ref{b-PDaProof} that the coefficients in each $\mathbf{a}_i$ form (up to noise) a scaled subset of the coefficients in $\mathbf{b}_i$. The constant $\tilde C$ is given by:
 \begin{align}\label{Cdef'}
-C' = \left( \frac{ \sqrt{k^3}}{ \min(\phi_k(A), \phi_k(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
+C' = \left( \frac{ \sqrt{k^3}}{ \min(\phi_k(A), \phi_k(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})},
 \end{align}
 %
 where $X$ is the $m \times N$ matrix with columns given by $\mathbf{a}_i$ and $I(S) = \{i : \text{supp}(\mathbf{a}_i) = S\}$.
@@ -439,7 +439,7 @@ We note that our results in the deterministic case (Theorem \ref{DeterministicUn
 %===================================
 \section{Discussion}
 
-In this note, we generalize the known uniqueness of solutions to \eqref{InverseProblem} in the exact case ($\varepsilon = 0$) to the more realistic case of deterministic noise ($\varepsilon > 0$).  Somewhat surprisingly, as long as the standard assumption \eqref{CScondition} from compressed sensing is met, almost every dictionary and sufficient quantity $N$ of sparse codes are uniquely determined up to the error in sampling and the problem's inherent symmetries (uniform relabeling and scaling). To convince the reader of the general usefulness of this result, we elaborate briefly on four diverse application areas.
+In this note, we generalize the known uniqueness of solutions to \eqref{InverseProblem} in the exact case ($\varepsilon = 0$) to the more realistic case of deterministic noise ($\varepsilon > 0$).  Somewhat surprisingly, as long as the standard assumptions from compressed sensing are met, almost every dictionary and sufficient quantity $N$ of sparse codes are uniquely determined up to the error in sampling and the problem's inherent symmetries (uniform relabeling and scaling). To convince the reader of the general usefulness of this result, we elaborate briefly on four diverse application areas.
 
 %\textbf{Theoretical Dictionary Learning.}
 %
@@ -474,7 +474,7 @@ As a final application domain, we consider engineering applications.  Several gr
 \appendices
 \section{Combinatorial Matrix Theory}\label{appendixA}
 
-In this section, we prove Lemma \ref{MainLemma}, which is the main ingredient in our proof of Theorem \ref{DeterministicUniquenessTheorem}. For readers willing to assume a priori that the spark condition holds for $B$ as well as for $A$, a shorter proof of this case (Lemma \ref{MainLemma2} from Section \ref{mleqm}) is provided in Appendix \ref{mleqmAppendix}. This additional assumption simplifies the argument and allows us to extend robust identifiability conditions to the case where only an upper bound on $m$ is known. 
+In this section, we prove Lemma \ref{MainLemma}, which is the main ingredient in our proof of Theorem \ref{DeterministicUniquenessTheorem}. For readers willing to assume a priori that the spark condition holds for $B$ as well as for $A$, a shorter proof of this case (Lemma \ref{MainLemma2} from Section \ref{mleqm}) is provided in Appendix \ref{mleqmAppendix}. This additional assumption simplifies the argument and allows us to extend robust identifiability conditions to the case where only an upper bound on the number of columns $m$ in $A$ is known. 
 
 We now prove some auxiliary lemmas before deriving Lemma \ref{MainLemma}.  Given a collection of sets $\mathcal{T}$, we let $\cap \mathcal{T}$ denote their intersection.
 
@@ -556,7 +556,7 @@ Fix $i \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vect
 L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}
 \end{align}
 
-Hence $\delta < \rho$. Since $\phi_k \in [0,1]$ we have $d(u, \text{Span}\{B_{\pi(S_i)}\}) < 1$ and it follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_i)}\}) \geq \dim(\text{Span}\{A_{S_i}\}) = k$. Since $|\pi(S_i)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
+Hence $\delta < \rho$. Since $\phi_k \leq 1$ we have $d(u, \text{Span}\{B_{\pi(S_i)}\}) < 1$ and it follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_i)}\}) \geq \dim(\text{Span}\{A_{S_i}\}) = k$. Since $|\pi(S_i)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
 
 We will now show that
 \begin{align}\label{fact2}
@@ -568,7 +568,7 @@ Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound} we have for all unit vecto
 d\left( \mathbf{u}, \bigcap_{i \in J} \text{Span}\{A_{S_j}\} \right) 
 \leq \frac{\delta}{\rho} \left( \frac{ \phi_k(A) }{1 - \xi( \{ \text{Span}\{A_{S_i}\}: i \in J\} ) } \right) \leq \frac{\delta}{\rho},
 \end{align*}
-
+%
 where the second inequality follows immediately from the definition of $\phi_k(A)$. 
 
 Now, since \mbox{$\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\} \subseteq \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$} and (by Lemma \ref{SpanIntersectionLemma}) $\cap_{i \in J}  \text{Span}\{A_{S_i}\} = \text{Span}\{A_{\cap_{i \in J}  S_i}\}$, we have
@@ -642,7 +642,7 @@ We thank Fritz Sommer for turning our attention to the dictionary learning probl
 % 			BIOGRAPHY
 %===================================
 \begin{IEEEbiographynophoto}{Charles J. Garfinkle}
-completed a B.S. in Physics and Chemistry at McGill University and is a Ph.D. candidate in Neuroscience at UC Berkeley.
+completed a B.S. in Physics and Chemistry at McGill University. He is currently a Ph.D. candidate in Neuroscience at UC Berkeley.
 \end{IEEEbiographynophoto}
 
 \begin{IEEEbiographynophoto}{Christopher J. Hillar}
