@@ -380,7 +380,7 @@ Fix positive integers $n, m, m'$, and $k$ with $k < m \leq m'$ and fix a cyclic 
 for some partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ (there is at most one nonzero entry in each row and column and these nonzero entries are all one) and diagonal matrix $D \in \mathbb{R}^{m' \times m}$ ($D_{ij} = 0$ whenever $i \neq j$). 
 \end{theorem}
 
-In other words, the columns of the original dictionary $A$ form (up to noise) a subset of the columns of the learned dictionary $B$, provided $B$ satisfies the spark condition. One can then show by similar manipulations as contained in Remark \ref{b-PDaProof} that the coefficients in each $\mathbf{a}_i$ form (up to noise) a subset of the coefficients in $\mathbf{b}_i$. The constant $\tilde C$ is given by:
+In other words, the columns of the learned dictionary $B$ contain (up to noise, and after appropriate scaling) the columns of the original dictionary $A$. One can then show by similar manipulations as contained in Remark \ref{b-PDaProof} that the coefficients in each $\mathbf{a}_i$ form (up to noise) a scaled subset of the coefficients in $\mathbf{b}_i$. The constant $\tilde C$ is given by:
 \begin{align}\label{Cdef'}
 C' = \left( \frac{ \sqrt{k^3}}{ \min(\phi_k(A), \phi_k(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
 \end{align}
