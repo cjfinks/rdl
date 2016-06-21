@@ -61,7 +61,7 @@ In this note, we study the uniqueness of solutions to the associated inverse pro
 \text{Find $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ such that $|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for $i = 1, \ldots, N$.}
 \end{align}
 
-Our use of the term `uniqueness' in this context must be clarified, however, as even in the noiseless case ($\varepsilon = 0$) there are many solutions to \eqref{InverseProblem}. Let $Y$ and $X$ be matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = BX'$ for $X'$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $X' = PDX$ with $P \in \mathbb{R}^{m \times m}$ a permutation matrix  and $D \in \mathbb{R}^{m \times m}$ an invertible diagonal. Any particular solution to \eqref{InverseProblem} thus generates many other solutions through mappings $PD$, which together constitute an \emph{ambiguity transform group} \cite{BilinInv} associated to this particular bilinear inverse problem. The question of when every solution $Y = BX'$ must necessarily be part of this equivalence class (i.e., $X' = PDX$ and $BPD = A$ for some $P$, $D$) was addressed in the theoretical works \cite{Georgiev05, Aharon06, Hillar15} and determines whether $A$ and $X$ are \emph{identifiable} from $Y$ up to this inherent ambiguity. 
+The term `uniqueness' in this context requires clarification, however, as even in the noiseless case ($\varepsilon = 0$) there are many solutions to \eqref{InverseProblem}. Let $Y$ and $X$ be matrices with columns $\mathbf{y}_i$ and $\mathbf{a}_i$, respectively, so that $Y = AX$ for $X$ with $k$-sparse columns. Then we also have $Y = BX'$ for $X'$ with $k$-sparse columns whenever $B = AD^{-1}P^{-1}$ and $X' = PDX$ with $P \in \mathbb{R}^{m \times m}$ a permutation matrix  and $D \in \mathbb{R}^{m \times m}$ an invertible diagonal. Any particular solution to \eqref{InverseProblem} thus generates many other solutions through mappings $PD$, which together constitute an \emph{ambiguity transform group} \cite{BilinInv} associated to this particular bilinear inverse problem. The question of when every solution $Y = BX'$ must necessarily be part of this equivalence class (i.e., $X' = PDX$ and $BPD = A$ for some $P$, $D$) was addressed in the theoretical works \cite{Georgiev05, Aharon06, Hillar15} and determines whether $A$ and $X$ are \emph{identifiable} from $Y$ up to this inherent ambiguity. 
 
 It remains to determine the extent to which $A$ and $X$ can be determined up to these permutation-scaling ambiguities in the presence of measurement noise ($\varepsilon > 0$). To address this, we consider the following \emph{robust} identifiability criterion.
 
@@ -81,7 +81,7 @@ then there necessarily exist a permutation matrix $P \in \mathbb{R}^{m \times m}
 Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$. When does $Y$ have a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$?
 \end{problem}
 
-It is easy to see how a solution to Problem \ref{DUTproblem} directly informs the interpretation of any solution to \eqref{InverseProblem}. Suppose robust identifiability conditions are met by $A$ and the $\mathbf{a}_i$ from which the dataset $Y$ is generated as in \eqref{LinearModel}. Let $\delta_1, \delta_2 > 0$ and set $\varepsilon = \frac{1}{2}\varepsilon(\delta_1, \delta_2)$, where $\varepsilon(\delta_1, \delta_2)$ is as in Def.~\ref{Uniqueness}. From \eqref{LinearModel}, we have $|\mathbf{y}_i - A\mathbf{a}_i|_2 \leq \varepsilon$ for all $i$; thus, by the triangle inequality, any solution to \eqref{InverseProblem} necessarily satisfies \eqref{def1} for some $P$ and $D$. The solution to \eqref{InverseProblem} is therefore uniquely determined up to the inherent permutation-scaling ambiguity and an error commensurate with measurement noise.
+It is easy to see how a solution to Problem \ref{DUTproblem} directly informs the interpretation of any solution to \eqref{InverseProblem}. Suppose $Y$ is a sequence of measurements noisily generated as in \eqref{LinearModel}, where the underlying dictionary $A$ and sparse codes $\mathbf{a}_i$ are such that the sequence of noiseless measurements $A\mathbf{a}_i$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Fix $\delta_1, \delta_2 \geq 0$ and let $\varepsilon(\delta_1, \delta_2)$ be as in Def.~\ref{Uniqueness}. Since by \eqref{LinearModel} we have $|\mathbf{y}_i - A\mathbf{a}_i|_2 \leq \varepsilon$ for all $i$, if $\varepsilon \leq \frac{1}{2}\varepsilon(\delta_1, \delta_2)$ then, by the triangle inequality, any solution to \eqref{InverseProblem} necessarily satisfies \eqref{def1} for some $P$ and $D$. That is, the solution to \eqref{InverseProblem} is uniquely determined up to the inherent permutation-scaling ambiguity and an error commensurate with measurement noise.
 
 
 The main finding of this work is that so long as the matrix $A \in \mathbb{R}^{n \times m}$ is injective on the set of $k$-sparse vectors: 
@@ -590,7 +590,8 @@ Suppose now that $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. By
 
 In this section we prove Lemma \ref{MainLemma2} from Section \ref{mleqm} by first considering the case when $k=1$ and then showing how the case for $k>1$ reduces to this. The proof is largely identical to that of Lemma \ref{MainLemma}; hence, we gloss over some identical manipulations. 
 
-Let $k=1$ and suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_i = c_i\mathbf{e}_i$ $(i = 1, \ldots, m)$ for $c_1, \ldots, c_m \in \mathbb{R}^m/\{0\}$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} and let $\rho = \max_{i \in [m]} |A\mathbf{e}_i|_2$. By \eqref{Cdef'} we have:
+\begin{proof}[Proof of Lemma \ref{MainLemma2}]
+Let $k=1$ and fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition}. Suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_i = c_i\mathbf{e}_i$ $(i = 1, \ldots, m)$ for $c_1, \ldots, c_m \in \mathbb{R}^m/\{0\}$. By \eqref{Cdef'} we have:
 \begin{align}\label{C'1}
 C' \geq \max_{i \in [m]}\frac{1}{|c_i|}.
 \end{align}
@@ -604,7 +605,7 @@ Note that $c'_i \neq 0$ for all $i$ since then otherwise (by definition of $L_2(
 (|c'_i| + |c'_j|) \varepsilon \geq \frac{L_2(A)}{\sqrt{2}} \left( |c'_j| + |c'_i| \right) \min_{\ell \in [m]} |c_\ell |
 \end{align*}
 %
-which contradicts \eqref{C'1} and our upper bound on $\varepsilon$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m}) \in \mathbb{R}^{m' \times m}$, we see that \eqref{1D} becomes 
+which contradicts \eqref{C'1} and our upper bound on $\varepsilon$. Hence, $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m}) \in \mathbb{R}^{m' \times m}$, we see that \eqref{1D2} becomes 
 \begin{align}
 |(A - BPD)\mathbf{e}_i|_2 \leq C'\varepsilon \ \ \text{for all } i \in [m].
 \end{align}
@@ -621,7 +622,8 @@ where the second inequality is by definition of $\phi_k(A)$. Now, since $\text{S
 d\left( \mathbf{u}, \text{Span}\{A_i\} \right) \leq \frac{\delta}{\rho} \indent \text{for all} \indent \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}.
 \end{align}
 We therefore have by Lemma \ref{MinDimLemma}, setting $V = \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\})$ and $W = \text{Span}\{A_i\}$, that $\dim(V) \leq \dim(W)$. The same arguments can be used to prove \eqref{fact12} with the roles of $A$ and $B$ reversed. Hence, $\dim(V) = \dim(W) = 1$ and it follows that $|\cap_{i \in J} \pi(S_i)| = 1$ since the columns of $B_{\cap_{i \in J} \pi(S_i)}$ are linearly independent by the spark condition. Thus, the association $i \mapsto \cap_{i \in J} \pi(S_i)$ defines a map $\pi: [m] \to [m']$ such that $d\left( \mathbf{u}, \text{Span}\{B_{ \pi(S_i)}\}\right) \leq \delta/\rho$ for all $i \in [m]$.
-Since $i$ is arbitrary, it follows that for every canonical basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{i \in [m]} |c_i|$. This is exactly the supposition in \eqref{1D2}.
+Since $i$ is arbitrary, it follows that for every canonical basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{i \in [m]} |c_i|$. This is exactly the supposition in \eqref{1D2} and the proof is completed by the subsequent arguments of the $k=1$ case.
+\end{proof}
 
 %===================================
 % 		ACKNOWLEDGEMENT
