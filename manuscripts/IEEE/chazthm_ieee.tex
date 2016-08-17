@@ -179,7 +179,7 @@ Between any pair of subspaces in Euclidean space one can define the following ge
 \begin{definition}\label{FriedrichsDefinition}
 The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is defined in terms of its cosine:
 \begin{align}
-\cos{\theta_F} := \max\left\{ \langle u, v \rangle: u \in U \cap (U \cap V)^\perp \cap \mathcal{B}, \, v \in V \cap (U \cap V)^\perp \cap \mathcal{B} \right\},
+\cos{\theta_F} := \max\left\{ \langle u, v \rangle: \substack{ u \in U \cap (U \cap V)^\perp \cap \mathcal{B} \\ v \in V \cap (U \cap V)^\perp \cap \mathcal{B} } \right\},
 \end{align}
 where $\mathcal{B} = \{ x: |x|_2 \leq 1\}$ is the unit $\ell_2$-ball in $\mathbb{R}^n$ \cite{Deutsch12}.
 \end{definition}
@@ -504,13 +504,16 @@ Next, we show how the result \eqref{DTILeq} follows from \eqref{induction} from 
 \end{align}
 where $z= \left[1 - \prod_{\ell =1}^{k-1}(1-z_{\ell}^2)\right]^{1/2}$ and $z_{\ell} = \cos\theta_F\left(V_{\ell}, \cap_{s=\ell+1}^k V_s\right)$. To see this, note that
 \begin{align}\label{dti1}
-|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1}(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2 
-&= |\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x} |_2,
+|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1}(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2& \\
+= |\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x} |_2&,
 \end{align}
 since $\Pi_{V_\ell} \Pi_V = \Pi_V$ for all $\ell = 1, \ldots, k$ and $\Pi_V^2 = \Pi_V$.
 Therefore by \eqref{dti2} and \eqref{dti1}, it follows that
-\[|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x} |_2
-= |\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1}(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2  \leq z |\mathbf{x} - \Pi_V\mathbf{x}|_2.\]
+\begin{align*}
+|\Pi_{V_k}&\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x} |_2 \\
+&= |\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1}(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2 \\
+&\leq z |\mathbf{x} - \Pi_V\mathbf{x}|_2.
+\end{align*}
 Combining this last inequality with \eqref{induction} and rearranging, we arrive at
 \begin{align}\label{ceq}
 |\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - z} \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2.
