@@ -101,7 +101,7 @@ A\mathbf{x}_1 = A\mathbf{x}_2 \implies \mathbf{x}_1 = \mathbf{x}_2,\indent \text
 \end{align}
 known in the sparse recovery literature as the \emph{spark condition}, then a $k$-sparse representation of $Y$ is stable provided the sparse codes forming $Y$ are sufficiently diverse. 
 %We note that this is a necessary condition if the dataset $Y$ could in principle include data generated as in \eqref{LinearModel} from any given $k$-sparse vector $\mathbf{x} \in \mathbb{R}^m$. 
-% [ *** Can we motivate more necessary conditions using theorems of Li15, too? Theorem 2.8. *** ] 
+% [ *** Can we motivate more necessary conditions using theorems of Li15, too? Thm.~2.8. *** ] 
 
 Before stating this result more precisely, we explain how the spark condition relates to the \emph{lower bound} \cite{Grcar10} of $A$, written $L(A)$, which is the largest number $\alpha$ such that $|A\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$. A straightforward compactness argument shows that every injective linear map has a nonzero lower bound; hence, if $A$ satisfies the spark condition then every submatrix formed from $2k$ of its columns or less has a nonzero lower bound. We therefore define the following domain-restricted lower bound of $A$:
 \begin{align}
@@ -142,7 +142,7 @@ L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \frac{\varepsilon}{\varepsilon_0} \right).
 
 %[ *** So inference is stable for small enough error! There is no multiplicity of alternative models that also happen to work. Regression models have a fixed $A$ (i.e. the values of the variables we are regressing on). Here, in this model, we don't specify the $A$, instead we learn what the best regressor variables would be if they existed. And we want to combine regressors for different problems so as to save resources. Thought of all this reading section 8 of the Breiman paper on data models vs. algorithmic models.***]
 
-An important consequence of this result is that for sufficiently small reconstruction error, the original dictionary matrix and $k$-sparse codes are determined up to a commensurate error (and permutation-scaling ambiguity). Specifically, for fixed $\delta_1, \delta_2 \geq 0$, Theorem \ref{DeterministicUniquenessTheorem} says that \eqref{y-Bb} implies \eqref{def1} for any $\varepsilon < \varepsilon_0$ satisfying:
+An important consequence of this result is that for sufficiently small reconstruction error, the original dictionary matrix and $k$-sparse codes are determined up to a commensurate error (and permutation-scaling ambiguity). Specifically, for fixed $\delta_1, \delta_2 \geq 0$, Thm.~\ref{DeterministicUniquenessTheorem} says that \eqref{y-Bb} implies \eqref{def1} for any $\varepsilon < \varepsilon_0$ satisfying:
 \begin{align}\label{epsd1d2}
 \varepsilon \leq \min \left( \delta_1 C^{-1}, \frac{ \delta_2 \varepsilon_0}{\delta_2 + C^{-1} + \max_{i \in [N]} |\mathbf{a}_i|_1} \right).
 \end{align}
@@ -152,13 +152,13 @@ The constant $C = C(A, \mathbf{a})$ is explicitly defined in \eqref{Cdef}, below
 Given integers $n, m$, and $k < m$, there are $N =  m(k-1){m \choose k}+m$ vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} generates a robustly identifiable dataset $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$.
 \end{corollary}
 
-Our proof of Theorem \ref{DeterministicUniquenessTheorem} is a delicate refinement of the arguments in \cite{Hillar15} to handle measurement error.  Here, we also reduce the theoretically required number of samples from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$, and we provide guarantees for the case when only an upper bound on the number of columns in $A$ is known (see Theorem \ref{DeterministicUniquenessTheorem2} below). 
+Our proof of Thm.~\ref{DeterministicUniquenessTheorem} is a delicate refinement of the arguments in \cite{Hillar15} to handle measurement error.  Here, we also reduce the theoretically required number of samples from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$, and we provide guarantees for the case when only an upper bound on the number of columns in $A$ is known (see Thm.~\ref{DeterministicUniquenessTheorem2} below). 
 
 \[\]
 
 ---------------------------
 [**** NEED TO EXPLAIN MEASURE THEORY TRICK!!!! ****]
-Given Theorem \ref{DeterministicUniquenessTheorem}, it is straightforward to provide probabilistic extensions (Theorems \ref{Theorem2} and \ref{Theorem3}) by drawing on the following key result in random matrix theory. A random matrix $A \in \mathbb{R}^{n \times m}$ satisfies \eqref{SparkCondition} with probability one 
+Given Thm.~\ref{DeterministicUniquenessTheorem}, it is straightforward to provide probabilistic extensions (Theorems \ref{Theorem2} and \ref{Theorem3}) by drawing on the following key result in random matrix theory. A random matrix $A \in \mathbb{R}^{n \times m}$ satisfies \eqref{SparkCondition} with probability one 
 %(or ``high probability" for discrete variables) 
 provided:
 \begin{align}\label{CScondition}
@@ -184,32 +184,7 @@ Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m(k-1){m \
 
 \[\]
 
-In Section \ref{Preliminaries}, we list additional definitions and key lemmas, including our main tool from combinatorial matrix theory (Lemma \ref{MainLemma}). We then derive Theorem \ref{DeterministicUniquenessTheorem} in Section \ref{DUT}. In Section \ref{mleqm}, we state an extension of this result to the case where only an upper bound on the dimensionality of the sparse codes (or, equivalently, the number of columns in the generating dictionary) is known and briefly describe their proofs, which are themselves contained in Appendix A (Supplementary Material). In Section \ref{PUT}, we state and prove Theorems \ref{Theorem2} and \ref{Theorem3}, our probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem}. The final section is a discussion, and Appendix A proves Lemma \ref{MainLemma}.
-
-
-%===================================
-% 			DISCUSSION
-%===================================
-\section{Discussion}
-
-In this note, we generalize the known uniqueness of solutions to \eqref{InverseProblem} in the exact case ($\varepsilon = 0$) to the more realistic case of deterministic noise ($\varepsilon > 0$).  Somewhat surprisingly, as long as a standard assumption from compressed sensing are met, almost every dictionary and sufficient quantity $N$ of sparse codes are uniquely determined up to the error in sampling and inherent symmetries (uniform relabeling and scaling). To convince the reader of the general usefulness of this result, we elaborate briefly on four diverse application areas.
-
-\textbf{Compressed Sensing}.
-Briefly, the goal of compressive sensing is to recover a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse enough in some known basis (i.e., $\mathbf{a} = \Psi^{-1} \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) via a stable and efficient reconstruction process after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$. If the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition}, then $\mathbf{s}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi^{-1}\mathbf{s}$. But what if we don't know $\Phi$? Our theorems demonstrate that the matrix $A$ and sparse codes $\mathbf{s}_i$ can still be estimated up to noise and an inherent permutation-scaling ambiguity by examining a sufficiently diverse set of samples $\mathbf{y}_1, \ldots, \mathbf{y}_N$. 
-
-\textbf{Data Modeling}.  
-In Sparse Component Analysis (SCA) \cite{Georgiev05}, it is assumed that the linear model in \eqref{LinearModel} describes some real physical process and the goal is to infer the true underlying dictionary $A$ and sparse codes $\mathbf{a}_i$ from measurements $\mathbf{y}_i$. Often in such analyses it is implicitly assumed that sparse coding or dictionary learning algorithms have exposed this underlying sparse structure in the data (e.g. the feature-tuned field potentials in \cite{Agarwal14}) as opposed to some artifactual degenerate solution. Our results suggest that given enough data samples the uniqueness of this decomposition is indeed the norm rather than the exception. Regarding this, it would be useful to determine for general $k$ the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimum possible sample size $N$. We encourage the sparse coding community to extend our results and find a tight dependency of all the parameters, both for the sake of theory and practical applications.
-
-\textbf{Smoothed Analysis}.
-The main idea in smoothed analysis \cite{Spielman04} is that certain algorithms having bad worst case behavior, nonetheless, are efficient if certain (typically, Lebesgue measure zero in the continuous case and with ``low probability" in the discrete case) pathological input sets are avoided. Our results imply that if there is an efficient ``smoothed" algorithm for solving \eqref{InverseProblem} then only for a measure zero set of inputs will this algorithm fail to determine the unique original solution; this is a focus of future work. We note that avoiding ``bad" (NP-hard) sets of inputs is necessary for dictionary learning \cite{Razaviyayn15, Tillmann15}.
-
-\textbf{Neural Communication Theory}.
-In \cite{Coulter10} and \cite{Isely10} it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded by unsupervised sparse dictionary learning.  A necessary condition for this theory to work is that the SCA problem has a unique solution.  This was already verified in the case of data sampled without noise.  The present work extends this theory to the more realistic case of sampling error.
-
-\textbf{Engineering}.
-As a final application domain, we consider engineering applications.  Several groups have found ways to utilize compressed sensing for signal processing tasks, such as digital image compression \cite{Duarte08} (the ``single-pixel camera") and, more recently, the design of an ultrafast camera \cite{Gao14} capable of capturing one hundred billion frames per second. Given such effective uses of classical CS, it is only a matter of time before these systems utilize sparse coding algorithms to code and process data. In this case, guarantees such as the ones offered by our main theorems allow any such device to be compared to any other (having different initial parameters and data samples) as long as the data originates from a statistically equivalent system.
-
-
+In Section \ref{Preliminaries}, we list additional definitions and key lemmas, including our main tool from combinatorial matrix theory (Lem.~\ref{MainLemma}). We then derive Thm.~\ref{DeterministicUniquenessTheorem} in Section \ref{DUT}. In Section \ref{mleqm}, we state an extension of this result to the case where only an upper bound on the dimensionality of the sparse codes (or, equivalently, the number of columns in the generating dictionary) is known and briefly describe their proofs, which are themselves contained in Appendix A (Supplementary Material). In Section \ref{PUT}, we state and prove Theorems \ref{Theorem2} and \ref{Theorem3}, our probabilistic versions of Thm.~\ref{DeterministicUniquenessTheorem}. The final section is a discussion, and Appendix A proves Lem.~\ref{MainLemma}.
 
 
 
@@ -217,11 +192,11 @@ As a final application domain, we consider engineering applications.  Several gr
 % 			Preliminaries
 %===================================
 \section{Preliminaries}\label{Preliminaries}
-In this section, we briefly review standard definitions and outline our main tools, which include general notions of angle (Def.~\ref{FriedrichsDefinition}) and distance (Def.~\ref{GapMetricDef}) between vector subspaces as well as a robust uniqueness result in combinatorial matrix theory (Lemma~\ref{MainLemma}).
-Let ${[m] \choose k}$ be the collection of subsets of $[m] := \{1,\ldots,m\}$ of cardinality $k$, and let $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ be the vector space consisting of their $\mathbb{R}$-linear span.  For a matrix $M$, the spectral norm is denoted $\|M\|_2$.
-Also, given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$ with columns $\{M_1,\ldots,M_m\}$, we define $M_S$ to be the submatrix with columns $\{M_j: j \in S\}$ and also set $\text{Span}\{M_S\} := \text{Span}\{M_j : j \in S\}$.  
+We briefly review standard definitions and outline our main tools, which include general notions of angle (Def.~\ref{FriedrichsDefinition}) and distance (Def.~\ref{GapMetricDef}) between vector subspaces as well as a robust uniqueness result in combinatorial matrix theory (Lemma~\ref{MainLemma}).
+Let ${[m] \choose k}$ be the collection of subsets of $[m]$ of cardinality $k$, and let $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ for real vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$ be their $\mathbb{R}$-linear span.  For a matrix $M$, the spectral norm is denoted $\|M\|_2$.
+Also, given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$ with columns $\{M_1,\ldots,M_m\}$, we define $M_S$ to be the submatrix with columns $M_j$, $j \in S$, and also set $\text{Span}\{M_S\} := \text{Span}\{M_j : j \in S\}$.  
 
-Between any pair of subspaces in Euclidean space one can define the following generalized ``angle'':
+Between any pair of subspaces in Euclidean space one can define the following generalized ``angle''.
 \begin{definition}\label{FriedrichsDefinition}
 The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is defined in terms of its cosine:
 \begin{align}
@@ -229,9 +204,10 @@ The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ b
 \end{align}
 where $\mathcal{B} = \{ x: |x|_2 \leq 1\}$ is the unit $\ell_2$-ball in $\mathbb{R}^n$ \cite{Deutsch12}.
 \end{definition}
-For example, for $n=3$ and $k=1$ this is simply the angle between vectors, and for $k=2$ it is the angle between the normal vectors of two planes. In higher dimensions, the Friedrichs angle is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces which are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, the Friedrichs angle is the smallest nonzero such angle. 
+For example, when $n=3$ and $k=1$, this is simply the angle between vectors; and for $k=2$, it is the angle between the normal vectors of two planes. In higher dimensions, the Friedrichs angle is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, the Friedrichs angle is the smallest nonzero such angle. 
 
-The next definition we need is based on a quantity derived in \cite{Deutsch12} to describe the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces. We use it to bound the distance between a point and the intersection of a set of subspaces given an upper bound on the distance from that point to each individual subspace. The minimization over permutations in \eqref{xidef} below is done only to remove the dependence the convergence result has on the order in which subspaces are inputted to the alternating projections algorithm.
+The next definition we need is based on a quantity derived in \cite{Deutsch12} to describe the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces. We use it to bound the distance between a point and the intersection of a set of subspaces given an upper bound on the distance from that point to each individual subspace. 
+%The minimization over permutations in \eqref{xidef} below is done only to remove the dependence the convergence result has on the order in which subspaces are inputted to the alternating projections algorithm.
 
 \begin{definition}\label{SpecialSupportSet}
 Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$. Setting $\phi_1(A) := 1$, define for $k \geq 2$:
@@ -243,33 +219,31 @@ where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of subspaces of $\mathbb{
 \xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 - \prod_{i=1}^{k-1} \sin^2  \theta_F \left(V_{\sigma(i)}, V_{\sigma(i+1)} \cap \cdots \cap V_{\sigma(k)}\right)  \right)^{1/2}.
 \end{align}
 %
-and $\frak{S}_{k}$ is the set of permutations (i.e. bijections) on $k$ elements. 
+and $\frak{S}_{k}$ are the permutations (bijections) on $k$ elements. 
 \end{definition}
 
-
-
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
-We are now in a position to state explicitly the constant $C$ referred to in Theorem \ref{DeterministicUniquenessTheorem}. Letting $T$ be the set of supports on which the $\mathbf{a}_i$ are supported (intervals of length $k$ in some cyclic ordering of $[m]$), $X$ be the $m \times N$ matrix with columns $\mathbf{a}_i$, let, and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$, we have:
+We are now in a position to state explicitly the constant $C$ referred to in Thm.~\ref{DeterministicUniquenessTheorem}. Letting $T$ be the set of supports on which the $\mathbf{a}_i$ are supported (intervals of length $k$ in some cyclic ordering of $[m]$), $X$ be the $m \times N$ matrix with columns $\mathbf{a}_i$, let, and $I(S) := \{i : S = \text{supp}(\mathbf{a}_i)\}$, we have:
 \begin{align}\label{Cdef}
-C = \left( \frac{ \sqrt{k^3}}{ \phi_k(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}, 
+C = \left( \frac{ \sqrt{k^3}}{ \phi_k(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
 \end{align}
 
 \begin{remark}\label{nonzero}
-We can be sure that $C$ is well-defined provided $\min_{S \in T} L_k(AX_{I(S)}) > 0$, since $\phi_k(A) = 0$ only when $\text{Span}(A_{S_1}) \supseteq \text{Span}(A_{S_2}) \cap \ldots \cap \text{Span}(A_{S_k})$ for some $S_1, \ldots, S_k \in {[m] \choose k}$, which would be in violation of the spark condition on $A$.
+We can be sure that $C$ is well-defined provided $\min_{S \in T} L_k(AX_{I(S)}) > 0$, since $\phi_k(A) = 0$ only when $\text{Span}(A_{S_1}) \supseteq \text{Span}(A_{S_2}) \cap \ldots \cap \text{Span}(A_{S_k})$ for some $S_1, \ldots, S_k \in {[m] \choose k}$, which would be in violation of \eqref{SparkCondition}.
 \end{remark}
 
 \begin{definition}\label{GapMetricDef}
-Let $U, V$ be subspaces of $\mathbb{R}^m$ and let $d(u,V) := \inf\{|u-v|_2: v \in W\} = |u - \Pi_V u|_2$ where $\Pi_V$ is the orthogonal projection operator onto subspace $V$. The \textbf{gap metric} $\Theta$ on subspaces of $\mathbb{R}^{m}$ is \cite{Akhiezer13}:
+Let $U, V$ be subspaces of $\mathbb{R}^m$ and let $d(u,V) := \inf\{|u-v|_2: v \in W\} = |u - \Pi_V u|_2$, where $\Pi_V$ is the orthogonal projection operator onto subspace $V$. The \textbf{gap metric} $\Theta$ is defined as \cite{Akhiezer13}:
 \begin{equation}\label{SubspaceMetric}
-\Theta(U,V) := \max\left( \sup_{\substack{u \in U, \, |u|_2 = 1}} d(u,V), \sup_{\substack{v \in V, \, |v|_2 = 1}} d(v,U) \right).
+\Theta(U,V) := \max\left( \sup_{\substack{u \in U \\ |u|_2 = 1}} d(u,V), \sup_{\substack{v \in V \\ |v|_2 = 1}} d(v,U) \right).
 \end{equation}
 \end{definition}
 
 \begin{remark}
-We note that $\Theta(U,V)$ is in fact equal to the sine of the largest Jordan angle between $U$ and $V$.
+Note that $\Theta(U,V)$ is in fact equal to the sine of the largest Jordan angle between $U$ and $V$.
 \end{remark}
 
-We now state our main result from combinatorial matrix theory, generalizing \cite[Lemma 1]{Hillar15} to the noisy case.
+We now state our main result from combinatorial matrix theory, generalizing \cite[Lem.~1]{Hillar15} to the noisy case.
 
 %===========          MAIN LEMMA (K > 1)             =================
 \begin{lemma}[Main Lemma]\label{MainLemma}
@@ -285,11 +259,11 @@ then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an inv
 \end{lemma}
 We defer the (technical) proof of this lemma to Appendix \ref{appendixA}. In words, the result says that the vectors forming the columns of $A$ are nearly identical to those forming the columns of $B$ (up to symmetry) provided that for a special set $T$ of $m$ subspaces, each spanned by $k$ columns of $A$, there exist $k$ columns of $B$ which span a nearby subspace with respect to the gap metric.
 
-In our proof of robust identifiability, we will also use the following useful facts about the distance $d$ from Def.~\ref{GapMetricDef}. The first, 
+In proving robust identifiability, we will also use the following useful facts about the distance $d$ from Def.~\ref{GapMetricDef}. The first, 
 \begin{equation}\label{SubspaceMetricSameDim}
-\dim(W) = \dim(V) \implies \sup_{\substack{v \in V, |v|_2 = 1}}  d(v,W)  = \sup_{\substack{w \in W, |w|_2 = 1}} d(w,V),
+\dim(W) = \dim(V) \implies \sup_{\substack{v \in V \\ |v|_2 = 1}}  d(v,W)  = \sup_{\substack{w \in W \\ |w|_2 = 1}} d(w,V),
 \end{equation}
-can be found in \cite[Lemma 3.3]{Morris10}. The second is:
+can be found in \cite[Lem.~3.3]{Morris10}. The second is:
 \begin{lemma}\label{MinDimLemma}
 If $U, V$ are subspaces of $\mathbb{R}^{m}$, then
 \begin{equation}\label{MinDim}
@@ -308,16 +282,16 @@ We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument 
 
 %======== CASE K = 1 ============
 Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis vectors in $\mathbb R^m$.
-Before proving Theorem \ref{DeterministicUniquenessTheorem} in full generality, consider when $k=1$. Fix some $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} and suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_j = c_j \mathbf{e}_j$ for $c_j \in \mathbb{R} \setminus \{0\}$, $j \in [m]$. By \eqref{Cdef} we have:
+Before proving Thm.~\ref{DeterministicUniquenessTheorem} in full generality, consider when $k=1$. Fix $A \in \mathbb{R}^{n \times m}$ satisfying spark condition \eqref{SparkCondition} and suppose we have $N = m$ $1$-sparse vectors $\mathbf{a}_j = c_j \mathbf{e}_j$ for $c_j \in \mathbb{R} \setminus \{0\}$, $j \in [m]$. By \eqref{Cdef} we have:
 \begin{align}\label{C1}
 C &= \left( \frac{ \sqrt{k^3}}{ \phi_1(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{i \in [m]} L_1(c_iA_i) } \\
 &= \sqrt{k^3} \left( \frac{\max_{j \in [m]} |A_j|_2}{\min_{i \in [m]}|c_iA_i|_2} \right)
-\geq \max_{i \in [m]} \frac{1}{|c_i|} , 
+\geq \max_{i \in [m]} \frac{1}{|c_i|}.
 \end{align}
 
 Suppose that for some $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ for $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c'_1, \ldots, c'_m \in \mathbb{R}$ and some map $\pi: [m] \to [m]$ such that 
 \begin{align}\label{1D}
-|c_iA_i - c'_iB_{\pi(i)}|_2 \leq \varepsilon \ \ \text{for } \  i \in [m].
+|c_iA_i - c'_iB_{\pi(i)}|_2 \leq \varepsilon, \ \ \text{for } \  i \in [m].
 \end{align} 
 Note that $c'_i \neq 0$ for all $i$ since then otherwise (by definition of $L_2(A)$) we reach the contradiction $|c_iA_i|_2 < \min_{i \in [m]}|c_iA_i|_2$. We will now show that $\pi$ is necessarily injective (and thus defines a permutation). Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then, $|c_iA_i - c'_iB_{\ell}|_2  \leq \varepsilon$ and $|c_jA_j - c'_jB_{\ell}|_2 \leq \varepsilon$. Scaling and summing these inequalities by $|c'_j|$ and $|c'_i|$, respectively and then applying the triangle inequality, we have:
 \begin{align}\label{contra}
@@ -326,13 +300,13 @@ Note that $c'_i \neq 0$ for all $i$ since then otherwise (by definition of $L_2(
 &\geq \frac{L_2(A)}{\sqrt{2}} \left( |c'_j| + |c'_i| \right) \min_{\ell \in [m]} |c_\ell |,
 \end{align}
 %
-where the last inequality follows from the definition of $L_2(A)$ and the fact that $|\mathbf{x}|_1 \leq \sqrt{k}|\mathbf{x}|_2$ for $k$-sparse $\mathbf{x}$. Since \eqref{contra} is in contradiction with \eqref{C1} and our upper bound on $\varepsilon$, it must be that $\pi$ is in fact injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right)$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m})$, we see that \eqref{1D} becomes 
+where the last inequality follows from the definition of $L_2(A)$ and the fact that $|\mathbf{x}|_1 \leq \sqrt{k}|\mathbf{x}|_2$ for $k$-sparse $\mathbf{x}$. Since \eqref{contra} is in contradiction with \eqref{C1} and our upper bound on $\varepsilon$, it must be that $\pi$ is in fact injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right)$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m})$, we see that \eqref{1D} becomes for $i \in [m]$:
 \begin{align}\label{k=1result}
-|A_i - (BPD)_i|_2 = |A_i - \frac{c'_i}{c_i}B_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq C\varepsilon \ \ \text{for } i \in [m].
+|A_i - (BPD)_i|_2 = |A_i - \frac{c'_i}{c_i}B_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq C\varepsilon.
 \end{align}
 
 \begin{remark}\label{m'geqmk=1}
-Only minor modifications of the above arguments are necessary to prove a generalization of Theorem \ref{DeterministicUniquenessTheorem} for the case $k=1$ where $B$ may have more than $m$ columns (i.e. $B \in \mathbb{R}^{n \times m'}$ and $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ for some $m' \geq m$). In this case, from the injective function $\pi: [m] \rightarrow [m']$ we may define a `partial' permutation matrix $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$ having at most one nonzero entry in each row and column and every one of these nonzero entries being one, and the diagonal matrix $D \in \mathbb{R}^{m' \times m}$ still satisfying $D_{ij} = 0$ whenever $i \neq j$.
+Only minor modifications of the above arguments are necessary to prove a generalization of Thm.~\ref{DeterministicUniquenessTheorem} for the case $k=1$ where $B$ may have more than $m$ columns (i.e. $B \in \mathbb{R}^{n \times m'}$ and $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ for some $m' \geq m$). In this case, from the injective function $\pi: [m] \rightarrow [m']$ we may define a `partial' permutation matrix $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$ having at most one nonzero entry in each row and column and every one of these nonzero entries being one, and the diagonal matrix $D \in \mathbb{R}^{m' \times m}$ still satisfying $D_{ij} = 0$ whenever $i \neq j$.
 \end{remark}
 
 % ======== b - PDa =========
@@ -363,13 +337,11 @@ where for the last inequality it was admissible to drop the absolute value since
 \end{remark}
 
 % ========== DEFINITIONS FOR MAIN LEMMA (K>1) ================
-It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows from $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ for $k > 1$. Our main tool for the proof is Lemma \ref{MainLemma}.
+It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows from $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ for $k > 1$. Our main tool for the proof is Lem.~\ref{MainLemma}.
 
 %========          PROOF OF THEOREM 1        ============
-\begin{proof}[Proof of Theorem \ref{DeterministicUniquenessTheorem} and Corollary \ref{DeterministicUniquenessCorollary}]
-Let $T$ be the set of intervals of length $k$ in the given cyclic order of $[m]$.  From above, we may assume that $k > 1$. The first step is to produce a set of $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ in general linear position (i.e., any $k$ of them are linearly independent). Specifically, let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
-
-Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of indices $J(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S'$, respectively.
+\begin{proof}[Proof of Thm.~\ref{DeterministicUniquenessTheorem} and Corollary \ref{DeterministicUniquenessCorollary}]
+Let $T$ be the set of intervals of length $k$ in the given cyclic order of $[m]$.  From above, we may assume that $k > 1$.  Fix $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ as in the statement of the theorem.   Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of indices $J(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S'$, respectively.
 
 Let $X$ and $X'$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\mathbf{b}_i$, respectively. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent, i.e. $L(AX_{J(S)}) > 0$, and therefore form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{z} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = AX_{J(S)}\mathbf{c}$. Letting $\mathbf{z'} = BX'_{J(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
 \begin{align*}
@@ -390,10 +362,10 @@ We now show that \eqref{Cstable} follows if $\varepsilon < \frac{L_2(A)}{\sqrt{2
 \begin{align}\label{rhs}
 \frac{\varepsilon\sqrt{k}}{L(AX_{J(S)})} 
 &<  \frac{\phi_k(A) L_2(A)}{\rho k \sqrt{2}} \left( \frac{\min_{S \in T}L_k(AX_{I(S)})}{L(AX_{J(S)})} \right) \nonumber \\
-&\leq \frac{\phi_k(A)}{\rho k} \left( \frac{L_2(A)}{\sqrt{2}} \right),
+&\leq \frac{\phi_k(A)}{\rho k} \left( \frac{L_2(A)}{\sqrt{2}} \right).
 \end{align}
-%
-Since $L_2(A) \leq \rho \sqrt{2}$ and $\phi_k(A) \leq 1$, we have that the RHS of \eqref{ABSubspaceDistance} is strictly less than one. It follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$ (since every $k$ columns of $A$ are linearly independent). Since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) \leq k$; hence, $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: T \to {[m] \choose k}$ satisfying
+
+Since $L_2(A) \leq \rho \sqrt{2}$ and $\phi_k(A) \leq 1$, we have that the RHS of \eqref{ABSubspaceDistance} is strictly less than one. It follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$ (since every $k$ columns of $A$ are linearly independent). Since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) \leq k$; hence, $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: T \to {[m] \choose k}$ satisfying
 \begin{align}\label{yeyeye}
 \Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\varepsilon\sqrt{k}}{L(AX_{J(S)})} \indent \text{for } S \in T.
 \end{align}
@@ -404,22 +376,32 @@ From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Spa
 = C\varepsilon.
 \end{align}
 
-It follows by Lemma \ref{MainLemma} that there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that $|A_j - (BPD)_j|_2 \leq C\varepsilon$ for all $j \in [m]$. The proof of how \eqref{b-PDa} follows from this result is contained in Remark \ref{b-PDaProof}.
+It follows by Lem.~\ref{MainLemma} that there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that $|A_j - (BPD)_j|_2 \leq C\varepsilon$ for all $j \in [m]$. The proof of how \eqref{b-PDa} follows from this result is contained in Remark \ref{b-PDaProof}.
 \end{proof}
+
+\begin{proof}[Proof of Corollary \ref{DeterministicUniquenessCorollary}]
+Quick proof goes here.
+
+The first step is to produce a set of $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ in general linear position (i.e., any $k$ of them are linearly independent). 
+
+Specifically, let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
+
+\end{proof}
+
 
 %===================================
 % DIFFERENT CODING DIMENSIONS
 %===================================
 \section{Unknown representation dimension}\label{mleqm}
 
-In this section we state a version of Theorem \ref{DeterministicUniquenessTheorem} and Lemma \ref{MainLemma} assuming that $B$ also satisfies the spark condition (in addition to $A$ satisfying the spark condition). With this additional assumption, we can address the issue of recovering $A \in \mathbb{R}^{n \times m}$ and the $\mathbf{a}_i \in \mathbb{R}^m$ when only an upper bound $m'$ on the number $m$ of columns in $A$ is known. 
+In this section we state a version of Thm.~\ref{DeterministicUniquenessTheorem} and Lem.~\ref{MainLemma} assuming that $B$ also satisfies the spark condition (in addition to $A$ satisfying the spark condition). With this additional assumption, we can address the issue of recovering $A \in \mathbb{R}^{n \times m}$ and the $\mathbf{a}_i \in \mathbb{R}^m$ when only an upper bound $m'$ on the number $m$ of columns in $A$ is known. 
 \begin{theorem}\label{DeterministicUniquenessTheorem2}
 Fix positive integers $n, m, m'$, and $k$ with $k < m \leq m'$ and fix a cyclic order on $[m]$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $(k-1){m' \choose k}+1$ vectors $\mathbf{a}_i$ in general linear position supported on that interval and $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} then there exists a constant $\tilde C > 0$ for which the following holds for all $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \tilde C^{-1}$. If there exist $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$ then:
 \begin{align}
 |A_j-(BPD)_j|_2 \leq \tilde C\varepsilon \indent \text{ for } j \in [m]
 \end{align}
 %
-for some partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ (there is at most one nonzero entry in each row and column and these nonzero entries are all one) and diagonal matrix $D \in \mathbb{R}^{m' \times m}$ ($D_{ij} = 0$ whenever $i \neq j$). 
+for some \textbf{partial permutation} matrix $P \in \mathbb{R}^{m' \times m'}$ (there is at most one nonzero entry in each row and column and these nonzero entries are all one) and \textbf{diagonal} matrix $D \in \mathbb{R}^{m' \times m}$ ($D_{ij} = 0$ whenever $i \neq j$). 
 \end{theorem}
 
 In other words, the columns of the learned dictionary $B$ contain (up to noise, and after appropriate scaling) the columns of the original dictionary $A$. One can then show by manipulations similar to those contained in Remark \ref{b-PDaProof} that the coefficients in each $\mathbf{a}_i$ form (up to noise) a scaled subset of the coefficients in $\mathbf{b}_i$. The constant $\tilde C$ is given by:
@@ -429,21 +411,20 @@ In other words, the columns of the learned dictionary $B$ contain (up to noise, 
 %
 where $X$ is the $m \times N$ matrix with columns given by $\mathbf{a}_i$ and $I(S) = \{i : \text{supp}(\mathbf{a}_i) = S\}$.
 
-The proof of Theorem \ref{DeterministicUniquenessTheorem2} is very similar to the proof of Theorem \ref{DeterministicUniquenessTheorem}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lemma \ref{MainLemma2}, which we state next, by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$. This insures that we can establish a one-to-one correspondence between subspaces spanned by the $m'$ columns of $B$ and nearby subspaces spanned by the $m$ columns of $A$ despite the fact that $m < m'$. By requiring $B$ to also satisfy the spark condition, we remove the dependency of Lemma \ref{MainLemma} on Lemma \ref{NonEmptyLemma} (which requires that $m = m'$), resulting in Lemma \ref{MainLemma2}.
+The proof of Thm.~\ref{DeterministicUniquenessTheorem2} is very similar to the proof of Thm.~\ref{DeterministicUniquenessTheorem}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lem.~\ref{MainLemma2}, which we state next, by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$. This insures that we can establish a one-to-one correspondence between subspaces spanned by the $m'$ columns of $B$ and nearby subspaces spanned by the $m$ columns of $A$ despite the fact that $m < m'$. By requiring $B$ to also satisfy the spark condition, we remove the dependency of Lem.~\ref{MainLemma} on Lem.~\ref{NonEmptyLemma} (which requires that $m = m'$), resulting in Lem.~\ref{MainLemma2}.
 
-\begin{lemma}[Main Lemma for $m < m'$]\label{MainLemma2}
-Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that 
+\begin{lemma}[Main Lem.~for $m < m'$]\label{MainLemma2}
+Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that for $S \in T$:
 \begin{equation}\label{GapUpperBound2}
-\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \delta }{\rho k} \min(\phi_k(A), \phi_k(B)), \indent \text{for } S \in T,
+\Theta(\text{\rm Span}\{A_{S}\}, \text{\rm Span}\{B_{\pi(S)}\}) \leq \frac{ \delta }{\rho k} \min(\phi_k(A), \phi_k(B)),
 \end{equation}
-%
 then there exist a partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ such that
 \begin{align}
 |A_j - (BPD)_j|_2 \leq \delta, \indent \text{for } j \in [m].
 \end{align}
 \end{lemma}
 
-We defer the proof of this lemma to Appendix \ref{mleqmAppendix}.
+We defer the proof of this lemma to Appendix B (Supplemental Materials).
 
 
 %======================================
@@ -451,7 +432,7 @@ We defer the proof of this lemma to Appendix \ref{mleqmAppendix}.
 %======================================
 \section{Probabilistic Identifiability}\label{PUT}
 
-We next give precise statements of our probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem}, which apply to random sparse vectors as defined in Definition \ref{RandomDraw}. Our brief proofs rely largely on the following lemma, the proof of which can be found in \cite[Lemma 3]{Hillar15}:
+We next give precise statements of our probabilistic versions of Thm.~\ref{DeterministicUniquenessTheorem}, which apply to random sparse vectors as defined above. Our brief proofs rely largely on the following lemma, the proof of which can be found in \cite[Lem.~3]{Hillar15}.
 \begin{lemma}\label{Hillar15lemma2}
 Fix positive integers $n, m$, $k < m$, and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $M\mathbf{a}_1, \ldots, M\mathbf{a}_k$ are linearly independent whenever the $\mathbf{a}_i$ are random $k$-sparse vectors.
 \end{lemma}
@@ -461,7 +442,7 @@ Fix positive integers $n, m$, $k < m$, and $A \in \mathbb{R}^{n \times m}$ satis
 \end{theorem}
 
 \begin{proof}
-By Lemma \ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. Apply Theorem \ref{DeterministicUniquenessTheorem}.
+By Lem.~\ref{Hillar15lemma2} (taking $M = I$), with probability one the $\mathbf{a}_i$ are in general linear position. Apply Thm.~\ref{DeterministicUniquenessTheorem}.
 \end{proof} 
 
 Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
@@ -471,10 +452,35 @@ Fix positive integers $k < m$ and $n$ . If $N = m(k-1){m \choose k}+m$ randomly 
 \end{theorem}
 
 \begin{proof}
-By Lemma \ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. By the same arguments made in the proof of Theorem 3 in \cite{Hillar15}, the set of matrices $A$ that fail to satisfy \eqref{SparkCondition} form an algebraic set of measure zero. Apply Theorem \ref{DeterministicUniquenessTheorem}.
+By Lem.~\ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. By the same arguments made in the proof of Thm.~3 in \cite{Hillar15}, the set of matrices $A$ that fail to satisfy \eqref{SparkCondition} form an algebraic set of measure zero. Apply Thm.~\ref{DeterministicUniquenessTheorem}.
 \end{proof}
 
-We note that our results in the deterministic case (Theorem \ref{DeterministicUniquenessTheorem}) were derived for the \emph{worst case} noise, which (depending on the noise distribution) may have very small probability of occurrence. In particular, for fixed $k$, the larger the ambient dimension of $\mathbf{y}$, the smaller the probability that randomly generated noise points in a direction which conflates signals generated by distinct $k$-dimensional subspaces spanned by the columns of $A$. For a given distribution the ``effective'' noise may therefore potentially be much smaller, with the original dictionary and sparse codes being identifiable up to a commensurate error with high probability. 
+We note that our results in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) were derived for the \emph{worst case} noise, which (depending on the noise distribution) may have very small probability of occurrence. In particular, for fixed $k$, the larger the ambient dimension of $\mathbf{y}$, the smaller the probability that randomly generated noise points in a direction which conflates signals generated by distinct $k$-dimensional subspaces spanned by the columns of $A$. For a given distribution, the ``effective'' noise may therefore potentially be much smaller, with the original dictionary and sparse codes being identifiable up to a commensurate error with high probability. 
+
+
+%===================================
+% 			DISCUSSION
+%===================================
+\section{Discussion}
+
+In this note, we generalize the known uniqueness of solutions to \eqref{InverseProblem} in the exact case ($\varepsilon = 0$) to the more realistic case of deterministic noise ($\varepsilon > 0$).  Somewhat surprisingly, as long as a standard assumption from compressed sensing are met, almost every dictionary and sufficient quantity $N$ of sparse codes are uniquely determined up to the error in sampling and inherent symmetries (uniform relabeling and scaling). To convince the reader of the general usefulness of this result, we elaborate briefly on four diverse application areas.
+
+\textbf{Compressed Sensing}.
+[****  NEED TO ADD NOISE VERSION OF THIS *****]
+Briefly, the goal of compressive sensing is to recover a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse enough in some known basis (i.e., $\mathbf{a} = \Psi^{-1} \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) via a stable and efficient reconstruction process after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x} + \mathbf{n}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$ and noise $\mathbf{n}$. If the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition}, then $\mathbf{s}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi^{-1}\mathbf{s}$. But what if we don't know $\Phi$? Our theorems demonstrate that the matrix $A$ and sparse codes $\mathbf{s}_i$ can still be estimated up to noise and an inherent permutation-scaling ambiguity by examining a sufficiently diverse set of samples $\mathbf{y}_1, \ldots, \mathbf{y}_N$. 
+[****  NEED TO ADD NOISE VERSION OF THIS *****]
+
+\textbf{Data Modeling}.  
+In Sparse Component Analysis (SCA) \cite{Georgiev05}, it is assumed that the linear model \eqref{LinearModel} describes some physical process, and the goal is to infer the true underlying dictionary and sparse codes from measurements. Often in such analyses, it is implicitly assumed that sparse coding has exposed this underlying sparse structure in the data (e.g., the feature-tuned field potentials in \cite{Agarwal14}) as opposed to some artificial degenerate solution. Our results suggest that given enough data samples the uniqueness of this decomposition is indeed the norm rather than the exception. Regarding this, it would be useful to determine for general $k$ the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimum possible sample size $N$. We encourage the sparse coding community to extend our results and find a tight dependency of all the parameters, both for the sake of theory and practical applications.
+
+\textbf{Smoothed Analysis}.
+The main concept in smoothed analysis \cite{Spielman04} is that certain algorithms having bad worst case behavior are, nonetheless, efficient if certain (typically, Lebesgue measure zero in the continuous case and with ``low probability" in the discrete case) pathological input sets are avoided. Our results imply that if there is an efficient ``smoothed" algorithm for solving Problem \ref{InverseProblem} given enough samples, then for generic inputs this algorithm determines the unique original solution. We note that avoiding ``bad" (NP-hard) sets of inputs is necessary for dictionary learning \cite{Razaviyayn15, Tillmann15}.
+
+\textbf{Neural Communication Theory}.
+In \cite{Coulter10} and \cite{Isely10}, it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded by unsupervised sparse coding.  A necessary condition for this theory to work is that the SCA problem has a unique solution.  This was already verified in the case of data sampled without noise.  The present work extends this theory to the more realistic case of sampling error.
+
+\textbf{Engineering}.
+As a final application domain, we consider engineering applications.  Several groups have found ways to utilize compressed sensing for signal processing tasks, such as digital image compression \cite{Duarte08} (``single-pixel camera") and, more recently, the design of an ultrafast camera \cite{Gao14} capable of capturing one hundred billion frames per second. Given such effective uses of classical CS, it is only a matter of time before these systems utilize sparse coding algorithms to code and process data. In this case, guarantees such as the ones offered by our main theorems allow any such device to be ambiguity-transform equivalent to any other (having different initial parameters and data samples) as long as the data originates from a statistically equivalent system.
 
 
 %===================================
