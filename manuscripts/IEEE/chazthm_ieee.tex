@@ -38,7 +38,7 @@
 \maketitle
 
 \begin{abstract}
-Sparse dictionary learning has exposed underlying bases of many kinds of natural data.  However, given the multitude of algorithms implementing this strategy, claims of ``true" latent structure discovery require the backing of universal theorems guaranteeing statistical consistency.  Here, we prove that for almost all large enough sparsely generated datasets, sparse coding of them to within a constant multiple of measurement error uniquely identifies original codes and dictionary up to inherent permutation and scaling.  Applications are given to smoothed analysis, communication theory, and engineering.
+Sparse dictionary learning has exposed underlying bases of many kinds of natural data.  However, given the multitude of algorithms implementing this strategy, claims of ``true" latent structure discovery require the backing of universal theorems guaranteeing statistical consistency.  Here, we prove that for almost all large enough sparsely generated datasets, sparse coding of them to within a constant multiple of measurement error uniquely identifies original codes and dictionary up to inherent permutation and scaling.  Applications are given to smoothed analysis, communication theory, data analysis, and engineering.
 %Sparse coding or dictionary learning methods have exposed underlying structure in many kinds of natural data. Here, we generalize to the case of measurement noise previous results guaranteeing when the learned dictionary and sparse codes are unique up to inherent permutation and scaling ambiguities.  Central to our proofs is a useful lemma in combinatorial matrix theory allowing us to derive bounds on the number of samples necessary to guarantee uniqueness. We also provide probabilistic extensions to our robust identifiability theorem and an extension to the case when only an upper bound on the number of dictionary elements is known a priori. Our results help to inform the interpretation of sparse structure learned from data; whenever the conditions to one of our robust identifiability theorems are met, any sparsity-constrained algorithm that succeeds in approximately reconstructing the data well enough recovers the original dictionary and sparse codes up to an error commensurate with the noise. Applications are given to smoothed analysis, communication theory, and applied physics.
 \end{abstract}
 
@@ -159,9 +159,11 @@ n \geq \gamma k\log\left(\frac{m}{k}\right),
 \end{align}
 where $\gamma$ is a positive constant dependent on the particular distribution from which $A$ is sampled. \cite{??} We state here the main implications of our probabilistic results. To keep exposition simple, our statements are based upon the following elementary construction (although many ensembles suffice, e.g. \cite[Sec.~\S 4]{Baraniuk08}).
 
-\begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
-Given the support set for its $k$ nonzero entries, a \textbf{random draw} of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly and independently from the interval $[0, 1] \subset \mathbb{R}$. 
-\end{definition}
+Given the support set for its $k$ nonzero entries, a \textbf{random draw} of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly and independently from the interval $[0, 1] \subset \mathbb{R}$.
+
+%\begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
+%Given the support set for its $k$ nonzero entries, a \textbf{random draw} of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly and independently from the interval $[0, 1] \subset \mathbb{R}$. 
+%\end{definition}
 
 \begin{corollary}
 Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from a random draw of $N = m(k-1){m \choose k}+m$ $k$-sparse vectors $\mathbf{a}_i$, consisting of $(k-1){m \choose k}+1$ samples supported on each interval of length $k$ in some cyclic ordering of $[m]$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
@@ -173,6 +175,32 @@ Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m(k-1){m \
 
 [*** Shorter ***]
 The organization of the rest of this paper is as follows. In Section \ref{Preliminaries}, we list additional definitions and key lemmas, including our main tool from combinatorial matrix theory (Lemma \ref{MainLemma}). We then derive Theorem \ref{DeterministicUniquenessTheorem} in Section \ref{DUT}. In Section \ref{mleqm}, we state an extension of this result to the case where only an upper bound on the dimensionality of the sparse codes (or, equivalently, the number of columns in the generating dictionary) is known and briefly describe their proofs, which are themselves contained in Appendix \ref{mleqmAppendix}. In Section \ref{PUT}, we state and prove Theorems \ref{Theorem2} and \ref{Theorem3}, our probabilistic versions of Theorem \ref{DeterministicUniquenessTheorem}. The final section is a discussion, and Appendix \ref{appendixA} contains the proof of Lemma \ref{MainLemma}.
+
+
+%===================================
+% 			DISCUSSION
+%===================================
+\section{Discussion}
+
+In this note, we generalize the known uniqueness of solutions to \eqref{InverseProblem} in the exact case ($\varepsilon = 0$) to the more realistic case of deterministic noise ($\varepsilon > 0$).  Somewhat surprisingly, as long as the standard assumptions from compressed sensing are met, almost every dictionary and sufficient quantity $N$ of sparse codes are uniquely determined up to the error in sampling and the problem's inherent symmetries (uniform relabeling and scaling). To convince the reader of the general usefulness of this result, we elaborate briefly on four diverse application areas.
+
+\textbf{Inverse Problem Theory}.  
+In Sparse Component Analysis (SCA) \cite{Georgiev05}, it is assumed that the linear model in \eqref{LinearModel} describes some real physical process and the goal is to infer the true underlying dictionary $A$ and sparse codes $\mathbf{a}_i$ from measurements $\mathbf{y}_i$. Often in such analyses it is implicitly assumed that sparse coding or dictionary learning algorithms have exposed this underlying sparse structure in the data (e.g. the feature-tuned field potentials in \cite{Agarwal14}) as opposed to some artifactual degenerate solution. Our results suggest that given enough data samples the uniqueness of this decomposition is indeed the norm rather than the exception. Regarding this, it would be useful to determine for general $k$ the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimum possible sample size $N$. We encourage the sparse coding community to extend our results and find a tight dependency of all the parameters, both for the sake of theory and practical applications.
+
+\textbf{Smoothed Analysis}.
+The main idea in smoothed analysis \cite{Spielman04} is that certain algorithms having bad worst case behavior, nonetheless, are efficient if certain (typically, Lebesgue measure zero in the continuous case and with ``low probability" in the discrete case) pathological input sets are avoided. Our results imply that if there is an efficient ``smoothed" algorithm for solving \eqref{InverseProblem} then only for a measure zero set of inputs will this algorithm fail to determine the unique original solution; this is a focus of future work. We note that avoiding ``bad" (NP-hard) sets of inputs is necessary for dictionary learning \cite{Razaviyayn15, Tillmann15}.
+
+\textbf{Neural Communication Theory}.
+In \cite{Coulter10} and \cite{Isely10} it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded by unsupervised sparse dictionary learning.  A necessary condition for this theory to work is that the SCA problem has a unique solution.  This was already verified in the case of data sampled without noise.  The present work extends this theory to the more realistic case of sampling error.
+
+\textbf{Engineering}.
+As a final application domain, we consider engineering applications.  Several groups have found ways to utilize compressed sensing for signal processing tasks, such as digital image compression \cite{Duarte08} (the ``single-pixel camera") and, more recently, the design of an ultrafast camera \cite{Gao14} capable of capturing one hundred billion frames per second. Given such effective uses of classical CS, it is only a matter of time before these systems utilize sparse coding algorithms to code and process data. In this case, guarantees such as the ones offered by our main theorems allow any such device to be compared to any other (having different initial parameters and data samples) as long as the data originates from a statistically equivalent system.
+
+\textbf{Compressed Sensing}.
+Briefly, the goal of compressive sensing is to recover a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse enough in some known basis (i.e., $\mathbf{s} = \Psi \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) via a stable and efficient reconstruction process after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$. If the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition}, then $\mathbf{s}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi^{-1}\mathbf{s}$. But what if we don't know $\Phi$? Our theorems demonstrate that the matrix $A$ and sparse codes $\mathbf{s}_i$ can still be estimated up to noise and an inherent permutation-scaling ambiguity by examining a sufficiently diverse set of samples $\mathbf{y}_1, \ldots, \mathbf{y}_N$. 
+
+
+
 
 %===================================
 % 			Preliminaries
@@ -323,10 +351,6 @@ where for the last inequality it was admissible to drop the absolute value since
 \end{align*}
 \end{remark}
 
-\begin{remark}
-We demonstrate with the following counter-example that for $C$ as defined in \eqref{Cdef} the condition $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ is necessary to guarantee in general that \eqref{Cstable} follows from the remaining assumptions of Theorem \ref{DeterministicUniquenessTheorem}. Consider the dataset $\mathbf{a}_i = \mathbf{e}_i$ for $i = 1, \ldots, m$ and let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$. Then $L_2(A) = 1$ (we have $|A\mathbf{x}|_2 = |\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$) and $C = 1$; hence $\frac{L_2(A)}{\sqrt{2}}C^{-1} = 1/\sqrt{2}$. Consider the alternate dictionary $B = \left(\mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$ and sparse codes $\mathbf{b}_i = \mathbf{e}_2$ for $i = 1, 2$ and $\mathbf{b}_i = \mathbf{e}_i$ for $i = 3, \ldots, m$. Then $|A\mathbf{a}_i - B\mathbf{b}_i| = 1/\sqrt{2}$ for $i = 1, 2$ (and $0$ otherwise). If there were permutation and invertible diagonal matrices $P \in \mathbb{R}^{m \times m}$ and $D \in \mathbb{R}^{m \times m}$ such that $|(A-BPD)\mathbf{e}_i| \leq C\varepsilon$ for all $i \in [m]$, then we would reach the contradiction $1 = |P^{-1}\mathbf{e}_1|_2 = |(A-BPD)P^{-1}\mathbf{e}_1|_2 \leq 1/\sqrt{2}$. 
-\end{remark}
-
 % ========== DEFINITIONS FOR MAIN LEMMA (K>1) ================
 It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows from $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ for $k > 1$. Our main tool for the proof is Lemma \ref{MainLemma}.
 
@@ -366,7 +390,7 @@ Since $L_2(A) \leq \rho \sqrt{2}$ and $\phi_k(A) \leq 1$, we have that the RHS o
 From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Span}\{A_{S}\}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{ \phi_k(A) }{\rho k} \delta$ is satisfied for $\delta < \frac{L_2(A)}{\sqrt{2}}$ by setting $\delta = \frac{ \rho k}{ \phi_k(A) } \left(  \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} \right)$ (see Remark \ref{nonzero} for why we can be sure $\phi_k(A) \neq 0$). We therefore satisfy \eqref{GapUpperBound} for 
 \begin{align}
 \delta = \left( \frac{ \varepsilon \sqrt{k^3}}{ \phi_k(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}
-= C\varepsilon
+= C\varepsilon.
 \end{align}
 
 It follows by Lemma \ref{MainLemma} that there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that $|A_j - (BPD)_j|_2 \leq C\varepsilon$ for all $j \in [m]$. The proof of how \eqref{b-PDa} follows from this result is contained in Remark \ref{b-PDaProof}.
@@ -441,154 +465,12 @@ By Lemma \ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with prob
 
 We note that our results in the deterministic case (Theorem \ref{DeterministicUniquenessTheorem}) were derived for the \emph{worst case} noise, which (depending on the noise distribution) may have very small probability of occurrence. In particular, for fixed $k$, the larger the ambient dimension of $\mathbf{y}$, the smaller the probability that randomly generated noise points in a direction which conflates signals generated by distinct $k$-dimensional subspaces spanned by the columns of $A$. For a given distribution the ``effective'' noise may therefore potentially be much smaller, with the original dictionary and sparse codes being identifiable up to a commensurate error with high probability. 
 
-%===================================
-% 			DISCUSSION
-%===================================
-\section{Discussion}
-
-In this note, we generalize the known uniqueness of solutions to \eqref{InverseProblem} in the exact case ($\varepsilon = 0$) to the more realistic case of deterministic noise ($\varepsilon > 0$).  Somewhat surprisingly, as long as the standard assumptions from compressed sensing are met, almost every dictionary and sufficient quantity $N$ of sparse codes are uniquely determined up to the error in sampling and the problem's inherent symmetries (uniform relabeling and scaling). To convince the reader of the general usefulness of this result, we elaborate briefly on four diverse application areas.
-
-\textbf{Inverse Problem Theory}.  
-In Sparse Component Analysis (SCA) \cite{Georgiev05}, it is assumed that the linear model in \eqref{LinearModel} describes some real physical process and the goal is to infer the true underlying dictionary $A$ and sparse codes $\mathbf{a}_i$ from measurements $\mathbf{y}_i$. Often in such analyses it is implicitly assumed that sparse coding or dictionary learning algorithms have exposed this underlying sparse structure in the data (e.g. the feature-tuned field potentials in \cite{Agarwal14}) as opposed to some artifactual degenerate solution. Our results suggest that given enough data samples the uniqueness of this decomposition is indeed the norm rather than the exception. Regarding this, it would be useful to determine for general $k$ the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimum possible sample size $N$. We encourage the sparse coding community to extend our results and find a tight dependency of all the parameters, both for the sake of theory and practical applications.
-
-\textbf{Smoothed Analysis}.
-The main idea in smoothed analysis \cite{Spielman04} is that certain algorithms having bad worst case behavior, nonetheless, are efficient if certain (typically, Lebesgue measure zero in the continuous case and with ``low probability" in the discrete case) pathological input sets are avoided. Our results imply that if there is an efficient ``smoothed" algorithm for solving \eqref{InverseProblem} then only for a measure zero set of inputs will this algorithm fail to determine the unique original solution; this is a focus of future work. We note that avoiding ``bad" (NP-hard) sets of inputs is necessary for dictionary learning \cite{Razaviyayn15, Tillmann15}.
-
-\textbf{Neural Communication Theory}.
-In \cite{Coulter10} and \cite{Isely10} it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded by unsupervised sparse dictionary learning.  A necessary condition for this theory to work is that the SCA problem has a unique solution.  This was already verified in the case of data sampled without noise.  The present work extends this theory to the more realistic case of sampling error.
-
-\textbf{Engineering}.
-As a final application domain, we consider engineering applications.  Several groups have found ways to utilize compressed sensing for signal processing tasks, such as digital image compression \cite{Duarte08} (the ``single-pixel camera") and, more recently, the design of an ultrafast camera \cite{Gao14} capable of capturing one hundred billion frames per second. Given such effective uses of classical CS, it is only a matter of time before these systems utilize sparse coding algorithms to code and process data. In this case, guarantees such as the ones offered by our main theorems allow any such device to be compared to any other (having different initial parameters and data samples) as long as the data originates from a statistically equivalent system.
-
-\textbf{Compressed Sensing}.
-Briefly, the goal of compressive sensing is to recover a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse enough in some known basis (i.e., $\mathbf{s} = \Psi \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) via a stable and efficient reconstruction process after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$. If the generation matrix $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition}, then $\mathbf{s}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi^{-1}\mathbf{s}$. But what if we don't know $\Phi$? Our theorems demonstrate that the matrix $A$ and sparse codes $\mathbf{s}_i$ can still be estimated up to noise and an inherent permutation-scaling ambiguity by examining a sufficiently diverse set of samples $\mathbf{y}_1, \ldots, \mathbf{y}_N$. 
-
-%========================================
-%      	APPENDIX: COMBINATORICS
-%========================================
-\appendices
-\section{Combinatorial Matrix Theory}\label{appendixA}
-
-In this section, we prove Lemma \ref{MainLemma}, which is the main ingredient in our proof of Theorem \ref{DeterministicUniquenessTheorem}. For readers willing to assume a priori that the spark condition holds for $B$ as well as for $A$, a shorter proof of this case (Lemma \ref{MainLemma2} from Section \ref{mleqm}) is provided in Appendix \ref{mleqmAppendix}. This additional assumption simplifies the argument and allows us to extend robust identifiability conditions to the case where only an upper bound on the number of columns $m$ in $A$ is known. 
-
-We now prove some auxiliary lemmas before deriving Lemma \ref{MainLemma}.  Given a collection of sets $\mathcal{T}$, we let $\cap \mathcal{T}$ denote their intersection.
-
-%===== SPAN INTERSECTION LEMMA =====
-\begin{lemma}\label{SpanIntersectionLemma}
-Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly independent, then for any $\mathcal{T} \subseteq \bigcup_{\ell \leq k} {[m] \choose \ell}$,
-\begin{align}
-\text{\rm Span}\{M_{\cap \mathcal{T}}\}  = \bigcap_{S \in \mathcal{T}} \text{\rm Span}\{M_S\}.
-\end{align}
-\end{lemma}
-
-\begin{proof}By induction, it is enough to prove the lemma when $|\mathcal{T}| = 2$. The proof now follows directly from the assumption.
-\end{proof}
-
-%===== DISTANCE TO INTERSECTION LEMMA =====
-
-\begin{lemma}\label{DistanceToIntersectionLemma}
-Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be subspaces of $\mathbb{R}^m$ and let $V = \bigcap \mathcal{V}$. For every $\mathbf{x} \in \mathbb{R}^m$, we have
-\begin{align}\label{DTILeq}
-|\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k |x - \Pi_{V_i} x|_2,
-\end{align}
-provided $\xi(\mathcal{V}) \neq 1$, where the expression for $\xi$ is given in Def.~\ref{SpecialSupportSet}.
-\end{lemma}
-\begin{proof} 
-Fix $\mathbf{x} \in \mathbb{R}^m$ and $k \geq 2$. The proof consists of two parts. First, we shall show that 
-\begin{equation}\label{induction}
-|\mathbf{x} - \Pi_V\mathbf{x}|_2 \leq \sum_{\ell=1}^k |\mathbf{x} - \Pi_{V_{\ell}} \mathbf{x}|_2 + |\Pi_{V_{k}}\Pi_{V_{k-1}}\cdots\Pi_{V_{1}} \mathbf{x} - \Pi_V \mathbf{x}|_2.
-\end{equation}
-For each $\ell \in \{2, \ldots, k+1\}$ (when $\ell = k+1$, the product $\Pi_{V_k} \cdots \Pi_{V_{\ell}}$ is set to $I$), we have by the triangle inequality and the fact that $\|\Pi_{V_{\ell}}\|_2 \leq 1$ (as $\Pi_{V_{\ell}}$ are projections):
-\begin{equation}
-|\Pi_{V_k} \cdots \Pi_{V_{\ell}}\mathbf{x} - \Pi_V \mathbf{x}|  \leq  |\Pi_{V_k} \cdots \Pi_{V_{\ell-1}}\mathbf{x} - \Pi_V \mathbf{x}| + 
-|\mathbf{x} - \Pi_{V_{\ell-1}}\mathbf{x}|.
-\end{equation}
-Summing these inequalities over $\ell$ gives (\ref{induction}).
-
-Next, we show how the result \eqref{DTILeq} follows from \eqref{induction} from the following result of \cite[Theorem 9.33]{Deutsch12}:
-\begin{align}\label{dti2}
-|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V\mathbf{x}|_2 \leq z |\mathbf{x}|_2 \indent \text{for } \indent \mathbf{x} \in \mathbb{R}^m,
-\end{align}
-where $z= \left[1 - \prod_{\ell =1}^{k-1}(1-z_{\ell}^2)\right]^{1/2}$ and $z_{\ell} = \cos\theta_F\left(V_{\ell}, \cap_{s=\ell+1}^k V_s\right)$. To see this, note that
-\begin{align}\label{dti1}
-|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1}(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2& \\
-= |\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x} |_2&,
-\end{align}
-since $\Pi_{V_\ell} \Pi_V = \Pi_V$ for all $\ell = 1, \ldots, k$ and $\Pi_V^2 = \Pi_V$.
-Therefore by \eqref{dti2} and \eqref{dti1}, it follows that
-\begin{align*}
-|\Pi_{V_k}&\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x} |_2 \\
-&= |\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1}(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2 \\
-&\leq z |\mathbf{x} - \Pi_V\mathbf{x}|_2.
-\end{align*}
-Combining this last inequality with \eqref{induction} and rearranging, we arrive at
-\begin{align}\label{ceq}
-|\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - z} \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2.
-\end{align}
-Finally, since the ordering of the subspaces is arbitrary, we can replace $z$ in \eqref{ceq} with $\xi(\mathcal{V})$ to obtain \eqref{DTILeq}.
-\end{proof}
-
-%======= GRAPH THEORY LEMMA =======
-
-\begin{lemma}\label{NonEmptyLemma} Fix positive integers $k < m$, and let $S_1, \ldots, S_m$ be the set of contiguous length $k$ intervals in some cyclic order of $[m]$. Suppose there exists a map $\pi: T \to {[m] \choose k}$ such that
-\begin{align}\label{NonEmpty}
-|\bigcap_{i \in J} \pi(S_i)| \leq |\bigcap_{i \in J} S_i | \ \ \text{for } \ J \in {[m] \choose k}.
-\end{align}
-%
-Then, $|\pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})| = 1$ for $j_1,\ldots,j_k$ consecutive modulo $m$.
-\end{lemma}
-
-\begin{proof} Consider the set $Q_m = \{ (r,t) : r \in \pi(S_t), t \in [m] \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $q \in [m]$ and $J \in {[m] \choose k}$ such that $(q, j) \in Q_m$ for all $j \in J$. In particular, we have $q \in \cap_{j \in J} \pi(S_j)$ so that from \eqref{NonEmpty} there must be some $p \in [m]$ with $p \in \cap_{j \in J} S_j$. Since $|J| = k$, this is only possible if the elements of $J = \{j_1, \ldots, j_k\}$ are consecutive modulo $m$, in which case $|\cap_{j \in J} S_j| = 1$. Hence $|\cap_{j \in J} \pi(S_j)| = 1$ as well.
-
-We next consider if any other $t \notin J$ is such that $q \in \pi(S_t)$. Suppose there were such a $t$; then, we would have $q \in \pi(S_t) \cap \pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})$ and \eqref{NonEmpty} would imply that the intersection of every $k$-element subset of $\{S_t\} \cup \{S_j: j \in J\}$ is nonempty. This would only be possible if $\{t\} \cup J = [m]$, in which case the result then trivially holds since then $q \in \pi(S_j)$ for all $j \in [m]$.  Suppose now there exists no such $t$; then letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $q$ as a first coordinate, we have $|Q_{m-1}| = (m-1)k$. 
-
-By iterating the above arguments we arrive at a partitioning of $Q_m$ into sets $R_i = Q_i \setminus Q_{i-1}$ for $i = 1, \ldots, m$, each having a unique element of $[m]$ as a first coordinate common to all $k$ elements while having second coordinates which form a consecutive set modulo $m$. In fact, every set of $k$ consecutive integers modulo $m$ is the set of second coordinates of some $R_i$. This must be the case because for every consecutive set $J$ we have $|\cap_{j \in J} S_j| = 1$, whereas if $J$ is the set of second coordinates for two distinct sets $R_i$ we would have $|\cap_{j \in J} \pi(S_j)| \geq 2$, which violates \eqref{NonEmpty}. 
-\end{proof}
-
-%==== PROOF OF MAIN LEMMA =======
-\begin{proof}[Proof of Lemma \ref{MainLemma} (Main Lemma)]
-We assume $k \geq 2$ since the case $k = 1$ was proven at the beginning of Section \ref{DUT}. Let $S_1, \ldots, S_m$ be the set of contiguous length $k$ intervals in some cyclic ordering of $[m]$. We begin by proving that $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$ for all $i \in [m]$. 
-Fix $i \in [m]$ and note that by \eqref{GapUpperBound} we have for all unit vectors $\mathbf{u} \in \text{Span}\{A_{S_i}\}$ that $d(u, \text{Span}\{B_{\pi(S_i)}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for $\delta < \frac{L_2(A)}{ \sqrt{2}}$. By definition of $L_2(A)$ we have for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
-\begin{align}
-L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}
-\end{align}
-
-Hence $\delta < \rho$. Since $\phi_k \leq 1$ we have $d(u, \text{Span}\{B_{\pi(S_i)}\}) < 1$ and it follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_i)}\}) \geq \dim(\text{Span}\{A_{S_i}\}) = k$. Since $|\pi(S_i)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
-
-We will now show that
-\begin{align}\label{fact2}
-|\bigcap_{i \in J} \pi(S_i)| \leq |\bigcap_{i \in J} S_i | \ \ \text{for } \ J \in {[m] \choose k}.
-\end{align}
-
-Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound} we have for all unit vectors $\mathbf{u} \in \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$ that $d(\mathbf{u}, \text{Span}\{A_{S_i}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for all $j \in J$, where $\delta < \frac{L_2(A)}{\sqrt{2}}$. It follows by Lemma \ref{DistanceToIntersectionLemma} that
-\begin{align*}
-d\left( \mathbf{u}, \bigcap_{i \in J} \text{Span}\{A_{S_j}\} \right) 
-\leq \frac{\delta}{\rho} \left( \frac{ \phi_k(A) }{1 - \xi( \{ \text{Span}\{A_{S_i}\}: i \in J\} ) } \right) \leq \frac{\delta}{\rho},
-\end{align*}
-%
-where the second inequality follows immediately from the definition of $\phi_k(A)$. 
-
-Now, since \mbox{$\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\} \subseteq \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$} and (by Lemma \ref{SpanIntersectionLemma}) $\cap_{i \in J}  \text{Span}\{A_{S_i}\} = \text{Span}\{A_{\cap_{i \in J}  S_i}\}$, we have
-\begin{align}\label{fact1}
-d\left( \mathbf{u}, \text{Span}\{A_{\cap_{i \in J} S_i}\} \right) \leq \frac{\delta}{\rho} \indent \text{for unit vectors } \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}.
-\end{align}
-We therefore have by Lemma \ref{MinDimLemma} (since $\delta/\rho < 1$) that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}) \leq \dim(\text{Span}\{A_{\cap_{i \in J} S_i}\})$ and \eqref{fact2} follows by the linear independence of the columns of $A_{S_i}$ and $B_{\pi(S_i)}$ for all $i \in [m]$.
-
-Suppose now that $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. By \eqref{fact2} we have that $\cap_{i \in J} \pi(S_i)$ is either empty or it contains a single element. Lemma \ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $i \mapsto \cap_{i \in J} \pi(S_i)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_i\}$ we have $d\left( \mathbf{u}, \text{Span}\{B_{\hat \pi(i)}\}\right) \leq \delta/\rho$ also. Since $i$ is arbitrary, it follows that for every canonical basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{j \in [m]} c_i$. This is exactly the supposition in \eqref{1D} and the result follows from the subsequent arguments of Section \ref{DUT}. 
-\end{proof}
-
-\begin{remark}
-The arguments above can easily be modified to prove Lemma \ref{MainLemma2}. Since Lemma \ref{NonEmptyLemma} assumes $m = m'$, we may not invoke it when $m' > m$ to show that $|\cap_{i \in J} \pi(S_i)| = 1$ for $J = \{i-k+1, \ldots, i\}$. Instead, under the additional assumption that $B$ satisfies spark condition \eqref{SparkCondition}, we can swap the roles of $A$ and $B$ in the proof of \eqref{fact1} to show that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}) = \dim(\text{Span}\{A_{\cap_{i \in J} S_i}\})$, from which the same fact then follows. The proof is then completed in much the same way as above by defining a map $\pi: [m] \to [m']$ by the association $i \mapsto \cap_{i \in J} \pi(S_i)$, thereby reducing the proof to the $k=1$ case described in Remark \ref{m'geqmk=1}.
-\end{remark}
-
-%\begin{remark} In general, there may exist combinations of fewer supports with intersection $\{i\}$, e.g. if $m \geq 2k-1$ then $S_{i - (k-1)} \cap S_i = \{i\}$. For brevity, we have considered a construction that is valid for any $k < m$.
-%\end{remark}
 
 %===================================
 % 		ACKNOWLEDGEMENT
 %===================================
 \section*{Acknowledgment}
-We thank Fritz Sommer for turning our attention to the dictionary learning problem, Darren Rhea for sharing his early explorations, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} with a reference to his proof on the internet (www.stackexchange.com). %Finally, we thank Bizzyskillet of Soudcloud.com for the ``No Exam Jams'', which played on repeat during many long hours of designing proofs.
+We thank Fritz Sommer for turning our attention to the sparse coding problem, Darren Rhea for sharing early explorations, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} with a reference to his proof on the internet (www.stackexchange.com). %Finally, we thank Bizzyskillet of Soudcloud.com for the ``No Exam Jams'', which played on repeat during many long hours of designing proofs.
 
 %===================================
 % 			REFERENCES
@@ -604,7 +486,7 @@ completed a B.S. in Physics and Chemistry at McGill University. He is currently 
 \end{IEEEbiographynophoto}
 
 \begin{IEEEbiographynophoto}{Christopher J. Hillar}
-completed a B.S. in Mathematics and a B.S. in Computer Science at Yale University.  Supported by an NSF Graduate Research Fellowship, he received his Ph.D. in Mathematics from the University of California (UC), Berkeley in 2005. From 2005-2008, he was a Visiting Assistant Professor and NSF Postdoctoral Fellow at Texas A\&M University. From 2008-2010, he was an NSF All Institutes Postdoctoral Fellow at the Mathematical Sciences Research Institute (MSRI) in Berkeley, CA.  In 2010, he joined the Redwood Center for Theoretical Neuroscience at UC Berkeley, and in 2011, began working part time in psychiatry department at UC San Francisco.
+completed a B.S. in Mathematics and a B.S. in Computer Science at Yale University.  Supported by an NSF Graduate Research Fellowship, he received his Ph.D. in Mathematics from the University of California (UC), Berkeley in 2005. From 2005-2008, he was a Visiting Assistant Professor and NSF Postdoctoral Fellow at Texas A\&M University. From 2008-2010, he was an NSF All Institutes Postdoctoral Fellow at the Mathematical Sciences Research Institute (MSRI) in Berkeley, CA.  In 2010, he joined the Redwood Center for Theoretical Neuroscience at UC Berkeley.  % , and in 2011, began working part time in psychiatry department at UC San Francisco.
 \end{IEEEbiographynophoto}
 
 \end{document}
