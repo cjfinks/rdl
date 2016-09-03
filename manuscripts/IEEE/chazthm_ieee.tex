@@ -53,9 +53,8 @@ Bilinear inverse problem, matrix factorization, identifiability, dictionary lear
 % Mention application to data compression
 % Also I should translate epsilon into angle, i.e. the norm in the matrix space into the metric in the space of subspaces.
 \section{Introduction}
-\IEEEPARstart{S}{parse} coding is a strategy to approximate each vector in a set $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ as a linear combination of few vectors drawn from an inferred \emph{dictionary} $\mathcal{D} \subset \mathbb{R}^n$, where $n \leq m:= |\mathcal{D}| \ll N$. Since their initial application to explain the response properties of certain visual cortical neurons \cite{Olshausen96}, these methods have become important tools in the fields of signal processing and machine learning, which utilize sparse representations in a variety of applications (\cite{Zhang15} contains a comprehensive review). 
-
-In applications to inverse problems, wherein the dictionary elements and/or reconstruction coefficients are interpreted as physical parameters to be inferred from measurements (e.g. animal position \cite{Agarwal14}), it is important that practitioners be aware that a plurality of qualitatively different solutions are consistent with data.  Moreover, only very recently have algorithms with convergence guarantees been developed \cite{??} [****FIND THIS REF***]. In this note, we derive algorithm-independent conditions guaranteeing when a dictionary $\mathcal{D}$ of a given size can be uniquely identified from a dataset $Y$ and when each datum in turn has a unique decomposition in terms of elements of $\mathcal{D}$. We also characterize the stability of these solutions with respect to noise, an essential consideration as measurements are inevitably rendered uncertain by various sources of error. 
+<<<<<<< HEAD
+\IEEEPARstart{S}{parse} coding is a strategy to approximate each vector in a set $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ as a linear combination of few vectors drawn from an inferred \emph{dictionary} $\mathcal{D} \subset \mathbb{R}^n$, where $n \leq |\mathcal{D}| \ll N$. Since their initial development to explain the response properties of certain visual cortical neurons \cite{Olshausen96}, sparse coding methods have become important tools in the fields of signal processing and machine learning, which utilize sparse representations in a variety of applications (\cite{Zhang15} contains a comprehensive review). In applications to inverse problems, wherein the dictionary elements and/or reconstruction coefficients are interpreted as real physical parameters to be inferred from measurements (e.g. animal position \cite{Agarwal14}), practitioners must beware  that a plurality of qualitatively different solutions are consistent with data. Only very recently have algorithms with convergence guarantees been developed \cite{??}. In this note, we derive algorithm-independent conditions guaranteeing when a dictionary $\mathcal{D}$ of a given size can be uniquely identified from a dataset $Y$ and when each datum in turn has a unique composition in terms of elements of $\mathcal{D}$. We also characterize the stability of these solutions with respect to noise, an essential consideration as measurements are inevitably rendered uncertain by various sources of error. 
 
 While many related problems all seem to fall under the umbrella term of ``sparse coding" or ``dictionary learning", we believe the following formulation is representative of the original motivating philosophy. Fix a dictionary $\mathcal{D} \subset \mathbb{R}^n$ of size $m$ and and let $A$ be the $n \times m$ matrix with columns $A_j$, consisting of the elements of $\mathcal{D}$ arranged in some order. Suppose the dataset $Y$ is a sequence of measurements generated as:
 \begin{align}\label{LinearModel}
@@ -79,17 +78,17 @@ The question of when every solution to Problem \ref{InverseProblem} is unique up
 \begin{definition}\label{Uniqueness}
 A dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation in $\mathbb{R}^m$} if for some dictionary $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. We say this representation is \textbf{stable} if for every $\delta_1, \delta_2 \geq 0$ there exists $\varepsilon = \varepsilon(\delta_1, \delta_2) \geq 0$ (with $\varepsilon > 0$ when  $\delta_1, \delta_2 > 0$) such that if $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfy:
 \begin{align}\label{y-Bb}
-|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon,\indent \text{for } i = 1, \ldots, N,
+|\mathbf{y}_i - B\mathbf{x'}_i|_2 \leq \varepsilon,\indent \text{for } i = 1, \ldots, N,
 \end{align}
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i,j$:
 \begin{align}\label{def1}
-|A_j - (BPD)_j|_2 \leq \delta_1 \ \ \text{and} \ \ |\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_1 \leq \delta_2.
+|A_j - (BPD)_j|_2 \leq \delta_1 \ \ \text{and} \ \ |\mathbf{x}_i - D^{-1}P^{\top}\mathbf{x'}_i|_1 \leq \delta_2.
 \end{align}
 \end{definition}
 
 \begin{question}\label{DUTproblem}
-Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{a}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_i \in \mathbb{R}^m$. When does $Y$ have a stable $k$-sparse representation in $\mathbb{R}^m$?
+Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be generated as $\mathbf{y}_i = A\mathbf{x}_i$ for some matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{x}_i \in \mathbb{R}^m$. When does $Y$ have a stable $k$-sparse representation in $\mathbb{R}^m$?
 \end{question}
 
 It is easy to see how an answer to Question \ref{DUTproblem} directly informs the interpretation of solutions to Problem \ref{InverseProblem}. Suppose $Y$ consists of measurements generated as in \eqref{LinearModel}, where the underlying dictionary $A$ and sparse codes $\mathbf{x}_i$ define a stable $k$-sparse representation in $\mathbb{R}^m$. Fix $\delta_1, \delta_2 \geq 0$, the desired accuracy in uniqueness, and let $\varepsilon(\delta_1, \delta_2)$ be as in Def.~\ref{Uniqueness}. Since $|\mathbf{y}_i - A\mathbf{a}_i|_2 \leq \varepsilon$ for all $i$, if coding accuracy satisfies $\varepsilon \leq \frac{1}{2}\varepsilon(\delta_1, \delta_2)$,  then the triangle inequality implies that any solution to Problem \ref{InverseProblem} necessarily satisfies \eqref{def1} for some $P$ and $D$. That is, the solution to Problem \ref{InverseProblem} is uniquely determined up to the inherent permutation-scaling ambiguity.  % and an error commensurate with noise.
@@ -103,7 +102,7 @@ known in the sparse recovery literature as the \emph{spark condition}, then the 
 %We note that this is a necessary condition if the dataset $Y$ could in principle include data generated as in \eqref{LinearModel} from any given $k$-sparse vector $\mathbf{x} \in \mathbb{R}^m$. 
 % [ *** Can we motivate more necessary conditions using theorems of Li15, too? Theorem 2.8. *** ] 
 
-Before stating this result more precisely, we explain how the spark condition relates to the \emph{lower bound} \cite{Grcar10} of $A$, which is the largest number $\alpha$ such that $|A\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2$ for all $\mathbf{x}$. A straightforward compactness argument shows that every injective linear map has a nonzero lower bound; hence, if $A$ satisfies the spark condition then every submatrix formed from $2k$ of its columns or less has a nonzero lower bound. We therefore define the following domain-restricted lower bound of $A$:
+Before stating this result more precisely, we explain how the spark condition relates to the \emph{lower bound} \cite{Grcar10} of $A$, written $L(A)$, which is the largest number $\alpha$ such that $|A\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$. A straightforward compactness argument shows that every injective linear map has a nonzero lower bound; hence, if $A$ satisfies the spark condition then every submatrix formed from $2k$ of its columns or less has a nonzero lower bound. We therefore define the following domain-restricted lower bound of $A$:
 \begin{align}
 L_k(A) := \max \{ \alpha : |A\mathbf{s}|_2 \geq \alpha|\mathbf{s}|_2 \text{ for $k$-sparse } \mathbf{s} \in \mathbb{R}^m\}.
 \end{align} 
@@ -366,7 +365,7 @@ Let $X$ and $X'$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\
 &= |\sum_{j=1}^N c_i(AX_{J(S)} - BX'_{J(S)})\mathbf{e}_j|_2 
 \leq \varepsilon \sum_{j=1}^N |c_j| \\
 &\leq \varepsilon \sqrt{k}  |\mathbf{c}|_2 
-\leq \frac{\varepsilon \sqrt{k}}{L(AX_{JS)})} |AX_{J(S)}\mathbf{c}|_2 \\
+\leq \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |AX_{J(S)}\mathbf{c}|_2 \\
 &= \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |\mathbf{z}|_2.
 \end{align*}
 
