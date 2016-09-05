@@ -132,7 +132,7 @@ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diago
 \end{theorem}
 
 \begin{remark}
-In fact, we have:
+In fact, when $\varepsilon < \varepsilon_0$ we have:
 \begin{align}
 L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \frac{\varepsilon}{\varepsilon_0} \right),
 \end{align}
@@ -153,15 +153,15 @@ An important consequence of this result is that for sufficiently small reconstru
 \begin{align}\label{epsd1d2}
 \varepsilon \leq \min \left( \delta_1 C^{-1}, \frac{ \delta_2 \varepsilon_0}{\delta_2 + C^{-1} + \max_{i \in [N]} |\mathbf{a}_i|_1} \right).
 \end{align}
-The constant $C = C(A, \mathbf{a})$ is explicitly defined in \eqref{Cdef}, below. 
+The constant $C = C(A, \{\mathbf{a}_i\}_{i=1}^N)$ is explicitly defined in \eqref{Cdef}, below. 
 
 \begin{corollary}\label{DeterministicUniquenessCorollary}
 Given integers $n, m$, and $k < m$, there are $N =  m(k-1){m \choose k}+m$ vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with the following property: every matrix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} generates a robustly identifiable dataset $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$.
 \end{corollary}
 
-Our proof of Thm.~\ref{DeterministicUniquenessTheorem} is a delicate refinement of the arguments in \cite{Hillar15} to handle noise.  We also reduce the number of samples required from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$, and we provide guarantees when only an upper bound on the number of columns in $A$ is known (Thm.~\ref{DeterministicUniquenessTheorem2} below). 
+Our proof of Thm.~\ref{DeterministicUniquenessTheorem}, contained in Sec.~\ref{DUT}, is a refinement of the arguments in \cite{Hillar15} to handle noise and reduce the number of samples required from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$. 
 
-In Section \ref{Preliminaries}, we list additional definitions and key lemmas, including our main tool from combinatorial matrix theory (Lem.~\ref{MainLemma}). We then derive Thm.~\ref{DeterministicUniquenessTheorem} in Section \ref{DUT}. In Section \ref{mleqm}, we state an extension of this result (Thm.~\ref{DeterministicUniquenessTheorem2}) to the case where only an upper bound on the dimensionality of the sparse codes (or, equivalently, the number of columns in the generating dictionary) is known, with proofs contained in Appendix A. In Section \ref{PUT}, we state and prove Theorems \ref{Theorem2} and \ref{Theorem3}, our probabilistic versions of Thm.~\ref{DeterministicUniquenessTheorem}. The final section is a discussion, and Appendix A proves Lem.~\ref{MainLemma}.
+In Section \ref{Preliminaries}, we list additional definitions and key lemmas, including our main tool from combinatorial matrix theory (Lem.~\ref{MainLemma}).  We then prove Thm.~\ref{DeterministicUniquenessTheorem} in Section~\ref{DUT}. In Section \ref{mleqm}, we state an extension of this result (Thm.~\ref{DeterministicUniquenessTheorem2}) to the case where only an upper bound on the dimensionality of the sparse codes (or, equivalently, the number of columns in the generating dictionary) is known. In Section \ref{PUT}, we state and prove Thm.~\ref{ProbabilisticTheorem}, our probabilistic version of Thm.~\ref{DeterministicUniquenessTheorem}. The final section is a discussion. Supplementary materials contain proofs of Cor.~\ref{DeterministicUniquenessCorollary}, Thms.~\ref{DeterministicUniquenessTheorem2}~and~\ref{ProbabilisticTheorem} and our main tool, Lem.~\ref{MainLemma}.
 
 %===================================
 % 			Preliminaries
@@ -355,41 +355,26 @@ From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(\text{Spa
 It follows by Lem.~\ref{MainLemma} that there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that $|A_j - (BPD)_j|_2 \leq C\varepsilon$ for all $j \in [m]$. The proof of how \eqref{b-PDa} follows from this result is contained in Rem.~\ref{b-PDaProof}.
 \end{proof}
 
-\begin{proof}[Proof of Corollary \ref{DeterministicUniquenessCorollary}]
-The first step is to produce a set of $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ in general linear position (i.e., any $k$ of them are linearly independent).  Specifically, let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
-\end{proof}
-
 
 %===================================
 % DIFFERENT CODING DIMENSIONS
 %===================================
 \section{Unknown representation dimension}\label{mleqm}
 
-We next state a version of Thm.~\ref{DeterministicUniquenessTheorem} assuming that $B$ also satisfies the spark condition, allowing us to address dictionary recovery when only an upper bound $m'$ on the latent dimension $m$ is known. Let $X$ be the $m \times N$ matrix with columns given by $\mathbf{a}_i$ and $I(S) = \{i : S = \text{supp}(\mathbf{a}_i)\}$.
-
+We next state a version of Thm.~\ref{DeterministicUniquenessTheorem} assuming that $B$ also satisfies the spark condition, allowing us to address dictionary recovery when only an upper bound $m'$ on the latent dimension $m$ is known. Let $X$ be the $m \times N$ matrix with columns given by $\mathbf{a}_i$ and let $I(S) = \{i : S = \text{supp}(\mathbf{a}_i)\}$.
 
 \begin{theorem}\label{DeterministicUniquenessTheorem2}
-Fix $m < m'$.  Thm.~\ref{DeterministicUniquenessTheorem} holds when $B \in \mathbb{R}^{n \times m'}$ is assumed to satisfy the spark condition, $\varepsilon_0 = \frac{L_2(A)}{\sqrt{2}}  C^{-1}$, 
+Let $A \in \mathbb{R}^{n \times m}$ and the $\mathbf{a}_i \in \mathbb{R}^m$ be as described in Thm.~\ref{DeterministicUniquenessTheorem} and fix $m' > m$. If $B \in \mathbb{R}^{n \times m'}$ also satisfies the spark condition and \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$ for some set of $k$-sparse $\mathbf{b}_i \in \mathbb{R}^{m'}$, then \eqref{Cstable} and \eqref{b-PDa} hold with respect to a \textbf{partial} permutation matrix $P \in \mathbb{R}^{m' \times m'}$ (i.e., there is at most one nonzero entry in each row and column and these nonzero entries are all one), a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ (e.g. $D_{ij} = 0$ when $i \neq j$), and where:
 \begin{align}\label{Cdef'}
-C= \left( \frac{ \sqrt{k^3}}{ \min(\phi_k(A), \phi_k(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})},
+C= \left( \frac{ \sqrt{k^3}}{ \min(\phi_k(A), \phi_k(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
 \end{align}
-and we extend $P$ and $D$ to be \textbf{partial permutation} matrices $P \in \mathbb{R}^{m' \times m'}$ (i.e., there is at most one nonzero entry in each row and column and these nonzero entries are all one) and \textbf{diagonal} matrices $D \in \mathbb{R}^{m' \times m}$ (i.e., $D_{ij} = 0$ when $i \neq j$).
-%
-% and fix a cyclic order on $[m]$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are $(k-1){m' \choose k}+1$ vectors $\mathbf{a}_i$ in general linear position supported on that interval and $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} then there exists a constant $\tilde C > 0$ for which the following holds for all $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \tilde C^{-1}$. If there exist $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$ then:
-%\begin{align}
-%|A_j-(BPD)_j|_2 \leq \tilde C\varepsilon \indent \text{ for } j \in [m]
-%\end{align}
-%%
-%for some \textbf{partial permutation} matrix $P \in \mathbb{R}^{m' \times m'}$ (i.e., there is at most one nonzero entry in each row and column and these nonzero entries are all one) and \textbf{diagonal} matrix $D \in \mathbb{R}^{m' \times m}$ (i.e., $D_{ij} = 0$ whenever $i \neq j$). 
 \end{theorem}
 
-\begin{remark}\label{m'geqmk=1}
-Minor modifications of previous arguments prove this generalization of Thm.~\ref{DeterministicUniquenessTheorem} to the case $k=1$
-%. where $B$ may have more than $m$ columns (i.e. $B \in \mathbb{R}^{n \times m'}$ and $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ for some $m' \geq m$). 
-In this case, from the injective function $\pi: [m] \rightarrow [m']$ we may define a partial permutation matrix $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$.
-\end{remark}
+In other words, the columns of the learned $B$ contain (up to noise, after appropriate scaling) the columns of the original dictionary $A$ and the coefficients in each $\mathbf{a}_i$ form (up to noise) a scaled subset of the coefficients in $\mathbf{b}_i$. 
 
-In other words, the columns of the learned $B$ contain (up to noise, after appropriate scaling) the columns of the original dictionary $A$. One can then show by manipulations similar to those contained in Rem.~\ref{b-PDaProof} that the coefficients in each $\mathbf{a}_i$ form (up to noise) a scaled subset of the coefficients in $\mathbf{b}_i$.
+Thm.~\ref{DeterministicUniquenessTheorem2} is easily proven by modification of the arguments in Section \ref{DUT}. In the case $k=1$, we simply set the codomain of $\pi$ to be $[m']$ instead of $[m]$, which then defines the partial permutation $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$, while $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m}) \in \mathbb{R}^{m' \times m}$. The proof for general $k>1$ is contained in the supplementary material, and is simpler as a result of the additional assumption on $B$. Finally, the manipulations in Rem.~\ref{b-PDaProof} can similarly be modified to show that \eqref{b-PDa} follows from \eqref{Cstable}. 
+
+
 
 
 
@@ -398,7 +383,7 @@ In other words, the columns of the learned $B$ contain (up to noise, after appro
 %======================================
 \section{Probabilistic Identifiability}\label{PUT}
 
-Given Thm.~\ref{DeterministicUniquenessTheorem}, it is straightforward to provide probabilistic extensions (Theorems \ref{Theorem2} and \ref{Theorem3}) by drawing on the following key result in random matrix theory. A random matrix $A \in \mathbb{R}^{n \times m}$ satisfies \eqref{SparkCondition} with probability one 
+Given Thm.~\ref{DeterministicUniquenessTheorem}, it is straightforward to provide the following probabilistic extension (Thm.~\ref{ProbabilisticTheorem}) by drawing on the following key result in random matrix theory. A random matrix $A \in \mathbb{R}^{n \times m}$ satisfies \eqref{SparkCondition} with probability one 
 %(or ``high probability" for discrete variables) 
 provided:
 \begin{align}\label{CScondition}
@@ -407,17 +392,9 @@ n \geq \gamma k\log\left(\frac{m}{k}\right),
 where $\gamma$ is a positive constant dependent on the particular distribution from which $A$ is sampled. We state here the main implications of our probabilistic results. To keep exposition simple, our statements are based upon the following elementary construction (although many ensembles suffice, e.g. \cite[Sec.~4]{Baraniuk08}): 
 given the support set for its $k$ nonzero entries, a \textbf{random draw} of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly and independently from  $[0, 1] \subset \mathbb{R}$.
 
-\begin{theorem}
-Fix $n, m$ and $k$ satisfying \eqref{CScondition} and a cyclic order on $[m]$. Let $A$ have entries $A_{ij}$ independently sampled according to probability measures $\nu_{ij}$ absolutely continuous with respect to $\mu$. If $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^{m}$ are such that every interval of length $k$ in the cyclic order $[m]$ has $(k-1){m \choose k} + 1$ vectors supported on that interval with coefficients independently sampled from a distribution absolutely continuous with respect to $\mu$ then, with probability one, $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable sparse representation in $\mathbb{R}^m$. 
+\begin{theorem}\label{ProbabilisticTheorem}
+Fix $n, m$ and $k$ satisfying \eqref{CScondition} and a cyclic order on $[m]$. Let $A \in \mathbb{R}^{n \times m}$ have entries $A_{ij}$ independently sampled according to probability measures $\nu_{ij}$ absolutely continuous with respect to $\mu$. If $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^{m}$ are such that every interval of length $k$ in the cyclic order $[m]$ has $(k-1){m \choose k} + 1$ vectors supported on that interval with coefficients independently sampled from a distribution absolutely continuous with respect to $\mu$ then, with probability one, $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable sparse representation in $\mathbb{R}^m$. 
 \end{theorem}
-
-\begin{proof}
-In HS11 it was shown that there exists a polynomial in the entries of the matrix $A$ and $k$-sparse vectors $\mathbf{a}_i$ which does not evaluate to zero if and only if $A$ satisfies \eqref{SparkCondition} and  the $\mathbf{a}_i$ which share supports are in general linear position. By [Baraniuk], there is an $A$ which satisfies the spark condition and by the Vandermonde construction there are $\mathbf{a}_i$ in general linear position. By poly trick, the set of zeros of $f$ form a set of $\mu$-measure 0. Hence the set of matrices and vectors which do not satisfy our constraints form a set of $\mu$-measure 0, where $\mu$ is the standard Borel product measure. By Theorem 1, the set of datasets $Y =  \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ for which the entries of $A$ and the $k$-sparse vectors $\mathbf{a}_i$ are all independently drawn according to probability measures which are absolutely continuous with respect to $\mu$ form a set of $\mu$-measure 0. 
-
-
-
-%First, note that if a set of measure spaces $\{(X_i, \Sigma_i, \nu_i)\}_{i=1}^p$ is such that $\nu_i$ is absolutely continuous with respect to $\mu$ for all $i = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{i=1}^p \nu_i$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$. By HS11, the matrices $A \in \mathbb{R}^{n \times m}$ with entries $A_{ij}$ sampled i.i.d. from the uniform distribution on $[0,1]$ which do \emph{not} satisfy the spark condition form a set of Lebesgue measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one. Also according to HS11, fixing $S \in {[m] \choose k}$, any set of $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_q \in \mathbb{R}^m$ supported on $S$ are in general linear position with probability one. Apply Theorem 1.
-\end{proof}
 
 %\begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
 %Given the support set for its $k$ nonzero entries, a \textbf{random draw} of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly and independently from the interval $[0, 1] \subset \mathbb{R}$. 
@@ -445,10 +422,11 @@ In sparse coding, it is usually assumed that the linear model \eqref{LinearModel
 The main concept in smoothed analysis \cite{Spielman04} is that certain algorithms having bad worst case behavior are, nonetheless, efficient if certain (typically, Lebesgue measure zero in the continuous case and with ``low probability" in the discrete case) pathological input sets are avoided. Our results imply that if there is an efficient ``smoothed" algorithm for solving Problem \ref{InverseProblem} given enough samples, then for generic inputs this algorithm determines the unique original solution. We note that avoiding ``bad" (NP-hard) sets of inputs is necessary for dictionary learning \cite{Razaviyayn15, Tillmann15}.
 
 \textbf{Neural Communication Theory}.
-In \cite{Coulter10} and \cite{Isely10}, it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded by unsupervised sparse coding.  A necessary condition for this theory to work is that the SCA problem has a unique solution.  This was already verified in the case of data sampled without noise.  The present work extends this theory to the more realistic case of sampling error.
+In \cite{Coulter10} and \cite{Isely10}, it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded by unsupervised sparse coding.  A necessary condition for this theory to work is that the sparse coding problem has a unique solution.  This was already verified in the case of data sampled without noise.  The present work extends this theory to the more realistic case of sampling error.
 
 \textbf{Engineering}.
 Several groups have found ways to utilize compressed sensing for signal processing tasks, such as digital image compression \cite{Duarte08} (``single-pixel camera") and, more recently, the design of an ultrafast camera \cite{Gao14}. Given such effective uses of classical CS, it is only a matter of time before these systems utilize sparse coding algorithms to code and process data. In this case, guarantees such as the ones offered by our main theorems allow any such device to be ambiguity-transform equivalent to any other (having different initial parameters and data samples) as long as enough data originates from a statistically equivalent system.
+% MENTION THE PEOPLE AT CARNEGIE MELON WHO CONTACTED US?
 
 %===================================
 % 		ACKNOWLEDGEMENT
@@ -461,7 +439,6 @@ We thank Fritz Sommer for turning our attention to the sparse coding problem, Da
 %===================================
 \bibliographystyle{IEEEtran}
 \bibliography{chazthm_ieee}
-
 %===================================
 % 			BIOGRAPHY
 %===================================
@@ -480,7 +457,9 @@ completed a B.S. in Mathematics and a B.S. in Computer Science at Yale Universit
 We demonstrate with the following counter-example that for $C$ as defined in \eqref{Cdef} the condition $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ is necessary to guarantee in general that \eqref{Cstable} follows from the remaining assumptions of Theorem \ref{DeterministicUniquenessTheorem}. Consider the dataset $\mathbf{a}_i = \mathbf{e}_i$ for $i = 1, \ldots, m$ and let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$. Then $L_2(A) = 1$ (we have $|A\mathbf{x}|_2 = |\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$) and $C = 1$; hence $\frac{L_2(A)}{\sqrt{2}}C^{-1} = 1/\sqrt{2}$. Consider the alternate dictionary $B = \left(\mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$ and sparse codes $\mathbf{b}_i = \mathbf{e}_2$ for $i = 1, 2$ and $\mathbf{b}_i = \mathbf{e}_i$ for $i = 3, \ldots, m$. Then $|A\mathbf{a}_i - B\mathbf{b}_i| = 1/\sqrt{2}$ for $i = 1, 2$ (and $0$ otherwise). If there were permutation and invertible diagonal matrices $P \in \mathbb{R}^{m \times m}$ and $D \in \mathbb{R}^{m \times m}$ such that $|(A-BPD)\mathbf{e}_i| \leq C\varepsilon$ for all $i \in [m]$, then we would reach the contradiction $1 = |P^{-1}\mathbf{e}_1|_2 = |(A-BPD)P^{-1}\mathbf{e}_1|_2 \leq 1/\sqrt{2}$. 
 \end{remark}
 
-
+\begin{proof}[Proof of Corollary \ref{DeterministicUniquenessCorollary}]
+The first step is to produce a set of $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ in general linear position (i.e., any $k$ of them are linearly independent).  Specifically, let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
+\end{proof}
 
 
 \appendices
@@ -648,6 +627,14 @@ By Lem.~\ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with proba
 Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $[m]$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval then, with probability one, almost every matrix $A \in \mathbb{R}^{n \times m}$ gives a robustly identifiable $Y = \{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$.
 \end{corollary}
 
+
+\begin{proof}
+In \cite{Hillar15} it was demonstrated how to construct a polynomial in the entries of the matrix $A$ and $k$-sparse vectors $\mathbf{a}_i$ which does not evaluate to zero if and only if $A$ satisfies \eqref{SparkCondition} and  the $\mathbf{a}_i$ which share supports are in general linear position. By [Baraniuk], there is an $A$ which satisfies the spark condition and by the Vandermonde construction there are $\mathbf{a}_i$ in general linear position. By poly trick, the set of zeros of $f$ form a set of $\mu$-measure 0. Hence the set of matrices and vectors which do not satisfy our constraints form a set of $\mu$-measure 0, where $\mu$ is the standard Borel product measure. By Theorem 1, the set of datasets $Y =  \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ for which the entries of $A$ and the $k$-sparse vectors $\mathbf{a}_i$ are all independently drawn according to probability measures which are absolutely continuous with respect to $\mu$ form a set of $\mu$-measure 0. 
+
+
+
+%First, note that if a set of measure spaces $\{(X_i, \Sigma_i, \nu_i)\}_{i=1}^p$ is such that $\nu_i$ is absolutely continuous with respect to $\mu$ for all $i = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{i=1}^p \nu_i$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$. By HS11, the matrices $A \in \mathbb{R}^{n \times m}$ with entries $A_{ij}$ sampled i.i.d. from the uniform distribution on $[0,1]$ which do \emph{not} satisfy the spark condition form a set of Lebesgue measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one. Also according to HS11, fixing $S \in {[m] \choose k}$, any set of $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_q \in \mathbb{R}^m$ supported on $S$ are in general linear position with probability one. Apply Theorem 1.
+\end{proof}
 
 
 \end{document}
