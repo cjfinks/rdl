@@ -118,7 +118,7 @@ A \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ i
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 \begin{theorem}\label{DeterministicUniquenessTheorem}
-Fix integers $n, m$, $k < m$, and a cyclic order on $[m]$. If $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in the cyclic order there are at least \mbox{$(k-1){m \choose k}+1$} vectors $\mathbf{a}_i$ in general linear position supported on that interval and $A \in \mathbb{R}^{n \times m}$ satisfies spark condition \eqref{SparkCondition}, then $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ is robustly identifiable.
+Fix positive integers $n, m$, and $k < m$. If $A \in \mathbb{R}^{n \times m}$ satisfies spark condition \eqref{SparkCondition} and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic order on $[m]$ there are at least \mbox{$(k-1){m \choose k}+1$} vectors $\mathbf{a}_i$ in general linear position supported on that interval, then $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ is robustly identifiable.
 
 Specifically, there exists a constant $C > 0$ for which the following holds for all $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$. If \textbf{any} matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$, then for all $j \in [m]$:
 \begin{align}\label{Cstable}
@@ -161,7 +161,8 @@ Given integers $n, m$, and $k < m$, there are $N =  m(k-1){m \choose k}+m$ vecto
 
 Our proof of Thm.~\ref{DeterministicUniquenessTheorem}, contained in Sec.~\ref{DUT}, is a refinement of the arguments in \cite{Hillar15} to handle noise and reduce the number of samples required from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$. 
 
-In Section \ref{Preliminaries}, we list additional definitions and key lemmas, including our main tool from combinatorial matrix theory (Lem.~\ref{MainLemma}).  We then prove Thm.~\ref{DeterministicUniquenessTheorem} in Section~\ref{DUT}. In Section \ref{mleqm}, we state an extension of this result (Thm.~\ref{DeterministicUniquenessTheorem2}) to the case where only an upper bound on the dimensionality of the sparse codes (or, equivalently, the number of columns in the generating dictionary) is known. In Section \ref{PUT}, we state and prove Thm.~\ref{ProbabilisticTheorem}, our probabilistic version of Thm.~\ref{DeterministicUniquenessTheorem}. The final section is a discussion. Supplementary materials contain proofs of Cor.~\ref{DeterministicUniquenessCorollary}, Thms.~\ref{DeterministicUniquenessTheorem2}~and~\ref{ProbabilisticTheorem} and our main tool, Lem.~\ref{MainLemma}.
+In Section \ref{Preliminaries}, we list additional definitions and key lemmas, including our main tool from combinatorial matrix theory (Lem.~\ref{MainLemma}).  We then prove Thm.~\ref{DeterministicUniquenessTheorem} in Section~\ref{DUT}. In Section \ref{mleqm}, we state an extension of this result (Thm.~\ref{DeterministicUniquenessTheorem2}) to the case where only an upper bound on the dimensionality of the sparse codes (or, equivalently, the number of columns in the generating dictionary) is known. In Section \ref{PUT}, we state Thm.~\ref{ProbabilisticTheorem}, our probabilistic version of Thm.~\ref{DeterministicUniquenessTheorem}. The final section is a discussion. We relegate all proofs except for that of Thm.~\ref{DeterministicUniquenessTheorem} to the supplementary materials.
+%Supplementary materials contain proofs of Cor.~\ref{DeterministicUniquenessCorollary}, Thms.~\ref{DeterministicUniquenessTheorem2}~and~\ref{ProbabilisticTheorem} and our main tool, Lem.~\ref{MainLemma}.
 
 %===================================
 % 			Preliminaries
@@ -220,8 +221,7 @@ Let $U, V$ be subspaces of $\mathbb{R}^m$ and let $d(u,V) := \inf\{|u-v|_2: v \i
 Note that $\Theta(U,V)$ is in fact equal to the sine of the largest Jordan angle between $U$ and $V$.
 \end{remark}
 
-We now state our main result from combinatorial matrix theory, generalizing \cite[Lem.~1]{Hillar15} to the noisy case, deferring its 
-proof to Appendix \ref{appendixA}.
+We now state our main result from combinatorial matrix theory, generalizing \cite[Lem.~1]{Hillar15} to the noisy case.
 
 %===========          MAIN LEMMA (K > 1)             =================
 \begin{lemma}[Main Lemma]\label{MainLemma}
@@ -248,10 +248,6 @@ If $U, V$ are subspaces of $\mathbb{R}^{m}$, then
 d(u,V) < |u|_2 \ \ \text{\rm for } u \in U \setminus{\{0\}} \implies \dim(U) \leq \dim(V).
 \end{equation}
 \end{lemma}
-
-\begin{proof}
-We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument ($\dim U + \dim V^\perp > m$) gives a nonzero $u \in U \cap V^\perp$.  In particular, we have $|u - v|_2^2 = |u|_2^2 + |v|_2^2 \geq |u|_2^2$ for $v \in V$, and thus $d(u,V) \geq |u|_2$.
-\end{proof}
 
 %===================================
 % 			Deterministic Identifiability
@@ -361,7 +357,7 @@ It follows by Lem.~\ref{MainLemma} that there exist a permutation matrix $P \in 
 %===================================
 \section{Unknown representation dimension}\label{mleqm}
 
-We next state a version of Thm.~\ref{DeterministicUniquenessTheorem} assuming that $B$ also satisfies the spark condition, allowing us to address dictionary recovery when only an upper bound $m'$ on the latent dimension $m$ is known. Let $X$ be the $m \times N$ matrix with columns given by $\mathbf{a}_i$ and let $I(S) = \{i : S = \text{supp}(\mathbf{a}_i)\}$.
+We next state a version of Thm.~\ref{DeterministicUniquenessTheorem} that addresses dictionary recovery when only an upper bound $m'$ on the latent dimension $m$ is known. To do so, we must assume that $B$ also satisfies the spark condition. Let $X$ be the $m \times N$ matrix with columns given by $\mathbf{a}_i$ and let $I(S) = \{i : S = \text{supp}(\mathbf{a}_i)\}$.
 
 \begin{theorem}\label{DeterministicUniquenessTheorem2}
 Let $A \in \mathbb{R}^{n \times m}$ and the $\mathbf{a}_i \in \mathbb{R}^m$ be as described in Thm.~\ref{DeterministicUniquenessTheorem} and fix $m' > m$. If $B \in \mathbb{R}^{n \times m'}$ also satisfies the spark condition and \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$ for some set of $k$-sparse $\mathbf{b}_i \in \mathbb{R}^{m'}$, then \eqref{Cstable} and \eqref{b-PDa} hold with respect to a \textbf{partial} permutation matrix $P \in \mathbb{R}^{m' \times m'}$ (i.e., there is at most one nonzero entry in each row and column and these nonzero entries are all one), a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ (e.g. $D_{ij} = 0$ when $i \neq j$), and where:
@@ -374,26 +370,21 @@ In other words, the columns of the learned $B$ contain (up to noise, after appro
 
 Thm.~\ref{DeterministicUniquenessTheorem2} is easily proven by modification of the arguments in Section \ref{DUT}. In the case $k=1$, we simply set the codomain of $\pi$ to be $[m']$ instead of $[m]$, which then defines the partial permutation $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$, while $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m}) \in \mathbb{R}^{m' \times m}$. The proof for general $k>1$ is contained in the supplementary material, and is simpler as a result of the additional assumption on $B$. Finally, the manipulations in Rem.~\ref{b-PDaProof} can similarly be modified to show that \eqref{b-PDa} follows from \eqref{Cstable}. 
 
-
-
-
-
 %======================================
 % PROBABILISTIC THEOREMS
 %======================================
 \section{Probabilistic Identifiability}\label{PUT}
 
-Given Thm.~\ref{DeterministicUniquenessTheorem}, it is straightforward to provide the following probabilistic extension (Thm.~\ref{ProbabilisticTheorem}) by drawing on the following key result in random matrix theory. A random matrix $A \in \mathbb{R}^{n \times m}$ satisfies \eqref{SparkCondition} with probability one 
+It is straightforward to provide a probabilistic extension of Thm.~\ref{DeterministicUniquenessTheorem} by drawing on the following key result in random matrix theory. A random matrix $A \in \mathbb{R}^{n \times m}$ satisfies \eqref{SparkCondition} with probability one 
 %(or ``high probability" for discrete variables) 
 provided:
 \begin{align}\label{CScondition}
 n \geq \gamma k\log\left(\frac{m}{k}\right),
 \end{align}
-where $\gamma$ is a positive constant dependent on the particular distribution from which $A$ is sampled. We state here the main implications of our probabilistic results. To keep exposition simple, our statements are based upon the following elementary construction (although many ensembles suffice, e.g. \cite[Sec.~4]{Baraniuk08}): 
-given the support set for its $k$ nonzero entries, a \textbf{random draw} of $\mathbf{a}$ is the $k$-sparse vector with support entries chosen uniformly and independently from  $[0, 1] \subset \mathbb{R}$.
+where $\gamma$ is a positive constant dependent on the particular distribution from which $A$ is sampled (many ensembles suffice, e.g. \cite[Sec.~4]{Baraniuk08}). 
 
 \begin{theorem}\label{ProbabilisticTheorem}
-Fix $n, m$ and $k$ satisfying \eqref{CScondition} and a cyclic order on $[m]$. Let $A \in \mathbb{R}^{n \times m}$ have entries $A_{ij}$ independently sampled according to probability measures $\nu_{ij}$ absolutely continuous with respect to $\mu$. If $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^{m}$ are such that every interval of length $k$ in the cyclic order $[m]$ has $(k-1){m \choose k} + 1$ vectors supported on that interval with coefficients independently sampled from a distribution absolutely continuous with respect to $\mu$ then, with probability one, $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable sparse representation in $\mathbb{R}^m$. 
+Fix positive integers $n, m$ and $k$ satisfying \eqref{CScondition} and let the coefficients of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures which are absolutely continuous with respect to the standard Borel measure $\mu$. If for every length $k$ interval in some cyclic order on $[m]$ there are $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported on that interval, then with probability one the dataset $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable sparse representation in $\mathbb{R}^m$. 
 \end{theorem}
 
 %\begin{definition}[Random $k$-Sparse Vectors]\label{RandomDraw}
@@ -402,7 +393,7 @@ Fix $n, m$ and $k$ satisfying \eqref{CScondition} and a cyclic order on $[m]$. L
 
 %We next give precise statements of our probabilistic versions of Thm.~\ref{DeterministicUniquenessTheorem}, which apply to random sparse vectors as defined above. Our brief proofs rely largely on the following lemma, the proof of which can be found in \cite[Lem.~3]{Hillar15}.
 
-Our results in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) involved \emph{worst case} noise.  In particular, for fixed $k$, the larger the ambient dimension of $\mathbf{y}$, the smaller the probability that noise points in a direction that confuses signals generated by $k$ columns of $A$.  Therefore, for a given distribution, the ``effective'' noise might be much smaller, with the original dictionary and sparse codes being identifiable with better constants. 
+We note that our results in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) involved \emph{worst case} noise.  In particular, for fixed $k$, the larger the ambient dimension of $\mathbf{y}$, the smaller the probability that noise points in a direction that confuses signals generated by $k$ columns of $A$.  Therefore, for a given distribution, the ``effective'' noise might be much smaller, with the original dictionary and sparse codes being identifiable with better constants. 
 
 
 %===================================
@@ -460,6 +451,11 @@ We demonstrate with the following counter-example that for $C$ as defined in \eq
 \begin{proof}[Proof of Corollary \ref{DeterministicUniquenessCorollary}]
 The first step is to produce a set of $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ in general linear position (i.e., any $k$ of them are linearly independent).  Specifically, let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 \end{proof}
+
+\begin{proof}[Proof of Lemma \ref{MinDimLemma}]
+We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument ($\dim U + \dim V^\perp > m$) gives a nonzero $u \in U \cap V^\perp$.  In particular, we have $|u - v|_2^2 = |u|_2^2 + |v|_2^2 \geq |u|_2^2$ for $v \in V$, and thus $d(u,V) \geq |u|_2$.
+\end{proof}
+% PUT THIS IN APPENIX?
 
 
 \appendices
