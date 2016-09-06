@@ -92,7 +92,7 @@ Up to this permutation-scaling ambiguity, however, solutions to Problem \ref{Inv
 \begin{definition}\label{Uniqueness}
 Dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ has a \textbf{$k$-sparse representation in $\mathbb{R}^m$} if for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. This representation is \textbf{stable} if for every $\delta_1, \delta_2 \geq 0$ there exists $\varepsilon = \varepsilon(\delta_1, \delta_2) \geq 0$ (with $\varepsilon > 0$ when  $\delta_1, \delta_2 > 0$) such that if any $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ satisfy:
 \begin{align}\label{y-Bb}
-|\mathbf{y}_i - B\mathbf{a}_i|_2 \leq \varepsilon,\indent \text{for } i = 1, \ldots, N,
+|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon,\indent \text{for } i = 1, \ldots, N,
 \end{align}
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i,j$:
