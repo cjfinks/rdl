@@ -68,12 +68,17 @@ Several related problems seem to fall under the umbrella term of sparse coding (
 \begin{align}\label{LinearModel}
 \mathbf{y} = A\mathbf{a} + \mathbf{n},
 \end{align}
-for $k$-\emph{sparse} $\mathbf{a} \in \mathbb{R}^m$ having at most $k$ nonzero entries and \emph{noise} $\mathbf{n} \in \mathbb{R}^n$, with $|\mathbf{n}|_2 \leq \varepsilon$. The noise represents our combined uncertainty in  measuring $A\mathbf{a}$.
+for $k$-\emph{sparse} $\mathbf{a} \in \mathbb{R}^m$ having at most $k$ nonzero entries and \emph{noise} $\mathbf{n} \in \mathbb{R}^n$, with $|\mathbf{n}|_2 \leq \varepsilon$. The noise represents our uncertainty in  measuring $A\mathbf{a}$.
 %; if these uncertainties are all bounded then, since they sum linearly, the resulting total is also bounded, i.e. we suppose for all data in $Y$ that $|\mathbf{n}|_2 \leq \varepsilon$ for some $\varepsilon \geq 0$. 
 
 \begin{problem}[Sparse Coding]\label{InverseProblem}
 Find $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ such that $|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for $i = 1, \ldots, N$.
 \end{problem}
+
+When they exist, solutions to Problem \ref{InverseProblem} will be found by solving:
+\begin{align*}
+\min_{B, \, \mathbf{b}_i} \  \max_{i \in [N]} |\mathbf{b}_i|_0 \text{ s.t. } |\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon \text{ for $i = 1, \ldots, N$}.
+\end{align*}
 
 Evidently for uniqueness to hold -- knowing only that the $\mathbf{a}_i$ are $k$-sparse -- we require that $A$ satisfy the \textit{spark condition}:
 \begin{align}\label{SparkCondition}
@@ -273,6 +278,11 @@ If $U, V$ are subspaces of $\mathbb{R}^{m}$, then
 d(u,V) < |u|_2, \ \ u \in U \setminus{\{0\}} \implies \dim(U) \leq \dim(V).
 \end{equation*}
 \end{lemma}
+
+[*** state this fact here, cut out elsewhere? ***] Finally, we will often make use of the following easily proven fact:
+\begin{align}
+|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2 \ \ \text{for all $k$-sparse $\mathbf{x} \in \mathbb{R}^m$}.
+\end{align}
 
 %===================================
 % 			Deterministic Identifiability
@@ -625,5 +635,13 @@ We demonstrate with the following counter-example that for $C$ as defined in \eq
 We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ for which, for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of contiguous length $k$ intervals in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 \end{proof}
 
+\section{Spark Condition Polynomial}
+
+Consider the $n \times m$ matrix $A$ of $nm$ indeterminate variables $A_{ij}$. This matrix becomes a matrix in $\mathbb{R}^{n \times m}$ when real numbers are substituted for all the indeterminates. Such matrices satisfy the spark condition if and only if the following polynomial evaluates to a nonzero number:
+\begin{align}
+h(A) = \prod_{S \in {[m] \choose k}} \sum_{R \in {[n] \choose k}} |\det(A_{(R,S)})|
+\end{align}
+%
+where for any $R \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{(S,R)}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in R \times S$.  
 
 \end{document}
