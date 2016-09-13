@@ -188,10 +188,10 @@ where $\gamma$ is a positive constant dependent on the particular distribution f
 
 Consider the $n \times m$ matrix $A$ of $nm$ indeterminate variables $A_{ij}$. This matrix becomes a matrix in $\mathbb{R}^{n \times m}$ when real numbers are substituted for all the indeterminates. Such matrices satisfy the spark condition if and only if the following polynomial evaluates to a nonzero number:
 \begin{align}
-h(A) = \prod_{S \in {[m] \choose k}} \sum_{R \in {[n] \choose k}} |\det(A_{(R,S)})|
+h(A) = \prod_{S \in {[m] \choose k}} \sum_{S' \in {[n] \choose k}} (\det A_{S',S})^2
 \end{align}
 %
-where for any $R \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{(S,R)}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in R \times S$.  
+where for any $S' \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{S',S}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in R \times S$.  
 
 \begin{theorem}\label{ProbabilisticTheorem}
 Fix $n, m$ and $k$ satisfying \eqref{CScondition} and let the coefficients of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures which are absolutely continuous with respect to the standard Borel measure $\mu$. If for every interval of length $k$ in some cyclic order on $[m]$ there are at least $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported on that interval, then with probability one the dataset $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$. 
