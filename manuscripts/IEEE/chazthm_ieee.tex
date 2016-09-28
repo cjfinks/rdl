@@ -188,10 +188,10 @@ where $\gamma$ is a positive constant dependent on the particular distribution f
 
 Consider the $n \times m$ matrix $A$ of $nm$ indeterminate variables $A_{ij}$. This matrix becomes a matrix in $\mathbb{R}^{n \times m}$ when real numbers are substituted for all the indeterminates. Such matrices satisfy the spark condition if and only if the following polynomial evaluates to a nonzero number:
 \begin{align}
-h(A) = \prod_{S \in {[m] \choose k}} \sum_{S' \in {[n] \choose k}} (\det A_{S',S})^2
+h(A) := \prod_{S \in {[m] \choose k}} \sum_{S' \in {[n] \choose k}} (\det A_{S',S})^2
 \end{align}
 %
-where for any $S' \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{S',S}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in R \times S$.  
+where for any $S' \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{S',S}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in S' \times S$.  
 
 \begin{theorem}\label{ProbabilisticTheorem}
 Fix $n, m$ and $k$ satisfying \eqref{CScondition} and let the coefficients of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures which are absolutely continuous with respect to the standard Borel measure $\mu$. If for every interval of length $k$ in some cyclic order on $[m]$ there are at least $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported on that interval, then with probability one the dataset $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$. 
@@ -299,12 +299,10 @@ d(u,V) < |u|_2, \ \ u \in U \setminus{\{0\}} \implies \dim(U) \leq \dim(V).
 We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument ($\dim U + \dim V^\perp > m$) gives a nonzero $u \in U \cap V^\perp$.  In particular, we have $|u - v|_2^2 = |u|_2^2 + |v|_2^2 \geq |u|_2^2$ for $v \in V$, and thus $d(u,V) \geq |u|_2$.
 \end{proof}
 
-
-
-[*** state this fact here, cut out elsewhere? ***] Finally, we will often make use of the following easily proven fact:
-\begin{align}
-|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2 \ \ \text{for all $k$-sparse $\mathbf{x} \in \mathbb{R}^m$}.
-\end{align}
+%[*** state this fact here, cut out elsewhere? ***] Finally, we will often make use of the following easily proven fact:
+%\begin{align}
+%|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2 \ \ \text{for all $k$-sparse $\mathbf{x} \in \mathbb{R}^m$}.
+%\end{align}
 
 %===================================
 % 			Deterministic Identifiability
@@ -530,7 +528,7 @@ Finally, since the ordering of the subspaces is arbitrary, we can replace $z$ in
 |\bigcap_{i \in J} \pi(S_i)| \leq |\bigcap_{i \in J} S_i | \ \ \text{for } \ J \in {[m] \choose k}.
 \end{align}
 %
-Then, $|\pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})| = 1$ for $j_1,\ldots,j_k$ consecutive modulo $m$.
+Then, $|\pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})| = 1$ for all consecutive (modulo $m$) indices $j_1,\ldots,j_k$.
 \end{lemma}
 
 \begin{proof} Consider the set $Q_m = \{ (r,t) : r \in \pi(S_t), t \in [m] \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $q \in [m]$ and $J \in {[m] \choose k}$ such that $(q, j) \in Q_m$ for all $j \in J$. In particular, we have $q \in \cap_{j \in J} \pi(S_j)$ so that from \eqref{NonEmpty} there must be some $p \in [m]$ with $p \in \cap_{j \in J} S_j$. Since $|J| = k$, this is only possible if the elements of $J = \{j_1, \ldots, j_k\}$ are consecutive modulo $m$, in which case $|\cap_{j \in J} S_j| = 1$. Hence $|\cap_{j \in J} \pi(S_j)| = 1$ as well.
@@ -655,7 +653,14 @@ We demonstrate with the following counter-example that for $C$ as defined in \eq
 We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ for which, for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of contiguous length $k$ intervals in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values of vector $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 \end{proof}
 
-% \section{Spark Condition Polynomial}
+\section{TODO}
+\begin{itemize}
+\item steamroll supplemental section
+\item generate figure showing linear regime
+\item can the conclusion of Lemma \ref{NonEmptyLemma} be that $\{ \pi(S): S \in T \}$ is the set of consecutive length-$k$ intervals for some cyclic order on $[m]$?
+\end{itemize}
+
+
 
 
 \end{document}
