@@ -1,33 +1,38 @@
+""" Contains classes for manipulating data """
+
 import numpy as np
 from sklearn.preprocessing import normalize
 import os
 import scipy.io
 import matplotlib.pyplot as pp
-import pytest
+#import pytest
 import itertools
 import random
 
 class Dictionary:
-	""" 'Dictionary' contains the dictionary matrix, relevant functions thereof, and methods for manipulation and plotting of the matrix """
-	def __init__(self, arr_or_string ):
-		if isinstance( arr_or_string, str):
-			self.load( arr_or_string )
-		else:
-			self.matrix = np.matrix( arr_or_string )
+	""" Wraps a numpy matrix (stored in self.matrix) and contains methods for loading a particular dictionary from the list below, calculating relevant functions thereof, and plotting the dictionary matrix.
 
-	def set_matrix( self, arr ):
-		self.matrix = np.matrix( arr )
+		Stored dictionaries, saved in the 'dictionaries' directory, are:
+	    - dct8x8: 8x8 discrete cosine transform basis 
+		- dct12x12: 12x12 discrete cosine transform basis
+		- alphabet: letters from the alphabet
+	"""
+	def __init__(self, array ):
+		self.matrix = np.matrix( array )
 	
-	def phi_k(self):
+	def phi(self, k):
+		""" Returns phi_k of the dictionary matrix """
 		pass
 
-	def ell_k(self, k):
+	def restricted_lower_bound(self, k):
+		""" Returns the k-restricted lower-bound of the dictionary matrix """
 		pass
 
-	def get_coherence(self):
-		""" Calculat mutual coherence of columns """
+	def coherence(self):
+		""" Calculate mutual coherence of columns """
 		corr = matrix.T * matrix
-		return np.max( np.abs( corr - np.diag(np.diag(corr)) ) )
+		mu = np.max( np.abs( corr - np.diag(np.diag(corr)) ) )
+		return mu
 	
 	def normalize( self, norm = 'l2' ):
 		""" Sets columns of dictionary matrix to have unit norm """
@@ -46,25 +51,6 @@ class Dictionary:
 	def plot(self):
 		""" Plots dictionary elements as functions over the integers """
 		pass
-
-	def load( self, name ):
-		""" Loads one of the saved dictionaries in the data directory """
-		datadir = os.path.abspath( os.path.dirname(__file__) )
-		if name == 'alphabet':
-			struct = scipy.io.loadmat( os.path.join(datadir, 'alphabet.mat' ) )[ 'letters' ]  # cols are rastered DCT8x8
-			letters = ['A', 'C', 'D', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'N', 'O', 'P', 'Q', 'R', 'T', 'U', 'X', 'V', 'Y']
-			D = np.zeros((16,len(letters)))
-			for j, letter in enumerate(letters):
-				D[:,j] = struct[letter][0,0].ravel()
-		else:
-			filename = name
-			name, ext = os.path.splitext( filename )
-			if ext == '.mat':
-				datadir = os.path.abspath( os.path.dirname(__file__) )
-				D = scipy.io.loadmat( os.path.join(datadir, filename) )[ name ]  # cols are rastered DCT8x8
-			elif ext == '.npy':
-				D = np.load( filename )
-		self.matrix = np.matrix( D )
 
 	def _tile_atoms( self, image_shape=None, tile_shape=None ):
 		""" Displays the dictionary as tiled images """
@@ -95,8 +81,8 @@ class Dictionary:
 				dt = 'uint8'
 			out_array = np.zeros(out_shape, dtype=dt)
 
-			for tile_row in xrange(tile_shape[0]):
-				for tile_col in xrange(tile_shape[1]):
+			for tile_row in range(tile_shape[0]):
+				for tile_col in range(tile_shape[1]):
 					if tile_row * tile_shape[1] + tile_col < X.shape[0]:
 						this_x = X[tile_row * tile_shape[1] + tile_col]
 						this_img = this_x.reshape(img_shape)
@@ -129,7 +115,7 @@ class DataTable:
 		""" Returns a batch of data """
 		numberOfSamples = self.all.shape[0]
 		indexOfLastSample = numberOfSamples - 1
-		iter = itertools.cycle( xrange(0, numberOfSamples, self.batchSize) )
+		iter = itertools.cycle( range(0, numberOfSamples, self.batchSize) )
 		while True:
 			firstIndexOfBatch = iter.next()
 			lastIndexOfBatch = firstIndexOfBatch + self.batchSize - 1
