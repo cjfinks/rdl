@@ -38,8 +38,7 @@
 \maketitle
 
 \begin{abstract}
-Sparse coding has exposed underlying structure in many kinds of natural data.  However, given the multitude of algorithms implementing this strategy, claims of ``true" latent discovery require the backing of universal theorems guaranteeing statistical consistency.  Here we prove that for almost all diverse enough datasets generated under this model, sparse coding to within a constant multiple of measurement error uniquely identifies original codes and dictionary up to uniform permutation and scaling ambiguities.  Applications are given to smoothed analysis, neural communication theory, and engineering.
-%Sparse coding or dictionary learning methods have exposed underlying structure in many kinds of natural data. Here, we generalize to the case of measurement noise previous results guaranteeing when the learned dictionary and sparse codes are unique up to inherent permutation and scaling ambiguities.  Central to our proofs is a useful lemma in combinatorial matrix theory allowing us to derive bounds on the number of samples necessary to guarantee uniqueness. We also provide probabilistic extensions to our robust identifiability theorem and an extension to the case when only an upper bound on the number of dictionary elements is known a priori. Our results help to inform the interpretation of sparse structure learned from data; whenever the conditions to one of our robust identifiability theorems are met, any sparsity-constrained algorithm that succeeds in approximately reconstructing the data well enough recovers the original dictionary and sparse codes up to an error commensurate with the noise. Applications are given to smoothed analysis, communication theory, and applied physics.
+Sparse coding has exposed underlying structure in many kinds of natural data.  However, given the multitude of algorithms implementing this strategy, claims of ``true" latent discovery require the backing of universal theorems guaranteeing statistical consistency.  Here, we prove that for almost all diverse enough datasets generated under this model, sparse coding to within a constant multiple of measurement error uniquely identifies original codes and dictionary up to uniform permutation and scaling ambiguities.  Applications are given to smoothed analysis, neural communication theory, and engineering.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -55,7 +54,7 @@ Bilinear inverse problem, matrix factorization, identifiability, dictionary lear
 \section{Introduction}
 \IEEEPARstart{E}{ver} since sparse coding of natural images reproduced response properties of neurons in mammalian primary visual cortex \cite{Olshausen96}, learning sparse representations of vector-valued data has become an important component of many signal processing and machine learning applications (see \cite{Zhang15} for a comprehensive review). In the \textit{sparse coding} model, each vector in a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ is approximated as a linear combination of $k$ vectors drawn from a learned \emph{dictionary} $\mathcal{A} \subset \mathbb{R}^n$, where $k \ll n \leq m:= |\mathcal{A}| \ll N$. 
 
-Many algorithms have been designed to infer the underlying parameters of this model, and it is tempting to accept their output as approximating ``ground truth" (e.g., animal position \cite{Agarwal14} on a linear track) when it exists. However, it is possible that several qualitatively different solutions are nonetheless consistent with the data. It is therefore important to determine algorithm-independent conditions guaranteeing when the sparse representation of a dataset is uniquely identifiable up to natural symmetries and also stable with respect to noise. 
+Many algorithms have been designed to infer the underlying parameters of this model, and it is tempting to accept their output as approximating ``ground truth" (e.g., animal position on a linear track \cite{Agarwal14}) when it exists. However, it is possible that several qualitatively different solutions are nonetheless consistent with the data. It is therefore important to determine algorithm-independent conditions guaranteeing when the sparse representation of a dataset is uniquely identifiable up to natural symmetries and also stable with respect to noise. 
 %a dictionary $\mathcal{A}$ of a given size can be uniquely identified up to natural symmetries from a dataset $Y$ and when each datum, in turn, has a unique sparse decomposition into elements of this dictionary. 
 
 The significant finding of this work is that any dictionary satisfying the spark condition from compressed sensing (CS) is uniquely identifiable from enough sparse noisy linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}).
@@ -69,7 +68,7 @@ We consider the following formulation of sparse coding (also ``dictionary learni
 \begin{align}\label{LinearModel}
 \mathbf{y} = A\mathbf{a} + \mathbf{n},
 \end{align}
-for $k$-\emph{sparse} $\mathbf{a} \in \mathbb{R}^m$, having at most $k$ nonzero entries, and \emph{noise} $\mathbf{n} \in \mathbb{R}^n$, with $|\mathbf{n}|_2 \leq \varepsilon$. The noise represents our combined worst-case uncertainty in  measuring $A\mathbf{a}$.
+for $k$-\emph{sparse} $\mathbf{a} \in \mathbb{R}^m$ having at most $k$ nonzero entries, and \emph{noise} $\mathbf{n} \in \mathbb{R}^n$, with $|\mathbf{n}|_2 \leq \varepsilon$. The noise represents our combined worst-case uncertainty in  measuring $A\mathbf{a}$.
 %; if these uncertainties are all bounded then, since they sum linearly, the resulting total is also bounded, i.e. we suppose for all data in $Y$ that $|\mathbf{n}|_2 \leq \varepsilon$ for some $\varepsilon \geq 0$. 
 
 \begin{problem}[Sparse Coding]\label{InverseProblem}
@@ -166,7 +165,7 @@ L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \frac{\varepsilon}{\varepsilon_0} \right).
 
 %[ *** So inference is stable for small enough error! There is no multiplicity of alternative models that also happen to work. Regression models have a fixed $A$ (i.e. the values of the variables we are regressing on). Here, in this model, we don't specify the $A$, instead we learn what the best regressor variables would be if they existed. And we want to combine regressors for different problems so as to save resources. Thought of all this reading section 8 of the Breiman paper on data models vs. algorithmic models.***]
 
-As an important consequence, for sufficiently small reconstruction error, the original dictionary and codes are determined up to a commensurate error. Specifically, for $\delta_1, \delta_2 \geq 0$, Thm.~\ref{DeterministicUniquenessTheorem} says that \eqref{y-Bb} implies \eqref{def1} for any $\varepsilon < \varepsilon_0$ satisfying:
+As an important consequence, for sufficiently small reconstruction error, the original dictionary and codes are determined up to a commensurate error. Specifically, for $\delta_1, \delta_2 \geq 0$, Thm.~\ref{DeterministicUniquenessTheorem} says that \eqref{def1} is implied for any $\varepsilon < \varepsilon_0$ satisfying:
 \begin{align*}
 \varepsilon \leq \min \left( \delta_1 C^{-1}, \frac{ \delta_2 \varepsilon_0}{\delta_2 + C^{-1} + \max_{i \in [N]} |\mathbf{a}_i|_1} \right).
 \end{align*}
@@ -200,7 +199,7 @@ Fix $n, m$, and $k$ satisfying \eqref{CScondition}, and let the coefficients of 
 
 We note that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise.  However, for fixed sparsity $k$, the larger the ambient dimension $n$ of the data, the smaller the probability that the noise points in a direction  confusing signals generated by $k$ columns of $A$.  Therefore, for a given distribution, the ``effective'' noise might be much smaller, with the original dictionary and sparse codes being identifiable for better constants with high probability. 
 
-We next address the dictionary recovery when only an upper bound $m'$ on the latent dimension $m$ is known. To do so, we must make the additional assumption that $B$ satisfies (\ref{SparkCondition}). 
+We next address dictionary recovery when only an upper bound $m'$ on the latent dimension $m$ is known. To do so, we must make the additional assumption that $B$ satisfies (\ref{SparkCondition}). 
 
 \begin{theorem}\label{DeterministicUniquenessTheorem2}
 Fix $m' > m$, and consider the statement of Thm.~\ref{DeterministicUniquenessTheorem} where $B \in \mathbb{R}^{n \times m'}$ also satisfies the spark condition and \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$ with $k$-sparse $\mathbf{b}_i \in \mathbb{R}^{m'}$.  There exists a constant $C > 0$ such that \eqref{Cstable} and \eqref{b-PDa} hold with respect to a \textbf{partial permutation} matrix $P \in \mathbb{R}^{m' \times m'}$ (i.e., there is at most one nonzero entry in each row and column, and these nonzero entries are all one) and a \textbf{diagonal} matrix $D \in \mathbb{R}^{m' \times m}$ (i.e., $D_{ij} = 0$ when $i \neq j$). 
