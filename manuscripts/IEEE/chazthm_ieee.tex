@@ -97,8 +97,7 @@ Somewhat surprisingly, when $\varepsilon = 0$, this permutation-scaling ambiguit
 %If $\varepsilon = 0$, though, then solutions to Problem \ref{InverseProblem} are unique up to this permutation-scaling ambiguity  
 
 \begin{definition}\label{Uniqueness}
-Given $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, 
- a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$ with $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$ is called a \textbf{$k$-sparse representation in $\mathbb{R}^m$}. This representation is \textbf{stable} if for every $\delta_1, \delta_2 \geq 0$, there exists $\varepsilon \geq 0$ (with $\varepsilon > 0$ when  $\delta_1, \delta_2 > 0$) such that if a matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ 
+We say $Y$ has a \textbf{$k$-sparse representation in $\mathbb{R}^m$} when for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. This representation is \textbf{stable} if for every $\delta_1, \delta_2 \geq 0$, there exists $\varepsilon \geq 0$ (with $\varepsilon > 0$ when  $\delta_1, \delta_2 > 0$) such that if a matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ 
 solve Problem~\ref{InverseProblem},
 %satisfy:
 %\begin{align}\label{y-Bb}
@@ -111,7 +110,7 @@ then there is a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertibl
 \end{definition}
 
 \begin{question}\label{DUTproblem}
-Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be a $k$-sparse representation in $\mathbb{R}^m$.  When is  $Y$ stable?
+Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be a $k$-sparse representation in $\mathbb{R}^m$.  When does $Y$ have a stable $k$-sparse representation in $\mathbb{R}^m$?
 \end{question}
 
 To see how Question \ref{DUTproblem} informs the interpretation of solutions to Problem \ref{InverseProblem}, suppose $Y$ is a stable $k$-sparse representation in $\mathbb{R}^m$. Fix $\delta_1, \delta_2 \geq 0$, the desired accuracy in uniqueness, and let $\varepsilon = \varepsilon(\delta_1, \delta_2)$ be as in Def.~\ref{Uniqueness}. 
