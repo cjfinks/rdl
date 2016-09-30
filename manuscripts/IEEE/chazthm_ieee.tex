@@ -109,7 +109,7 @@ then there is a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertibl
 \end{definition}
 
 \begin{question}\label{DUTproblem}
-Let $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ be a $k$-sparse representation in $\mathbb{R}^m$.  When does $Y$ have a stable $k$-sparse representation in $\mathbb{R}^m$?
+Fix a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$.  When does $Y$ have a stable $k$-sparse representation in $\mathbb{R}^m$?
 \end{question}
 
 To see how Question \ref{DUTproblem} informs the interpretation of solutions to Problem \ref{InverseProblem}, suppose $Y$ is a stable $k$-sparse representation in $\mathbb{R}^m$. Fix $\delta_1, \delta_2 \geq 0$, the desired accuracy in uniqueness, and let $\varepsilon = \varepsilon(\delta_1, \delta_2)$ be as in Def.~\ref{Uniqueness}. 
@@ -177,24 +177,24 @@ Given $n, m$, and $k < m$, there are $N =  m(k-1){m \choose k}+m$ vectors \mbox{
 
 Our proof of Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT} is a refinement of the arguments in \cite{Hillar15} to handle noise and to reduce the number of required samples from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$. 
 
-It is easy to provide a probabilistic extension of Thm.~\ref{DeterministicUniquenessTheorem} by drawing on the following key result in random matrix theory. $A \in \mathbb{R}^{n \times m}$ satisfies \eqref{SparkCondition} with probability one 
+It is easy to provide a probabilistic extension of Thm.~\ref{DeterministicUniquenessTheorem} by drawing on the following key result in random matrix theory. A random $n \times m$ matrix satisfies \eqref{SparkCondition} with probability one 
 %(or ``high probability" for discrete variables) 
 provided:
 \begin{align}\label{CScondition}
 n \geq \gamma k\log\left(\frac{m}{k}\right),
 \end{align}
-where $\gamma$ is a positive constant dependent on the particular distribution from which $A$ is sampled (many ensembles suffice, e.g. \cite[Sec.~4]{Baraniuk08}). 
+where $\gamma$ is a positive constant dependent on the particular distribution from which the entries of the matrix are sampled (many ensembles suffice, e.g. \cite[Sec.~4]{Baraniuk08}). 
 [*** mention algebraic goem problem --  ask Bernd ***]
 
-Consider the $n \times m$ matrix $A$ of $nm$ indeterminate variables $A_{ij}$. When real numbers are substituted for all the indeterminates, such matrices satisfy the spark condition if and only if the following polynomial evaluates to a nonzero number:
-\begin{align}
+Consider now the $n \times m$ matrix $A$ of $nm$ indeterminate variables $A_{ij}$. When real numbers are substituted for all the indeterminates, the resulting matrix satisfies \eqref{SparkCondition} if and only if the following polynomial evaluates to a nonzero number:
+\begin{align*}
 f(A) = \prod_{S \in {[m] \choose k}} \sum_{S' \in {[n] \choose k}} (\det A_{S',S})^2,
-\end{align}
+\end{align*}
 %
-where for any $S' \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{S',S}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in S' \times S$.  
-
+where for any $S' \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{S',S}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in S' \times S$. Since $f$ is a real analytic function, it is enough to show that at least \emph{one} substitution of real numbers satisfies $f(A) \neq 0$ to conclude that the zeros of $f$ form a set with Lebesgue measure zero. Hence, with probability one a random $n \times m$ matrix $A$ satisfies \eqref{SparkCondition} provided \eqref{CScondition} holds for a value of $\gamma$ associated to \emph{any} particular distribution, not necessarily the distribution from which the entries of $A$ were actually drawn. 
+ 
 \begin{theorem}\label{ProbabilisticTheorem}
-Fix $n, m$, and $k$ satisfying \eqref{CScondition}, and let the coefficients of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures which are absolutely continuous with respect to the standard Borel measure $\mu$. If for every interval of length $k$ in some cyclic order on $[m]$ there are at least $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported on that interval, then with probability one the dataset $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ is stable.
+Fix $n, m$, and $k$ satisfying \eqref{CScondition} for a value of $\gamma$ associated to any particular distribution, and let the coefficients of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures which are absolutely continuous with respect to the standard Borel measure $\mu$. If for every interval of length $k$ in some cyclic order on $[m]$ there are at least $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported on that interval, then with probability one the dataset $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{theorem}
 
 We note that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise.  However, for fixed sparsity $k$, the larger the ambient dimension $n$ of the data, the smaller the probability that the noise points in a direction  confusing signals generated by $k$ columns of $A$.  Therefore, for a given distribution, the ``effective'' noise might be much smaller, with the original dictionary and sparse codes being identifiable for better constants with high probability. 
