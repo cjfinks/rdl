@@ -420,7 +420,7 @@ In this note, we generalize the known uniqueness of solutions to \eqref{InverseP
 \textbf{Data Analysis}.  
 In sparse coding, it is usually assumed that the linear model \eqref{LinearModel} describes some physical process, and the goal is to infer the true underlying dictionary and sparse codes from measurements. Often in such analyses, it is implicitly assumed that sparse coding has exposed this underlying sparse structure in the data as opposed to some artificial degeneracy arising from particular implementation details of an algorithm. 
 
-Our results provide theoretical backing to claims that given enough data samples uniqueness is indeed the norm rather than the exception. Regarding this, it would be useful to determine for general $(m,n,k)$ the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimum possible sample size $N$ and ``diversity" of generating codes. We encourage the sparse coding community to extend our results and find a tight dependency on all the parameters, both for the sake of theory and practical applications.
+Our results provide theoretical backing to claims that given enough data samples uniqueness is indeed the norm rather than the exception. Regarding this, it would be useful to determine for general $(m,n,k)$ the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimum possible sample size $N$ and ``diversity" of generating codes. We encourage the SC community to extend our results and find tight dependencies on all parameters, both for theory and practical applications.
 
 \textbf{Smoothed Analysis}.
 The main concept in smoothed analysis \cite{Spielman04} is that certain algorithms having bad worst case behavior are, nonetheless, efficient if certain (typically, measure zero in the continuous case and with ``low probability" in the discrete case) pathological input sets are avoided. Our results imply that if there is an efficient ``smoothed" algorithm for solving Problem \ref{InverseProblem} given enough samples, then for generic inputs this algorithm determines the unique original solution. We note that avoiding ``bad" (NP-hard) sets of inputs is a necessary technicality for dictionary learning \cite{Razaviyayn15, Tillmann15}.
@@ -436,7 +436,9 @@ Several groups have found ways to utilize compressed sensing (CS) for signal pro
 % 		ACKNOWLEDGEMENT
 %===================================
 \section*{Acknowledgment}
-We thank Fritz Sommer for turning our attention to the sparse coding problem, Darren Rhea for sharing early explorations, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} with a reference to his proof on the internet (www.stackexchange.com). %Finally, we thank Bizzyskillet of Soudcloud.com for the ``No Exam Jams'', which played on repeat during many long hours of designing proofs.
+We thank Fritz Sommer for turning our attention to the sparse coding problem, Darren Rhea for sharing early explorations, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} online.
+
+%a reference to his proof on the internet (www.stackexchange.com). %Finally, we thank Bizzyskillet of Soudcloud.com for the ``No Exam Jams'', which played on repeat during many long hours of designing proofs.
 
 %===================================
 % 			REFERENCES
@@ -444,19 +446,19 @@ We thank Fritz Sommer for turning our attention to the sparse coding problem, Da
 \bibliographystyle{IEEEtran}
 \bibliography{chazthm_ieee}
 
-\vspace{-.5 cm}
 
 %===================================
 % 			BIOGRAPHY
 %===================================
 \begin{IEEEbiographynophoto}{Charles J. Garfinkle}
-graduated from McGill University in 2010 with a B.S. in Physics and Chemistry and is currently a Ph.D. candidate in Neuroscience at UC Berkeley.
+graduated from McGill University in 2010 with a B.S. in Physics and Chemistry and is a Ph.D. candidate in Neuroscience at the University of California, Berkeley, CA.
 \end{IEEEbiographynophoto}
+
 
 \begin{IEEEbiographynophoto}{Christopher J. Hillar:} B.S. Mathematics, B.S. Computer Science, Yale University, 2000; Ph.D., Mathematics, University of California (UCB), Berkeley, CA 2005 (NSF Graduate Research Fellowship); NSF Postdoctoral Fellow, Texas A\&M University, College Station, TX, 2005--2008; NSF All Institutes Postdoctoral Fellow, Mathematical Sciences Research Institute, Berkeley, CA, 2008--2010; Redwood Center for Theoretical Neuroscience, UCB, 2010--.  % , and in 2011, began working part time in psychiatry department at UC San Francisco.
 \end{IEEEbiographynophoto}
 
-\clearpage
+% \clearpage
 
 \appendices
 \section{Combinatorial Matrix Theory}\label{appendixA}
