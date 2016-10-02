@@ -134,6 +134,6 @@ if __name__ == '__main__':
 	pp.xlim(0, lim); pp.ylim(0, lim) # make axes start at 0
 	pp.xlabel('$\max_i \|y_i - Aa_i\|_2$')
 	pp.ylabel(r'$\max_i \|(A - BPD)_i\|_2$')
-	pp.title('16 x 16 random non-orthogonal matrix, k = 2.')
+	pp.title('Done Computing. This wassup.')
 
 	#dictionary.matshow()
