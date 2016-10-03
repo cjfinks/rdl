@@ -1,3 +1,8 @@
+"""
+--CAPTION--
+Provided the signal-noise ratio is large enough, the maximum column-wise difference between the learned dictionary and the generating dictionary grows linearly with the noise once the columns of the learned dictionary are properly re-ordered and scaled. The figure was generated as follows. First, a random (n x n) dictionary $A$ and $N = m[(k-1)mCk+1]$ random $k$-sparse vectors $\mathbf{a}_i$ were drawn by independently sampling their non-zero coefficients from a uniform distribution over [-1,1], with an equal number of $k$-sparse vectors being supported on each length-$k$ interval in $[m]$. Then, a noisy dataset $\mathbf{y}_i = A\mathbf{a}_i + \mathbf{n}_i$ was generated for each value of $\varepsilon$ by drawing $\mathbf{n}_i$ from a uniform distribution over the $\varepsilon$-sphere. For each of these datasets, we ran FastICA until convergence to a dictionary $B$ and sources $\mathbf{b}_i$ and then thresholded each source to be $k$-sparse by setting all but their $k$ largest absolute cofficients to zero. To each such matrix $B$ a corresponding permutation-scaling matrix $PD$ was attributed, estimated to be the matrix obtained by setting all but the largest element in every column of $B^{-1}A$ to 0 (a check was performed to confirm that every row of PD had only one nonzero element as well). The plot shows, for each value of $\varepsilon$, the maximum value of $\max_i |(A-BPD)_i|_2$ over all dictionaries $B$ and corresponding $k$-sparse sources $\mathbf{b}_i$ obtained by this procedure which satisfied $|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon$. 
+
+"""
 import os
 import numpy as np
 import data, data.datatypes
@@ -73,17 +78,17 @@ def random_orthogonal_matrix( shape ):
 
 if __name__ == '__main__':
 	np.random.seed(0)
-	k= 2 # sparsity
+	k = 2 # sparsity
 	support_set = 'all' # 'cyclic' or 'all'
 	nTrialsPerEpsilon = 3
 	# (16,16)-ortho k=2, (9,9)-ortho k=3,
 
 	" Load dictionary from file or generate random dictionary "
-	filename = os.path.join( data.__path__[0], 'dictionaries/alphabet.npy' ) # available dictionaries: 'alphabet', 'dct8x8', 'dct12x12'
-	with open( filename, 'rb' ) as file:
-		dictionary = data.datatypes.Dictionary( np.load(file) ) 
-	#dictionary = data.datatypes.Dictionary( random_orthogonal_matrix((9,9)) ); 
-	dictionary = data.datatypes.Dictionary( np.random.rand(16,16) ); 
+	#filename = os.path.join( data.__path__[0], 'dictionaries/alphabet.npy' ) # available dictionaries: 'alphabet', 'dct8x8', 'dct12x12'
+	#with open( filename, 'rb' ) as file:
+	#	dictionary = data.datatypes.Dictionary( np.load(file) ) 
+	dictionary = data.datatypes.Dictionary( random_orthogonal_matrix((16,16)) ); 
+	#dictionary = data.datatypes.Dictionary( np.random.rand(9,9) ); 
 	#dictionary = data.datatypes.Dictionary( np.eye(9,9) ); 
 	dictionary.normalize()
 	A = dictionary.matrix
@@ -95,7 +100,7 @@ if __name__ == '__main__':
 	X = sparseVectorGenerator.sample( nSamplesPerSupport, PER_SUPPORT = True ) # (nSamples, m)
 
 	" Run Experiment "
-	eps_0 = 3./np.sqrt(2) # 1/sqrt(2) for orthogonal matrix
+	eps_0 = 2./np.sqrt(2) # 1/sqrt(2) for orthogonal matrix
 	epsilons = np.linspace(1e-5, eps_0, 120) 
 	maxColErrors = -np.inf * np.ones((len(epsilons), len(epsilons))) # For each epsilon, store the worst result over all trials of max_i ||(A-BPD)_i||_2
 	dictionaries = [ np.zeros( A.shape) ] * len(epsilons) # save one reconstruction dictionary for each epsilon
@@ -106,15 +111,15 @@ if __name__ == '__main__':
 		for trial in range(nTrialsPerEpsilon): # 
 			Y = Ynoiseless + eps * normalize( np.random.randn(*Ynoiseless.shape), axis=1, norm='l2' ) # add noise from the eps-ball
 			ica.fit(Y)  
-			Xhat = ica.transform(Y)
-			Xhat = keep_top_k( Xhat, k ) # enforce hard k-sparsity
+			PD = ica.transform( A.T ).T # transform original dictionary elements themselves to get permutation
+			PD *= ( abs(PD) >= np.max(abs(PD), axis=0)[None,:] ) # To make permutation, set all but the largest value in each column to zero
+			#TODO: Should test that P is a true permutation, i.e. that all rows have exactly one nonzero entry as well
+			bSupports = np.dot( X, PD.T ) != 0
+			Xhat = ica.transform(Y) * bSupports #Xhat = keep_top_k( Xhat, k ) # enforce hard k-sparsity
 			Yhat = ica.inverse_transform(Xhat) # np.dot( Xhat, ica.mixing_.T )
 			maxReconError = np.max( np.linalg.norm( Yhat - Y, axis = 1 ) )
 			iEpsilon = next((i for i, x in enumerate(maxReconError < epsilons) if x), None) # find smallest epsilon this is less than
 			if iEpsilon is not None: # if maxReconError is bigger than all epsilons, forget it
-				PD = ica.transform( A.T ).T # transform original dictionary elements themselves to get permutation
-				PD *= ( abs(PD) >= np.max(abs(PD), axis=0)[None,:] ) # To make permutation, set all but the largest value in each column to zero
-				#TODO: Should test that P is a true permutation, i.e. that all rows have exactly one nonzero entry as well
 				Ahat = np.dot( ica.mixing_, PD )
 				maxColErrorThisTrial = max( np.linalg.norm( A - Ahat, axis=1 ) )
 				#print('max_j ||(A-BPD)_j||_2  = %1.3f' % maxColumnErrorThisTrial)
