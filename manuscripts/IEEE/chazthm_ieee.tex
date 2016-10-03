@@ -32,8 +32,11 @@
 
 \title{Sparse Coding is Stable}
 
-\author{Charles~J.~Garfinkle and Christopher~J.~Hillar
-\thanks{This research was conducted at the Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA; e-mails: cjg@berkeley.edu, chillar@msri.org.  Support was provided, in part, by National Science Foundation grants IIS-1219212 (CH), IIS-1219199 (CG), and a SAMSI Working Group (CH, CG).}}
+\author{Charles~J.~Garfinkle and Christopher~J.~Hillar \\
+Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA
+\thanks{%Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA.  % ; e-mails: cjg@berkeley.edu, chillar@msri.org.  
+Support was provided, in part, by National Science Foundation grants IIS-1219212 (CH), IIS-1219199 (CG), and a SAMSI Working Group (CH, CG).}}
+
 
 \maketitle
 
@@ -68,7 +71,7 @@ We consider the following formulation of sparse coding (also ``dictionary learni
 \begin{align}\label{LinearModel}
 \mathbf{z} = A\mathbf{a} + \mathbf{n},
 \end{align}
-for $k$-\emph{sparse} $\mathbf{a} \in \mathbb{R}^m$ having at most $k$ nonzero entries, and \emph{noise} $\mathbf{n} \in \mathbb{R}^n$, with $|\mathbf{n}|_2 \leq \varepsilon$. The noise represents our combined worst-case uncertainty in  measuring $A\mathbf{a}$.
+for $k$-\emph{sparse} $\mathbf{a} \in \mathbb{R}^m$ having at most $k$ nonzero entries, and \emph{noise} $\mathbf{n} \in \mathbb{R}^n$, with $|\mathbf{n}|_2 \leq \varepsilon$. The noise represents our combined worst-case uncertainty in  measuring $\mathbf{y} = A\mathbf{a}$.
 %; if these uncertainties are all bounded then, since they sum linearly, the resulting total is also bounded, i.e. we suppose for all data in $Y$ that $|\mathbf{n}|_2 \leq \varepsilon$ for some $\varepsilon \geq 0$. 
 
 \begin{problem}[Sparse Coding]\label{InverseProblem}
@@ -109,7 +112,7 @@ there is a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible dia
 \end{definition}
 
 \begin{question}\label{DUTproblem}
-When does a set $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ have a stable $k$-sparse representation in $\mathbb{R}^m$?
+When does a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ have a stable $k$-sparse representation in $\mathbb{R}^m$?
 \end{question}
 
 It is easy to see how an answer to Question \ref{DUTproblem} informs the interpretation of solutions to Problem \ref{InverseProblem}. Suppose $Z$ is a sequence of measurements generated as in \eqref{LinearModel}, where $A$ and the $\mathbf{a}_i$ are such that the  noiseless measurements $\mathbf{y}_i = A\mathbf{a}_i$ have a stable $k$-sparse representation in $\mathbb{R}^m$. Fix $\delta_1, \delta_2 \geq 0$, the desired accuracy in uniqueness, and let $\varepsilon(\delta_1, \delta_2)$ be as in Def.~\ref{Uniqueness}. By the triangle inequality, if $\varepsilon \leq \frac{1}{2}\varepsilon(\delta_1, \delta_2)$ then any solution to Problem~\ref{InverseProblem} necessarily satisfies \eqref{def1} for some $P$, $D$. 
@@ -150,10 +153,18 @@ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diago
 
 \begin{remark}
 Note that it was not assumed a priori that $B$ satisfy the spark condition. In fact, when $\varepsilon < \varepsilon_0$, we have:
-\begin{align}
-L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \frac{\varepsilon}{\varepsilon_0} \right).
-\end{align}
+%\begin{align}
+$L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \frac{\varepsilon}{\varepsilon_0} \right)$.
+%\end{align}
 \end{remark}
+
+
+\begin{figure}[b!]
+\begin{center}
+\includegraphics[width=\linewidth]{figs/robust_error.pdf}
+\caption{\textbf{Recovery error vs. noise}.  Fast ICA \cite{hyvarinen1999fast} and noise tolerance.}\label{ica_robust}
+\end{center}
+\end{figure}
 
 % Can we get rid of the k-sparse assumption on b using results from CS?
 
@@ -163,6 +174,8 @@ L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \frac{\varepsilon}{\varepsilon_0} \right).
 %\end{remark}
 
 %[ *** So inference is stable for small enough error! There is no multiplicity of alternative models that also happen to work. Regression models have a fixed $A$ (i.e. the values of the variables we are regressing on). Here, in this model, we don't specify the $A$, instead we learn what the best regressor variables would be if they existed. And we want to combine regressors for different problems so as to save resources. Thought of all this reading section 8 of the Breiman paper on data models vs. algorithmic models.***]
+
+
 
 As an important consequence, for sufficiently small reconstruction error, the original dictionary and codes are determined up to a commensurate error. Specifically, for $\delta_1, \delta_2 \geq 0$, Thm.~\ref{DeterministicUniquenessTheorem} says that \eqref{def1} is implied for any $\varepsilon < \varepsilon_0$ satisfying:
 \begin{align*}
@@ -176,14 +189,17 @@ Given $n, m$, and $k < m$, there are $N =  m(k-1){m \choose k}+m$ vectors \mbox{
 
 Our proof of Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT} is a refinement of the arguments in \cite{Hillar15} to handle noise and to reduce the number of required samples from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$. 
 
-It is easy to provide a probabilistic extension of Thm.~\ref{DeterministicUniquenessTheorem} by drawing on the following key result in random matrix theory. A random $n \times m$ matrix satisfies \eqref{SparkCondition} with probability one 
+
+
+
+It is easy to provide a probabilistic extension of Thm.~\ref{DeterministicUniquenessTheorem} by drawing on the following key result in random matrix theory. A random matrix $A$ satisfies \eqref{SparkCondition} with probability one 
 %(or ``high probability" for discrete variables) 
 provided:
 \begin{align}\label{CScondition}
 n \geq \gamma k\log\left(\frac{m}{k}\right),
 \end{align}
 where $\gamma$ is a positive constant dependent on the particular distribution from which the entries of the matrix are sampled (many ensembles suffice, e.g. \cite[Sec.~4]{Baraniuk08}). 
-[*** mention algebraic goem problem --  ask Bernd ***]
+%[*** mention algebraic goem problem --  ask Bernd ***]
 
 Consider now the $n \times m$ matrix $A$ of $nm$ indeterminate variables $A_{ij}$. When real numbers are substituted for all the indeterminates, the resulting matrix satisfies \eqref{SparkCondition} if and only if the following polynomial evaluates to a nonzero number:
 \begin{align*}
@@ -193,7 +209,7 @@ f(A) = \prod_{S \in {[m] \choose k}} \sum_{S' \in {[n] \choose k}} (\det A_{S',S
 where for any $S' \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{S',S}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in S' \times S$. Since $f$ is a real analytic function, it is enough to show that at least \emph{one} substitution of real numbers satisfies $f(A) \neq 0$ to conclude that the zeros of $f$ form a set with Lebesgue measure zero. Hence, with probability one a random $n \times m$ matrix $A$ satisfies \eqref{SparkCondition} provided \eqref{CScondition} holds for a value of $\gamma$ associated to \emph{any} particular distribution, not necessarily the distribution from which the entries of $A$ are actually drawn. 
  
 \begin{theorem}\label{ProbabilisticTheorem}
-Fix $n, m$, and $k$ satisfying \eqref{CScondition} for a value of $\gamma$ associated to any particular distribution, and let the coefficients of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures which are absolutely continuous with respect to the standard Borel measure $\mu$. If for every interval of length $k$ in some cyclic order on $[m]$ there are at least $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported on that interval, then with probability one the dataset $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
+Fix $n, m$, and $k$ satisfying \eqref{CScondition} for a value of $\gamma$ associated to any particular distribution, and let the coefficients of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures which are absolutely continuous with respect to the standard Borel measure $\mu$. If for every interval of length $k$ in some cyclic order on $[m]$ there are $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported there, then with probability one $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{theorem}
 
 We note that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise.  However, for fixed sparsity $k$, the larger the ambient dimension $n$ of the data, the smaller the probability that the noise points in a direction  confusing signals generated by $k$ columns of $A$.  Therefore, for a given distribution, the ``effective'' noise might be much smaller, with the original dictionary and sparse codes being identifiable for better constants with high probability. 
@@ -209,6 +225,7 @@ Fix $m' > m$, and consider the statement of Thm.~\ref{DeterministicUniquenessThe
 In other words, the columns of $B$ contain (up to noise, after appropriate scaling) the columns of the original dictionary $A$. 
 %and the coefficients in each $\mathbf{a}_i$ form (up to noise) a scaled subset of the coefficients in $\mathbf{b}_i$. 
 The constant \mbox{$C = C(Y)$} here is given in the proof of Thm.~\ref{DeterministicUniquenessTheorem2}. 
+
 
 
 \section{Proof of Thm.~\ref{DeterministicUniquenessTheorem}}\label{DUT}
@@ -294,10 +311,6 @@ d(u,V) < |u|_2, \ \ u \in U \setminus{\{0\}} \implies \dim(U) \leq \dim(V).
 \end{equation*}
 \end{lemma}
 
-\begin{proof}% [Proof of Lemma \ref{MinDimLemma}]
-We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument ($\dim U + \dim V^\perp > m$) gives a nonzero $u \in U \cap V^\perp$.  In particular, we have $|u - v|_2^2 = |u|_2^2 + |v|_2^2 \geq |u|_2^2$ for $v \in V$, and thus $d(u,V) \geq |u|_2$.
-\end{proof}
-
 Finally, we will often make use of the following basic fact:
 \begin{align}\label{sqrtk}
 |\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2 \ \ \text{for all $k$-sparse $\mathbf{x} \in \mathbb{R}^m$}.
@@ -322,7 +335,8 @@ Suppose that for some $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i
 \end{align} 
 Note that $c'_j \neq 0$ for all $i$ since otherwise (by definition of $L_2(A)$), we would have $|c_jA_j|_2 < \min_{\ell \in [m]}|c_{\ell}A_{\ell}|_2$. 
 
-We  now show that $\pi$ is necessarily injective (and thus is a permutation). [*** something wonky here with the variable names ***]  Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then, $|c_iA_i - c'_iB_{\ell}|_2  \leq \varepsilon$ and $|c_jA_j - c'_jB_{\ell}|_2 \leq \varepsilon$. Scaling and summing these inequalities by $|c'_j|$ and $|c'_i|$, respectively, and applying the triangle inequality, we have:
+We  now show that $\pi$ is necessarily injective (and thus is a permutation). %[*** something wonky here with the variable names ***]  
+Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then, $|c_iA_i - c'_iB_{\ell}|_2  \leq \varepsilon$ and $|c_jA_j - c'_jB_{\ell}|_2 \leq \varepsilon$. Scaling and summing these inequalities by $|c'_j|$ and $|c'_i|$, respectively, and applying the triangle inequality, we have:
 \begin{align}\label{contra}
 (|c'_i| + |c'_j|) \varepsilon
 &\geq |A(c'_jc_i\mathbf{e}_i - c'_ic_j\mathbf{e}_j)|_2 \nonumber \\ 
@@ -367,11 +381,11 @@ Let $T$ be the set of intervals of length $k$ in the given cyclic order of $[m]$
 Let $X$ and $X'$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\mathbf{b}_i$, respectively. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent, i.e. $L(AX_{J(S)}) > 0$, and therefore form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{z} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{z} = AX_{J(S)}\mathbf{c}$. Letting $\mathbf{z'} = BX'_{J(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
 \begin{align*}
 |\mathbf{z} - \mathbf{z'}|_2 
-&= |\sum_{j=1}^N c_i(AX_{J(S)} - BX'_{J(S)})\mathbf{e}_j|_2 
+= |\sum_{j=1}^N c_i(AX_{J(S)} - BX'_{J(S)})\mathbf{e}_j|_2 
 \leq \varepsilon \sum_{j=1}^N |c_j| \\
-&\leq \varepsilon \sqrt{k}  |\mathbf{c}|_2 
-\leq \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |AX_{J(S)}\mathbf{c}|_2 \\
-&= \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |\mathbf{z}|_2.
+\leq \varepsilon \sqrt{k}  |\mathbf{c}|_2 
+\leq \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |AX_{J(S)}\mathbf{c}|_2 = \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |\mathbf{z}|_2.
+%&= \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |\mathbf{z}|_2.
 \end{align*}
 
 Hence,
@@ -432,10 +446,12 @@ In \cite{Coulter10} and \cite{Isely10}, it was posited that sparse features of n
 Several groups have found ways to utilize compressed sensing (CS) for signal processing tasks, such as digital image compression \cite{Duarte08} (``single-pixel camera") and, more recently, the design of an ultrafast camera \cite{Gao14}. Given such effective uses of classical CS, it is only a matter of time before these systems utilize sparse coding algorithms to code and process data. In this case, guarantees such as the ones offered by our theorems allow any such device to be ambiguity-transform equivalent to any other (having different initial parameters and data samples) as long as enough data originates from a statistically equivalent system.
 % MENTION THE PEOPLE AT CARNEGIE MELON WHO CONTACTED US?
 
+
+
 %===================================
 % 		ACKNOWLEDGEMENT
 %===================================
-\section*{Acknowledgment}
+%\section*{Acknowledgment}
 We thank Fritz Sommer for turning our attention to the sparse coding problem, Darren Rhea for sharing early explorations, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} online.
 
 %a reference to his proof on the internet (www.stackexchange.com). %Finally, we thank Bizzyskillet of Soudcloud.com for the ``No Exam Jams'', which played on repeat during many long hours of designing proofs.
@@ -468,6 +484,10 @@ Here, we prove Lemma \ref{MainLemma}, which is the main ingredient in our proof 
 We first prove some auxiliary lemmas. %, starting with a proof of Lemma \ref{MinDimLemma}, which was stated in Section \ref{DUT}. 
 Given sets $\mathcal{T}$, let $\cap \mathcal{T}$ denote their intersection.
 
+\begin{proof}[Proof of Lemma \ref{MinDimLemma}]
+We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument ($\dim U + \dim V^\perp > m$) gives a nonzero $u \in U \cap V^\perp$.  In particular, we have $|u - v|_2^2 = |u|_2^2 + |v|_2^2 \geq |u|_2^2$ for $v \in V$, and thus $d(u,V) \geq |u|_2$.
+\end{proof}
+
 %===== SPAN INTERSECTION LEMMA =====
 \begin{lemma}\label{SpanIntersectionLemma}
 Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly independent, then for any $\mathcal{T} \subseteq \bigcup_{\ell \leq k} {[m] \choose \ell}$, we have
@@ -478,6 +498,7 @@ Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly i
 
 \begin{proof}By induction, it is enough to prove the lemma when $|\mathcal{T}| = 2$. The proof now follows directly from the assumption.
 \end{proof}
+
 
 %===== DISTANCE TO INTERSECTION LEMMA =====
 
