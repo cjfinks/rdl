@@ -78,16 +78,16 @@ def random_orthogonal_matrix( shape ):
 
 if __name__ == '__main__':
 	np.random.seed(0)
-	k = 2 # sparsity
+	k = 3 # sparsity
 	support_set = 'all' # 'cyclic' or 'all'
-	nTrialsPerEpsilon = 3
+	nTrialsPerEpsilon = 1
 	# (16,16)-ortho k=2, (9,9)-ortho k=3,
 
 	" Load dictionary from file or generate random dictionary "
-	#filename = os.path.join( data.__path__[0], 'dictionaries/alphabet.npy' ) # available dictionaries: 'alphabet', 'dct8x8', 'dct12x12'
-	#with open( filename, 'rb' ) as file:
-	#	dictionary = data.datatypes.Dictionary( np.load(file) ) 
-	dictionary = data.datatypes.Dictionary( random_orthogonal_matrix((16,16)) ); 
+	filename = os.path.join( data.__path__[0], 'dictionaries/alphabet.npy' ) # available dictionaries: 'alphabet', 'dct8x8', 'dct12x12'
+	with open( filename, 'rb' ) as file:
+		dictionary = data.datatypes.Dictionary( np.load(file) ) 
+	#dictionary = data.datatypes.Dictionary( random_orthogonal_matrix((16,16)) ); 
 	#dictionary = data.datatypes.Dictionary( np.random.rand(9,9) ); 
 	#dictionary = data.datatypes.Dictionary( np.eye(9,9) ); 
 	dictionary.normalize()
@@ -95,12 +95,13 @@ if __name__ == '__main__':
 
 	" Draw N random k-sparse vectors a_i with values in [-1, 1]"
 	n, m = dictionary.matrix.shape
-	nSamplesPerSupport = (k-1) * int(comb(m,k)) + 1 #NOTE: for k = 1 ICA algo needs more than one sample per support
+	#nSamplesPerSupport = (k-1) * int(comb(m,k)) + 1 #NOTE: for k = 1 ICA algo needs more than one sample per support
+	nSamplesPerSupport = m * k #NOTE: for k = 1 ICA algo needs more than one sample per support
 	sparseVectorGenerator = SparseVectorGenerator( m, k, support_set ) # supports can be 'cyclic' or 'all'
 	X = sparseVectorGenerator.sample( nSamplesPerSupport, PER_SUPPORT = True ) # (nSamples, m)
 
 	" Run Experiment "
-	eps_0 = 2./np.sqrt(2) # 1/sqrt(2) for orthogonal matrix
+	eps_0 = 1.5/np.sqrt(2) # 1/sqrt(2) for orthogonal matrix
 	epsilons = np.linspace(1e-5, eps_0, 120) 
 	maxColErrors = -np.inf * np.ones((len(epsilons), len(epsilons))) # For each epsilon, store the worst result over all trials of max_i ||(A-BPD)_i||_2
 	dictionaries = [ np.zeros( A.shape) ] * len(epsilons) # save one reconstruction dictionary for each epsilon
