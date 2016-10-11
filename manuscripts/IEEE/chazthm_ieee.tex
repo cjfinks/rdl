@@ -186,24 +186,26 @@ Given $n, m$, and $k < m$, there are $N =  m(k-1){m \choose k}+m$ vectors \mbox{
 
 Our proof of Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT} is a refinement of the arguments in \cite{Hillar15} to handle noise and to reduce the number of required samples from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$. 
 
-It is simple to provide a probabilistic extension of Thm.~\ref{DeterministicUniquenessTheorem} by drawing on the following key result in random matrix theory. A random matrix $A \in \mathbb{R}^{n \times m}$ satisfies \eqref{SparkCondition} with probability one 
+It is straightforward to provide a probabilistic extension of Thm.~\ref{DeterministicUniquenessTheorem} using the following fact in random matrix theory.  The matrix $A \in \mathbb{R}^{n \times m}$ satisfies \eqref{SparkCondition} with probability $1$
 %(or ``high probability" for discrete variables) 
 provided:
 \begin{align}\label{CScondition}
 n \geq \gamma k\log\left(\frac{m}{k}\right),
 \end{align}
-where $\gamma$ is a positive constant dependent on the particular distribution from which $A$ is sampled (many ensembles suffice, e.g. \cite[Sec.~4]{Baraniuk08}). 
+where $\gamma$ is a positive constant dependent on the particular continuous distribution from which the entries of $A$ are sampled i.i.d. (many ensembles suffice, e.g. \cite[Sec.~4]{Baraniuk08}). 
 %[*** mention algebraic goem problem --  ask Bernd ***]
 
-Consider now the $n \times m$ matrix $A$ of $nm$ indeterminate variables $A_{ij}$. When real numbers are substituted for all the indeterminates, the resulting matrix satisfies \eqref{SparkCondition} if and only if the following polynomial evaluates to a nonzero number:
+In fact, the spark condition can be made explicit.  Let $A$  be the $n \times m$ matrix of $nm$ indeterminates $A_{ij}$. When real numbers are substituted for all the $A_{ij}$, the resulting matrix satisfies \eqref{SparkCondition} if and only if the following polynomial is nonzero:
 \begin{align*}
 f(A) = \prod_{S \in {[m] \choose k}} \sum_{S' \in {[n] \choose k}} (\det A_{S',S})^2,
 \end{align*}
 %
-where for any $S' \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{S',S}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in S' \times S$. Since $f$ is a real analytic function, it is enough to show that at least \emph{one} substitution of real numbers satisfies $f(A) \neq 0$ to conclude that its zeroes form a set with measure zero. Hence, with probability one a random $n \times m$ matrix $A$ satisfies \eqref{SparkCondition} provided \eqref{CScondition} holds for a value of $\gamma$ associated to \emph{any} particular distribution, not necessarily the distribution from which $A$ is actually drawn. This argument leads us to the following statement:
+where for any $S' \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{S',S}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in S' \times S$. 
+
+Since $f$ is a real analytic function, it is enough to show that at least \emph{one} substitution of real numbers satisfies $f(A) \neq 0$ to conclude that its zeroes form a set with measure zero. Hence, an $n \times m$ matrix $A$ satisfies \eqref{SparkCondition} (outside a set of measure zero) provided \eqref{CScondition} holds for a value of $\gamma$ associated to \emph{any} particular distribution. This argument allows us to state the following.
  
 \begin{theorem}\label{ProbabilisticTheorem}
-Fix $n, m$, and $k$ satisfying \eqref{CScondition} for a value of $\gamma$ associated to any particular distribution (e.g. that for which $\gamma$ is smallest), and let the coefficients of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures which are absolutely continuous with respect to the standard Borel measure $\mu$. If for every interval of length $k$ in some cyclic order on $[m]$ there are $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported there, then with probability one $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
+Fix $n, m$, and $k$ satisfying \eqref{CScondition} for a value of $\gamma$ associated to any particular distribution (e.g., that for which $\gamma$ is smallest), and let the coefficients of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures which are absolutely continuous with respect to the standard Borel measure $\mu$. If for every interval of length $k$ in some cyclic order on $[m]$ there are $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported there, then with probability one $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{theorem}
 
 We note that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise.  However, for fixed sparsity $k$, the larger the ambient dimension $n$ of the data, the smaller the probability that the noise points in a direction  confusing signals generated by $k$ columns of $A$.  Therefore, for a given distribution, the ``effective'' noise might be much smaller, with the original dictionary and sparse codes being identifiable for better constants with high probability. 
