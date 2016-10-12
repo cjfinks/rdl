@@ -621,52 +621,56 @@ We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ for which, fo
 
 \begin{proof}[Proof of Thm.~\ref{DeterministicUniquenessTheorem2}]
 
-The proof is very similar to the proof of Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lem.~\ref{MainLemma2} by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$. The value of $C$ in this case is:
+The proof is very similar to the proof of Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lem.~\ref{MainLemma2} by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$ and eventually applying Lem.~\ref{MainLemma2} in place of Lem.~\ref{MainLemma}. The value of $C$ in this case is:
 \begin{align}\label{Cdef2}
 C:= \left( \frac{ \sqrt{k^3}}{ \min(\phi_k(A), \phi_k(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
 \end{align}
 %This insures that we can establish a one-to-one correspondence between subspaces spanned by the $m'$ columns of $B$ and nearby subspaces spanned by the $m$ columns of $A$ despite the fact that $m < m'$. 
-The same manipulations in Rem.~\ref{b-PDaProof} show how \eqref{b-PDa} then follows from \eqref{Cstable} for some subset of $m$ coefficients in the $\mathbf{b}_i$ as well. 
+The same manipulations in Rem.~\ref{b-PDaProof} show how \eqref{b-PDa} then follows from \eqref{Cstable} for some subset of $m$ coefficients in the $\mathbf{b}_i$. 
 
 \end{proof}
 
-\subsection{Theorem 2}
+For the proof of Thm.~\ref{ProbabilisticTheorem} we borrow the following lemma from \cite{Hillar15}:
 
 \begin{lemma}\label{Hillar15lemma2}
 Fix $n, m$, $k < m$, and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $\{M\mathbf{a}_1, \ldots, M\mathbf{a}_k\}$ are linearly independent when $\mathbf{a}_i$ are random $k$-sparse vectors.
 \end{lemma}
 
-\begin{theorem}\label{Theorem2}
-Fix $n, m$, $k < m$, and $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. If  $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for each interval of length $k$ in some cyclic order on $[m]$ there are $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported on that interval then $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robust  $k$-sparse representation with probability one.
-\end{theorem}
+[ *** TODO: Define `random' *** ]
 
-\begin{proof}
-By Lem.~\ref{Hillar15lemma2} (taking $M = I$), with probability one the $\mathbf{a}_i$ are in general linear position. Apply Thm.~\ref{DeterministicUniquenessTheorem}.
-\end{proof} 
-
-\begin{corollary}
-Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from a random draw of $N = m(k-1){m \choose k}+m$ $k$-sparse vectors $\mathbf{a}_i$, consisting of $(k-1){m \choose k}+1$ samples supported on each interval of length $k$ in some cyclic ordering of $[m]$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
-\end{corollary}
-
-Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
-
-\begin{theorem}\label{Theorem3}
-Fix $k < m$ and $n$ . If $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $[m]$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval, then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
-\end{theorem}
-
-\begin{proof}
-By Lem.~\ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. By the same arguments made in the proof of Thm.~3 in \cite{Hillar15}, the set of matrices $A$ that fail to satisfy \eqref{SparkCondition} form an algebraic set of $\mu$-measure zero. Apply Thm.~\ref{DeterministicUniquenessTheorem}.
+\begin{proof}[Proof of Thm.~\ref{ProbabilisticTheorem}]
+First, note that if a set of measure spaces $\{(X_i, \Sigma_i, \nu_i)\}_{i=1}^p$ is such that $\nu_i$ is absolutely continuous with respect to $\mu$ for all $i = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{i=1}^p \nu_i$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$. By HS11, the matrices $A \in \mathbb{R}^{n \times m}$ with entries $A_{ij}$ sampled i.i.d. from the uniform distribution on $[0,1]$ which do \emph{not} satisfy the spark condition form a set of Lebesgue measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one. Also according to HS11, fixing $S \in {[m] \choose k}$, any set of $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_q \in \mathbb{R}^m$ supported on $S$ are in general linear position with probability one. Apply Theorem 1.
 \end{proof}
 
-\begin{corollary}
-Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $[m]$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval then, with probability one, almost every matrix $A \in \mathbb{R}^{n \times m}$ gives a robustly identifiable $Y = \{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$.
-\end{corollary}
+%\begin{theorem}\label{Theorem2}
+%Fix $n, m$, $k < m$, and $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. If  $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for each interval of length $k$ in some cyclic order on $[m]$ there are $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported on that interval then $\{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robust  $k$-sparse representation with probability one.
+%\end{theorem}
 
-\begin{proof}
-In \cite{Hillar15}, it was demonstrated how to construct a polynomial in the entries of the matrix $A$ and $k$-sparse vectors $\mathbf{a}_i$ which does not evaluate to zero if and only if $A$ satisfies \eqref{SparkCondition} and  the $\mathbf{a}_i$ which share supports are in general linear position. By [Baraniuk], there is an $A$ which satisfies the spark condition and by the Vandermonde construction there are $\mathbf{a}_i$ in general linear position. By poly trick, the set of zeroes of $f$ form a set of $\mu$-measure 0. Hence the set of matrices and vectors which do not satisfy our constraints form a set of $\mu$-measure 0, where $\mu$ is the standard Borel product measure. By Theorem 1, the set of datasets $Y =  \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ for which the entries of $A$ and the $k$-sparse vectors $\mathbf{a}_i$ are all independently drawn according to probability measures which are absolutely continuous with respect to $\mu$ form a set of $\mu$-measure 0. 
-\end{proof}
+%\begin{proof}
+%By Lem.~\ref{Hillar15lemma2} (taking $M = I$), with probability one the $\mathbf{a}_i$ are in general linear position. Apply Thm.~\ref{DeterministicUniquenessTheorem}.
+%\end{proof} 
 
-%First, note that if a set of measure spaces $\{(X_i, \Sigma_i, \nu_i)\}_{i=1}^p$ is such that $\nu_i$ is absolutely continuous with respect to $\mu$ for all $i = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{i=1}^p \nu_i$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$. By HS11, the matrices $A \in \mathbb{R}^{n \times m}$ with entries $A_{ij}$ sampled i.i.d. from the uniform distribution on $[0,1]$ which do \emph{not} satisfy the spark condition form a set of Lebesgue measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one. Also according to HS11, fixing $S \in {[m] \choose k}$, any set of $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_q \in \mathbb{R}^m$ supported on $S$ are in general linear position with probability one. Apply Theorem 1.
+%\begin{corollary}
+%Suppose $m, n$, and $k$ satisfy inequality \eqref{CScondition}. With probability one, a random $n \times m$ generation matrix $A$ satisfies \eqref{SparkCondition}. Fixing such an $A$, we have with probability one that a dataset $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N\}$ generated from a random draw of $N = m(k-1){m \choose k}+m$ $k$-sparse vectors $\mathbf{a}_i$, consisting of $(k-1){m \choose k}+1$ samples supported on each interval of length $k$ in some cyclic ordering of $[m]$, has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+%\end{corollary}
+
+%Note that an \emph{algebraic set} is a solution to a finite set of polynomial equations. 
+
+%\begin{theorem}\label{Theorem3}
+%Fix $k < m$ and $n$ . If $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $[m]$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval, then with probability one the following holds. There is an algebraic set $Z \subset \mathbb{R}^{n \times m}$ of Lebesgue measure zero with the following property: if $A \notin Z$ then $\{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$ has a robustly identifiable $k$-sparse representation in $\mathbb{R}^m$.
+%\end{theorem}
+
+%\begin{proof}
+%By Lem.~\ref{Hillar15lemma2} (setting $M$ to be the identity matrix), with probability one the $\mathbf{a}_i$ are in general linear position. By the same arguments made in the proof of Thm.~3 in \cite{Hillar15}, the set of matrices $A$ that fail to satisfy \eqref{SparkCondition} form an algebraic set of $\mu$-measure zero. Apply Thm.~\ref{DeterministicUniquenessTheorem}.
+%\end{proof}
+
+%\begin{corollary}
+%Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m(k-1){m \choose k}+m$ randomly drawn vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that for every interval of length $k$ in some cyclic ordering of $[m]$ there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ supported on that interval then, with probability one, almost every matrix $A \in \mathbb{R}^{n \times m}$ gives a robustly identifiable $Y = \{A\mathbf{a}_1, \ldots , A\mathbf{a}_N \}$.
+%\end{corollary}
+
+%\begin{proof}
+%In \cite{Hillar15}, it was demonstrated how to construct a polynomial in the entries of the matrix $A$ and $k$-sparse vectors $\mathbf{a}_i$ which does not evaluate to zero if and only if $A$ satisfies \eqref{SparkCondition} and  the $\mathbf{a}_i$ which share supports are in general linear position. By [Baraniuk], there is an $A$ which satisfies the spark condition and by the Vandermonde construction there are $\mathbf{a}_i$ in general linear position. By poly trick, the set of zeroes of $f$ form a set of $\mu$-measure 0. Hence the set of matrices and vectors which do not satisfy our constraints form a set of $\mu$-measure 0, where $\mu$ is the standard Borel product measure. By Theorem 1, the set of datasets $Y =  \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ for which the entries of $A$ and the $k$-sparse vectors $\mathbf{a}_i$ are all independently drawn according to probability measures which are absolutely continuous with respect to $\mu$ form a set of $\mu$-measure 0. 
+%\end{proof}
 
 \section{Extras}
 
