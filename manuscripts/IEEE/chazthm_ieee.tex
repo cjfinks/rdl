@@ -215,7 +215,7 @@ We note furthermore that our result in the deterministic case (Thm.~\ref{Determi
 We next address the case when only an upper bound $m'$ on the latent dimension $m$ is known. To do so, we must make the additional assumption that $B$ satisfies (\ref{SparkCondition}). 
 
 \begin{theorem}\label{DeterministicUniquenessTheorem2}
-Let $Y$ be defined as in the statement of Thm.~\ref{DeterministicUniquenessTheorem}. There exists a constant $C > 0$ for which the following holds for all $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ and any $m' > m$. If a matrix $B \in \mathbb{R}^{n \times m'}$ satisfies \eqref{SparkCondition} and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ are such that \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$ then \eqref{Cstable} and \eqref{b-PDa} hold for some $n \times m$ submatrix of $B$. 
+Let $Y$ be defined as in the statement of Thm.~\ref{DeterministicUniquenessTheorem}. There exists a constant $C > 0$ for which the following holds for all $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ and any $m' > m$. If a matrix $B \in \mathbb{R}^{n \times m'}$ satisfies \eqref{SparkCondition} and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ are such that \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$ then \eqref{Cstable} and \eqref{b-PDa} hold for some $n \times m$ submatrix of $B$ and subset of $m$ coefficients in the $\mathbf{b}_i$, respectively. 
 %Fix $m' > m$, and consider the statement of Thm.~\ref{DeterministicUniquenessTheorem} where $B \in \mathbb{R}^{n \times m'}$ also satisfies the spark condition and \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$ with $k$-sparse $\mathbf{b}_i \in \mathbb{R}^{m'}$.  There exists a constant $C > 0$ such that \eqref{Cstable} and \eqref{b-PDa} hold with respect to a \textbf{partial permutation} matrix $P \in \mathbb{R}^{m' \times m'}$ (i.e., there is at most one nonzero entry in each row and column, and these nonzero entries are all one) and a \textbf{diagonal} matrix $D \in \mathbb{R}^{m' \times m}$ (i.e., $D_{ij} = 0$ when $i \neq j$). 
 %Let $A \in \mathbb{R}^{n \times m}$ and the $\mathbf{a}_i \in \mathbb{R}^m$ be as described in 
 %Consider the statement Thm.~\ref{DeterministicUniquenessTheorem}, and . If $B \in \mathbb{R}^{n \times m'}$ also satisfies the spark condition and \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$ with $k$-sparse $\mathbf{b}_i \in \mathbb{R}^{m'}$, then 
@@ -295,9 +295,9 @@ Fix $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some c
 \end{equation}
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
-\begin{align*}
+\begin{align}\label{MainLemmaBPD}
 |A_j - (BPD)_j|_2 \leq \delta, \indent \text{for } j \in [m].
-\end{align*}
+\end{align}
 \end{lemma}
 
 We will also use the following useful facts about the distance $d$ from Def.~\ref{GapMetricDef}. The first, 
@@ -487,7 +487,7 @@ graduated from McGill University in 2010 with a B.S. in Physics and Chemistry an
 \appendices
 \section{Combinatorial Matrix Theory}\label{appendixA}
 
-Here, we prove Lemma \ref{MainLemma}, which is the main ingredient in our proof of Thm.~\ref{DeterministicUniquenessTheorem}. For readers willing to assume a priori that the spark condition holds for $B$ as well as for $A$, a shorter proof is provided in Appendix \ref{mleqmAppendix}. This additional assumption simplifies the argument and allows us to extend robust identifiability conditions to the case where only an upper bound on the number of columns $m$ of $A$ is known. 
+Here, we prove Lem.~\ref{MainLemma}, which is the main ingredient in our proof of Thm.~\ref{DeterministicUniquenessTheorem}. We then outline how the a priori assumption that the spark condition holds for $B$ as well as for $A$ simplifies the proof and also allows for its extension to the case where only an upper bound on the number of columns $m$ of $A$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). 
 
 We first prove some auxiliary lemmas. %, starting with a proof of Lemma \ref{MinDimLemma}, which was stated in Section \ref{DUT}. 
 Given sets $\mathcal{T}$, let $\cap \mathcal{T}$ denote their intersection.
@@ -598,15 +598,39 @@ In particular, by Lemma \ref{MinDimLemma} (since $\delta/\rho < 1$) we have that
 Suppose now that $J = \{i-k+1, \ldots, i\}$ so that $\cap_{i \in J} S_i = i$. By \eqref{fact2}, we have that $\cap_{i \in J} \pi(S_i)$ is either empty or it contains a single element. Lemma \ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $i \mapsto \cap_{i \in J} \pi(S_i)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_i\}$, we have $d\left( \mathbf{u}, B_{\hat \pi(i)}\right) \leq \delta/\rho$ also. Since $i$ is arbitrary, it follows that for every basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{j \in [m]} c_i$. This is exactly the supposition in \eqref{1D} and the result follows from the subsequent arguments of Sec.~\ref{DUT}. 
 \end{proof}
 
-\begin{remark}
-The arguments above can easily be modified to prove a variation of Lemma \ref{MainLemma} (Lemma \ref{MainLemma2}) which we use to prove Theorem \ref{DeterministicUniquenessTheorem2}. Since Lemma \ref{NonEmptyLemma} assumes $m = m'$, we may not invoke it when $m' > m$ to show that $|\cap_{i \in J} \pi(S_i)| = 1$ for $J = \{i-k+1, \ldots, i\}$. Instead, under the additional assumption that $B$ satisfies spark condition \eqref{SparkCondition}, we can swap the roles of $A$ and $B$ in the proof of \eqref{fact1} to show that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}) = \dim(\text{Span}\{A_{\cap_{i \in J} S_i}\})$, from which the same fact then follows. The proof is then completed in much the same way as above by defining a map $\pi: [m] \to [m']$ by the association $i \mapsto \cap_{i \in J} \pi(S_i)$, thereby reducing the proof to the $k=1$ case.
-\end{remark}
+The arguments above can easily be modified to prove the following variation of Lem.~\ref{MainLemma}.
+
+\begin{lemma}[Main Lemma~for $m < m'$]\label{MainLemma2}
+Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that for $S \in T$:
+\begin{equation}\label{GapUpperBound2}
+\Theta(A_{S}, B_{\pi(S)}) \leq \frac{ \delta }{\rho k} \min(\phi_k(A), \phi_k(B)),
+\end{equation}
+then \eqref{MainLemmaBPD} holds for some $n \times m$ submatrix of $B$. 
+\end{lemma}
+
+We state the required modifications briefly. Since $m' > m$, we may not invoke Lem.~\ref{NonEmptyLemma} (which requires $m = m'$) to show that $|\cap_{i \in J} \pi(S_i)| = 1$ for $J = \{i-k+1, \ldots, i\}$. Instead, under the additional assumption that $B$ satisfies the spark condition, we may simply swap the roles of $A$ and $B$ in the proof of \eqref{fact1} to show that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}) = \dim(\text{Span}\{A_{\cap_{i \in J} S_i}\})$ and from which the required fact then follows. The map $\hat \pi$ is then defined similarly, only now with codomain $[m']$, thereby reducing the proof to the $k=1$ case, forming the $n \times m$ submatrix of $B$ from the columns indexed by the image of $\hat \pi$. 
 
 %\begin{remark} In general, there may exist combinations of fewer supports with intersection $\{i\}$, e.g. if $m \geq 2k-1$ then $S_{i - (k-1)} \cap S_i = \{i\}$. For brevity, we have considered a construction that is valid for any $k < m$.
 %\end{remark}
 
-\section{Proof of Theorem \ref{ProbabilisticTheorem}}
+\section{Proofs of Cor.~\ref{DeterministicUniquenessCorollary} and Thms.~\ref{ProbabilisticTheorem} \& ~\ref{DeterministicUniquenessTheorem2}}
 
+\begin{proof}[Proof of Cor.~\ref{DeterministicUniquenessCorollary}]
+We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ for which, for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of contiguous length $k$ intervals in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
+\end{proof}
+
+\begin{proof}[Proof of Thm.~\ref{DeterministicUniquenessTheorem2}]
+
+The proof is very similar to the proof of Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lem.~\ref{MainLemma2} by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$. The value of $C$ in this case is:
+\begin{align}\label{Cdef2}
+C:= \left( \frac{ \sqrt{k^3}}{ \min(\phi_k(A), \phi_k(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
+\end{align}
+%This insures that we can establish a one-to-one correspondence between subspaces spanned by the $m'$ columns of $B$ and nearby subspaces spanned by the $m$ columns of $A$ despite the fact that $m < m'$. 
+The same manipulations in Rem.~\ref{b-PDaProof} show how \eqref{b-PDa} then follows from \eqref{Cstable} for some subset of $m$ coefficients in the $\mathbf{b}_i$ as well. 
+
+\end{proof}
+
+\subsection{Theorem 2}
 
 \begin{lemma}\label{Hillar15lemma2}
 Fix $n, m$, $k < m$, and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $\{M\mathbf{a}_1, \ldots, M\mathbf{a}_k\}$ are linearly independent when $\mathbf{a}_i$ are random $k$-sparse vectors.
@@ -640,36 +664,9 @@ Suppose $m, n$, and $k$ obey inequality \eqref{CScondition}.  If $N = m(k-1){m \
 
 \begin{proof}
 In \cite{Hillar15}, it was demonstrated how to construct a polynomial in the entries of the matrix $A$ and $k$-sparse vectors $\mathbf{a}_i$ which does not evaluate to zero if and only if $A$ satisfies \eqref{SparkCondition} and  the $\mathbf{a}_i$ which share supports are in general linear position. By [Baraniuk], there is an $A$ which satisfies the spark condition and by the Vandermonde construction there are $\mathbf{a}_i$ in general linear position. By poly trick, the set of zeroes of $f$ form a set of $\mu$-measure 0. Hence the set of matrices and vectors which do not satisfy our constraints form a set of $\mu$-measure 0, where $\mu$ is the standard Borel product measure. By Theorem 1, the set of datasets $Y =  \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ for which the entries of $A$ and the $k$-sparse vectors $\mathbf{a}_i$ are all independently drawn according to probability measures which are absolutely continuous with respect to $\mu$ form a set of $\mu$-measure 0. 
-
-\section{Proof of Theorem \ref{DeterministicUniquenessTheorem2}}\label{mleqmAppendix}
-
-The proof of Thm.~\ref{DeterministicUniquenessTheorem2} is very similar to the proof of Thm.~\ref{DeterministicUniquenessTheorem}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lem.~\ref{MainLemma2}, which we state next, by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$. This insures that we can establish a one-to-one correspondence between subspaces spanned by the $m'$ columns of $B$ and nearby subspaces spanned by the $m$ columns of $A$ despite the fact that $m < m'$. By requiring $B$ to also satisfy the spark condition, we remove the dependency of Lem.~\ref{MainLemma} on Lem.~\ref{NonEmptyLemma} (which requires that $m = m'$), resulting in Lem.~\ref{MainLemma2}.
-
-and for Thm. ~\ref{DeterministicUniquenessTheorem2}:
-\begin{align}\label{Cdef2}
-C:= \left( \frac{ \sqrt{k^3}}{ \min(\phi_k(A), \phi_k(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
-\end{align}
-
-
-\begin{lemma}[Main Lemma~for $m < m'$]\label{MainLemma2}
-Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that for $S \in T$:
-\begin{equation}\label{GapUpperBound2}
-\Theta(A_{S}, B_{\pi(S)}) \leq \frac{ \delta }{\rho k} \min(\phi_k(A), \phi_k(B)),
-\end{equation}
-then there exist a partial permutation matrix $P \in \mathbb{R}^{m' \times m'}$ and a diagonal matrix $D \in \mathbb{R}^{m' \times m}$ such that:
-\begin{align}
-|A_j - (BPD)_j|_2 \leq \delta, \indent \text{for } j \in [m].
-\end{align}
-\end{lemma}
-
-We defer the proof of this lemma to Appendix B.
-
-
-
-%First, note that if a set of measure spaces $\{(X_i, \Sigma_i, \nu_i)\}_{i=1}^p$ is such that $\nu_i$ is absolutely continuous with respect to $\mu$ for all $i = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{i=1}^p \nu_i$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$. By HS11, the matrices $A \in \mathbb{R}^{n \times m}$ with entries $A_{ij}$ sampled i.i.d. from the uniform distribution on $[0,1]$ which do \emph{not} satisfy the spark condition form a set of Lebesgue measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one. Also according to HS11, fixing $S \in {[m] \choose k}$, any set of $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_q \in \mathbb{R}^m$ supported on $S$ are in general linear position with probability one. Apply Theorem 1.
 \end{proof}
 
-Thm.~\ref{DeterministicUniquenessTheorem2} is easily proven by modification of the arguments in Sec.~\ref{DUT}. In the case $k=1$, we simply set the codomain of $\pi$ to be $[m']$ instead of $[m]$, which then defines the partial permutation $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}, \mathbf{0}, \ldots, \mathbf{0} \right) \in \mathbb{R}^{m' \times m'}$, while $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m}) \in \mathbb{R}^{m' \times m}$. The proof for general $k>1$ is contained in the supplementary material, and is simpler as a result of the additional assumption on $B$. Finally, the manipulations in Rem.~\ref{b-PDaProof} can similarly be modified to show that \eqref{b-PDa} follows from \eqref{Cstable}. 
+%First, note that if a set of measure spaces $\{(X_i, \Sigma_i, \nu_i)\}_{i=1}^p$ is such that $\nu_i$ is absolutely continuous with respect to $\mu$ for all $i = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{i=1}^p \nu_i$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$. By HS11, the matrices $A \in \mathbb{R}^{n \times m}$ with entries $A_{ij}$ sampled i.i.d. from the uniform distribution on $[0,1]$ which do \emph{not} satisfy the spark condition form a set of Lebesgue measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one. Also according to HS11, fixing $S \in {[m] \choose k}$, any set of $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_q \in \mathbb{R}^m$ supported on $S$ are in general linear position with probability one. Apply Theorem 1.
 
 \section{Extras}
 
@@ -677,9 +674,7 @@ Thm.~\ref{DeterministicUniquenessTheorem2} is easily proven by modification of t
 We demonstrate with the following counter-example that for $C$ as defined in \eqref{Cdef} the condition $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ is necessary to guarantee in general that \eqref{Cstable} follows from the remaining assumptions of Theorem \ref{DeterministicUniquenessTheorem}. Consider the dataset $\mathbf{a}_i = \mathbf{e}_i$ for $i = 1, \ldots, m$ and let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$. Then $L_2(A) = 1$ (we have $|A\mathbf{x}|_2 = |\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$) and $C = 1$; hence $\frac{L_2(A)}{\sqrt{2}}C^{-1} = 1/\sqrt{2}$. Consider the alternate dictionary $B = \left(\mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$ and sparse codes $\mathbf{b}_i = \mathbf{e}_2$ for $i = 1, 2$ and $\mathbf{b}_i = \mathbf{e}_i$ for $i = 3, \ldots, m$. Then $|A\mathbf{a}_i - B\mathbf{b}_i| = 1/\sqrt{2}$ for $i = 1, 2$ (and $0$ otherwise). If there were permutation and invertible diagonal matrices $P \in \mathbb{R}^{m \times m}$ and $D \in \mathbb{R}^{m \times m}$ such that $|(A-BPD)\mathbf{e}_i| \leq C\varepsilon$ for all $i \in [m]$, then we would reach the contradiction $1 = |P^{-1}\mathbf{e}_1|_2 = |(A-BPD)P^{-1}\mathbf{e}_1|_2 \leq 1/\sqrt{2}$. 
 \end{remark}
 
-\begin{proof}[Proof of Cor.~\ref{DeterministicUniquenessCorollary}]
-We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ for which, for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of contiguous length $k$ intervals in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each support contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
-\end{proof}
+
 
 \section{TODO}
 \begin{itemize}
