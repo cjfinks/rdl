@@ -71,7 +71,7 @@ We consider the following formulation of the sparse coding problem (also ``dicti
 \begin{align}\label{LinearModel}
 \mathbf{z} = A\mathbf{a} + \mathbf{n},
 \end{align}
-for $k$-\emph{sparse} $\mathbf{a} \in \mathbb{R}^m$ having at most $k$ nonzero entries, and \emph{noise} $\mathbf{n} \in \mathbb{R}^n$, with $|\mathbf{n}|_2 \leq \varepsilon$. The noise represents our combined worst-case uncertainty in  measuring $\mathbf{y} = A\mathbf{a}$.
+for $k$-\emph{sparse} $\mathbf{a} \in \mathbb{R}^m$ having at most $k$ nonzero entries, and \emph{noise} $\mathbf{n} \in \mathbb{R}^n$, with $\ell_2$-norm $|\mathbf{n}|_2$. The noise represents our combined worst-case uncertainty in  measuring $\mathbf{y} = A\mathbf{a}$.
 %; if these uncertainties are all bounded then, since they sum linearly, the resulting total is also bounded, i.e. we suppose for all data in $Y$ that $|\mathbf{n}|_2 \leq \varepsilon$ for some $\varepsilon \geq 0$. 
 
 \begin{problem}[Sparse Coding]\label{InverseProblem}
@@ -99,12 +99,7 @@ which is evidently a necessary condition if the $\mathbf{a}_i$ are known only to
 %If $\varepsilon = 0$, though, then solutions to Problem \ref{InverseProblem} are unique up to this permutation-scaling ambiguity  
 
 \begin{definition}\label{Uniqueness}
-We say a set of vectors $Y = \{ \mathbf{y}_1, \ldots, \mathbf{y}_N\}$ has a \textbf{$k$-sparse representation in $\mathbb{R}^m$} when for some $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$, we have $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. This representation is \textbf{stable} if for every $\delta_1, \delta_2 \geq 0$, there exists $\varepsilon \geq 0$ (with $\varepsilon > 0$ when  $\delta_1, \delta_2 > 0$) such that if a matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ 
-solve Problem~\ref{InverseProblem},
-%satisfy:
-%\begin{align}\label{y-Bb}
-%|\mathbf{y}_i - B\mathbf{b}_i|_2 \leq \varepsilon,\indent \text{for } i = 1, \ldots, N,
-%\end{align}
+$Y = \{ \mathbf{y}_1, \ldots, \mathbf{y}_N\}$ has a \textbf{$k$-sparse representation in $\mathbb{R}^m$} if $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that $\mathbf{y}_i = A\mathbf{a}_i$ for $i = 1, \ldots, N$. This representation is \textbf{stable} if for every $\delta_1, \delta_2 \geq 0$, there exists $\varepsilon = \varepsilon(\delta_1, \delta_2) \geq 0$ (with $\varepsilon > 0$ when  $\delta_1, \delta_2 > 0$) such that if a matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ have \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i$, then
 there is a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i,j$:
 \begin{align}\label{def1}
 |A_j - (BPD)_j|_2 \leq \delta_1 \ \ \text{and} \ \ |\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_1 \leq \delta_2.
@@ -115,12 +110,20 @@ there is a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible dia
 When does a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ have a stable $k$-sparse representation in $\mathbb{R}^m$?
 \end{question}
 
-It is not hard to see how an answer to Question \ref{DUTproblem} informs the interpretation of solutions to Problem \ref{InverseProblem}. Let $Z$ be a generated as in \eqref{LinearModel}, where $A$ and the $\mathbf{a}_i$ are such that the  noiseless measurements $\mathbf{y}_i = A\mathbf{a}_i$ have a stable $k$-sparse representation in $\mathbb{R}^m$. Fix $\delta_1, \delta_2 \geq 0$, the desired accuracy in uniqueness, and let $\varepsilon(\delta_1, \delta_2)$ be as in Def.~\ref{Uniqueness}. 
+To see how positive answers to Question \ref{DUTproblem} inform the interpretation of solutions to Problem \ref{InverseProblem}, suppose that \mbox{$Y = \{A \mathbf{a}_1, \ldots, A\mathbf{a}_N\}$} has a stable sparse representation in $\mathbb R^m$, and fix $\delta_1, \delta_2$ to be the desired accuracy in uniqueness \eqref{def1}.  Consider any noisy dataset $Z$ as above with each $|\mathbf{n}|_2 \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$.  Then, any  dictionary $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ solving Problem \ref{InverseProblem} with $\varepsilon \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$ are identical to the originals, up to the desired accuracy \eqref{def1}.
+%
+%Suppose that some $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ 
+%
+%Then, if any dataset $Z$ generated with $|\mathbf{n}|_2 \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$
+%
+%
+%, and let $\varepsilon(\delta_1, \delta_2)$ be as in Def.~\ref{Uniqueness}. If $\varepsilon, |\mathbf{n}|_2 \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$, then any dataset $Z$ uniquely determines $A$ and $\mathbf{a}_i$ up to permutation and scaling \eqref{def1}.
+%Let $Z$ be a generated as in \eqref{LinearModel}, where $A$ and the $\mathbf{a}_i$ are such that the noiseless measurements $\mathbf{y}_i = A\mathbf{a}_i$ have a stable $k$-sparse representation in $\mathbb{R}^m$. 
 % there is no triangle inequality, just the exact definition
-If $\varepsilon \leq \frac{1}{2}\varepsilon(\delta_1, \delta_2)$, then any solution to Problem~\ref{InverseProblem} necessarily satisfies \eqref{def1} for some $P$, $D$. 
+%If $\varepsilon \leq \frac{1}{2}\varepsilon(\delta_1, \delta_2)$, then any solution to Problem~\ref{InverseProblem} necessarily satisfies \eqref{def1} for some $P$, $D$. 
 %That is, the dictionary and codes are uniquely determined to within $\delta_1$ and $\delta_2$, respectively, up to the inherent permutation-scaling ambiguity %and an error commensurate with noise.
 
-Thm.~\ref{DeterministicUniquenessTheorem}, stated in Sec.~\ref{Results}, provides an answer to Question \ref{DUTproblem} from which we then derive an explicit form for $\varepsilon(\delta_1, \delta_2)$.  We also provide a probabilistic version of the result (Thm.~\ref{ProbabilisticTheorem}) and an extension to the case when only an upper bound on the dimensionality of the sparse codes (i.e., the number of columns in the generating dictionary) is known (Thm.~\ref{DeterministicUniquenessTheorem2}). 
+Thm.~\ref{DeterministicUniquenessTheorem}, stated in Sec.~\ref{Results}, provides an answer to Question \ref{DUTproblem}, along with an explicit form for $\varepsilon(\delta_1, \delta_2)$.  We also provide a probabilistic version of the result (Thm.~\ref{ProbabilisticTheorem}) and an extension to when only an upper bound on the dimensionality of the sparse codes (i.e., the number of columns in $A$) is known (Thm.~\ref{DeterministicUniquenessTheorem2}). 
 
 We prove Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT} after listing some additional definitions and key lemmas required for the proof, including our main tool from combinatorial matrix analysis (Lem.~\ref{MainLemma}). All other proofs are relegated to the supplementary materials. The final section contains a discussion of potential applications.
 
@@ -147,7 +150,7 @@ Specifically, there exists a constant $C > 0$ for which the following holds for 
 |A_j-(BPD)_j|_2 \leq C\varepsilon,
 \end{align}
 %
-for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$.  Moreover, if $\varepsilon < \varepsilon_0 := \frac{L_{2k}(A)}{\sqrt{2k}}C^{-1}$ then $B$ also satisfies the spark condition and for all $i \in [N]$:
+for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$.  Moreover, if $\varepsilon < \varepsilon_0 := \frac{L_{2k}(A)}{\sqrt{2k}}C^{-1}$, then $B$ also satisfies the spark condition and for all $i \in [N]$:
 \begin{align}\label{b-PDa}
 |\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_1 &\leq \frac{\varepsilon }{ \varepsilon_0 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right).
 \end{align}
@@ -205,7 +208,7 @@ where for any $S' \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $
 Since $f$ is a real analytic function, it is enough to show that at least \emph{one} substitution of real numbers satisfies $f(A) \neq 0$ to conclude that its zeroes form a set with measure zero. Hence, an $n \times m$ matrix $A$ satisfies \eqref{SparkCondition} (outside a set of measure zero) provided \eqref{CScondition} holds for a value of $\gamma$ associated to \emph{any} particular distribution. This argument allows us to state the following.
  
 \begin{theorem}\label{ProbabilisticTheorem}
-Fix $n, m$, and $k$ satisfying \eqref{CScondition} for a value of $\gamma$ associated to any particular distribution (e.g., that for which $\gamma$ is smallest), and let the coefficients of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures which are absolutely continuous with respect to the standard Borel measure $\mu$. If for every interval of length $k$ in some cyclic order on $[m]$ there are $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported there, then with probability one $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
+Fix $n, m$, and $k$ satisfying \eqref{CScondition} for a value of $\gamma$ associated to any particular distribution (e.g., that for which $\gamma$ is smallest), and let the entries of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures which are absolutely continuous with respect to the standard Borel measure $\mu$. If for every interval of length $k$ in some cyclic order on $[m]$ there are $(k-1){m \choose k} + 1$ vectors $\mathbf{a}_i$ supported there, then with probability one $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
 \end{theorem}
 
 An alternative argument made in \cite{Hillar15} shows that if $k+1$ random $\mathbf{a}_i$ are drawn for \emph{each} support in ${[m] \choose k}$ then $Y$ has a unique $k$-sparse representation in $\mathbb{R}^m$ (up to the inherent ambiguity) with probability one. This representation can now be said to be stable as well. [ ** TODO: Double check this...see last steps of proof of Theorem 2 in \cite{Hillar15} ** ] 
