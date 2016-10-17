@@ -110,7 +110,7 @@ there is a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible dia
 When does a dataset $Y = \{\mathbf{y}_1, \ldots, \mathbf{y}_N \} \subset \mathbb{R}^n$ have a stable $k$-sparse representation in $\mathbb{R}^m$?
 \end{question}
 
-To see how positive answers to Question \ref{DUTproblem} inform the interpretation of solutions to Problem \ref{InverseProblem}, suppose that \mbox{$Y = \{A \mathbf{a}_1, \ldots, A\mathbf{a}_N\}$} has a stable sparse representation in $\mathbb R^m$, and fix $\delta_1, \delta_2$ to be the desired accuracy in uniqueness \eqref{def1}.  Consider any noisy dataset $Z$ as above with each $|\mathbf{n}|_2 \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$.  Then, any  dictionary $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ solving Problem \ref{InverseProblem} with $\varepsilon \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$ are identical to the originals, up to the desired accuracy \eqref{def1}.
+To see how positive answers to Question \ref{DUTproblem} inform the interpretation of solutions to Problem \ref{InverseProblem}, suppose that \mbox{$Y = \{A \mathbf{a}_1, \ldots, A\mathbf{a}_N\}$} has a $k$-stable sparse representation in $\mathbb R^m$, and fix $\delta_1, \delta_2$ to be the desired accuracy in uniqueness \eqref{def1}.  Consider any noisy dataset $Z$ as above with each $|\mathbf{n}|_2 \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$.  Then, any  dictionary $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ solving Problem \ref{InverseProblem} with $\varepsilon \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$ are identical to the originals, up to the desired accuracy \eqref{def1}.
 %
 %Suppose that some $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ 
 %
@@ -499,9 +499,9 @@ Given a collection of sets $\mathcal{T}$, we set $\cap \mathcal{T}$ to denote th
 %===== SPAN INTERSECTION LEMMA =====
 \begin{lemma}\label{SpanIntersectionLemma}
 Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly independent, then for any $\mathcal{T} \subseteq \bigcup_{\ell \leq k} {[m] \choose \ell}$, we have:
-\begin{align}
+\begin{align*}
 \text{\rm Span}\{M_{\cap \mathcal{T}}\}  = \bigcap_{S \in \mathcal{T}} \text{\rm Span}\{M_S\}.
-\end{align}
+\end{align*}
 \end{lemma}
 
 \begin{proof}By induction, it is enough to prove the lemma when $|\mathcal{T}| = 2$. The proof now follows directly from the assumption.
@@ -574,9 +574,9 @@ By iterating the above arguments, we arrive at a partitioning of $Q_m$ into sets
 \begin{proof}[Proof of Lem.~\ref{MainLemma} (Main Lemma)]
 We assume $k \geq 2$ since the case $k = 1$ was proved at the beginning of Sec.~\ref{DUT}. Let $S_1, \ldots, S_m$ be length $k$ intervals in some cyclic ordering of $[m]$. We begin by showing that $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$ for all $i \in [m]$. 
 Fix $i \in [m]$ and note that by \eqref{GapUpperBound}, all unit vectors $\mathbf{u} \in \text{Span}\{A_{S_i}\}$ satisfy $d(u, \text{Span}\{B_{\pi(S_i)}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for $\delta < \frac{L_2(A)}{ \sqrt{2}}$. By definition of $L_2(A)$, for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
-\begin{align}
+\begin{align*}
 L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}.
-\end{align}
+\end{align*}
 
 Hence, $\delta < \rho$. Since $\phi_k \leq 1$, we have $d(u, \text{Span}\{B_{\pi(S_i)}\}) < 1$, and it follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_i)}\}) \geq \dim(\text{Span}\{A_{S_i}\}) = k$. Since $|\pi(S_i)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
 
@@ -612,7 +612,7 @@ Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the
 then \eqref{MainLemmaBPD} holds for some $n \times m$ submatrix of $B$. 
 \end{lemma}
 
-We state the required modifications briefly. Since $m' > m$, we may not invoke Lem.~\ref{NonEmptyLemma} (which requires $m = m'$) to show that $|\cap_{i \in J} \pi(S_i)| = 1$ for $J = \{i-k+1, \ldots, i\}$. Instead, under the additional assumption that $B$ satisfies the spark condition, we may simply swap the roles of $A$ and $B$ in the proof of \eqref{fact1} to show that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}) = \dim(\text{Span}\{A_{\cap_{i \in J} S_i}\})$ and from which the required fact then follows. The map $\hat \pi$ is then defined similarly, only now with codomain $[m']$, thereby reducing the proof to the $k=1$ case, forming the $n \times m$ submatrix of $B$ from the columns indexed by the image of $\hat \pi$. 
+We state the required modifications briefly. Since $m' > m$, we may not invoke Lem.~\ref{NonEmptyLemma} (which requires $m = m'$) to show that $|\cap_{i \in J} \pi(S_i)| = 1$ for $J = \{i-k+1, \ldots, i\}$. Instead, under the additional assumption that $B$ satisfies the spark condition, we may simply swap the roles of $A$ and $B$ in the proof of \eqref{fact1} to show that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}) = \dim(\text{Span}\{A_{\cap_{i \in J} S_i}\})$ and from which the required fact then follows. The map $\hat \pi$ is then defined similarly, only now with codomain $[m']$, thereby reducing the proof to the $k=1$ case where the $n \times m$ submatrix of $B$ is formed from the columns indexed by the image of $\hat \pi$. 
 
 %\begin{remark} In general, there may exist combinations of fewer supports with intersection $\{i\}$, e.g. if $m \geq 2k-1$ then $S_{i - (k-1)} \cap S_i = \{i\}$. For brevity, we have considered a construction that is valid for any $k < m$.
 %\end{remark}
