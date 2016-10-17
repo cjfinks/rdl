@@ -205,16 +205,16 @@ f(A) = \prod_{S \in {[m] \choose k}} \sum_{S' \in {[n] \choose k}} (\det A_{S',S
 %
 where for any $S' \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{S',S}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in S' \times S$. 
 
-Since $f$ is a real analytic function, it is enough to show that at least \emph{one} substitution of real numbers satisfies $f(A) \neq 0$ to conclude that its zeroes form a set with measure zero. Hence, an $n \times m$ matrix $A$ satisfies \eqref{SparkCondition} (outside a set of measure zero) provided \eqref{CScondition} holds for a value of $\gamma$ associated to \emph{any} particular distribution. 
+Since $f$ is a real analytic function, it is enough to show that at least \emph{one} substitution of real numbers satisfies $f(A) \neq 0$ to conclude that its zeroes form a set with measure zero. Hence, an $n \times m$ matrix $A$ satisfies \eqref{SparkCondition} (outside a set of measure zero) provided \eqref{CScondition} holds for a value of $\gamma$ for \emph{some}  distribution. 
 
 It turns out that, phrased properly, a similar statement can be made for having a robust sparse representation.  
 As in \cite{Hillar15}, consider ``symbolic" datasets $Y$ with indeterminates $A$, $\mathbf{a}_i$.
 %The following fact says that such datasets $Y$ having a robust sparse coding are cut out by a single polynomial equation.
 \begin{theorem}\label{robustPolythm}
-Fix $n, m$, $k < m$, and matrix $A = (A_{ij})_{i,j=1}^{n,m}$ of indeterminates. 
-Consider the symbolic dataset $Y = \{A\mathbf{a}_1,\ldots,A \mathbf{a}_N\}$, where the supports of the indeterminate $k$-sparse vectors satisfy: 
-for every interval of length $k$ in some cyclic order on $[m]$ there are at least \mbox{$(k-1){m \choose k}+1$} vectors $\mathbf{a}_i$ with that (symbolic) support. There is a polynomial $g$ having the property that when it is nonzero, the resulting $Y$ has a robust sparse representation in $\mathbb R^m$.
-In particular, if $(m,n,k)$ allow a single dataset with a robust representation, then almost all (up to a Borel measure zero set) of them do.
+Fix $n, m$, $k < m$, and matrix \mbox{$A = (A_{ij})_{i,j=1}^{n,m}$} of indeterminates. 
+Consider the symbolic dataset \mbox{$Y = \{A\mathbf{a}_1,\ldots,A \mathbf{a}_N\}$}, where the supports of the indeterminate $k$-sparse vectors satisfy: 
+for every interval of length $k$ in some cyclic order on $[m]$ there are at least \mbox{$(k-1){m \choose k}+1$} vectors $\mathbf{a}_i$ with that (symbolic) support. There is a polynomial $g$ having the property that when it is nonzero, the resulting $Y$ has a stable sparse representation in $\mathbb R^m$.
+In particular, if $(m,n,k)$ allow a single dataset with a stable representation, then almost all (up to a Borel measure zero set) of them do.
 \end{theorem}
 
 \begin{corollary}\label{ProbabilisticCor}
@@ -654,10 +654,12 @@ We now determine classes of datasets $Y$ having a robust sparse coding that are 
 %Consider the symbolic dataset $Y = \{A\mathbf{a}_1,\ldots,A \mathbf{a}_N\}$, where the supports of the indeterminate $k$-sparse vectors $\mathbf{a}_i$ are consecutive in some cyclic order. Those substitutions of real numbers for the indeterminates denying $Y$ a robust sparse coding has Borel measure zero.
 %\end{lemma}
 \begin{proof}[Proof of Thm.~\ref{robustPolythm}]
+This polynomial was produced in \cite[Sec.~IV]{Hillar15}.
 \end{proof}
 
  \begin{proof}[Proof of Cor.~\ref{ProbabilisticCor}]
-First, note that if a set of measure spaces $\{(X_i, \Sigma_i, \nu_i)\}_{i=1}^p$ is such that $\nu_i$ is absolutely continuous with respect to $\mu$ for all $i = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{i=1}^p \nu_i$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$ (e.g.,  \cite{folland2013real}). By \cite{Hillar15}, the matrices $A \in \mathbb{R}^{n \times m}$ which do \emph{not} satisfy the spark condition form a set of Borel measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one.  Finally, apply Thm.~\ref{robustPolythm}.
+First, note that if a set of measure spaces $\{(X_i, \Sigma_i, \nu_i)\}_{i=1}^p$ is such that $\nu_i$ is absolutely continuous with respect to $\mu$ for all $i = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{i=1}^p \nu_i$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$ (e.g.,  \cite{folland2013real}). By Thm.~\ref{robustPolythm}, there is a polynomial such that $A \in \mathbb{R}^{n \times m}$ and $\mathbf{a}_i$ which do not zero it have a stable sparse representation in $\mathbb R^m$; in particular, this property (stability) holds with probability one.
+%form a set of Borel measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one.  Finally, apply Thm.~\ref{robustPolythm}.
 \end{proof}
 
 
