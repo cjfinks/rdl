@@ -634,16 +634,29 @@ The same manipulations in Rem.~\ref{b-PDaProof} show how \eqref{b-PDa} then foll
 
 \end{proof}
 
-For the proof of Thm.~\ref{ProbabilisticTheorem} we borrow the following  from \cite{Hillar15}.  Here ``random" simply means 
-
+For the proof of Thm.~\ref{ProbabilisticTheorem}, as in \cite{Hillar15}, consider ``symbolic" datasets $Y$ involving indeterminates $A$ and $\mathbf{a}_i$.
+The following fact says that such datasets $Y$ having a robust sparse coding are cut out by a single polynomial equation.
+%We have the following statement for uniqueness in sparse coding.
+% borrow the following observation from \cite{Hillar15}.  
+%Consider the collection of indeterminates in a set of $k$-sparse vectors $\{\mathbf{a}_1, \ldots, \mathbf{a}_k\}$.
+% Here, for simplicity ``random" means that the nonzero entries of the sparse vectors $\mathbf{a}$ are i.i.d. uniform in $[0,1]$.
 \begin{lemma}\label{Hillar15lemma2}
-Fix $n, m$, $k < m$, and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. With probability one, $\{M\mathbf{a}_1, \ldots, M\mathbf{a}_k\}$ are linearly independent when $\mathbf{a}_i$ are random $k$-sparse vectors.
+Fix $n, m$, $k < m$, and a matrix $A = (A_{ij})_{i,j=1}^{n,m}$ of indeterminates. 
+Consider the symbolic dataset $Y = \{A\mathbf{a}_1,\ldots,A \mathbf{a}_N\}$, where the supports of the indeterminate $k$-sparse vectors $\mathbf{a}_i$ are consecutive in some cyclic order. Those substitutions of real numbers for the indeterminates denying $Y$ a robust sparse coding has Borel measure zero.
 \end{lemma}
+\begin{proof}
+\end{proof}
+
+%\begin{lemma}\label{Hillar15lemma2}
+%Fix $n, m$, $k < m$, and a matrix $M \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. 
+%Consider the collection of $k^2$ indeterminates in a set of $k$-sparse vectors $\{\mathbf{a}_1, \ldots, \mathbf{a}_k\}$.  Those substitutions of real numbers for those indeterminates for which $\{M\mathbf{a}_1, \ldots, M\mathbf{a}_k\}$ are linearly dependent has Borel measure zero (in $\mathbb R^{k^2}$).
+%\end{lemma}
 
 % [ *** TODO: Define `random' *** ]
 
 \begin{proof}[Proof of Thm.~\ref{ProbabilisticTheorem}]
-First, note that if a set of measure spaces $\{(X_i, \Sigma_i, \nu_i)\}_{i=1}^p$ is such that $\nu_i$ is absolutely continuous with respect to $\mu$ for all $i = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{i=1}^p \nu_i$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$. By \cite{Hillar15}, the matrices $A \in \mathbb{R}^{n \times m}$ with entries $A_{ij}$ sampled i.i.d. from the uniform distribution on $[0,1]$ which do \emph{not} satisfy the spark condition form a set of Borel measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one. Also according to \cite{Hillar15}, fixing $S \in {[m] \choose k}$, any set of $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_k \in \mathbb{R}^m$ supported on $S$ are in general linear position with probability one. Apply Thm.~1.
+First, note that if a set of measure spaces $\{(X_i, \Sigma_i, \nu_i)\}_{i=1}^p$ is such that $\nu_i$ is absolutely continuous with respect to $\mu$ for all $i = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{i=1}^p \nu_i$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$ (e.g.,  \cite{folland2013real}). By \cite{Hillar15}, the matrices $A \in \mathbb{R}^{n \times m}$ which do \emph{not} satisfy the spark condition form a set of Borel measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one.  Finally, apply Lem.~\ref{Hillar15lemma2}.
+% Also according to \cite{Hillar15}, fixing $S \in {[m] \choose k}$, any set of $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_k \in \mathbb{R}^m$ supported on $S$ are in general linear position with probability one. 
 \end{proof}
 
 %\begin{theorem}\label{Theorem2}
