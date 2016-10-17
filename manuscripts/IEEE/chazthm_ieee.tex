@@ -30,7 +30,7 @@
 
 \begin{document}
 
-\title{Sparse Coding is Stable}
+\title{When is Sparse Coding Well-Posed?}
 
 \author{Charles~J.~Garfinkle and Christopher~J.~Hillar \\
 Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA
@@ -60,7 +60,7 @@ Bilinear inverse problem, matrix factorization, identifiability, dictionary lear
 Many algorithms have been designed to infer the underlying parameters of this model, and it is tempting to accept their output as approximating ``ground truth" (e.g., animal position on a linear track \cite{Agarwal14}) when it exists. However, it is possible that several qualitatively different solutions are nonetheless consistent with the data. It is therefore important to determine algorithm-independent conditions guaranteeing when the sparse representation of a dataset is uniquely identifiable up to natural symmetries and also stable with respect to noise. 
 %a dictionary $\mathcal{A}$ of a given size can be uniquely identified up to natural symmetries from a dataset $Y$ and when each datum, in turn, has a unique sparse decomposition into elements of this dictionary. 
 
-The significant finding of this work is that any dictionary satisfying the spark condition from compressed sensing (CS) is uniquely identifiable from enough sparse noisy linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}).
+The significant finding of this work is that any dictionary satisfying the spark condition from compressed sensing is uniquely identifiable from enough sparse noisy linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}).
 %We note that this is a necessary condition if the dataset $Y$ could in principle include data generated as in \eqref{LinearModel} from any given $k$-sparse vector $\mathbf{x} \in \mathbb{R}^m$. 
 % [ *** Can we motivate more necessary conditions using theorems of Li15, too? Thm.~2.8. *** ] 
 %We also characterize the stability of these solutions with respect to noise, an essential consideration as measurements are inevitably rendered uncertain by various sources of error.
@@ -497,7 +497,7 @@ graduated from McGill University in 2010 with a B.S. in Physics and Chemistry an
 
 Here, we prove Lem.~\ref{MainLemma}, which is the main ingredient in our proof of Thm.~\ref{DeterministicUniquenessTheorem}. We then outline how additionally assuming the spark condition for $B$ simplifies the proof and also allows for its extension to the case where only an upper bound on the number of columns $m$ of $A$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). 
 
-We first prove some auxiliary lemmas. %, starting with a proof of Lemma \ref{MinDimLemma}, which was stated in Section \ref{DUT}. 
+We first prove some auxiliary lemmas. %, starting with a proof of Lem.~\ref{MinDimLemma}, which was stated in Section \ref{DUT}. 
 Given a collection of sets $\mathcal{T}$, we set $\cap \mathcal{T}$ to denote their intersection.
 
 
@@ -534,7 +534,7 @@ For each $\ell \in \{2, \ldots, k+1\}$ (when $\ell = k+1$, the product $\Pi_{V_k
 \end{equation*}
 Summing these inequalities over $\ell$ gives (\ref{induction}).
 
-Next, we show how the result \eqref{DTILeq} follows from \eqref{induction} and the following result of \cite[Theorem 9.33]{Deutsch12}:
+Next, we show how the result \eqref{DTILeq} follows from \eqref{induction} and the following result of \cite[Thm.~9.33]{Deutsch12}:
 \begin{align}\label{dti2}
 |\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V\mathbf{x}|_2 \leq z |\mathbf{x}|_2 \indent \text{for } \indent \mathbf{x} \in \mathbb{R}^m,
 \end{align}
@@ -583,14 +583,14 @@ Fix $i \in [m]$ and note that by \eqref{GapUpperBound}, all unit vectors $\mathb
 L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}.
 \end{align*}
 
-Hence, $\delta < \rho$. Since $\phi_k \leq 1$, we have $d(u, \text{Span}\{B_{\pi(S_i)}\}) < 1$, and it follows by Lemma \ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_i)}\}) \geq \dim(\text{Span}\{A_{S_i}\}) = k$. Since $|\pi(S_i)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
+Hence, $\delta < \rho$. Since $\phi_k \leq 1$, we have $d(u, \text{Span}\{B_{\pi(S_i)}\}) < 1$, and it follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_i)}\}) \geq \dim(\text{Span}\{A_{S_i}\}) = k$. Since $|\pi(S_i)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
 
 We will now show that:
 \begin{align}\label{fact2}
 |\bigcap_{i \in J} \pi(S_i)| \leq |\bigcap_{i \in J} S_i | \ \ \text{for } \ J \in {[m] \choose k}.
 \end{align}
 
-Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound}, we have for all unit vectors $\mathbf{u} \in \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$ that $d(\mathbf{u}, A_{S_i}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for all $j \in J$, where $\delta < \frac{L_2(A)}{\sqrt{2}}$. It follows from Lemma \ref{DistanceToIntersectionLemma} that:
+Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound}, we have for all unit vectors $\mathbf{u} \in \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$ that $d(\mathbf{u}, A_{S_i}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for all $j \in J$, where $\delta < \frac{L_2(A)}{\sqrt{2}}$. It follows from Lem.~\ref{DistanceToIntersectionLemma} that:
 \begin{align*}
 d\left( \mathbf{u}, \bigcap_{i \in J} \text{Span}\{A_{S_j}\} \right) 
 \leq \frac{\delta}{\rho} \left( \frac{ \phi_k(A) }{1 - \xi( \{ A_{S_i}: i \in J\} ) } \right) \leq \frac{\delta}{\rho},
@@ -598,13 +598,13 @@ d\left( \mathbf{u}, \bigcap_{i \in J} \text{Span}\{A_{S_j}\} \right)
 %
 where the 2nd inequality follows from the definition of $\phi_k(A)$. 
 
-Now, since \mbox{$\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\} \subseteq \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$} and (by Lemma \ref{SpanIntersectionLemma}) $\cap_{i \in J}  \text{Span}\{A_{S_i}\} = \text{Span}\{A_{\cap_{i \in J}  S_i}\}$, we have:
+Now, since \mbox{$\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\} \subseteq \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$} and (by Lem.~\ref{SpanIntersectionLemma}) $\cap_{i \in J}  \text{Span}\{A_{S_i}\} = \text{Span}\{A_{\cap_{i \in J}  S_i}\}$, we have:
 \begin{align}\label{fact1}
 d\left( \mathbf{u}, A_{\cap_{i \in J} S_i} \right) \leq \frac{\delta}{\rho}, \indent \text{for unit } \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}.
 \end{align}
 In particular, by Lem.~\ref{MinDimLemma} (since $\delta/\rho < 1$) we have that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}) \leq \dim(\text{Span}\{A_{\cap_{i \in J} S_i}\})$ and \eqref{fact2} follows by the linear independence of the columns of $A_{S_i}$ and $B_{\pi(S_i)}$ for all $i \in [m]$.
 
-Suppose now that $J = \{i-k+1, \ldots, i\}$ so that \mbox{$\cap_{i \in J} S_i = \{i\}$}. By \eqref{fact2}, we have that $\cap_{i \in J} \pi(S_i)$ is either empty or it contains a single element. Lemma \ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $i \mapsto \cap_{i \in J} \pi(S_i)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_i\}$, we have $d\left( \mathbf{u}, B_{\hat \pi(i)}\right) \leq \delta/\rho$ also. Since $i$ is arbitrary, it follows that for every basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{j \in [m]} c_i$. This is exactly the supposition in \eqref{1D} and the result follows from the subsequent arguments of Sec.~\ref{DUT}. 
+Suppose now that $J = \{i-k+1, \ldots, i\}$ so that \mbox{$\cap_{i \in J} S_i = \{i\}$}. By \eqref{fact2}, we have that $\cap_{i \in J} \pi(S_i)$ is either empty or it contains a single element. Lem.~\ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $i \mapsto \cap_{i \in J} \pi(S_i)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_i\}$, we have $d\left( \mathbf{u}, B_{\hat \pi(i)}\right) \leq \delta/\rho$ also. Since $i$ is arbitrary, it follows that for every basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{j \in [m]} c_i$. This is exactly the supposition in \eqref{1D} and the result follows from the subsequent arguments of Sec.~\ref{DUT}. 
 \end{proof}
 
 The arguments above can easily be modified to prove the following variation of Lem.~\ref{MainLemma}, key to proving Thm.~\ref{DeterministicUniquenessTheorem2}.
@@ -643,11 +643,11 @@ We now determine classes of datasets $Y$ having a robust sparse coding that are 
 We sketch the argument, leaving the details to the reader.
 Let $M$ be the $n \times m$ matrix with columns $A\mathbf{a}_i$, $i \in [N]$.  Consider the following polynomial \cite[Sec.~IV]{Hillar15} in the indeterminates $A$ and the entries of the $\mathbf{a}_i$:
 \begin{align*}
-g = \prod_{S \in {[n] \choose k}} \sum_{S' \in {[N] \choose k}} (\det M_{S',S})^2,
+g(A, \{\mathbf{a}_i\}_{i=1}^N) = \prod_{S \in {[n] \choose k}} \sum_{S' \in {[N] \choose k}} (\det M_{S',S})^2,
 \end{align*}
 with notation as in Sec.~\ref{Results}.  
 
-It can be checked that when $g$ is nonzero for a substitution of real numbers for the indeterminates, all of the genericity requirements on $A$ and $\mathbf{a}_i$ are satisfied in our proofs of stability in Thm.~\ref{DeterministicUniquenessTheorem} (in particular, the spark condition on $A$).  The statement of the theorem now follows.
+It can be checked that when $g$ is nonzero for a substitution of real numbers for the indeterminates, all of the genericity requirements on $A$ and $\mathbf{a}_i$ in our proofs of stability in Thm.~\ref{DeterministicUniquenessTheorem} are satisfied (in particular, the spark condition on $A$). The statement of the theorem then follows.
 \end{proof}
 
  \begin{proof}[Proof of Cor.~\ref{ProbabilisticCor}]
@@ -706,11 +706,11 @@ The same manipulations in Rem.~\ref{b-PDaProof} show how \eqref{b-PDa} then foll
 %In \cite{Hillar15}, it was demonstrated how to construct a polynomial in the entries of the matrix $A$ and $k$-sparse vectors $\mathbf{a}_i$ which does not evaluate to zero if and only if $A$ satisfies \eqref{SparkCondition} and  the $\mathbf{a}_i$ which share supports are in general linear position. By [Baraniuk], there is an $A$ which satisfies the spark condition and by the Vandermonde construction there are $\mathbf{a}_i$ in general linear position. By poly trick, the set of zeroes of $f$ form a set of $\mu$-measure 0. Hence the set of matrices and vectors which do not satisfy our constraints form a set of $\mu$-measure 0, where $\mu$ is the standard Borel product measure. By Theorem 1, the set of datasets $Y =  \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ for which the entries of $A$ and the $k$-sparse vectors $\mathbf{a}_i$ are all independently drawn according to probability measures which are absolutely continuous with respect to $\mu$ form a set of $\mu$-measure 0. 
 %\end{proof}
 
-\section{Extras}
-
-\begin{remark}
-We demonstrate with the following counter-example that for $C$ as defined in \eqref{Cdef} the condition $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ is necessary to guarantee in general that \eqref{Cstable} follows from the remaining assumptions of Theorem \ref{DeterministicUniquenessTheorem}. Let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$ and let $\mathbf{a}_i = \mathbf{e}_i$ for $i = 1, \ldots, m$. Then $L_2(A) = 1$ (we have $|A\mathbf{x}|_2 = |\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$) and $C = 1$; hence $\frac{L_2(A)}{\sqrt{2}}C^{-1} = 1/\sqrt{2}$. Suppose $\varepsilon \geq 1/\sqrt{2}$. Then the alternate dictionary $B = \left(\mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$ and sparse codes $\mathbf{b}_i = \mathbf{e}_2$ for $i = 1, 2$ and $\mathbf{b}_i = \mathbf{e}_i$ for $i = 3, \ldots, m$ satisfy $|A\mathbf{a}_i - B\mathbf{b}_i| = 1/\sqrt{2}$ for $i = 1, 2$ (and $0$ otherwise), and yet there exist no permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ satisfying $|A_i-(BPD)_i| \leq C\varepsilon$ for all $i \in [m]$, since we always have $|(A-BPD)P^{-1}\mathbf{e}_1|_2 = |P^{-1}\mathbf{e}_1|_2 =  1$. 
-\end{remark}
+%\section{Extras}
+%
+%\begin{remark}
+%We demonstrate with the following counter-example that for $C$ as defined in \eqref{Cdef} the condition $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ is necessary to guarantee in general that \eqref{Cstable} follows from the remaining assumptions of Theorem \ref{DeterministicUniquenessTheorem}. Let $A$ be the identity matrix in $\mathbb{R}^{m \times m}$ and let $\mathbf{a}_i = \mathbf{e}_i$ for $i = 1, \ldots, m$. Then $L_2(A) = 1$ (we have $|A\mathbf{x}|_2 = |\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$) and $C = 1$; hence $\frac{L_2(A)}{\sqrt{2}}C^{-1} = 1/\sqrt{2}$. Suppose $\varepsilon \geq 1/\sqrt{2}$. Then the alternate dictionary $B = \left(\mathbf{0}, \frac{1}{2}(\mathbf{e}_1 + \mathbf{e}_2), \mathbf{e}_3, \ldots, \mathbf{e}_{m} \right)$ and sparse codes $\mathbf{b}_i = \mathbf{e}_2$ for $i = 1, 2$ and $\mathbf{b}_i = \mathbf{e}_i$ for $i = 3, \ldots, m$ satisfy $|A\mathbf{a}_i - B\mathbf{b}_i| = 1/\sqrt{2}$ for $i = 1, 2$ (and $0$ otherwise), and yet there exist no permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ satisfying $|A_i-(BPD)_i| \leq C\varepsilon$ for all $i \in [m]$, since we always have $|(A-BPD)P^{-1}\mathbf{e}_1|_2 = |P^{-1}\mathbf{e}_1|_2 =  1$. 
+%\end{remark}
 
 %
 %\section{TODO}
