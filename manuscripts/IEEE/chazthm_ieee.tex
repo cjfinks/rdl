@@ -37,7 +37,7 @@
 Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA
 \thanks{%Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA.  % ; e-mails: cjg@berkeley.edu, chillar@msri.org.  
 Support for both CG and CH was provided, in part, by the National Science Foundation grant IIS-1219212 and the Statistical and Applied Mathematical Sciences Institute, under grant NSF DMS-1127914.}}
-% TODO: Chris are you on the right grant here?
+% TODO: Move to end? Then Intro fits on one page. Chris are you on the right grant here? 
 \maketitle
 
 \begin{abstract}
@@ -437,10 +437,10 @@ graduated from McGill University in 2010 with a B.S. in Physics and Chemistry an
 \appendices
 \section{Combinatorial Matrix Theory}\label{appendixA}
 
-Here, we prove Lem.~\ref{MainLemma}, which is the main ingredient in our proof of Thm.~\ref{DeterministicUniquenessTheorem}. We then outline how additionally assuming the spark condition for $B$ simplifies the proof and also allows for its extension to the case where only an upper bound on the number of columns $m$ of $A$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). 
+Here, we prove Lem.~\ref{MainLemma}, which is the main ingredient in our proof of Thm.~\ref{DeterministicUniquenessTheorem}. We then outline how additionally assuming the spark condition for $B$ simplifies the proof and also allows for its extension to the case where only an upper bound on the number of columns $m$ of $A$ is known. This extension is applied to the proof of  Thm.~\ref{DeterministicUniquenessTheorem2} in Appendix~\ref{AppendixB}. 
 
 We first prove some auxiliary lemmas. %, starting with a proof of Lem.~\ref{MinDimLemma}, which was stated in Section \ref{DUT}. 
-Given a collection of sets $\mathcal{T}$, we set $\cap \mathcal{T}$ to denote their intersection.
+Given a collection of sets $\mathcal{T}$, let $\cap \mathcal{T}$ denote their intersection.
 
 
 %===== SPAN INTERSECTION LEMMA =====
@@ -565,7 +565,7 @@ We state the required modifications briefly. Since $m' > m$, we may not invoke L
 %\begin{remark} In general, there may exist combinations of fewer supports with intersection $\{i\}$, e.g. if $m \geq 2k-1$ then $S_{i - (k-1)} \cap S_i = \{i\}$. For brevity, we have considered a construction that is valid for any $k < m$.
 %\end{remark}
 
-\section{Proofs of Thm.~\ref{robustPolythm} \& \ref{DeterministicUniquenessTheorem2} and Cors.~\ref{DeterministicUniquenessCorollary} \& \ref{ProbabilisticCor}}
+\section{Proofs of Thm.~\ref{robustPolythm} \& \ref{DeterministicUniquenessTheorem2} and Cors.~\ref{DeterministicUniquenessCorollary} \& \ref{ProbabilisticCor}}\label{AppendixB}
 
 \begin{proof}[Proof of Cor.~\ref{DeterministicUniquenessCorollary}]
 We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ such that for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of contiguous length $k$ intervals in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
