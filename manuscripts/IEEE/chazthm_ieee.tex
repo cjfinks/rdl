@@ -35,8 +35,9 @@
 
 \author{Charles~J.~Garfinkle and Christopher~J.~Hillar \\
 Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA
-\thanks{%Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA.  % ; e-mails: cjg@berkeley.edu, chillar@msri.org.  
-Support for both CG and CH was provided, in part, by the National Science Foundation grant IIS-1219212 and the Statistical and Applied Mathematical Sciences Institute, under grant NSF DMS-1127914.}}
+\thanks{%e-mails: cjg@berkeley.edu, chillar@msri.org.  
+CG and CH supported, in part, by NSF grant IIS-1219212 and the Statistical and Applied Mathematical Sciences Institute, NSF DMS-1127914.}
+}
 % TODO: Move to end? Then Intro fits on one page. Chris are you on the right grant here? 
 \maketitle
 
@@ -53,10 +54,13 @@ Bilinear inverse problem, matrix factorization, identifiability, dictionary lear
 %===================================]
 
 \section{Introduction}\label{Intro}
-\IEEEPARstart{E}{ver} since sparse coding of natural images reproduced response properties of neurons in mammalian primary visual cortex \cite{Olshausen96}, learning sparse representations of vector-valued data has become an important component of many signal processing and machine learning applications (see \cite{Zhang15} for a comprehensive review). In the \textit{sparse coding} (or \emph{dictionary learning}) model, each vector in a dataset $Z = \{\mathbf{z}_1, \ldots, \mathbf{z}_N\} \subset \mathbb{R}^n$ is approximated as a linear combination of at most $k$ vectors drawn from a learned \emph{dictionary} $\mathcal{A} \subset \mathbb{R}^n$, where $k < |\mathcal{A}| \ll N$. 
+\IEEEPARstart{E}{ver} since sparse coding of natural images reproduced response properties of neurons in mammalian primary visual cortex \cite{Olshausen96}, learning sparse representations of vector-valued data has become a part of many signal processing and machine learning applications (see \cite{Zhang15} for a comprehensive review). In the \textit{sparse coding} (or \emph{dictionary learning}) model, each point in a dataset $Z = \{\mathbf{z}_1, \ldots, \mathbf{z}_N\} \subset \mathbb{R}^n$ is approximated as a linear combination of at most $k$ vectors drawn from a learned \emph{dictionary} $\mathcal{A} \subset \mathbb{R}^n$, where $k < |\mathcal{A}| \ll N$. 
 
 %TODO: Is Olshausen10 reference really appropriate?
-Many algorithms have been designed to infer the parameters of this model and it is tempting to interpret their output as approximating ``ground truth" when it is thought to exist (e.g. \cite{Olshausen10}). It may be, however, that several qualitatively different solutions are in fact consistent with the data. The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is uniquely identifiable from enough generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $n, m$ and $k$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, then in almost all cases the dictionary learning problem is well-posed in the sense of Hadamard \cite{Hadamard1902} (Cor~\ref{ProbabilisticCor}). Moreover, these algorithm-independent guarantees can be extended to the case when only an upper bound on the size of $\mathcal{A}$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). The explicit criteria under which these guarantees hold can serve as theoretical tools in the analysis of sparse coding routines, some of which now provably converge to a global solution when it exists (see \cite[Sec.~I-E]{Sun16} for a brief discussion of the state-of-the-art in these algorithms). 
+% seems not too bad
+Many algorithms have been designed to infer the parameters of this model, and it is tempting to interpret their output as approximating ``ground truth" when it is thought to exist (e.g. \cite{Olshausen10}). It may be, however, that several qualitatively different solutions are in fact consistent with the data. The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is uniquely identifiable from enough generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $n, m$, and $k$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, then in almost all cases the dictionary learning problem is well-posed in the sense of Hadamard \cite{Hadamard1902} (Cor.~\ref{ProbabilisticCor}). 
+
+Moreover, these algorithm-independent guarantees can be extended to the case when only an upper bound on the size of $\mathcal{A}$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). The explicit criteria under which these guarantees hold can serve as theoretical tools in the analysis of sparse coding routines, some of which now provably converge to a global solution when it exists (see \cite[Sec.~I-E]{Sun16} for a brief discussion of the state-of-the-art in these algorithms). 
 
 % FRITZ: Cite applications of algorithms (e.g. gautam) that use algorithms as blind source separation techniques. And then: what about theoretical justifications of this approach. There is a body of work on guarantees for zero error, but there is nothing for noisy case. Don't assume that everyone is assuming ground truth. Many algorithms have been designed, and yet in the presence of measurement errors there are no theoretical guarantees. Then set up problem, cite Aharon etc.
 % CHRIS: Citing Gautam is ok! We give reason to believe it's unique. Alright, soften up 'ground truth' statement assumptions about people. Save Gautam for discussion? Intro: artist stroke design?
@@ -396,7 +400,7 @@ The main concept in smoothed analysis \cite{Spielman04} is that certain algorith
 In \cite{Coulter10} and \cite{Isely10}, it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded, unsupervised, via sparse coding.  A necessary condition for this theory to work is that the sparse coding problem has a unique solution.  This was already verified in the case of data sampled without noise.  Our work extends this theory to the more realistic case of sampling error.
 
 \textbf{Engineering}.
-Several groups have found ways to utilize compressed sensing (CS) for signal processing tasks, such as [** TODO: cite MRI **], digital image compression \cite{Duarte08} (``single-pixel camera") and, more recently, the design of an ultrafast camera \cite{Gao14}. Given such effective uses of classical CS, it is only a matter of time before these systems utilize sparse coding algorithms to encode and process data. In this case, guarantees such as those offered by our theorems allow any such device to be equivalent to any other (having different initial parameters and data samples) as long as enough data originates from a statistically identical system.
+Several groups have found ways to utilize compressed sensing (CS) for signal processing tasks, such as MRI analysis \cite{lustig2008compressed},  image compression \cite{Duarte08}  and, more recently, the design of an ultrafast camera \cite{Gao14}. Given such effective uses of classical CS, it is only a matter of time before these systems utilize sparse coding algorithms to encode and process data. In this case, guarantees such as those offered by our theorems allow any such device to be equivalent to any other (having different initial parameters and data samples) as long as enough data originates from a statistically identical system.
 % MENTION THE PEOPLE AT CARNEGIE MELON WHO CONTACTED US?
 
 % FRITZ: Cite Mickey Lustig
@@ -405,7 +409,8 @@ Several groups have found ways to utilize compressed sensing (CS) for signal pro
 % 		ACKNOWLEDGEMENT
 %===================================
 %\section*{Acknowledgment}
-We thank Fritz Sommer for turning our attention to the sparse coding problem, Darren Rhea for sharing early explorations, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} online.
+We thank Fritz Sommer for turning our attention to the sparse coding problem, Darren Rhea for sharing early explorations, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} online.  
+%Support for CG and CH provided, in part, by National Science Foundation grant IIS-1219212 and the Statistical and Applied Mathematical Sciences Institute, under NSF DMS-1127914.
 
 %a reference to his proof on the internet (www.stackexchange.com). %Finally, we thank Bizzyskillet of Soudcloud.com for the ``No Exam Jams'', which played on repeat during many long hours of designing proofs.
 
@@ -423,12 +428,13 @@ We thank Fritz Sommer for turning our attention to the sparse coding problem, Da
 %===================================
 % 			BIOGRAPHY
 %===================================
-\vspace{-.8 cm}
+\vspace{-1.07 cm}
 \begin{IEEEbiographynophoto}{Charles J. Garfinkle}
 graduated from McGill University in 2010 with a B.S. in Physics and Chemistry and is a Ph.D. candidate in Neuroscience at the University of California, Berkeley, CA.
 \end{IEEEbiographynophoto}
 \vspace{-1.1 cm} 
-\begin{IEEEbiographynophoto}{Christopher J. Hillar:} B.S. Mathematics, B.S. Computer Science, Yale University, 2000; Ph.D., Mathematics, University of California (UCB), Berkeley, CA 2005 (NSF Graduate Research Fellowship); NSF Postdoctoral Fellow, Texas A\&M University, College Station, TX, 2005--2008; NSF All Institutes Postdoctoral Fellow, Mathematical Sciences Research Institute, Berkeley, CA, 2008--2010; Redwood Center for Theoretical Neuroscience, UCB, 2010--.  % , and in 2011, began working part time in psychiatry department at UC San Francisco.
+\begin{IEEEbiographynophoto}{Christopher J. Hillar:} B.S. Mathematics, B.S. Computer Science, Yale University, 2000; Ph.D., Mathematics, University of California (UCB), Berkeley, CA 2005.  Currently, Redwood Center for Theoretical Neuroscience, UCB.
+%; NSF Postdoctoral Fellow, Texas A\&M University, College Station, TX, 2005--2008; NSF All Institutes Postdoctoral Fellow, Mathematical Sciences Research Institute, Berkeley, CA, 2008--2010; Redwood Center for Theoretical Neuroscience, UCB, 2010--.  % , and in 2011, began working part time in psychiatry department at UC San Francisco.
 \end{IEEEbiographynophoto}
 
 
