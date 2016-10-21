@@ -35,8 +35,9 @@
 
 \author{Charles~J.~Garfinkle and Christopher~J.~Hillar \\
 Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA
-\thanks{%Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA.  % ; e-mails: cjg@berkeley.edu, chillar@msri.org.  
-Support for both CG and CH was provided, in part, by the National Science Foundation grant IIS-1219212 and the Statistical and Applied Mathematical Sciences Institute, under grant NSF DMS-1127914.}}
+\thanks{%e-mails: cjg@berkeley.edu, chillar@msri.org.  
+CG and CH supported, in part, by NSF grant IIS-1219212 and the Statistical and Applied Mathematical Sciences Institute, under NSF DMS-1127914.}
+}
 % TODO: Move to end? Then Intro fits on one page. Chris are you on the right grant here? 
 \maketitle
 
@@ -53,10 +54,13 @@ Bilinear inverse problem, matrix factorization, identifiability, dictionary lear
 %===================================]
 
 \section{Introduction}\label{Intro}
-\IEEEPARstart{E}{ver} since sparse coding of natural images reproduced response properties of neurons in mammalian primary visual cortex \cite{Olshausen96}, learning sparse representations of vector-valued data has become an important component of many signal processing and machine learning applications (see \cite{Zhang15} for a comprehensive review). In the \textit{sparse coding} (or \emph{dictionary learning}) model, each vector in a dataset $Z = \{\mathbf{z}_1, \ldots, \mathbf{z}_N\} \subset \mathbb{R}^n$ is approximated as a linear combination of at most $k$ vectors drawn from a learned \emph{dictionary} $\mathcal{A} \subset \mathbb{R}^n$, where $k < |\mathcal{A}| \ll N$. 
+\IEEEPARstart{E}{ver} since sparse coding of natural images reproduced response properties of neurons in mammalian primary visual cortex \cite{Olshausen96}, learning sparse representations of vector-valued data has become a part of many signal processing and machine learning applications (see \cite{Zhang15} for a comprehensive review). In the \textit{sparse coding} (or \emph{dictionary learning}) model, each point in a dataset $Z = \{\mathbf{z}_1, \ldots, \mathbf{z}_N\} \subset \mathbb{R}^n$ is approximated as a linear combination of at most $k$ vectors drawn from a learned \emph{dictionary} $\mathcal{A} \subset \mathbb{R}^n$, where $k < |\mathcal{A}| \ll N$. 
 
 %TODO: Is Olshausen10 reference really appropriate?
-Many algorithms have been designed to infer the parameters of this model and it is tempting to interpret their output as approximating ``ground truth" when it is thought to exist (e.g. \cite{Olshausen10}). It may be, however, that several qualitatively different solutions are in fact consistent with the data. The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is uniquely identifiable from enough generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $n, m$ and $k$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, then in almost all cases the dictionary learning problem is well-posed in the sense of Hadamard \cite{Hadamard1902} (Cor~\ref{ProbabilisticCor}). Moreover, these algorithm-independent guarantees can be extended to the case when only an upper bound on the size of $\mathcal{A}$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). The explicit criteria under which these guarantees hold can serve as theoretical tools in the analysis of sparse coding routines, some of which now provably converge to a global solution when it exists (see \cite[Sec.~I-E]{Sun16} for a brief discussion of the state-of-the-art in these algorithms). 
+% seems not too bad
+Many algorithms have been designed to infer the parameters of this model, and it is tempting to interpret their output as approximating ``ground truth" when it is thought to exist (e.g. \cite{Olshausen10}). It may be, however, that several qualitatively different solutions are in fact consistent with the data. The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is uniquely identifiable from enough generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $n, m$, and $k$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, then in almost all cases the dictionary learning problem is well-posed in the sense of Hadamard \cite{Hadamard1902} (Cor.~\ref{ProbabilisticCor}). 
+
+Moreover, these algorithm-independent guarantees can be extended to the case when only an upper bound on the size of $\mathcal{A}$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). The explicit criteria under which these guarantees hold can serve as theoretical tools in the analysis of sparse coding routines, some of which now provably converge to a global solution when it exists (see \cite[Sec.~I-E]{Sun16} for a brief discussion of the state-of-the-art in these algorithms). 
 
 % FRITZ: Cite applications of algorithms (e.g. gautam) that use algorithms as blind source separation techniques. And then: what about theoretical justifications of this approach. There is a body of work on guarantees for zero error, but there is nothing for noisy case. Don't assume that everyone is assuming ground truth. Many algorithms have been designed, and yet in the presence of measurement errors there are no theoretical guarantees. Then set up problem, cite Aharon etc.
 % CHRIS: Citing Gautam is ok! We give reason to believe it's unique. Alright, soften up 'ground truth' statement assumptions about people. Save Gautam for discussion? Intro: artist stroke design?
@@ -72,13 +76,19 @@ Find $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \math
 \end{problem}
 
 %Note that from any particular solution to this problem we can generate infinitely many solutions $B = AD^{-1}P^{\top}$ and $\mathbf{b}_i = PD\mathbf{a}_i$, where $P \in \mathbb{R}^{m \times m}$ is any permutation matrix and $D \in \mathbb{R}^{m \times m}$ any invertible diagonal matrix, but that identifying the parameters of the sparse coding model amounts to solving it only up to this inherent ambiguity.
-Note that any particular solution to this problem in fact represents a whole class of equivalent solutions $BPD$ and $D^{-1}P^{\top}\mathbf{b}_i$, where $P \in \mathbb{R}^{m \times m}$ is any permutation matrix and $D \in \mathbb{R}^{m \times m}$ any invertible diagonal matrix. Since the scaling and arbitrary ordering of dictionary elements into columns of $A$ is of no relevance to the sparse coding model, our only concern is to establish the uniqueness of this class. Previous works \cite{li2004analysis, Georgiev05, Aharon06, Hillar15} on the noiseless case $\varepsilon = 0$ have shown that the solution (when it exists) is indeed unique in this sense provided the $k$-sparse $\mathbf{a}_i$ are sufficiently diverse and the matrix $A$ satisfies the \textit{spark condition}:
+Note that any particular solution to this problem in fact represents a whole class of equivalent solutions $BPD$ and $D^{-1}P^{\top}\mathbf{b}_i$, where $P \in \mathbb{R}^{m \times m}$ is any permutation matrix and $D \in \mathbb{R}^{m \times m}$ any invertible diagonal matrix. Since such a scaling and arbitrary ordering of dictionary elements represents a structurally equivalent model, it is natural to ask whether solutions to Problem~\ref{InverseProblem} are unique up to this equivalence.
+
+Previous work \cite{li2004analysis, Georgiev05, Aharon06, Hillar15} on the noiseless case $\eta = 0$ has shown that the solution (when it exists) is indeed unique in this sense provided the $k$-sparse $\mathbf{a}_i$ are sufficiently diverse and the matrix $A$ satisfies the \textit{spark condition}:
 \begin{align}\label{SparkCondition}
 A\mathbf{x}_1 = A\mathbf{x}_2 \implies \mathbf{x}_1 = \mathbf{x}_2,\indent \text{for all $k$-sparse } \mathbf{x}_1, \mathbf{x}_2,
 \end{align}
 %
 % [ *** Can we motivate more necessary conditions using theorems of Li15, too? Thm.~2.8. *** ] 
-which is evidently a necessary condition given that the $\mathbf{a}_i$ are known only to be $k$-sparse. Matrices of the form $PD$ thus form the \emph{ambiguity transformation group} inherent to the noiseless problem subject to these constraints \cite{Li15}. We introduce the following terminology to handle the noisy case $\varepsilon > 0$.
+which is evidently a necessary condition given that the $\mathbf{a}_i$ are unknown. 
+%which is evidently a necessary condition given that the $\mathbf{a}_i$ are known only to be $k$-sparse. 
+Matrices of the form $PD$ thus form the \emph{ambiguity transformation group} inherent to the noiseless problem subject to these constraints \cite{Li15}. 
+
+We introduce the following terminology to handle $\eta > 0$.
 
 % no need for this in this paper -- a bit confusing to throw in 
 %When they exist, solutions to Problem \ref{InverseProblem} will be found by solving:
@@ -87,25 +97,28 @@ which is evidently a necessary condition given that the $\mathbf{a}_i$ are known
 %\end{align*}
 
 \begin{definition}\label{Uniqueness}
-Fix $Y = \{ \mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$. We say $Y$ has a \emph{$k$-sparse representation in $\mathbb{R}^m$} if $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that $\mathbf{y}_i = A\mathbf{a}_i$ for all $i$. This representation is \emph{stable} if for every $\delta_1, \delta_2 \geq 0$, there exists $\varepsilon = \varepsilon(\delta_1, \delta_2) \geq 0$ (with $\varepsilon > 0$ when  $\delta_1, \delta_2 > 0$) such that if a matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ have \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i$, then there is a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i,j$:
+Fix $Y = \{ \mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$. We say $Y$ has a \textbf{$k$-sparse representation in $\mathbb{R}^m$} if $A \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ are such that $\mathbf{y}_i = A\mathbf{a}_i$ for all $i$. This representation is \textbf{stable} if for every $\delta_1, \delta_2 \geq 0$, there exists $\varepsilon = \varepsilon(\delta_1, \delta_2) \geq 0$ (with $\varepsilon > 0$ when  $\delta_1, \delta_2 > 0$) such that if a matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ have \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i$, then there is a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that for all $i = 1,\ldots,N$ and $j = 1,\ldots,m$:
 \begin{align}\label{def1}
 |A_j - (BPD)_j|_2 \leq \delta_1 \ \ \text{and} \ \ |\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_1 \leq \delta_2.
 \end{align}
 \end{definition}
 
-We ask: \emph{when does $Y \subset \mathbb{R}^n$ have a stable $k$-sparse representation in $\mathbb{R}^m$?} To see how a positive answer informs the interpretation of solutions to Problem \ref{InverseProblem}, suppose that \mbox{$Y = \{A \mathbf{a}_1, \ldots, A\mathbf{a}_N\}$} has a stable $k$-sparse representation in $\mathbb R^m$ and fix $\delta_1, \delta_2$ to be the desired accuracy in recovery \eqref{def1}. Consider any dataset $Z$ generated as in \eqref{LinearModel} satisfying $\eta \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$. Then any  dictionary $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ solving Problem \ref{InverseProblem} satisfy \eqref{def1}.  
+We ask here: \emph{When does $Y \subset \mathbb{R}^n$ have a stable $k$-sparse representation in $\mathbb{R}^m$?} 
 
-Our results, listed in Sec.~\ref{Results}, include an explicit form for $\varepsilon(\delta_1, \delta_2)$ which follows from Thm.~\ref{DeterministicUniquenessTheorem}. We prove Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT} after listing some additional definitions and lemmas required for the proof, including our main tool from combinatorial matrix analysis (Lem.~\ref{MainLemma}). Our proof is a refinement of the arguments in \cite{Hillar15} to handle noise and to reduce the number of required samples from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$. All other proofs are relegated to the supplementary materials. Potential applications are discussed in the final section.
+To see how a positive answer to this question informs the interpretation of solutions to Problem \ref{InverseProblem}, suppose that \mbox{$Y = \{A \mathbf{a}_1, \ldots, A\mathbf{a}_N\}$} has a stable $k$-sparse representation in $\mathbb R^m$, and fix $\delta_1, \delta_2$ to be the desired accuracy in recovery \eqref{def1}. Consider now any dataset $Z$ generated as in \eqref{LinearModel} that has $\eta \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$. Then, any dictionary $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ solving Problem \ref{InverseProblem} are structurally identical to the original dictionary $A$ and codes (i.e., satisfy \eqref{def1}).  
+
+%Our results, outlined in Sec.~\ref{Results}, include an explicit form for $\varepsilon(\delta_1, \delta_2)$ in Thm.~\ref{DeterministicUniquenessTheorem}. 
+In the next section, we give precise statements of our main results. We then prove our main theorem (Thm.~\ref{DeterministicUniquenessTheorem}) in Sec.~\ref{DUT} after listing some additional definitions and lemmas required for the proof, including our main tool from combinatorial matrix analysis (Lem.~\ref{MainLemma}). Our proof is a refinement of the arguments in \cite{Hillar15} to handle noise and to reduce the number of required samples from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$. All other proofs are relegated to the supplement. Potential applications are discussed in the final section, Sec.~\ref{Discussion}.
 
 \section{Results}\label{Results}
 
-Before precisely stating our results, we explain how the spark condition \eqref{SparkCondition} relates to the \emph{lower bound} \cite{Grcar10} of $A$, written $L(A)$, which is the largest number $\alpha$ such that $|A\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$. By compactness, every injective linear map has a nonzero lower bound; hence, if $A$ satisfies \eqref{SparkCondition} then every submatrix formed from $2k$ of its columns or less has a nonzero lower bound. We therefore define the following domain-restricted lower bound of $A$:
+Before precisely stating our results, we explain how the spark condition \eqref{SparkCondition} relates to the \emph{lower bound} \cite{Grcar10} of $A$, written $L(A)$, which is the largest number $\alpha$ such that $|A\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$. By compactness, every injective linear map has a nonzero lower bound; hence, if $A$ satisfies \eqref{SparkCondition}, then every submatrix formed from $2k$ of its columns or less has a nonzero lower bound. We therefore define the following domain-restricted lower bound of $A$:
 \begin{align*}
 L_k(A) := \max \{ \alpha : |A\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m\}.
 \end{align*} 
-Clearly, $L_k(A) \geq L_{k'}(A)$ whenever $k < k'$, and for any $A$ satisfying \eqref{SparkCondition} we have $L_{k'}(A) > 0$ for all $k' \leq 2k$. 
+Clearly, $L_k(A) \geq L_{k'}(A)$ whenever $k < k'$, and for any $A$ satisfying \eqref{SparkCondition}, we have $L_{k'}(A) > 0$ for all $k' \leq 2k$. 
 
-A \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ in a circular necklace, and an \textit{interval} in the order is any subset of contiguous elements. A vector $\mathbf{a} \in \mathbb{R}^m$ is said to be \emph{supported} on $S \subseteq [m]$ when $\mathbf{a} \in \text{Span}\{ \{\mathbf{e}_i\}_{i\in S}\}$, where $\mathbf{e}_i$ are the standard basis vectors.  Also, recall that $M_j$ denotes the $j$th column of a matrix $M$. The following is our main result, answering our question from Section~\ref{Intro}.
+A \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ in a circular necklace, and an \textit{interval} in the order is any subset of contiguous elements. A vector $\mathbf{a} \in \mathbb{R}^m$ is said to be \emph{supported} on $S \subseteq [m]$ when $\mathbf{a} \in \text{Span}\{ \{\mathbf{e}_i\}_{i\in S}\}$, where $\mathbf{e}_i$ are the standard basis vectors.  Also, recall that $M_j$ denotes the $j$th column of a matrix $M$. The following result gives a positive answer to our question from the introduction.
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 \begin{theorem}\label{DeterministicUniquenessTheorem}
@@ -168,8 +181,11 @@ It so happens that a similar statement applies to sets of vectors with a stable 
 Fix $n, m$, $k < m$. There is a polynomial in the entries of $A$ and the $\mathbf{a}_i$ with the following property: if real numbers are substituted for the indeterminates such that for every interval of length $k$ in some cyclic order on $[m]$ at least \mbox{$(k-1){m \choose k}+1$} of the resulting vectors $\mathbf{a}_i$ are supported on that interval, and the polynomial evaluates to a nonzero number, then $Y$ has a stable $k$-sparse representation in $\mathbb{R}^m$. In particular, either no substitutions impart to $Y$ this property or all but a Borel set of measure zero do. 
 \end{theorem}
 
+% this is cool, but let's just save it for later...i can ask around.  -cjh
+%An interesting open question in real algebraic geometry is which collections of $(m,n,k)$ determine this last ``or".
+
 \begin{corollary}\label{ProbabilisticCor}
-Fix $n, m$, and $k$ satisfying \eqref{CScondition} for a value of $\gamma$ associated to any particular distribution (e.g., that with the smallest known $\gamma$) and let the entries of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures absolutely continuous with respect to the standard Borel measure $\mu$. If at least $(k-1){m \choose k} + 1$ of the vectors $\mathbf{a}_i$ are supported on each interval of length $k$ in some cyclic order on $[m]$, then $Y$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with probability one.
+Fix $n, m$, and $k$ satisfying \eqref{CScondition} for a value of $\gamma$ associated to any particular distribution (e.g., that with the smallest known $\gamma$), and let the entries of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures absolutely continuous with respect to the standard Borel measure $\mu$. If at least $(k-1){m \choose k} + 1$ of the vectors $\mathbf{a}_i$ are supported on each interval of length $k$ in some cyclic order on $[m]$, then $Y$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with probability one.
 \end{corollary}
 
 An alternative argument made in \cite{Hillar15} shows that if $k+1$ random $\mathbf{a}_i$ are drawn for \emph{each} support in ${[m] \choose k}$, then $Y$ has a unique $k$-sparse representation in $\mathbb{R}^m$ (up to permutation-scaling ambiguity) with probability one. This representation can now be said to be stable as well. %[ ** TODO: Double check this...see last steps of proof of Theorem 2 in \cite{Hillar15} ** ] 
@@ -182,7 +198,7 @@ We next address the case when only an upper bound $m'$ on the latent dimension $
 Let $Y$ be defined as in the statement of Thm.~\ref{DeterministicUniquenessTheorem}. There exists a constant $C > 0$ for which the following holds for all $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ and any $m' > m$. If a matrix $B \in \mathbb{R}^{n \times m'}$ satisfies \eqref{SparkCondition} and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ are such that \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$ then \eqref{Cstable} and \eqref{b-PDa} hold for some $n \times m$ submatrix of $B$ and corresponding subvectors of the $\mathbf{b}_i$, respectively. 
 \end{theorem}
 
-In other words, the columns of $B$ contain (up to noise, after appropriate scaling) the columns of the original dictionary $A$. Similarly, the $\mathbf{b}_i$ contain the original codes $\mathbf{a}_i$. The constant $C$ here is given in the proof of Thm.~\ref{DeterministicUniquenessTheorem2}. 
+In other words, the columns of $B$ contain (up to noise, after appropriate scaling) the columns of the original dictionary $A$. Similarly, the $\mathbf{b}_i$ contain the original codes $\mathbf{a}_i$. The constant $C$ here is expression (\ref{Cdef2}) from the proof of Thm.~\ref{DeterministicUniquenessTheorem2}. 
 
 
 \vspace{-.08 cm}
@@ -337,7 +353,7 @@ It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows f
 
 %========          PROOF OF THEOREM 1        ============
 \begin{proof}[Proof of Thm.~\ref{DeterministicUniquenessTheorem}]
-Let $T$ be the set of intervals of length $k$ in the given cyclic order of $[m]$. From above, we may assume that $k > 1$. Fix $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ as in the statement of the theorem. Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a robust $k$-sparse representation in $\mathbb{R}^m$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of indices $J(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S'$, respectively.
+Let $T$ be the set of intervals of length $k$ in the given cyclic order of $[m]$. From above, we may assume that $k > 1$. Fix $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^k$ as in the statement of the theorem. Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}. We claim that $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$. Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of indices $J(S)$ of cardinality $k$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S'$, respectively.
 
 Let $X$ and $X'$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\mathbf{b}_i$, respectively. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent, i.e. $L(AX_{J(S)}) > 0$, and therefore form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{y} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{y} = AX_{J(S)}\mathbf{c}$. Letting $\mathbf{y'} = BX'_{J(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
 \begin{align*}
@@ -396,7 +412,7 @@ The main concept in smoothed analysis \cite{Spielman04} is that certain algorith
 In \cite{Coulter10} and \cite{Isely10}, it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded, unsupervised, via sparse coding.  A necessary condition for this theory to work is that the sparse coding problem has a unique solution.  This was already verified in the case of data sampled without noise.  Our work extends this theory to the more realistic case of sampling error.
 
 \textbf{Engineering}.
-Several groups have found ways to utilize compressed sensing (CS) for signal processing tasks, such as [** TODO: cite MRI **], digital image compression \cite{Duarte08} (``single-pixel camera") and, more recently, the design of an ultrafast camera \cite{Gao14}. Given such effective uses of classical CS, it is only a matter of time before these systems utilize sparse coding algorithms to encode and process data. In this case, guarantees such as those offered by our theorems allow any such device to be equivalent to any other (having different initial parameters and data samples) as long as enough data originates from a statistically identical system.
+Several groups have found ways to utilize compressed sensing (CS) for signal processing tasks, such as MRI analysis \cite{lustig2008compressed},  image compression \cite{Duarte08}  and, more recently, the design of an ultrafast camera \cite{Gao14}. Given such effective uses of classical CS, it is only a matter of time before these systems utilize sparse coding algorithms to encode and process data. In this case, guarantees such as those offered by our theorems allow any such device to be equivalent to any other (having different initial parameters and data samples) as long as enough data originates from a statistically identical system.
 % MENTION THE PEOPLE AT CARNEGIE MELON WHO CONTACTED US?
 
 % FRITZ: Cite Mickey Lustig
@@ -405,7 +421,8 @@ Several groups have found ways to utilize compressed sensing (CS) for signal pro
 % 		ACKNOWLEDGEMENT
 %===================================
 %\section*{Acknowledgment}
-We thank Fritz Sommer for turning our attention to the sparse coding problem, Darren Rhea for sharing early explorations, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} online.
+We thank Fritz Sommer for turning our attention to the sparse coding problem, Darren Rhea for sharing early explorations, and Ian Morris for posting identity \eqref{SubspaceMetricSameDim} online.  
+%Support for CG and CH provided, in part, by National Science Foundation grant IIS-1219212 and the Statistical and Applied Mathematical Sciences Institute, under NSF DMS-1127914.
 
 %a reference to his proof on the internet (www.stackexchange.com). %Finally, we thank Bizzyskillet of Soudcloud.com for the ``No Exam Jams'', which played on repeat during many long hours of designing proofs.
 
@@ -423,12 +440,13 @@ We thank Fritz Sommer for turning our attention to the sparse coding problem, Da
 %===================================
 % 			BIOGRAPHY
 %===================================
-\vspace{-.8 cm}
+\vspace{-1.07 cm}
 \begin{IEEEbiographynophoto}{Charles J. Garfinkle}
 graduated from McGill University in 2010 with a B.S. in Physics and Chemistry and is a Ph.D. candidate in Neuroscience at the University of California, Berkeley, CA.
 \end{IEEEbiographynophoto}
 \vspace{-1.1 cm} 
-\begin{IEEEbiographynophoto}{Christopher J. Hillar:} B.S. Mathematics, B.S. Computer Science, Yale University, 2000; Ph.D., Mathematics, University of California (UCB), Berkeley, CA 2005 (NSF Graduate Research Fellowship); NSF Postdoctoral Fellow, Texas A\&M University, College Station, TX, 2005--2008; NSF All Institutes Postdoctoral Fellow, Mathematical Sciences Research Institute, Berkeley, CA, 2008--2010; Redwood Center for Theoretical Neuroscience, UCB, 2010--.  % , and in 2011, began working part time in psychiatry department at UC San Francisco.
+\begin{IEEEbiographynophoto}{Christopher J. Hillar:} B.S. Mathematics, B.S. Computer Science, Yale University, 2000; Ph.D., Mathematics, University of California (UCB), Berkeley, CA 2005.  Currently, Redwood Center for Theoretical Neuroscience, UCB.
+%; NSF Postdoctoral Fellow, Texas A\&M University, College Station, TX, 2005--2008; NSF All Institutes Postdoctoral Fellow, Mathematical Sciences Research Institute, Berkeley, CA, 2008--2010; Redwood Center for Theoretical Neuroscience, UCB, 2010--.  % , and in 2011, began working part time in psychiatry department at UC San Francisco.
 \end{IEEEbiographynophoto}
 
 
@@ -572,7 +590,7 @@ We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ such that for
 \end{proof}
 
 %For the proof of Thm.~\ref{ProbabilisticTheorem}, as in \cite{Hillar15}, consider ``symbolic" datasets $Y$ involving indeterminates $A$ and $\mathbf{a}_i$.
-We now determine classes of datasets $Y$ having a robust sparse coding that are cut out by a single polynomial equation.
+We now determine classes of datasets $Y$ having a stable sparse coding that are cut out by a single polynomial equation.
 %We have the following statement for uniqueness in sparse coding.
 % borrow the following observation from \cite{Hillar15}.  
 %Consider the collection of indeterminates in a set of $k$-sparse vectors $\{\mathbf{a}_1, \ldots, \mathbf{a}_k\}$.
@@ -590,7 +608,7 @@ g(A, \{\mathbf{a}_i\}_{i=1}^N) = \prod_{S \in {[n] \choose k}} \sum_{S' \in {[N]
 \end{align*}
 with notation as in Sec.~\ref{Results}.  
 
-It can be checked that when $g$ is nonzero for a substitution of real numbers for the indeterminates, all of the genericity requirements on $A$ and $\mathbf{a}_i$ in our proofs of stability in Thm.~\ref{DeterministicUniquenessTheorem} are satisfied (in particular, the spark condition on $A$). The statement of the theorem then follows.
+It can be checked that when $g$ is nonzero for a substitution of real numbers for the indeterminates, all of the genericity requirements on $A$ and $\mathbf{a}_i$ in our proofs of stability in Thm.~\ref{DeterministicUniquenessTheorem} are satisfied (in particular, the spark condition on $A$). The statement of the theorem now follows directly.
 \end{proof}
 
  \begin{proof}[Proof of Cor.~\ref{ProbabilisticCor}]
