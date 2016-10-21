@@ -67,7 +67,7 @@ These algorithm-independent guarantees can also be extended to the case when onl
 
 We pose the sparse coding problem more precisely as follows. Fix a dictionary represented as the columns $A_j$ of a matrix $A \in \mathbb R^{n \times m}$ and suppose $Z$ consists of measurements:
 \begin{align}\label{LinearModel}
-\mathbf{z}_i = A\mathbf{a}_i + \mathbf{n}_i,
+\mathbf{z}_i = A\mathbf{a}_i + \mathbf{n}_i,\indent \text{$i=1,\ldots,N$},
 \end{align}
 for $k$-\emph{sparse} $\mathbf{a}_i \in \mathbb{R}^m$ having at most $k$ nonzero entries and \emph{noise} $\mathbf{n}_i \in \mathbb{R}^n$ with $\ell_2$-norm at most $\eta$. The noise represents our combined worst-case uncertainty in  measuring $A\mathbf{a}_i$.
 
@@ -200,7 +200,7 @@ In other words, the columns of $B$ contain (up to noise, after appropriate scali
 
 \vspace{-.08 cm}
 
-\section{Proof of Thm.~\ref{DeterministicUniquenessTheorem}}\label{DUT}
+\section{Proof of Theorem~\ref{DeterministicUniquenessTheorem}}\label{DUT}
 %===================================
 % 			Preliminaries
 %===================================
@@ -399,7 +399,7 @@ In this note, we generalized recent results \cite{Hillar15} on the uniqueness of
 
 % FRITZ: Inverse problems instead of Data Analysis. Don't assume that everyone is assuming they are recovering ground truth. Cite results again and state implications! Focus on them (probabilistic ones too).
 \textbf{Blind Source Separation}.  
-Our results provide theoretical grounding for the application of sparse coding to inverse problems (``sparse component analysis"), wherein the linear model \eqref{LinearModel} is assumed to describe some truth about the data (e.g., the position of a mouse on a linear track \cite{Agarwal14}) and the goal is to infer the generating dictionary and sparse codes from noisy measurements. In this regard, it would be useful to determine for general $(m,n,k)$ the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimal requirements on the number and diversity of generating codes. We encourage researchers to extend our results and find tight dependencies on all parameters.
+Our results provide theoretical grounding for the application of sparse coding to inverse problems (``sparse component analysis"), wherein the linear model \eqref{LinearModel} is assumed to describe some truth about the data (e.g., the position of a rat on a linear track \cite{Agarwal14}) and the goal is to infer the generating dictionary and sparse codes from noisy measurements. In this regard, it would be useful to determine for general $(m,n,k)$ the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimal requirements on the number and diversity of generating codes. We encourage researchers to extend our results and find tight dependencies on all parameters.
 
 % Reiterate probabilistic result in the smooth analysis part?
 \textbf{Smoothed Analysis}.
@@ -449,7 +449,7 @@ We thank Fritz Sommer for turning our attention to the sparse coding problem, Da
  \clearpage
 
 \appendices
-\section{Combinatorial Matrix Theory}\label{appendixA}
+\section{Combinatorial Matrix Analysis}\label{appendixA}
 
 Here, we prove Lem.~\ref{MainLemma}, which is the main ingredient in our proof of Thm.~\ref{DeterministicUniquenessTheorem}. We then outline how additionally assuming the spark condition for $B$ simplifies the proof and also allows for its extension to the case where only an upper bound on the number of columns $m$ of $A$ is known. This extension is applied to the proof of  Thm.~\ref{DeterministicUniquenessTheorem2} in Appendix~\ref{AppendixB}. 
 
@@ -579,7 +579,7 @@ We state the required modifications briefly. Since $m' > m$, we may not invoke L
 %\begin{remark} In general, there may exist combinations of fewer supports with intersection $\{i\}$, e.g. if $m \geq 2k-1$ then $S_{i - (k-1)} \cap S_i = \{i\}$. For brevity, we have considered a construction that is valid for any $k < m$.
 %\end{remark}
 
-\section{Proofs of Thm.~\ref{robustPolythm} \& \ref{DeterministicUniquenessTheorem2} and Cors.~\ref{DeterministicUniquenessCorollary} \& \ref{ProbabilisticCor}}\label{AppendixB}
+\section{Proofs of Thms.~\ref{robustPolythm} \& \ref{DeterministicUniquenessTheorem2} and Cors.~\ref{DeterministicUniquenessCorollary} \& \ref{ProbabilisticCor}}\label{AppendixB}
 
 \begin{proof}[Proof of Cor.~\ref{DeterministicUniquenessCorollary}]
 We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ such that for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of contiguous length $k$ intervals in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
