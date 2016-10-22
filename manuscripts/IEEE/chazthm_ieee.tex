@@ -290,7 +290,7 @@ If $U, V$ are subspaces of $\mathbb{R}^{m}$, then
 d(u,V) < |u|_2, \ \ u \in U \setminus{\{0\}} \implies \dim(U) \leq \dim(V).
 \end{equation*}
 \end{lemma}
-Finally, we will often make use of the basic fact $|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2$ for $k$-sparse $\mathbf{x} \in \mathbb{R}^m$.
+Finally, we will often make use of the basic fact that $|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2$ for $k$-sparse $\mathbf{x} \in \mathbb{R}^m$.
 %\begin{align}\label{sqrtk}
 %|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2, \ \ \text{for $k$-sparse $\mathbf{x} \in \mathbb{R}^m$}.
 %\end{align}
@@ -401,7 +401,7 @@ It follows by Lem.~\ref{MainLemma} that there exist a permutation matrix $P \in 
 
 In this note, we generalize recent results \cite{Hillar15} on the uniqueness of solutions to Problem~\ref{InverseProblem} to the case of noisy measurements, while also reducing the number of required samples.
 % from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$. 
- Surprisingly, almost all $n \times m$ dictionaries satisfying the standard assumption \eqref{CScondition} from compressed sensing (CS) are identifiable from enough generic noisy $k$-sparse linear combinations of their elements, up to an error linear in the noise. Moreover, if solutions are constrained to satisfy \eqref{SparkCondition}, then only an upper bound on the number of dictionary elements need be taken as given. We note that these results extend trivially to the case where certain point-wise injective nonlinearities are applied to the data. We close by outlining  four diverse application areas.
+Surprisingly, almost all $n \times m$ dictionaries satisfying the standard assumption \eqref{CScondition} from compressed sensing (CS) are identifiable from enough generic noisy $k$-sparse linear combinations of their elements, up to an error linear in the noise. Moreover, if solutions are constrained to satisfy \eqref{SparkCondition}, then only an upper bound on the number of dictionary elements need be taken as given. We note that these results extend trivially to the case where certain point-wise injective nonlinearities are applied to the data. We close by outlining  four diverse application areas.
 
 %\textbf{Compressed Sensing}.
 %The goal of compressed sensing is to recover a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse enough in some known basis (i.e., $\mathbf{a} = \Psi^{-1} \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) via a stable and efficient reconstruction process after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x} + \mathbf{n}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$ and noise $\mathbf{n}$. If $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition}, then $\mathbf{a}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi \mathbf{a}$. But what if $\Phi$ is unknown? Our theorems show that the matrix $A$ and sparse codes can still be estimated up to noise and an inherent permutation-scaling ambiguity if samples $\mathbf{y}_1, \ldots, \mathbf{y}_N$ are sufficiently diverse. 
