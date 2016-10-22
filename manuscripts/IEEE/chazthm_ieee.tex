@@ -303,7 +303,7 @@ Finally, we will often make use of the basic fact that $|\mathbf{x}|_1 \leq \sqr
 %===================================
 %======== CASE K = 1 ============
 %Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis vectors in $\mathbb R^m$.
-Let us first prove Thm.~\ref{DeterministicUniquenessTheorem} for the simple case when $k=1$. Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}, and let $\mathbf{a}_j = c_j \mathbf{e}_j$ for $c_j \in \mathbb{R} \setminus \{0\}$, $j \in [m]$. By \eqref{Cdef}, we have:
+Let us now prove Thm.~\ref{DeterministicUniquenessTheorem} for the simple case when $k=1$. Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}, and let $\mathbf{a}_j = c_j \mathbf{e}_j$ for $c_j \in \mathbb{R} \setminus \{0\}$, $j \in [m]$. By \eqref{Cdef}, we have:
 \begin{align}\label{C1}
 C 
 %&= \left( \frac{ \sqrt{k^3}}{ \phi_1(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{i \in [m]} L_1(c_iA_i) } \\
@@ -333,8 +333,8 @@ Since \eqref{contra} contradicts \eqref{C1} and our upper bound on $\varepsilon$
 \end{align}
 
 % ======== b - PDa =========
-\begin{remark}\label{b-PDaProof}
-It is enough to know \eqref{k=1result} to bound \mbox{$|\mathbf{a}_i - D^{-1}P^{-1}\mathbf{b}_i|_1$} as well. Specifically, bound \eqref{b-PDa} is implied by \eqref{Cstable} when $\varepsilon < \varepsilon_0 := \frac{L_{2k}(A)}{\sqrt{2k}}C^{-1}$. To see why, note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$, we have by the triangle inequality that \mbox{$|(A-BPD)\mathbf{x}|_2  \leq C\varepsilon|\mathbf{x}|_1 \leq C \varepsilon \sqrt{2k}  |\mathbf{x}|_2$}. Thus,
+
+Note that \eqref{k=1result} already implies in general the recovery result \eqref{b-PDa} for $k \geq 1$. To see why, note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$, we have by the triangle inequality that \mbox{$|(A-BPD)\mathbf{x}|_2  \leq C\varepsilon|\mathbf{x}|_1 \leq C \varepsilon \sqrt{2k}  |\mathbf{x}|_2$}. Thus,
 \begin{align*}
 |BPD\mathbf{x}|_2 
 &\geq | |A\mathbf{x}|_2 - |(A-BPD)\mathbf{x}|_2 | \\
@@ -350,12 +350,6 @@ where we drop the absolute value since $\varepsilon < \varepsilon_0$. Hence, $L_
 &\leq \frac{\varepsilon\sqrt{2k}}{L_{2k}(BPD)}(1+C|\mathbf{a}_i|_1)
 %\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right).
 \end{align*}
-%\begin{align*}
-%\frac{L_{2k}(BPD)}{\sqrt{2k}}|D^{-1}P^{\top}\mathbf{b}_i - \mathbf{a}_i|_1
-%&\leq |BPD(\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i)|_2 \\
-%&\leq \varepsilon(1+C|\mathbf{a}_i|_1)
-%\end{align*}
-\end{remark}
 
 % ========== DEFINITIONS FOR MAIN LEMMA (K>1) ================
 It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows from $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ for $k > 1$. Our main tool is Lem.~\ref{MainLemma}.
@@ -383,7 +377,7 @@ Hence,
 We now show that \eqref{Cstable} follows if $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$, with $C$ as defined in \eqref{Cdef}. In this case, we can bound the RHS of \eqref {ABSubspaceDistance} as follows. Letting $\rho = \max_{j \in [m]} |A_j|_2$ and $I(S) = \{i: \text{supp}(\mathbf{a}_i)=S\}$, we have:
 \begin{align}\label{rhs}
 \frac{\varepsilon\sqrt{k}}{L(AX_{J(S)})} 
-&<  \frac{\phi_k(A) L_2(A)}{\rho k \sqrt{2}} \left( \frac{\min_{S \in T}L_k(AX_{I(S)})}{L(AX_{J(S)})} \right) \nonumber \\
+%&<  \frac{\phi_k(A) L_2(A)}{\rho k \sqrt{2}} \left( \frac{\min_{S \in T}L_k(AX_{I(S)})}{L(AX_{J(S)})} \right) \nonumber \\
 &\leq \frac{\phi_k(A)}{\rho k} \left( \frac{L_2(A)}{\sqrt{2}} \right).
 \end{align}
 
@@ -399,7 +393,7 @@ From \eqref{rhs} and \eqref{yeyeye} we see that the inequality $\Theta(A_{S}, B_
 = C\varepsilon.
 \end{align*}
 
-It follows by Lem.~\ref{MainLemma} that there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that $|A_j - (BPD)_j|_2 \leq C\varepsilon$ for all $j \in [m]$. That \eqref{b-PDa} now follows from this result is contained in Rem.~\ref{b-PDaProof}.
+It follows by Lem.~\ref{MainLemma} that there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ such that $|A_j - (BPD)_j|_2 \leq C\varepsilon$ for all $j \in [m]$, which implies \eqref{b-PDa} as demonstrated previoiusly.
 \end{proof}
 
 %===================================
@@ -417,7 +411,7 @@ We note that these results extend trivially to the case where certain point-wise
 
 % FRITZ: Inverse problems instead of Data Analysis. Don't assume that everyone is assuming they are recovering ground truth. Cite results again and state implications! Focus on them (probabilistic ones too).
 \textbf{Inverse Problems}.  
-Our results provide theoretical grounding for the use of sparse coding as a method of blind source separation (e.g., ``sparse component analysis" \cite{li2004analysis}), wherein the goal is to infer the generating dictionary and sparse codes (e.g., a rat's position on a linear track \cite{Agarwal14}) from noisy measurements generated as in \eqref{LinearModel} . To this end, it would be useful to determine the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimal requirements on the number and diversity of generating codes. We encourage researchers to extend our results and tighten all parameters.
+Our results provide theoretical grounding for the use of sparse coding for blind source separation (e.g., ``sparse component analysis" \cite{li2004analysis}), wherein the goal is to infer the generating dictionary and sparse codes (e.g., a rat's position on a linear track \cite{Agarwal14}) from noisy measurements generated as in \eqref{LinearModel} . To this end, it would be useful to determine the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimal requirements on the number and diversity of generating codes. We encourage researchers to extend our results and tighten all parameters.
 
 % Reiterate probabilistic result in the smooth analysis part?
 \textbf{Smoothed Analysis}.
@@ -640,7 +634,6 @@ The proof is very similar to the proof of Thm.~\ref{DeterministicUniquenessTheor
 C= \left( \frac{ \sqrt{k^3}}{ \min(\phi_k(A), \phi_k(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
 \end{align}
 %This insures that we can establish a one-to-one correspondence between subspaces spanned by the $m'$ columns of $B$ and nearby subspaces spanned by the $m$ columns of $A$ despite the fact that $m < m'$. 
-The same manipulations in Rem.~\ref{b-PDaProof} show how \eqref{b-PDa} then follows from \eqref{Cstable} for some subset of $m$ coefficients in the $\mathbf{b}_i$. 
 \end{proof}
 
 
