@@ -143,7 +143,7 @@ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diago
 
 As an important consequence, Thm.~\ref{DeterministicUniquenessTheorem} guarantees that \eqref{def1} holds provided $\varepsilon$ is not larger than:
 \begin{align*}
-\varepsilon(\delta_1, \delta_2) := \min \left( \delta_1 C^{-1}, \frac{ \delta_2 \varepsilon_0}{\delta_2 + C^{-1} + \max_{i \in [N]} |\mathbf{a}_i|_1} \right),
+\varepsilon(\delta_1, \delta_2) := \min \left\{ \delta_1 C^{-1}, \frac{ \delta_2 \varepsilon_0}{\delta_2 + C^{-1} + \max_{i \in [N]} |\mathbf{a}_i|_1} \right\},
 \end{align*}
 %
 at least for $\delta_1, \delta_2 \geq 0$ satisfying $\varepsilon(\delta_1, \delta_2) < \varepsilon_0$. The constant $C$ is explicitly defined in \eqref{Cdef}, below. 
@@ -237,7 +237,9 @@ and $\frak{S}_{k}$ are the permutations (bijections) on $k$ elements.
 \end{definition}
 
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
-We are now in a position to state explicitly the constant $C$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem}. Letting $T$ be the set of supports on which the $\mathbf{a}_i$ are supported (intervals of length $k$ in some cyclic ordering of $[m]$), $X$ the $m \times N$ matrix with columns $\mathbf{a}_i$, and $I(S) := \{i : S = \text{supp}(\mathbf{a}_i)\}$, we have:
+We are now in a position to state explicitly the constant $C$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem}. Letting 
+%$T$ be the set of supports on which the $\mathbf{a}_i$ are supported (intervals of length $k$ in some cyclic ordering of $[m]$),  
+$X$ be the $m \times N$ matrix with columns $\mathbf{a}_i$ and $I(S) := \{i : S = \text{supp}(\mathbf{a}_i)\}$, we have:
 \begin{align}\label{Cdef}
 C = \left( \frac{ \sqrt{k^3}}{ \phi_k(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
 \end{align}
@@ -249,7 +251,7 @@ We can be sure that $\min_{S \in T} L_k(AX_{I(S)}) > 0$ so that $C$ is well-defi
 \begin{definition}\label{GapMetricDef}
 Let $U, V$ be subspaces of $\mathbb{R}^m$ and let $d(u,V) := \inf\{|u-v|_2: v \in V\} = |u - \Pi_V u|_2$, where $\Pi_V$ is orthogonal projection onto $V$. The \textbf{gap metric} $\Theta$ is defined as \cite{Akhiezer13}:
 \begin{equation*}
-\Theta(U,V) := \max\left( \sup_{\substack{u \in U \\ |u|_2 = 1}} d(u,V), \sup_{\substack{v \in V \\ |v|_2 = 1}} d(v,U) \right).
+\Theta(U,V) := \max \big\{ \sup_{\substack{u \in U \\ |u|_2 = 1}} d(u,V), \sup_{\substack{v \in V \\ |v|_2 = 1}} d(v,U) \big\}.
 \end{equation*}
 %\begin{equation*}
 %\Theta(U,V) := \max\left( \sup_{u \in U \cap \mathcal{S}} d(u,V), \sup_{v \in V \cap \mathcal{S}} d(v,U) \right).
