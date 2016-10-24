@@ -41,7 +41,7 @@ Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA
 \maketitle
 
 \begin{abstract}
-Sparse coding has exposed underlying structure in many kinds of natural data.  However, given the multitude of algorithms implementing this strategy, claims of ``true" latent discovery require the backing of universal theorems guaranteeing statistical consistency.  Here, we prove that for almost all diverse enough datasets generated under this model, sparse coding identifies the original dictionary and codes up to an error commensurate with measurement noise. Applications are given to smoothed analysis, neuroscience, and engineering.
+Sparse coding has exposed underlying structure in many kinds of natural data.  However, given the multitude of algorithms implementing this strategy, claims of ``true" latent discovery require the backing of universal theorems guaranteeing statistical consistency.  Here, we prove that for almost all diverse enough datasets generated under this model, sparse coding identifies the original dictionary and codes up to an error commensurate with measurement noise. Applications are given to data analysis, neuroscience, and engineering.
 \end{abstract}
 
 %\begin{IEEEkeywords}
@@ -57,7 +57,11 @@ Sparse coding has exposed underlying structure in many kinds of natural data.  H
 
 %TODO: Is Olshausen10 reference really appropriate?
 % seems not too bad
-Many algorithms have been designed to infer the parameters of this model, and it is tempting to interpret their output as approximating ``ground truth" when it is thought to exist (e.g., in using unique painting style dictionaries for forgery detection \cite{hughes2010, Olshausen10}). It may be, however, that several qualitatively different solutions are in fact consistent with the data. The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is uniquely identifiable from enough generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $n, m$, and $k$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, then in almost all cases the dictionary learning problem is well-posed in the sense of Hadamard \cite{Hadamard1902} (Cor.~\ref{ProbabilisticCor}). 
+Many algorithms have been designed to infer the parameters of this model, and it is tempting to interpret their output as approximating ``ground truth" when it is thought to exist.  For instance, sparse coding of local painting style has been proposed to detect forgeries \cite{hughes2010, Olshausen10}. 
+%rests on brush stroke primitives uniquely specifying an artist. 
+It may be, however, that several very different solutions are consistent with the data. 
+
+The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is uniquely identifiable from enough generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $(n, m, k)$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, in almost all cases the dictionary learning problem is well-posed in the sense of Hadamard \cite{Hadamard1902} (Cor.~\ref{ProbabilisticCor}). 
 
 These algorithm-independent guarantees can also be extended to the case when only an upper bound on the size of $\mathcal{A}$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). The explicit criteria under which these results hold can serve as theoretical tools in the analysis of sparse coding routines, some of which now provably converge to a global solution when it exists (see \cite[Sec.~I-E]{Sun16} for a brief discussion of the state-of-the-art in these algorithms). 
 
@@ -108,13 +112,13 @@ In the next section, we give precise statements of our main results, which inclu
 
 \section{Results}\label{Results}
 
-Before precisely stating our results, we explain how the spark condition \eqref{SparkCondition} relates to the \emph{lower bound} \cite{Grcar10} of $A$, written $L(A)$, which is the largest number $\alpha$ such that $|A\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2$ for all $\mathbf{x} \in \mathbb{R}^m$. By compactness, every injective linear map has a nonzero lower bound; hence, if $A$ satisfies \eqref{SparkCondition}, then every submatrix formed from $2k$ of its columns or less has a nonzero lower bound. We therefore define the following domain-restricted lower bound of $A$:
+Before precisely stating our results, we explain how the spark condition \eqref{SparkCondition} relates to the \emph{lower bound} \cite{Grcar10} of $A$, written $L(A)$, which is the largest number $\alpha$ such that \mbox{$|A\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2$} for all $\mathbf{x} \in \mathbb{R}^m$. By compactness, every injective linear map has a nonzero lower bound; hence, if $A$ satisfies \eqref{SparkCondition}, then every submatrix formed from $2k$ of its columns or less has a nonzero lower bound. We therefore define the following domain-restricted lower bound of $A$:
 \begin{align*}
 L_k(A) := \max \{ \alpha : |A\mathbf{x}|_2 \geq \alpha|\mathbf{x}|_2 \text{ for all $k$-sparse } \mathbf{x} \in \mathbb{R}^m\}.
 \end{align*} 
 Clearly, $L_k(A) \geq L_{k'}(A)$ whenever $k < k'$, and for any $A$ satisfying \eqref{SparkCondition}, we have $L_{k'}(A) > 0$ for all $k' \leq 2k$. 
 
-A \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ in a circular necklace, and an \textit{interval} in the order is any subset of contiguous elements. A vector $\mathbf{a} \in \mathbb{R}^m$ is said to be \emph{supported} on $S \subseteq [m]$ when $\mathbf{a} \in \text{Span}\{ \{\mathbf{e}_i\}_{i\in S}\}$, where $\mathbf{e}_i$ are the standard basis vectors.  Also, recall that $M_j$ denotes the $j$th column of a matrix $M$. The following result gives a positive answer to our question from the introduction.
+A \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ in a circular necklace, and an \textit{interval} in the order is any subset of contiguous elements. A vector $\mathbf{a} \in \mathbb{R}^m$ is said to be \emph{supported} on $S \subseteq [m]$ when $\mathbf{a} \in \text{Span}\{ \{\mathbf{e}_j\}_{j\in S}\}$, where $\mathbf{e}_j$ are the standard basis vectors.  Also, recall that $M_j$ denotes the $j$th column of a matrix $M$. The following result gives an answer to our question from the introduction.
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
 \begin{theorem}\label{DeterministicUniquenessTheorem}
@@ -190,12 +194,12 @@ The argument in \cite{Hillar15} shows that if $k+1$ random $\mathbf{a}_i$ are dr
 
 %CUT: OK? 
 %We note furthermore that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise. However, for fixed sparsity $k$, the larger the ambient dimension $n$ of the data, the smaller the probability that the noise points in a direction  confusing signals generated by $k$ columns of $A$.  Therefore, for a given distribution, the ``effective'' noise might be much smaller, with the original dictionary and sparse codes being identifiable for better constants with high probability. 
-We note furthermore that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise, whereas the ``effective'' noise might be much smaller when it is sampled from a given distribution; in such cases, the constant $C$ may be much smaller with high probability. 
+We remark that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise, whereas the ``effective'' noise might be much smaller when it is sampled from a given distribution; in such cases, the constant $C$ may be much smaller with high probability. 
 
-We next address the case when only an upper bound $m'$ on the latent dimension $m$ is known. To do so, we must make the additional assumption that $B$ satisfies (\ref{SparkCondition}). 
+Next, we address the case when only an upper bound $m'$ on the latent dimension $m$ is known. To do so, we must make the additional assumption that $B$ satisfies (\ref{SparkCondition}). 
 
 \begin{theorem}\label{DeterministicUniquenessTheorem2}
-Let $Y$ be defined as in the statement of Thm.~\ref{DeterministicUniquenessTheorem}. There exists a constant $C > 0$ for which the following holds for all $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ and any $m' > m$. If a matrix $B \in \mathbb{R}^{n \times m'}$ satisfies \eqref{SparkCondition} and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ are such that \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$ then \eqref{Cstable} and \eqref{b-PDa} hold for some $n \times m$ submatrix of $B$ and corresponding subvectors of the $\mathbf{b}_i$, respectively. 
+Let $Y$ be defined as in Thm.~\ref{DeterministicUniquenessTheorem}. There exists $C > 0$ for which the following holds for all $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ and any $m' > m$. If a matrix $B \in \mathbb{R}^{n \times m'}$ satisfies \eqref{SparkCondition} and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^{m'}$ are such that \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$, then \eqref{Cstable} and \eqref{b-PDa} hold for some $n \times m$ submatrix of $B$ and corresponding subvectors of the $\mathbf{b}_i$, respectively. 
 \end{theorem}
 
 In other words, the columns of $B$ contain (up to noise, after appropriate scaling) the columns of the original dictionary $A$. Similarly, the $\mathbf{b}_i$ contain the original codes $\mathbf{a}_i$. The constant $C$ here is expression (\ref{Cdef2}) from the proof of Thm.~\ref{DeterministicUniquenessTheorem2}. 
@@ -207,7 +211,7 @@ In other words, the columns of $B$ contain (up to noise, after appropriate scali
 %===================================
 % 			Preliminaries
 %===================================
-Before proving Thm.~\ref{DeterministicUniquenessTheorem}, we briefly outline our main tools, which include general notions of angle (Def.~\ref{FriedrichsDefinition}) and distance (Def.~\ref{GapMetricDef}) between subspaces as well as a (stable) uniqueness result in matrix analysis (Lem.~\ref{MainLemma}).
+We first briefly outline our main tools, which include general notions of angle (Def.~\ref{FriedrichsDefinition}) and distance (Def.~\ref{GapMetricDef}) between subspaces as well as a (stable) uniqueness result in matrix analysis (Lem.~\ref{MainLemma}).
 Let ${[m] \choose k}$ be all subsets of $[m]$ of size $k$, and let $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ be the $\mathbb{R}$-linear span of vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$. Given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$, let $M_S$ be the submatrix with columns $M_j$ for $j \in S$, which will also denote its column span when appropriate.  
 %[ ** TODO: Should we state canonical basis vectors $\mathbf{e}_i$ here? ** ]
 % we did before earlier 
@@ -217,9 +221,9 @@ Let ${[m] \choose k}$ be all subsets of $[m]$ of size $k$, and let $\text{Span}\
 \begin{definition}\label{FriedrichsDefinition}
 The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is defined in terms of its cosine:
 \begin{align*}
-\cos{\theta_F} := \max\left\{ \langle u, v \rangle: \substack{ u \in U \cap (U \cap V)^\perp \cap \mathcal{B} \\ v \in V \cap (U \cap V)^\perp \cap \mathcal{B} } \right\},
+\cos{\theta_F} := \max\left\{ \langle \mathbf{u}, \mathbf{v} \rangle: \substack{ \mathbf{u} \in U \cap (U \cap V)^\perp \cap \mathcal{B} \\ \mathbf{v} \in V \cap (U \cap V)^\perp \cap \mathcal{B} } \right\},
 \end{align*}
-where $\mathcal{B} = \{ x: |x|_2 \leq 1\}$ is the unit $\ell_2$-ball in $\mathbb{R}^n$ \cite{Deutsch12}.
+where $\mathcal{B} = \{ \mathbf{x}: |\mathbf{x}|_2 \leq 1\}$ is the unit $\ell_2$-ball in $\mathbb{R}^n$ \cite{Deutsch12}.
 \end{definition}
 %CUT OK?: For example, when $n=3$ and $k=1$, this is simply the angle between vectors; and for $k=2$, it is the angle between the normal vectors of two planes. In higher dimensions, the Friedrichs angle is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, the Friedrichs angle is the smallest nonzero such angle. 
 The Friedrichs angle $\theta_F$ is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, $\theta_F$ is the smallest nonzero such angle. 
@@ -243,7 +247,7 @@ and $\frak{S}_{k}$ are the permutations (bijections) on $k$ elements.
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
 We are now in a position to state explicitly the constant $C$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem}. Letting 
 %$T$ be the set of supports on which the $\mathbf{a}_i$ are supported (intervals of length $k$ in some cyclic ordering of $[m]$),  
-$X$ be the $m \times N$ matrix with columns $\mathbf{a}_i$ and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$, we have:
+$X$ be the $m \times N$ matrix with columns $\mathbf{a}_i$ and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$, we set:
 \begin{align}\label{Cdef}
 C = \left( \frac{ \sqrt{k^3}}{ \phi_k(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
 \end{align}
@@ -253,9 +257,9 @@ We can be sure that $\min_{S \in T} L_k(AX_{I(S)}) > 0$ so that $C$ is well-defi
 \end{remark}
 
 \begin{definition}\label{GapMetricDef}
-Let $U, V$ be subspaces of $\mathbb{R}^m$ and let $d(u,V) := \inf\{|u-v|_2: v \in V\} = |u - \Pi_V u|_2$, where $\Pi_V$ is orthogonal projection onto $V$. The \textbf{gap metric} $\Theta$ is defined as \cite{Akhiezer13}:
+Let $U, V$ be subspaces of $\mathbb{R}^m$ and let $d(\mathbf{u},V) := \inf\{|\mathbf{u}-\mathbf{v}|_2: \mathbf{v} \in V\} = |\mathbf{u} - \Pi_V \mathbf{u}|_2$, where $\Pi_V$ is orthogonal projection onto $V$. The \textbf{gap metric} $\Theta$ is defined as \cite{Akhiezer13}:
 \begin{equation*}
-\Theta(U,V) := \max \big\{ \sup_{\substack{u \in U \\ |u|_2 = 1}} d(u,V), \sup_{\substack{v \in V \\ |v|_2 = 1}} d(v,U) \big\}.
+\Theta(U,V) := \max \big\{ \sup_{\substack{\mathbf{u} \in U \\ |\mathbf{u}|_2 = 1}} d(\mathbf{u},V), \sup_{\substack{\mathbf{v} \in V \\ |\mathbf{v}|_2 = 1}} d(\mathbf{v},U) \big\}.
 \end{equation*}
 %\begin{equation*}
 %\Theta(U,V) := \max\left( \sup_{u \in U \cap \mathcal{S}} d(u,V), \sup_{v \in V \cap \mathcal{S}} d(v,U) \right).
@@ -282,9 +286,9 @@ then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an inv
 \end{align}
 \end{lemma}
 
-We will also use the following useful facts about the distance $d$ from Def.~\ref{GapMetricDef}. The first, 
+We will also use the following basic facts about the distance $d$ from Def.~\ref{GapMetricDef}. The first, 
 \begin{equation}\label{SubspaceMetricSameDim}
-\dim(W) = \dim(V) \implies \sup_{\substack{v \in V \\ |v|_2 = 1}}  d(v,W)  = \sup_{\substack{w \in W \\ |w|_2 = 1}} d(w,V),
+\dim(W) = \dim(V) \implies \sup_{\substack{\mathbf{v} \in V \\ |\mathbf{v}|_2 = 1}}  d(\mathbf{v},W)  = \sup_{\substack{\mathbf{w} \in W \\ |\mathbf{w}|_2 = 1}} d(\mathbf{w},V),
 \end{equation}
 %\begin{equation}\label{SubspaceMetricSameDim}
 %\dim(W) = \dim(V) \implies \sup_{v \in V \cap \mathcal{S}}  d(v,W)  = \sup_{w \in W \cap \mathcal{S}} d(w,V),
@@ -293,10 +297,10 @@ can be found in \cite[Lem.~3.3]{Morris10}. The second is:
 \begin{lemma}\label{MinDimLemma}
 If $U, V$ are subspaces of $\mathbb{R}^{m}$, then
 \begin{equation*}
-d(u,V) < |u|_2, \ \ u \in U \setminus{\{0\}} \implies \dim(U) \leq \dim(V).
+d(\mathbf{u},V) < |\mathbf{u}|_2 \ \text{and} \  \mathbf{u} \in U \setminus{\{\mathbf{0}\}} \implies \dim(U) \leq \dim(V).
 \end{equation*}
 \end{lemma}
-Finally, we will often make use of the basic fact that $|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2$ for $k$-sparse $\mathbf{x} \in \mathbb{R}^m$.
+Finally, we often use $|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2$ for $k$-sparse $\mathbf{x} \in \mathbb{R}^m$.
 %\begin{align}\label{sqrtk}
 %|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2, \ \ \text{for $k$-sparse $\mathbf{x} \in \mathbb{R}^m$}.
 %\end{align}
@@ -307,44 +311,44 @@ Finally, we will often make use of the basic fact that $|\mathbf{x}|_1 \leq \sqr
 %===================================
 %======== CASE K = 1 ============
 %Let $\mathbf{e}_1, \ldots, \mathbf{e}_m$ be the standard basis vectors in $\mathbb R^m$.
-Let us now prove Thm.~\ref{DeterministicUniquenessTheorem} for the simple case when $k=1$. Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}, and let $\mathbf{a}_j = c_j \mathbf{e}_j$ for $c_j \in \mathbb{R} \setminus \{0\}$, $j \in [m]$. By \eqref{Cdef}, we have:
+Let us now prove Thm.~\ref{DeterministicUniquenessTheorem} for the simple case when $k=1$. Fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition}, and let $\mathbf{a}_i = c_i \mathbf{e}_i$ for $c_i \in \mathbb{R} \setminus \{\mathbf{0}\}$, $i \in [m]$. By \eqref{Cdef}, we have:
 \begin{align}\label{C1}
 C 
 %&= \left( \frac{ \sqrt{k^3}}{ \phi_1(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{i \in [m]} L_1(c_iA_i) } \\
-&= \sqrt{k^3} \left( \frac{\max_{i \in [m]} |A_i|_2}{\min_{j \in [m]}|c_jA_j|_2} \right)
-\geq \left( \min_{j \in [m]} |c_j| \right)^{-1}.
+&= \sqrt{k^3} \left( \frac{\max_{j \in [m]} |A_j|_2}{\min_{j \in [m]}|c_jA_j|_2} \right)
+\geq \left( \min_{\ell \in [m]} |c_{\ell}| \right)^{-1}.
 \end{align}
 
-Suppose that for some $B \in \mathbb{R}^{n \times m}$ and 1-sparse $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ for $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there must exist $c'_1, \ldots, c'_m \in \mathbb{R}$ and some map $\pi: [m] \to [m]$ such that:
+Suppose that for some $B \in \mathbb{R}^{n \times m}$ and $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ for $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there are $c'_1, \ldots, c'_m \in \mathbb{R}$ and $\pi: [m] \to [m]$ with:
 \begin{align}\label{1D}
 |c_jA_j - c'_jB_{\pi(j)}|_2 \leq \varepsilon, \ \ \text{for } \  j \in [m].
 \end{align} 
 Note that $c'_j \neq 0$ for all $i$ since otherwise (by definition of $L_2(A)$), we would have $|c_jA_j|_2 < \min_{\ell \in [m]}|c_{\ell}A_{\ell}|_2$. 
 
-We  now show that $\pi$ is necessarily injective (and thus is a permutation). %[*** something wonky here with the variable names ***]  
-Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell \in [m]$. Then, $|c_iA_i - c'_iB_{\ell}|_2  \leq \varepsilon$ and $|c_jA_j - c'_jB_{\ell}|_2 \leq \varepsilon$. Scaling and summing these inequalities by $|c'_j|$ and $|c'_i|$, respectively, and applying the triangle inequality, we have:
+We  now show that $\pi$ is injective (and thus is a permutation).
+Suppose that $\pi(j_1) = \pi(j_2) = \ell$ for some $j_1 \neq j_2$ and $\ell$. Then, $|c_{j_2}A_{j_2} - c'_{j_2}B_{\ell}|_2 \leq \varepsilon$ and $|c_{j_1}A_{j_1} - c'_{j_1} B_{\ell}|_2  \leq \varepsilon$. Scaling and summing these inequalities by $|c'_{j_1}|$ and $|c'_{j_2}|$, respectively, and applying the triangle inequality, we obtain:
 \begin{align}\label{contra}
-(|c'_i| + |c'_j|) \varepsilon
-&\geq |A(c'_jc_i\mathbf{e}_i - c'_ic_j\mathbf{e}_j)|_2 \nonumber \\ 
-&\geq \frac{L_2(A)}{\sqrt{2}} \left( |c'_j| + |c'_i| \right) \min_{\ell \in [m]} |c_\ell |.
+(|c'_{j_1}| + |c'_{j_2}|) \varepsilon
+&\geq |A(c'_{j_1}c_{j_2} \mathbf{e}_{j_2} - c'_{j_2}c_{j_1}\mathbf{e}_{j_1})|_2 \nonumber \\ 
+&\geq \frac{L_2(A)}{\sqrt{2}} \left( |c'_{j_1}| + |c'_{j_2}| \right) \min_{\ell \in [m]} |c_\ell |.
 \end{align}
 %
 %where the last inequality follows from the definition of $L_2(A)$ and (\ref{sqrtk}). 
 
-Since \eqref{contra} contradicts \eqref{C1} and our upper bound on $\varepsilon$, the map $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right)$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m})$, we see that \eqref{1D} becomes for $i \in [m]$:
-\begin{align}\label{k=1result}
-|A_i - (BPD)_i|_2 = |A_i - \frac{c'_i}{c_i}B_{\pi(i)}|_2 \leq \frac{\varepsilon}{|c_i|} \leq C\varepsilon.
-\end{align}
+Since \eqref{contra} contradicts \eqref{C1} and our upper bound on $\varepsilon$, the map $\pi$ is injective. Letting $P = \left( \mathbf{e}_{\pi(1)} \cdots \mathbf{e}_{\pi(m)}\right)$ and $D = \text{diag}(\frac{c'_1}{c_1},\ldots,\frac{c'_m}{c_m})$, we see that \eqref{1D} becomes \eqref{Cstable} for $j \in [m]$:
+\begin{align*}%\label{k=1result}
+|A_j - (BPD)_j|_2 = |A_j - \frac{c'_j}{c_j}B_{\pi(j)}|_2 \leq \frac{\varepsilon}{|c_j|} \leq C\varepsilon.
+\end{align*}
 
 % ======== b - PDa =========
 
-Note that \eqref{k=1result} already implies in general the recovery result \eqref{b-PDa} for $k \geq 1$. To see why, note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$, we have by the triangle inequality that \mbox{$|(A-BPD)\mathbf{x}|_2  \leq C\varepsilon|\mathbf{x}|_1 \leq C \varepsilon \sqrt{2k}  |\mathbf{x}|_2$}. Thus, $|BPD\mathbf{x}|_2 \geq | |A\mathbf{x}|_2 - |(A-BPD)\mathbf{x}|_2 | \geq (L_{2k}(A) - \sqrt{2k}C\varepsilon ) |\mathbf{x}|_2$, where we drop the absolute value since $\varepsilon < \varepsilon_0$. Hence, $L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \varepsilon/\varepsilon_0 \right) > 0$ and \eqref{b-PDa} follows from:
+It turns out that \eqref{Cstable} already implies in general the recovery result \eqref{b-PDa} for $k \geq 1$. To see why, note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$, the triangle inequality gives \mbox{$|(A-BPD)\mathbf{x}|_2  \leq C\varepsilon|\mathbf{x}|_1 \leq C \varepsilon \sqrt{2k}  |\mathbf{x}|_2$}. Thus, $|BPD\mathbf{x}|_2 \geq | |A\mathbf{x}|_2 - |(A-BPD)\mathbf{x}|_2 | \geq (L_{2k}(A) - \sqrt{2k}C\varepsilon ) |\mathbf{x}|_2$, where we drop the absolute value since $\varepsilon < \varepsilon_0$. Hence, $L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \varepsilon/\varepsilon_0 \right) > 0$ and \eqref{b-PDa} follows from:
 \begin{align*}
 |D^{-1}P^{\top}\mathbf{b}_i - \mathbf{a}_i|_1
 %&\leq \sqrt{2k} |\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_2 \\
 &\leq \frac{\sqrt{2k}}{L_{2k}(BPD)}|BPD(\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i)|_2 \\
 %&\leq \frac{\sqrt{2k}}{L_{2k}(BPD)} (|B\mathbf{b}_i - A\mathbf{a}_i|_2 + |(A - BPD)\mathbf{a}_i|_2) \\
-&\leq \frac{\varepsilon\sqrt{2k}}{L_{2k}(BPD)}(1+C|\mathbf{a}_i|_1)
+&\leq \frac{\varepsilon\sqrt{2k}}{L_{2k}(BPD)}(1+C|\mathbf{a}_i|_1).
 %\leq \frac{\varepsilon }{\varepsilon_0 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right).
 \end{align*}
 
@@ -355,9 +359,9 @@ It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows f
 \begin{proof}[Proof of Thm.~\ref{DeterministicUniquenessTheorem}]
 From above, we may assume that $k > 1$. Let $T$ be the set of intervals of length $k$ in the given cyclic order of $[m]$ and fix $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^m$ and $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} as in the statement of the theorem. %We claim $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$. 
 
-Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of $k$ indices $J(S)$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S'$, respectively.
+Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse \mbox{$\mathbf{b}_i \in \mathbb{R}^m$} such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of $k$ indices $J(S)$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S'$, respectively.
 
-Let $X$ and $X'$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\mathbf{b}_i$, respectively. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent, i.e. $L(AX_{J(S)}) > 0$, and therefore form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{y} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{y} = AX_{J(S)}\mathbf{c}$. Letting $\mathbf{y'} = BX'_{J(S)}\mathbf{c}$, which is in $\text{Span}\{B_{S'}\}$, we have:
+Let $X$ and $X'$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\mathbf{b}_i$, respectively. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent, i.e. $L(AX_{J(S)}) > 0$, and therefore form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{y} \in \text{Span}\{A_{S}\}$, there exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{y} = AX_{J(S)}\mathbf{c}$. Letting \mbox{$\mathbf{y'} = BX'_{J(S)}\mathbf{c}$}, which is in $\text{Span}\{B_{S'}\}$, we have:
 \begin{align*}
 |\mathbf{y} - \mathbf{y'}|_2 
 = |\sum_{i=1}^k c_i(AX_{J(S)} - BX'_{J(S)})_i|_2 
@@ -366,7 +370,7 @@ Let $X$ and $X'$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\
 \leq \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |AX_{J(S)}\mathbf{c}|_2 
 = \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |\mathbf{y}|_2.
 \end{align*}
-That is, $d(\mathbf{y}, B_{S'}) \leq \varepsilon\sqrt{k} / L(AX_{J(S)})$ for all unit $\ell_2$-norm $\mathbf{y} \in \text{Span}\{A_{S}\}$.
+In particular, we have $d(\mathbf{y}, B_{S'}) \leq \varepsilon\sqrt{k} / L(AX_{J(S)})$ for all unit $\ell_2$-norm $\mathbf{y} \in \text{Span}\{A_{S}\}$.
 %\begin{align}\label{ABSubspaceDistance}
 %\sup_{ \substack{ \mathbf{y} \in \text{Span}\{A_{S}\} \\ |\mathbf{y}|_2 = 1} } d(\mathbf{y}, B_{S'}) \leq \frac{\varepsilon\sqrt{k}}{L(AX_{J(S)})}.
 %\end{align}
@@ -377,14 +381,14 @@ We now show that \eqref{Cstable} follows if $\varepsilon < \frac{L_2(A)}{\sqrt{2
 %&<  \frac{\phi_k(A) L_2(A)}{\rho k \sqrt{2}} \left( \frac{\min_{S \in T}L_k(AX_{I(S)})}{L(AX_{J(S)})} \right) \nonumber \\
 &\leq \frac{\phi_k(A) L_2(A)}{\rho k \sqrt{2}}.
 \end{align}
-
-Since $L_2(A) \leq \rho \sqrt{2}$ and $\phi_k(A) \leq 1$, the RHS of \eqref{rhs} is strictly less than one. It follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$ (since every $k$ columns of $A$ are linearly independent). Since $|S'| = k$, we have $\dim(\text{Span}\{B_{S'}\}) \leq k$; hence, $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see the association $S \mapsto S'$ thus defines a map $\pi: T \to {[m] \choose k}$ satisfying
+Since $L_2(A) \leq \rho \sqrt{2}$ and $\phi_k(A) \leq 1$, the RHS of \eqref{rhs} is strictly less than one. It follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$. % (since every $k$ columns of $A$ are linearly independent). 
+Since $|S'| = k$, we also have $\dim(\text{Span}\{B_{S'}\}) \leq k$; hence, $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see that the association $S \mapsto S'$ therefore defines a map $\pi: T \to {[m] \choose k}$ satisfying:
 \begin{align}\label{yeyeye}
 %\Theta(A_{S}, B_{\pi(S)}) \leq \frac{\phi_k(A) L_2(A)}{\rho k \sqrt{2}} \indent \text{for } S \in T.
-\Theta(A_{S}, B_{\pi(S)}) \leq \frac{\varepsilon\sqrt{k}}{ L(AX_{J(S)})} \indent \text{for } S \in T.
+\Theta(A_{S}, B_{\pi(S)}) \leq \frac{\varepsilon\sqrt{k}}{ L(AX_{J(S)})}, \indent \text{for } S \in T.
 \end{align}
 
-Thus, from \eqref{rhs} and \eqref{yeyeye} we see that, for this particular $S \in T$, the inequality in \eqref{GapUpperBound} is satisfied for $\delta < L_2(A)/\sqrt{2}$ by setting $\delta = \frac{ \rho k}{ \phi_k(A) } \left(  \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} \right)$ (see Rem.~\ref{nonzero} for why $\phi_k(A) \neq 0$). It follows that \eqref{GapUpperBound} holds (for all $S \in T$) when $\delta = C\varepsilon$, with $C$ as defined in \eqref{Cdef}.
+Thus, from \eqref{rhs} and \eqref{yeyeye} it follows that for this particular $S \in T$, the inequality in \eqref{GapUpperBound} is satisfied for $\delta < L_2(A)/\sqrt{2}$ by setting $\delta = \frac{ \rho k}{ \phi_k(A) } \left(  \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} \right)$ (see Rem.~\ref{nonzero} for why $\phi_k(A)$ is nonzero). It follows that \eqref{GapUpperBound} holds (for all $S \in T$) when $\delta = C\varepsilon$, with $C$ as defined in \eqref{Cdef}.
 %\begin{align*}
 %\delta = \left( \frac{ \varepsilon \sqrt{k^3}}{ \phi_k(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}
 %= C\varepsilon.
@@ -407,9 +411,10 @@ We note that these results extend trivially to the case where certain point-wise
 
 % FRITZ: Inverse problems instead of Data Analysis. Don't assume that everyone is assuming they are recovering ground truth. Cite results again and state implications! Focus on them (probabilistic ones too).
 \textbf{Inverse Problems}.  
-Our results provide theoretical grounding for the use of sparse coding for blind source separation (e.g., ``sparse component analysis" \cite{li2004analysis}), wherein the goal is to infer the generating dictionary and sparse codes (e.g., a rat's position on a linear track \cite{Agarwal14}) from noisy measurements generated as in \eqref{LinearModel}. To this end, it would be useful to determine the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimal requirements on the number and diversity of generating codes. We encourage researchers to extend our results and tighten all parameters.
+Our results provide theoretical grounding for the use of sparse coding in blind source separation (e.g., ``sparse component analysis" \cite{li2004analysis}), wherein the goal is to infer the generating dictionary and sparse codes (e.g., a rat's position on a linear track \cite{Agarwal14}) from noisy measurements generated as in \eqref{LinearModel}. To this end, it would be useful to determine the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimal requirements on the number and diversity of generating codes. We encourage researchers to extend our results and tighten all parameters.
 
 Also, maybe good to discuss application to natural sound unique structures too \cite{bellsejnowski1996, smithlewicki2006, Carlson12}.
+The rat thing is snuck in there above with too little explanation.  could be good to fit it into Natural Images, Sound, and (Hippocampus) Nueral Activity.
 
 % Reiterate probabilistic result in the smooth analysis part?
 \textbf{Smoothed Analysis}.
