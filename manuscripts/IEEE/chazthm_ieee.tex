@@ -150,7 +150,7 @@ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diago
 As an important consequence, Thm.~\ref{DeterministicUniquenessTheorem} guarantees that \eqref{def1} holds provided $\varepsilon$ is not larger than:
 \begin{align*}
 %\varepsilon(\delta_1, \delta_2) := \min \left\{ \frac{\delta_1}{ C }, \frac{ \delta_2 \varepsilon_0}{\delta_2 + C^{-1} + \max_{i \in [N]} |\mathbf{a}_i|_1} \right\}. \\
-\varepsilon(\delta_1, \delta_2) := \min \left\{ \frac{\delta_1}{ C }, \frac{ L_{2k}(A) / \sqrt{2k}}{1 + C\left(1 + \max_{i \in [N]} |\mathbf{a}_i|_1 / \delta_2 \right)} \right\}.
+\varepsilon(\delta_1, \delta_2) := \min \left\{ \frac{\delta_1}{ C }, \frac{ L_{2k}(A) / \sqrt{2k}}{\left(1 + C \max_{i \in [N]} |\mathbf{a}_i|_1 \right) / \delta_2 + C } \right\}.
 \end{align*}
 %
 %at least for $\delta_1, \delta_2 \geq 0$ small enough to satisfy $\varepsilon(\delta_1, \delta_2) < \varepsilon_0$. 
@@ -413,15 +413,17 @@ We note that these results extend trivially to the case where certain point-wise
 \textbf{Inverse Problems}.  
 Our results provide theoretical grounding for the use of sparse coding in blind source separation (e.g., ``sparse component analysis" \cite{li2004analysis}), wherein the goal is to infer the generating dictionary and sparse codes (e.g., a rat's position on a linear track \cite{Agarwal14}) from noisy measurements generated as in \eqref{LinearModel}. To this end, it would be useful to determine the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimal requirements on the number and diversity of generating codes. We encourage researchers to extend our results and tighten all parameters.
 
-Also, maybe good to discuss application to natural sound unique structures too \cite{bellsejnowski1996, smithlewicki2006, Carlson12}.
-The rat thing is snuck in there above with too little explanation.  could be good to fit it into Natural Images, Sound, and (Hippocampus) Nueral Activity.
+\textbf{Theoretical Neuroscience}.
+Sparse coding and related methods have repeatedly been shown to recover characteristic sparse components of natural images \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent} and sounds \cite{bellsejnowski1996, smithlewicki2006, Carlson12} that resemble the linear receptive fields of cortical neurons. Together with these results, our theorems suggest that the sparse representations of these signals may indeed, to some extent, be unique. Furthermore, these theoretical guarantees justify the hypothesis of \cite{Coulter10} and \cite{Isely10} that sparse representations of natural data passed through a communication bottleneck in the brain could be decoded from random projections via (unsupervised) biologically plausible sparse-coding algorithms \cite{??}.   %TODO: cite Joel Z paper? Arora "simple, efficient, and neural algos for sparse coding"?
+
+%A necessary condition for this theory to work is that the sparse coding problem has a unique solution stable with respect to noise, which our work verifies. 
+
+%The rat thing is snuck in there above with too little explanation.  could be good to fit it into Natural Images, Sound, and (Hippocampus) Nueral Activity.
 
 % Reiterate probabilistic result in the smooth analysis part?
 \textbf{Smoothed Analysis}.
 The main concept in smoothed analysis \cite{Spielman04} is that certain algorithms having exponential worst-case behavior are, nonetheless, efficient if certain (typically, measure zero in the continuous case and with ``low probability" in the discrete case) pathological input sets are avoided. Our results imply that if there is an efficient ``smoothed" algorithm for solving Problem \ref{InverseProblem} given enough samples, then for generic inputs this algorithm determines the unique original solution. We note that avoiding ``bad" (NP-hard) sets of inputs is a necessary technicality for dictionary learning \cite{Razaviyayn15, Tillmann15}.
 
-\textbf{Neural Communication Theory}.
-In \cite{Coulter10} and \cite{Isely10}, it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded, unsupervised, via sparse coding.  A necessary condition for this theory to work is that the sparse coding problem has a unique solution stable with respect to noise, which our work verifies. 
 %This was already verified in the case of data sampled without noise in \eqref{Hillar15}.  Our work extends this theory to the more realistic case of sampling error.
 
 \textbf{Engineering}.
