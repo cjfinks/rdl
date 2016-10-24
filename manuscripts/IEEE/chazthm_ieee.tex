@@ -154,7 +154,7 @@ As an important consequence, Thm.~\ref{DeterministicUniquenessTheorem} guarantee
 \end{align*}
 %
 %at least for $\delta_1, \delta_2 \geq 0$ small enough to satisfy $\varepsilon(\delta_1, \delta_2) < \varepsilon_0$. 
-The constant $C$ is explicitly defined in \eqref{Cdef}, below.\footnote{The reader can verify that for $C$ given by \eqref{Cdef}, if $A$ = $I$ and $\mathbf{a}_i = \mathbf{e}_i$ for all $i \in [m]$, there exist matrices $B$ and $k$-sparse $\mathbf{b}_i$ satisfying $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [m]$ which do not satisfy \eqref{Cstable} when $\varepsilon \geq \frac{L_2(A)}{\sqrt{2}}C^{-1}$.} 
+The constant $C$ is explicitly defined in \eqref{Cdef}, below.\footnote{The reader can verify in the $k=1$ case that for $C$ given by \eqref{Cdef}, if \mbox{$A$ = $I$} and $\mathbf{a}_i = \mathbf{e}_i$ for all $i$, there exist matrices $B$ and $1$-sparse $\mathbf{b}_i$ satisfying $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i$ which do not satisfy \eqref{Cstable} when $\varepsilon \geq \frac{L_2(A)}{\sqrt{2}}C^{-1}$.} 
 
 \begin{corollary}\label{DeterministicUniquenessCorollary}
 Given $n, m$, and $k < m$, there are $N =  m(k-1){m \choose k}+m$ vectors \mbox{$\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$} such that every matrix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} generates a set $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ with a stable $k$-sparse representation in $\mathbb R^m$.
