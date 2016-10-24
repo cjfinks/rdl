@@ -147,7 +147,7 @@ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diago
 %[ *** So inference is stable for small enough error! There is no multiplicity of alternative models that also happen to work. Regression models have a fixed $A$ (i.e. the values of the variables we are regressing on). Here, in this model, we don't specify the $A$, instead we learn what the best regressor variables would be if they existed. And we want to combine regressors for different problems so as to save resources. Thought of all this reading section 8 of the Breiman paper on data models vs. algorithmic models.***]
 
 %TODO: Add epsilon_0 into the max?
-An important consequence, with $C$  explicitly defined in \eqref{Cdef} below\footnote{This $C$ is optimal when $k=1$: if \mbox{$A$ = $I$} and $\mathbf{a}_i = \mathbf{e}_i$, there is a $B$ and $1$-sparse $\mathbf{b}_i$ with $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ that do not have \eqref{Cstable} when $\varepsilon \geq \frac{L_2(A)}{\sqrt{2}}C^{-1}$.}, is that \eqref{def1} is guaranteed provided $\varepsilon$ is smaller than:
+An important consequence, with $C$  explicitly defined in \eqref{Cdef} below, is that \eqref{def1} is guaranteed provided $\varepsilon$ is smaller than\footnote{The condition $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ is necessary; otherwise,  with \mbox{$A$ = $I$} and $\mathbf{a}_i = \mathbf{e}_i$, there is a $B$ and $1$-sparse $\mathbf{b}_i$ with $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ violating \eqref{Cstable}.}:
 \begin{align*}
 %\varepsilon(\delta_1, \delta_2) := \min \left\{ \frac{\delta_1}{ C }, \frac{ \delta_2 \varepsilon_0}{\delta_2 + C^{-1} + \max_{i \in [N]} |\mathbf{a}_i|_1} \right\}. \\
 \varepsilon(\delta_1, \delta_2) := \min \left\{ \frac{\delta_1}{ C }, \frac{ L_{2k}(A) / \sqrt{2k}}{\left(1 + C \max_{i \in [N]} |\mathbf{a}_i|_1 \right) / \delta_2 + C } \right\}.
@@ -288,7 +288,7 @@ then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an inv
 \end{align}
 \end{lemma}
 
-We will also use the following basic facts about the distance $d$ from Def.~\ref{GapMetricDef}. The first, 
+We will also use a few facts about $d$ in Def.~\ref{GapMetricDef}. The first, 
 \begin{equation}\label{SubspaceMetricSameDim}
 \dim(W) = \dim(V) \implies \sup_{\substack{\mathbf{v} \in V \\ |\mathbf{v}|_2 = 1}}  d(\mathbf{v},W)  = \sup_{\substack{\mathbf{w} \in W \\ |\mathbf{w}|_2 = 1}} d(\mathbf{w},V),
 \end{equation}
@@ -426,8 +426,8 @@ Sparse coding and related methods have repeatedly been shown to recover characte
 \textbf{Smoothed Analysis}.
 The main concept in smoothed analysis \cite{Spielman04} is that certain algorithms having exponential worst-case behavior are, nonetheless, efficient if certain (typically, measure zero in the continuous case and with ``low probability" in the discrete case) pathological input sets are avoided. Our results imply that if there is an efficient ``smoothed" algorithm for solving Problem \ref{InverseProblem} given enough samples, then for generic inputs this algorithm determines the unique original solution. We note that avoiding ``bad" (NP-hard) sets of inputs is a necessary technicality for dictionary learning \cite{Razaviyayn15, Tillmann15}.
 
-\textbf{Neural Communication Theory}.
-In \cite{Coulter10} and \cite{Isely10}, it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded, unsupervised, via sparse coding.  Necessary for this theory to work is that sparse coding has a unique solution stable with respect to noise, our main result. 
+%\textbf{Neural Communication Theory}.
+%In \cite{Coulter10} and \cite{Isely10}, it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded, unsupervised, via sparse coding.  Necessary for this theory to work is that sparse coding has a unique solution stable with respect to noise, our main result. 
 %This was already verified in the case of data sampled without noise in \eqref{Hillar15}.  Our work extends this theory to the more realistic case of sampling error.
 
 \textbf{Engineering}.
