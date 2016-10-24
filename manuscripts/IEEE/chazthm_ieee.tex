@@ -147,7 +147,7 @@ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diago
 %[ *** So inference is stable for small enough error! There is no multiplicity of alternative models that also happen to work. Regression models have a fixed $A$ (i.e. the values of the variables we are regressing on). Here, in this model, we don't specify the $A$, instead we learn what the best regressor variables would be if they existed. And we want to combine regressors for different problems so as to save resources. Thought of all this reading section 8 of the Breiman paper on data models vs. algorithmic models.***]
 
 %TODO: Add epsilon_0 into the max?
-As an important consequence, Thm.~\ref{DeterministicUniquenessTheorem} guarantees that \eqref{def1} holds provided $\varepsilon$ is not larger than:
+As an important consequence, Thm.~\ref{DeterministicUniquenessTheorem} guarantees that \eqref{def1} holds provided $\varepsilon$ is smaller than:
 \begin{align*}
 %\varepsilon(\delta_1, \delta_2) := \min \left\{ \frac{\delta_1}{ C }, \frac{ \delta_2 \varepsilon_0}{\delta_2 + C^{-1} + \max_{i \in [N]} |\mathbf{a}_i|_1} \right\}. \\
 \varepsilon(\delta_1, \delta_2) := \min \left\{ \frac{\delta_1}{ C }, \frac{ L_{2k}(A) / \sqrt{2k}}{1 + C\left(1 + \max_{i \in [N]} |\mathbf{a}_i|_1 / \delta_2 \right)} \right\}.
@@ -323,7 +323,7 @@ Suppose that for some $B \in \mathbb{R}^{n \times m}$ and $\mathbf{b}_i \in \mat
 \begin{align}\label{1D}
 |c_jA_j - c'_jB_{\pi(j)}|_2 \leq \varepsilon, \ \ \text{for } \  j \in [m].
 \end{align} 
-Note that $c'_j \neq 0$ for all $i$ since otherwise (by definition of $L_2(A)$), we would have $|c_jA_j|_2 < \min_{\ell \in [m]}|c_{\ell}A_{\ell}|_2$. 
+Note that $c'_j \neq 0$ for all $j$ since otherwise (by definition of $L_2(A)$), we would have $|c_jA_j|_2 < \min_{\ell \in [m]}|c_{\ell}A_{\ell}|_2$. 
 
 We  now show that $\pi$ is injective (and thus is a permutation).
 Suppose that $\pi(j_1) = \pi(j_2) = \ell$ for some $j_1 \neq j_2$ and $\ell$. Then, $|c_{j_2}A_{j_2} - c'_{j_2}B_{\ell}|_2 \leq \varepsilon$ and $|c_{j_1}A_{j_1} - c'_{j_1} B_{\ell}|_2  \leq \varepsilon$. Scaling and summing these inequalities by $|c'_{j_1}|$ and $|c'_{j_2}|$, respectively, and applying the triangle inequality, we obtain:
@@ -421,7 +421,7 @@ The rat thing is snuck in there above with too little explanation.  could be goo
 The main concept in smoothed analysis \cite{Spielman04} is that certain algorithms having exponential worst-case behavior are, nonetheless, efficient if certain (typically, measure zero in the continuous case and with ``low probability" in the discrete case) pathological input sets are avoided. Our results imply that if there is an efficient ``smoothed" algorithm for solving Problem \ref{InverseProblem} given enough samples, then for generic inputs this algorithm determines the unique original solution. We note that avoiding ``bad" (NP-hard) sets of inputs is a necessary technicality for dictionary learning \cite{Razaviyayn15, Tillmann15}.
 
 \textbf{Neural Communication Theory}.
-In \cite{Coulter10} and \cite{Isely10}, it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded, unsupervised, via sparse coding.  A necessary condition for this theory to work is that the sparse coding problem has a unique solution stable with respect to noise, which our work verifies. 
+In \cite{Coulter10} and \cite{Isely10}, it was posited that sparse features of natural data passed through a communication bottleneck in the brain using random projections could be decoded, unsupervised, via sparse coding.  Necessary for this theory to work is that sparse coding has a unique solution stable with respect to noise, our main result. 
 %This was already verified in the case of data sampled without noise in \eqref{Hillar15}.  Our work extends this theory to the more realistic case of sampling error.
 
 \textbf{Engineering}.
@@ -467,11 +467,12 @@ We thank Fritz Sommer for turning our attention to the sparse coding problem, Da
 \appendices
 \section{Combinatorial Matrix Analysis}\label{appendixA}
 
-Here, we prove Lem.~\ref{MainLemma}, which is the main ingredient in our proof of Thm.~\ref{DeterministicUniquenessTheorem}. We then outline how additionally assuming the spark condition for $B$ simplifies the proof and also allows for its extension to the case where only an upper bound on the number of columns $m$ of $A$ is known. This extension is applied to the proof of  Thm.~\ref{DeterministicUniquenessTheorem2} in Appendix~\ref{AppendixB}. 
+Here, we prove Lem.~\ref{MainLemma}, which is the main ingredient in our proof of Thm.~\ref{DeterministicUniquenessTheorem}. We then outline how additionally assuming the spark condition for $B$ simplifies the proof and also allows for its extension to the case where only an upper bound on the number of columns $m$ of $A$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). 
+%This extension is applied to the proof of  Thm.~\ref{DeterministicUniquenessTheorem2} in Appendix~\ref{AppendixB}. 
 
 We first prove some auxiliary lemmas, starting with a proof of Lem.~\ref{MinDimLemma}, which was stated in Section \ref{DUT}. 
 \begin{proof}[Proof of Lemma \ref{MinDimLemma}]
-We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument ($\dim U + \dim V^\perp > m$) gives a nonzero $u \in U \cap V^\perp$.  In particular, we have $|u - v|_2^2 = |u|_2^2 + |v|_2^2 \geq |u|_2^2$ for $v \in V$, and thus $d(u,V) \geq |u|_2$.
+We prove the contrapositive.  If $\dim(U) > \dim(V)$, then a dimension argument ($\dim U + \dim V^\perp > m$) gives a nonzero $\mathbf{u} \in U \cap V^\perp$.  In particular, we have $|\mathbf{u} - \mathbf{v}|_2^2 = |\mathbf{u}|_2^2 + |\mathbf{v}|_2^2 \geq |\mathbf{u}|_2^2$ for $\mathbf{v} \in V$, and thus $d(\mathbf{u},V) \geq |\mathbf{u}|_2$.
 \end{proof}
 
 Given a collection of sets $\mathcal{T}$, let $\cap \mathcal{T}$ denote their intersection.
@@ -493,7 +494,7 @@ Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly i
 \begin{lemma}\label{DistanceToIntersectionLemma}
 Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be subspaces of $\mathbb{R}^m$ and let $V = \bigcap \mathcal{V}$. For every $\mathbf{x} \in \mathbb{R}^m$, we have:
 \begin{align}\label{DTILeq}
-|\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k |x - \Pi_{V_i} x|_2,
+|\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2,
 \end{align}
 provided $\xi(\mathcal{V}) \neq 1$, where $\xi$ is given in Def.~\ref{SpecialSupportSet}.
 \end{lemma}
@@ -503,10 +504,10 @@ Fix $\mathbf{x} \in \mathbb{R}^m$ and $k \geq 2$. The proof consists of two part
 |\mathbf{x} - \Pi_V\mathbf{x}|_2 \leq \sum_{\ell=1}^k |\mathbf{x} - \Pi_{V_{\ell}} \mathbf{x}|_2 + |\Pi_{V_{k}}\Pi_{V_{k-1}}\cdots\Pi_{V_{1}} \mathbf{x} - \Pi_V \mathbf{x}|_2.
 \end{equation}
 For each $\ell \in \{2, \ldots, k+1\}$ (when $\ell = k+1$, the product $\Pi_{V_k} \cdots \Pi_{V_{\ell}}$ is set to $I$), we have by the triangle inequality and the fact that $\|\Pi_{V_{\ell}}\|_2 \leq 1$ (as $\Pi_{V_{\ell}}$ are projections):
-\begin{equation*}
-|\Pi_{V_k} \cdots \Pi_{V_{\ell}}\mathbf{x} - \Pi_V \mathbf{x}|  \leq  |\Pi_{V_k} \cdots \Pi_{V_{\ell-1}}\mathbf{x} - \Pi_V \mathbf{x}| + 
-|\mathbf{x} - \Pi_{V_{\ell-1}}\mathbf{x}|.
-\end{equation*}
+\begin{align*}
+|\Pi_{V_k} \cdots \Pi_{V_{\ell}}\mathbf{x} - \Pi_V \mathbf{x}|  & \leq  |\Pi_{V_k} \cdots \Pi_{V_{\ell-1}}\mathbf{x} - \Pi_V \mathbf{x}| \\
+& \  \ \ + |\mathbf{x} - \Pi_{V_{\ell-1}}\mathbf{x}|.
+\end{align*}
 Summing these inequalities over $\ell$ gives (\ref{induction}).
 
 Next, we show how the result \eqref{DTILeq} follows from \eqref{induction} and the following result of \cite[Thm.~9.33]{Deutsch12}:
@@ -537,52 +538,52 @@ Finally, since the ordering of the subspaces is arbitrary, we can replace $z$ in
 
 \begin{lemma}\label{NonEmptyLemma} Fix integers $k < m$, and let $T = \{S_1, \ldots, S_m\}$ be the set of contiguous length $k$ intervals in some cyclic order of $[m]$. Suppose there exists a map $\pi: T \to {[m] \choose k}$ such that:
 \begin{align}\label{NonEmpty}
-|\bigcap_{i \in J} \pi(S_i)| \leq |\bigcap_{i \in J} S_i | \ \ \text{for } \ J \in {[m] \choose k}.
+|\bigcap_{j \in J} \pi(S_i)| \leq |\bigcap_{j \in J} S_j | \ \ \text{for } \ J \in {[m] \choose k}.
 \end{align}
 %
 Then, $|\pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})| = 1$ for all consecutive (modulo $m$) indices $j_1,\ldots,j_k$.
 \end{lemma}
 
-\begin{proof} Consider the set $Q_m = \{ (r,t) : r \in \pi(S_t), t \in [m] \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $q \in [m]$ and $J \in {[m] \choose k}$ such that $(q, j) \in Q_m$ for all $j \in J$. In particular, we have $q \in \cap_{j \in J} \pi(S_j)$ so that from \eqref{NonEmpty} there must be some $p \in [m]$ with $p \in \cap_{j \in J} S_j$. Since $|J| = k$, this is only possible if the elements of $J = \{j_1, \ldots, j_k\}$ are consecutive modulo $m$, in which case $|\cap_{j \in J} S_j| = 1$. Hence, $|\cap_{j \in J} \pi(S_j)| = 1$ as well.
+\begin{proof} Consider the set $Q_m = \{ (r,t) : r \in \pi(S_t), t \in [m] \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $q \in [m]$ and $J \in {[m] \choose k}$ such that $(q, j) \in Q_m$ for all $j \in J$. In particular, we have $q \in \cap_{j \in J} \pi(S_j)$ so that from \eqref{NonEmpty} there must be some $p \in [m]$ with $p \in \cap_{j \in J} S_j$. Since $|J| = k$, this is only possible if the elements of $J = \{j_1, \ldots, j_k\}$ are consecutive modulo $m$, in which case $|\cap_{j \in J} S_j| = 1$. Hence, it follows that $|\cap_{j \in J} \pi(S_j)| = 1$ as well.
 
-We next consider if any other $t \notin J$ is such that $q \in \pi(S_t)$. Suppose there were such a $t$; then, we would have $q \in \pi(S_t) \cap \pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})$ and \eqref{NonEmpty} would imply that the intersection of every $k$-element subset of $\{S_t\} \cup \{S_j: j \in J\}$ is nonempty. This would only be possible if $\{t\} \cup J = [m]$, in which case the result then trivially holds since then $q \in \pi(S_j)$ for all $j \in [m]$.  Suppose now there exists no such $t$; then, letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $q$ as a first coordinate, we have $|Q_{m-1}| = (m-1)k$. 
+We next consider if any other $t \notin J$ is such that $q \in \pi(S_t)$. Suppose there were such a $t$; then, we would have \mbox{$q \in \pi(S_t) \cap \pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})$} and \eqref{NonEmpty} would imply that the intersection of every $k$-element subset of $\{S_t\} \cup \{S_j: j \in J\}$ is nonempty. This would only be possible if $\{t\} \cup J = [m]$, in which case the result then trivially holds since then $q \in \pi(S_j)$ for all $j \in [m]$.  Suppose now there exists no such $t$; then, letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $q$ as a first coordinate, we have $|Q_{m-1}| = (m-1)k$. 
 
-By iterating the above arguments, we arrive at a partitioning of $Q_m$ into sets $R_i = Q_i \setminus Q_{i-1}$ for $i = 1, \ldots, m$, each having a unique element of $[m]$ as a first coordinate common to all $k$ elements while having second coordinates which form a consecutive set modulo $m$. In fact, every set of $k$ consecutive integers modulo $m$ is the set of second coordinates of some $R_i$. This must be the case because for every consecutive set $J$ we have $|\cap_{j \in J} S_j| = 1$, whereas if $J$ is the set of second coordinates for two distinct sets $R_i$, we would have \mbox{$|\cap_{j \in J} \pi(S_j)| \geq 2$}, violating \eqref{NonEmpty}. 
+By iterating the above arguments, we arrive at a partitioning of $Q_m$ into sets $R_i = Q_i \setminus Q_{i-1}$ for $i = 1, \ldots, m$, each having a unique element of $[m]$ as a first coordinate common to all $k$ elements while having second coordinates form a consecutive set modulo $m$. In fact, every set of $k$ consecutive integers modulo $m$ is the set of second coordinates of some $R_i$. This must be the case because for every consecutive set $J$ we have $|\cap_{j \in J} S_j| = 1$, whereas if $J$ is the set of second coordinates for two distinct sets $R_i$, we would have \mbox{$|\cap_{j \in J} \pi(S_j)| \geq 2$}, violating \eqref{NonEmpty}. 
 \end{proof}
 
 %==== PROOF OF MAIN LEMMA =======
 \begin{proof}[Proof of Lem.~\ref{MainLemma} (Main Lemma)]
-We assume $k \geq 2$ since the case $k = 1$ was proved at the beginning of Sec.~\ref{DUT}. Let $S_1, \ldots, S_m$ be length $k$ intervals in some cyclic ordering of $[m]$. We begin by showing that $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$ for all $i \in [m]$. 
-Fix $i \in [m]$ and note that by \eqref{GapUpperBound}, all unit vectors $\mathbf{u} \in \text{Span}\{A_{S_i}\}$ satisfy $d(u, \text{Span}\{B_{\pi(S_i)}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for $\delta < \frac{L_2(A)}{ \sqrt{2}}$. By definition of $L_2(A)$, for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
+We assume $k \geq 2$ since the case $k = 1$ was proved at the beginning of Sec.~\ref{DUT}. Let $S_1, \ldots, S_m$ be length $k$ intervals in some cyclic ordering of $[m]$. We begin by showing that $\dim(\text{Span}\{B_{\pi(S_j)}\}) = k$ for all $j \in [m]$. 
+Fix $j \in [m]$ and note that by \eqref{GapUpperBound}, all unit vectors $\mathbf{u} \in \text{Span}\{A_{S_j}\}$ satisfy $d(\mathbf{u}, \text{Span}\{B_{\pi(S_j)}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for $\delta < \frac{L_2(A)}{ \sqrt{2}}$. By definition of $L_2(A)$, for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
 \begin{align*}
 L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}.
 \end{align*}
 
-Hence, $\delta < \rho$. Since $\phi_k \leq 1$, we have $d(u, \text{Span}\{B_{\pi(S_i)}\}) < 1$, and it follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_i)}\}) \geq \dim(\text{Span}\{A_{S_i}\}) = k$. Since $|\pi(S_i)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S_i)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
+Hence, $\delta < \rho$. Since $\phi_k \leq 1$, we also have $d(\mathbf{u}, \text{Span}\{B_{\pi(S_j)}\}) < 1$, and it follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S_j)}\}) \geq \dim(\text{Span}\{A_{S_j}\}) = k$. Since $|\pi(S_j)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S_j)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
 
 We will now show that:
 \begin{align}\label{fact2}
-|\bigcap_{i \in J} \pi(S_i)| \leq |\bigcap_{i \in J} S_i | \ \ \text{for } \ J \in {[m] \choose k}.
+|\bigcap_{j \in J} \pi(S_j)| \leq |\bigcap_{j \in J} S_j | \ \ \text{for } \ J \in {[m] \choose k}.
 \end{align}
 
-Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound}, we have for all unit vectors $\mathbf{u} \in \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$ that $d(\mathbf{u}, A_{S_i}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for all $j \in J$, where $\delta < \frac{L_2(A)}{\sqrt{2}}$. It follows from Lem.~\ref{DistanceToIntersectionLemma} that:
+Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound}, for all unit vectors \mbox{$\mathbf{u} \in \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$}, we have  that $d(\mathbf{u}, A_{S_j}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for all $j \in J$, where $\delta < \frac{L_2(A)}{\sqrt{2}}$. It follows from Lem.~\ref{DistanceToIntersectionLemma} that:
 \begin{align*}
-d\left( \mathbf{u}, \bigcap_{i \in J} \text{Span}\{A_{S_j}\} \right) 
-\leq \frac{\delta}{\rho} \left( \frac{ \phi_k(A) }{1 - \xi( \{ A_{S_i}: i \in J\} ) } \right) \leq \frac{\delta}{\rho},
+d\left( \mathbf{u}, \bigcap_{j \in J} \text{Span}\{A_{S_j}\} \right) 
+\leq \frac{\delta}{\rho} \left( \frac{ \phi_k(A) }{1 - \xi( \{ A_{S_j}: j \in J\} ) } \right) \leq \frac{\delta}{\rho},
 \end{align*}
 %
 where the 2nd inequality follows from the definition of $\phi_k(A)$. 
 
-Now, since \mbox{$\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\} \subseteq \cap_{i \in J} \text{Span}\{B_{\pi(S_i)}\}$} and (by Lem.~\ref{SpanIntersectionLemma}) $\cap_{i \in J}  \text{Span}\{A_{S_i}\} = \text{Span}\{A_{\cap_{i \in J}  S_i}\}$, we have:
+Now, since \mbox{$\text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\} \subseteq \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$} and (by Lem.~\ref{SpanIntersectionLemma}) $\cap_{j \in J}  \text{Span}\{A_{S_j}\} = \text{Span}\{A_{\cap_{j \in J}  S_j}\}$, we have:
 \begin{align}\label{fact1}
-d\left( \mathbf{u}, A_{\cap_{i \in J} S_i} \right) \leq \frac{\delta}{\rho}, \indent \text{for unit } \mathbf{u} \in \text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}.
+d\left( \mathbf{u}, A_{\cap_{j \in J} S_j} \right) \leq \frac{\delta}{\rho}, \indent \text{for unit } \mathbf{u} \in \text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\}.
 \end{align}
-In particular, by Lem.~\ref{MinDimLemma} (since $\delta/\rho < 1$) we have that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}) \leq \dim(\text{Span}\{A_{\cap_{i \in J} S_i}\})$ and \eqref{fact2} follows by the linear independence of the columns of $A_{S_i}$ and $B_{\pi(S_i)}$ for all $i \in [m]$.
+In particular, Lem.~\ref{MinDimLemma} (since $\delta/\rho < 1$) implies that $\dim(\text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\}) \leq \dim(\text{Span}\{A_{\cap_{j \in J} S_j}\})$ and \eqref{fact2} follows from the linear independence of the columns of $A_{S_j}$ and $B_{\pi(S_j)}$ for all $j \in [m]$.
 
-Suppose now that $J = \{i-k+1, \ldots, i\}$ so that \mbox{$\cap_{i \in J} S_i = \{i\}$}. By \eqref{fact2}, we have that $\cap_{i \in J} \pi(S_i)$ is either empty or it contains a single element. Lem.~\ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $i \mapsto \cap_{i \in J} \pi(S_i)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_i\}$, we have $d\left( \mathbf{u}, B_{\hat \pi(i)}\right) \leq \delta/\rho$ also. Since $i$ is arbitrary, it follows that for every basis vector $\mathbf{e}_i \in \mathbb{R}^m$, letting $c_i = |A\mathbf{e}_i|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_i \in \mathbb{R}$ such that $|c_iA\mathbf{e}_i - c'_iB\mathbf{e}_{\hat \pi(i)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{j \in [m]} c_i$. This is exactly the supposition in \eqref{1D} and the result follows from the subsequent arguments of Sec.~\ref{DUT}. 
+Suppose now that $J = \{t-k+1, \ldots, t\}$ so that \mbox{$\cap_{j \in J} S_j = \{t\}$}. By \eqref{fact2}, we have that $\cap_{j \in J} \pi(S_j)$ is either empty or it contains a single element. Lem.~\ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $t \mapsto \cap_{j \in J} \pi(S_j)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_t\}$, we have $d\left( \mathbf{u}, B_{\hat \pi(t)}\right) \leq \delta/\rho$ also. Since $t$ is arbitrary, it follows that for every basis vector $\mathbf{e}_t \in \mathbb{R}^m$, letting $c_t = |A\mathbf{e}_t|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_t \in \mathbb{R}$ such that $|c_tA\mathbf{e}_t - c'_tB\mathbf{e}_{\hat \pi(t)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{\ell \in [m]} c_{\ell}$. This is exactly the supposition in \eqref{1D}, and the result follows from the subsequent arguments of Sec.~\ref{DUT}.
 \end{proof}
 
-The arguments above can easily be modified to prove the following variation of Lem.~\ref{MainLemma}, key to proving Thm.~\ref{DeterministicUniquenessTheorem2}.
+The strategy above can be easily modified to prove the following variation of Lem.~\ref{MainLemma}, key to proving Thm.~\ref{DeterministicUniquenessTheorem2}.
 
 \begin{lemma}[Main Lemma~for $m < m'$]\label{MainLemma2}
 Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that for $S \in T$:
@@ -592,7 +593,7 @@ Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the
 then \eqref{MainLemmaBPD} holds for some $n \times m$ submatrix of $B$. 
 \end{lemma}
 
-We state the required modifications briefly. Since $m' > m$, we may not invoke Lem.~\ref{NonEmptyLemma} (which requires $m = m'$) to show that $|\cap_{i \in J} \pi(S_i)| = 1$ for $J = \{i-k+1, \ldots, i\}$. Instead, under the additional assumption that $B$ satisfies the spark condition, we may simply swap the roles of $A$ and $B$ in the proof of \eqref{fact1} to show that $\dim(\text{Span}\{B_{\cap_{i \in J}\pi(S_i)}\}) = \dim(\text{Span}\{A_{\cap_{i \in J} S_i}\})$ and from which the required fact then follows. The map $\hat \pi$ is then defined similarly, only now with codomain $[m']$, thereby reducing the proof to the $k=1$ case where the $n \times m$ submatrix of $B$ is formed from the columns indexed by the image of $\hat \pi$. 
+We state the required modifications briefly. Since $m' > m$, we may not invoke Lem.~\ref{NonEmptyLemma} (which requires $m = m'$) to show that $|\cap_{j \in J} \pi(S_j)| = 1$ for $J = \{t-k+1, \ldots, t\}$. Instead, under the additional assumption that $B$ satisfies the spark condition, we may simply swap the roles of $A$ and $B$ in the proof of \eqref{fact1} to show that $\dim(\text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\}) = \dim(\text{Span}\{A_{\cap_{j \in J} S_j}\})$, from which the required fact then follows. The map $\hat \pi$ is then defined similarly, only now with codomain $[m']$, thereby reducing the proof to the $k=1$ case where the $n \times m$ submatrix of $B$ is formed from the columns indexed by the image of $\hat \pi$. 
 
 %\begin{remark} In general, there may exist combinations of fewer supports with intersection $\{i\}$, e.g. if $m \geq 2k-1$ then $S_{i - (k-1)} \cap S_i = \{i\}$. For brevity, we have considered a construction that is valid for any $k < m$.
 %\end{remark}
@@ -600,7 +601,7 @@ We state the required modifications briefly. Since $m' > m$, we may not invoke L
 \section{Proofs of Thms.~\ref{robustPolythm} \& \ref{DeterministicUniquenessTheorem2} and Cors.~\ref{DeterministicUniquenessCorollary} \& \ref{ProbabilisticCor}}\label{AppendixB}
 
 \begin{proof}[Proof of Cor.~\ref{DeterministicUniquenessCorollary}]
-We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ such that for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^i_j)^{k,N}_{i,j=1}$ are in general linear position (since the $\gamma_j$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of contiguous length $k$ intervals in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each contains $(k-1){m \choose k}+1$ vectors $a_i$) by setting the nonzero values $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
+We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ such that for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^{\ell}_i)^{k,N}_{\ell,i=1}$ are in general linear position (since the $\gamma_i$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of contiguous length $k$ intervals in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each contains $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$) by setting the nonzero values $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 \end{proof}
 
 %For the proof of Thm.~\ref{ProbabilisticTheorem}, as in \cite{Hillar15}, consider ``symbolic" datasets $Y$ involving indeterminates $A$ and $\mathbf{a}_i$.
@@ -626,13 +627,13 @@ It can be checked that when $g$ is nonzero for a substitution of real numbers fo
 \end{proof}
 
  \begin{proof}[Proof of Cor.~\ref{ProbabilisticCor}]
-First, note that if a set of measure spaces $\{(X_i, \Sigma_i, \nu_i)\}_{i=1}^p$ is such that $\nu_i$ is absolutely continuous with respect to $\mu$ for all $i = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{i=1}^p \nu_i$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$ (e.g.,  \cite{folland2013real}). By Thm.~\ref{robustPolythm}, there is a polynomial such that $A \in \mathbb{R}^{n \times m}$ and $\mathbf{a}_i$ which is nonzero whenever $Y$ has a stable $k$-sparse representation in $\mathbb R^m$; in particular, this property (stability) holds with probability one.
+First, note that if a set of measure spaces $\{(X_{\ell}, \Sigma_{\ell}, \nu_{\ell})\}_{\ell=1}^p$ is such that $\nu_{\ell}$ is absolutely continuous with respect to $\mu$ for all $\ell = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{\ell=1}^p \nu_{\ell}$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$ (e.g.,  \cite{folland2013real}). By Thm.~\ref{robustPolythm}, there is a polynomial that is nonzero whenever $Y$ has a stable $k$-sparse representation in $\mathbb R^m$; in particular, this property (stability) holds with probability one.
 %form a set of Borel measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one.  Finally, apply Thm.~\ref{robustPolythm}.
 \end{proof}
 
 
 \begin{proof}[Proof of Thm.~\ref{DeterministicUniquenessTheorem2}]
-The proof is very similar to the proof of Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT}, the difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lem.~\ref{MainLemma2} by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$ and eventually applying Lem.~\ref{MainLemma2} in place of Lem.~\ref{MainLemma}. The value of $C$ in this case is:
+The proof is very similar to the proof of Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT}, the main difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lem.~\ref{MainLemma2} by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$ and eventually applying Lem.~\ref{MainLemma2} in place of Lem.~\ref{MainLemma}. The value of $C$ in this case can be taken to be:
 \begin{align}\label{Cdef2}
 C= \left( \frac{ \sqrt{k^3}}{ \min(\phi_k(A), \phi_k(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
 \end{align}
