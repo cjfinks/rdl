@@ -41,7 +41,7 @@ Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA
 \maketitle
 
 \begin{abstract}
-Sparse coding has exposed underlying structure in many kinds of natural data.  However, given the multitude of algorithms implementing this strategy, claims of ``true" latent discovery require the backing of universal theorems guaranteeing statistical consistency.  Here, we prove that for almost all diverse enough datasets generated under this model, sparse coding identifies the original dictionary and codes up to an error commensurate with measurement noise. Applications are given to smoothed analysis, neuroscience, and engineering.
+Sparse coding has exposed underlying structure in many kinds of natural data.  However, given the multitude of algorithms implementing this strategy, claims of ``true" latent discovery require the backing of universal theorems guaranteeing statistical consistency.  Here, we prove that for almost all diverse enough datasets generated under this model, sparse coding identifies the original dictionary and codes up to an error commensurate with measurement noise. Applications are given to data analysis, neuroscience, and engineering.
 \end{abstract}
 
 %\begin{IEEEkeywords}
@@ -57,7 +57,11 @@ Sparse coding has exposed underlying structure in many kinds of natural data.  H
 
 %TODO: Is Olshausen10 reference really appropriate?
 % seems not too bad
-Many algorithms have been designed to infer the parameters of this model, and it is tempting to interpret their output as approximating ``ground truth" when it is thought to exist (e.g., in using unique painting style dictionaries for forgery detection \cite{hughes2010, Olshausen10}). It may be, however, that several qualitatively different solutions are in fact consistent with the data. The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is uniquely identifiable from enough generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $n, m$, and $k$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, then in almost all cases the dictionary learning problem is well-posed in the sense of Hadamard \cite{Hadamard1902} (Cor.~\ref{ProbabilisticCor}). 
+Many algorithms have been designed to infer the parameters of this model, and it is tempting to interpret their output as approximating ``ground truth" when it is thought to exist.  For instance, sparse coding of local painting style has been proposed to detect forgeries \cite{hughes2010, Olshausen10}. 
+%rests on brush stroke primitives uniquely specifying an artist. 
+It may be, however, that several very different solutions are consistent with the data. 
+
+The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is uniquely identifiable from enough generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $(n, m, k)$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, in almost all cases the dictionary learning problem is well-posed in the sense of Hadamard \cite{Hadamard1902} (Cor.~\ref{ProbabilisticCor}). 
 
 These algorithm-independent guarantees can also be extended to the case when only an upper bound on the size of $\mathcal{A}$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). The explicit criteria under which these results hold can serve as theoretical tools in the analysis of sparse coding routines, some of which now provably converge to a global solution when it exists (see \cite[Sec.~I-E]{Sun16} for a brief discussion of the state-of-the-art in these algorithms). 
 
