@@ -228,14 +228,17 @@ Let ${[m] \choose k}$ be all subsets of $[m]$ of size $k$, and let $\text{Span}\
 
 % Between any pair of subspaces in Euclidean space one can define the following generalized ``angle''.
 \begin{definition}\label{FriedrichsDefinition}
-The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is defined in terms of its cosine:
+The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is defined by its cosine \cite{Deutsch12}:
 \begin{align*}
 \cos{\theta_F} := \max\left\{ \langle \mathbf{u}, \mathbf{v} \rangle: \substack{ \mathbf{u} \in U \cap (U \cap V)^\perp \cap \mathcal{B} \\ \mathbf{v} \in V \cap (U \cap V)^\perp \cap \mathcal{B} } \right\},
 \end{align*}
-where $\mathcal{B} = \{ \mathbf{x}: |\mathbf{x}|_2 \leq 1\}$ is the unit $\ell_2$-ball in $\mathbb{R}^n$ \cite{Deutsch12}.
+where $\mathcal{B} = \{ \mathbf{x} \in \mathbb{R}^n: |\mathbf{x}|_2 \leq 1\}$. %\cite[Def.~9.4]{Deutsch12}.
 \end{definition}
 %CUT OK?: For example, when $n=3$ and $k=1$, this is simply the angle between vectors; and for $k=2$, it is the angle between the normal vectors of two planes. In higher dimensions, the Friedrichs angle is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, the Friedrichs angle is the smallest nonzero such angle. 
-The Friedrichs angle $\theta_F$ is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, $\theta_F$ is the smallest nonzero such angle. 
+
+The Friedrichs angle $\theta_F$ is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, $\theta_F$ is the smallest nonzero such angle \cite{?}. %TODO: reference for this last fact?
+
+[** Wait, hold up - this statement contradicts Lemma 9.5 (8) in Deutsch which says the *cosine* is zero if the subspaces are subsets of one another, in which case the angle is $\pi/2$. **]
 
 The next quantity is based on one used in \cite{Deutsch12} to analyze the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces.
 % We use it to bound the distance between a point and the intersection of a set of subspaces given an upper bound on the distance from that point to each individual subspace. 
@@ -244,26 +247,26 @@ The next quantity is based on one used in \cite{Deutsch12} to analyze the conver
 \begin{definition}\label{SpecialSupportSet}
 Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$. Setting $\phi_1(A) := 1$, define for $k > 1$:
 \begin{align*}
-\phi_k(A) := \min_{ S_1,\ldots,S_k \in {[m] \choose k} } 1 - \xi( A_{S_1}, \ldots, A_{S_k}),
+%\phi_k(A) := \min_{ S_1 \neq \ldots \neq S_k \in {[m] \choose k} } 1 - \xi( A_{S_1}, \ldots, A_{S_k}),
+\phi_T(A) :=  \min_{R \in {T \choose k}} 1 - \xi( \{ A_{S}: S \in R\}),
 \end{align*}
 where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of subspaces of $\mathbb{R}^m$, 
 \begin{align*}
-\xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 - \prod_{i=1}^{k-1} \sin^2  \theta_F \left(V_{\sigma(i)}, \cap_{j=i+1}^k V_{\sigma(j)} \right)  \right)^{1/2},
+\xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 -  \prod_{i=1}^{k-1} \sin^2  \theta_F \left(V_{\sigma(i)}, \cap_{j=i+1}^k V_{\sigma(j)} \right)  \right)^{1/2},
 \end{align*}
 and $\frak{S}_{k}$ are the permutations (bijections) on $k$ elements. 
 \end{definition}
 % TODO: Error! If we set all the supports to be equal then phi_k(A) = 0. They must be distinct. In the proof of Lemma 1 they are all intervals in a cyclic order. I think this only needs to be taken over the cyclic order for which the a_i are supported.
 
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
-We are now in a position to state explicitly the constant $C$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem}. Letting 
-%$T$ be the set of supports on which the $\mathbf{a}_i$ are supported (intervals of length $k$ in some cyclic ordering of $[m]$),  
-$X$ be the $m \times N$ matrix with columns $\mathbf{a}_i$ and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$, we set:
+We are now in a position to state explicitly the constant $C$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem}. Let $T$ be the set of intervals on which sufficiently many vectors $\mathbf{a}_i$ must be supported, as in the statement of the theorem. Let $X$ be the $m \times N$ matrix with columns $\mathbf{a}_i$ and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$. Then:
 \begin{align}\label{Cdef}
-C = \left( \frac{ \sqrt{k^3}}{ \phi_k(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
+C = \left( \frac{ \sqrt{k^3}}{ \phi_T(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
 \end{align}
 
+
 \begin{remark}\label{nonzero}
-We can be sure $C > 0$ and is well-defined. First, $|A_j|_2 \neq 0$ for all $j$ by \eqref{SparkCondition}. Next, $\min_{S \in T} L_k(AX_{I(S)}) > 0$ by the fact that $L_k(A) > 0$ and every $k$ columns of $X_{I(S)}$ are linearly independent. Finally, $\phi_k(A) = 0$ implies [ ** TODO ** ]
+We can be sure $C$ is positive and well-defined. First, $|A_j|_2 > 0$ for all $j$ by \eqref{SparkCondition}. Next, $\min_{S \in T} L_k(AX_{I(S)}) > 0$ by the fact that $L_k(A) > 0$ and every $k$ columns of $X_{I(S)}$ are linearly independent. Finally, $\phi_k(A) = 0$ implies [ ** TODO ** ]
 %implies that $\theta_F(A_{S_1}, A_{S_2}) = 0$ for some $S_1 \in {[m] \choose k}$ and $S_2 \in {[m] \choose \ell}, \ \ \ell \leq k$, which would contradict \eqref{SparkCondition}.
 %$\text{Span}(A_{S_1}) \supseteq \cap_{j=2}^k \text{Span}(A_{S_j})$ for some $S_1, \ldots, S_k \in {[m] \choose k}$, which would contradict \eqref{SparkCondition}.
 \end{remark}
@@ -277,6 +280,7 @@ Let $U, V$ be subspaces of $\mathbb{R}^m$ and let $d(\mathbf{u},V) := \inf\{|\ma
 %\Theta(U,V) := \max\left( \sup_{u \in U \cap \mathcal{S}} d(u,V), \sup_{v \in V \cap \mathcal{S}} d(v,U) \right).
 %\end{equation*}
 \end{definition}
+% TODO: reference for footnote?
 
 We now state our uniqueness result in matrix analysis, generalizing \cite[Lem.~1]{Hillar15} to the noisy case.
 
@@ -528,9 +532,10 @@ Summing these inequalities over $\ell$ gives (\ref{induction}).
 % TODO: sum over the same indices as in the definition of \xi?
 Next, we show how the result \eqref{DTILeq} follows from \eqref{induction} and the following result of \cite[Thm.~9.33]{Deutsch12}:
 \begin{align}\label{dti2}
-|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V\mathbf{x}|_2 \leq z |\mathbf{x}|_2 \indent \text{for } \indent \mathbf{x} \in \mathbb{R}^m,
+|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V\mathbf{x}|_2 \leq z |\mathbf{x}|_2 \indent \text{for } \mathbf{x} \in \mathbb{R}^m,
 \end{align}
 for \mbox{$z^2= 1 - \prod_{\ell =1}^{k-1}(1-z_{\ell}^2)$} and \mbox{$z_{\ell} = \cos\theta_F\left(V_{\ell}, \cap_{s=\ell+1}^k V_s\right)$}. 
+%for \mbox{$z = \left[ 1 - \prod_{\ell =1}^{k-1}\left(1-\cos^2\theta_F\left(V_{\ell}, \cap_{s=\ell+1}^k V_s\right)\right) \right]^\frac{1}{2}$}. 
 To see this, note that:
 \begin{align}\label{dti1}
 |\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1}(\mathbf{x} - \Pi_V\mathbf{x}) - \Pi_V(\mathbf{x} - \Pi_V\mathbf{x})|_2& \nonumber \\
@@ -564,7 +569,7 @@ Then, $|\pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})| = 1$ for all consecutive (mo
 
 We next consider if any other $t \notin J$ is such that $q \in \pi(S_t)$. Suppose there were such a $t$; then, we would have \mbox{$q \in \pi(S_t) \cap \pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})$} and \eqref{NonEmpty} would imply that the intersection of every $k$-element subset of $\{S_t\} \cup \{S_j: j \in J\}$ is nonempty. This would only be possible if $\{t\} \cup J = [m]$, in which case the result then trivially holds since then $q \in \pi(S_j)$ for all $j \in [m]$.  Suppose now there exists no such $t$; then, letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $q$ as a first coordinate, we have $|Q_{m-1}| = (m-1)k$. 
 
-By iterating the above arguments, we arrive at a partitioning of $Q_m$ into sets $R_i = Q_i \setminus Q_{i-1}$ for $i = 1, \ldots, m$, each having a unique element of $[m]$ as a first coordinate common to all $k$ elements while having second coordinates form a consecutive set modulo $m$. In fact, every set of $k$ consecutive integers modulo $m$ is the set of second coordinates of some $R_i$. This must be the case because for every consecutive set $J$ we have $|\cap_{j \in J} S_j| = 1$, whereas if $J$ is the set of second coordinates for two distinct sets $R_i$, we would have \mbox{$|\cap_{j \in J} \pi(S_j)| \geq 2$}, violating \eqref{NonEmpty}. 
+By iterating the above arguments, we arrive at a partitioning of $Q_m$ into sets $R_i = Q_i \setminus Q_{i-1}$ for $i = 1, \ldots, m$, each having a unique element of $[m]$ as a first coordinate common to all $k$ elements while having second coordinates form a consecutive set modulo $m$. In fact, every set of $k$ consecutive integers modulo $m$ is the set of second coordinates of some $R_i$. This must be the case because for every consecutive set $J$ we have $|\cap_{j \in J} S_j| = 1$, whereas if $J$ is the set of second coordinates for two distinct sets $R_i$, we would have \mbox{$|\cap_{j \in J} \pi(S_j)| > 1$}, violating \eqref{NonEmpty}. 
 \end{proof}
 
 %==== PROOF OF MAIN LEMMA =======
@@ -589,6 +594,7 @@ d\left( \mathbf{u}, \bigcap_{j \in J} \text{Span}\{A_{S_j}\} \right)
 \end{align*}
 %
 where the 2nd inequality follows from the definition of $\phi_k(A)$. 
+% TODO: explain why \xi is not 1
 
 Now, since \mbox{$\text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\} \subseteq \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$} and (by Lem.~\ref{SpanIntersectionLemma}) $\cap_{j \in J}  \text{Span}\{A_{S_j}\} = \text{Span}\{A_{\cap_{j \in J}  S_j}\}$, we have:
 \begin{align}\label{fact1}
