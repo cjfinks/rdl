@@ -129,12 +129,12 @@ A \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ i
 \begin{theorem}\label{DeterministicUniquenessTheorem}
 Fix $n, m$, and $k < m$. If $A \in \mathbb{R}^{n \times m}$ satisfies spark condition \eqref{SparkCondition} and $k$-sparse \mbox{$\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$} are such that for every interval of length $k$ in some cyclic order on $[m]$ there are at least \mbox{$(k-1){m \choose k}+1$} vectors $\mathbf{a}_i$ in general linear position (i.e., any $k$ of them are linearly independent) supported there, then $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
 
-Specifically, there exists a constant $C > 0$ for which the following holds for all $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$. If any matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$, then for all $j \in [m]$:
+Specifically, there exists a constant $C > 0$ for which the following holds for all $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$.\footnote{The condition $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ is necessary; otherwise,  with \mbox{$A$ = $I$} and $\mathbf{a}_i = \mathbf{e}_i$, there is a $B$ and $1$-sparse $\mathbf{b}_i$ with $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ violating \eqref{Cstable}.} If any matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$, then for all $j \in [m]$:
 \begin{align}\label{Cstable}
 |A_j-(BPD)_j|_2 \leq C\varepsilon,
 \end{align}
 %
-for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$.\footnote{The condition $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ is necessary; otherwise,  with \mbox{$A$ = $I$} and $\mathbf{a}_i = \mathbf{e}_i$, there is a $B$ and $1$-sparse $\mathbf{b}_i$ with $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ violating \eqref{Cstable}.}  Moreover, if $\varepsilon < \varepsilon_0 := \frac{L_{2k}(A)}{\sqrt{2k}}C^{-1}$, then $L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \frac{\varepsilon}{\varepsilon_0} \right)$ and for all $i \in [N]$:
+for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Moreover, if $\varepsilon < \varepsilon_0 := \frac{L_{2k}(A)}{\sqrt{2k}}C^{-1}$, then $L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \frac{\varepsilon}{\varepsilon_0} \right)$ and for all $i \in [N]$:
 \begin{align}\label{b-PDa}
 |\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_1 &\leq \frac{\varepsilon }{ \varepsilon_0 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right).
 \end{align}
@@ -152,7 +152,7 @@ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diago
 %[ *** So inference is stable for small enough error! There is no multiplicity of alternative models that also happen to work. Regression models have a fixed $A$ (i.e. the values of the variables we are regressing on). Here, in this model, we don't specify the $A$, instead we learn what the best regressor variables would be if they existed. And we want to combine regressors for different problems so as to save resources. Thought of all this reading section 8 of the Breiman paper on data models vs. algorithmic models.***]
 
 %TODO: Add epsilon_0 into the max?
-An important consequence, with $C$  explicitly defined in \eqref{Cdef} below, is that \eqref{def1} is guaranteed provided $\varepsilon$ is smaller than:
+An important consequence, with $C$  explicitly defined in \eqref{Cdef} below, is that \eqref{def1} is guaranteed provided $\varepsilon$ does not exceed:
 \begin{align*}
 %\varepsilon(\delta_1, \delta_2) := \min \left\{ \frac{\delta_1}{ C }, \frac{ \delta_2 \varepsilon_0}{\delta_2 + C^{-1} + \max_{i \in [N]} |\mathbf{a}_i|_1} \right\}. \\
 \varepsilon(\delta_1, \delta_2) := \min \left\{ \frac{\delta_1}{ C }, \frac{ L_{2k}(A) / \sqrt{2k}}{\left(1 + C \max_{i \in [N]} |\mathbf{a}_i|_1 \right) / \delta_2 + C } \right\}.
@@ -162,8 +162,6 @@ An important consequence, with $C$  explicitly defined in \eqref{Cdef} below, is
 % The constant $C$ is explicitly defined in \eqref{Cdef}, below.
 
 %\footnote{The reader can verify that in the case $k=1$, for $C$ as defined in \eqref{Cdef}, if \mbox{$A$ = $I$} and $\mathbf{a}_i = \mathbf{e}_i$, there is a $B$ and $1$-sparse $\mathbf{b}_i$ with $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ that do not have \eqref{Cstable} when $\varepsilon \geq \frac{L_2(A)}{\sqrt{2}}C^{-1}$}
-
-We remark that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise, whereas the ``effective'' noise might be much smaller when it is sampled from a given distribution; in such cases, the constant $C$ may be much smaller with high probability. 
 
 
 \begin{corollary}\label{DeterministicUniquenessCorollary}
@@ -221,24 +219,23 @@ In other words, the columns of $B$ contain (up to noise, after appropriate scali
 % 			Preliminaries
 %===================================
 We first briefly outline our main tools, which include general notions of angle (Def.~\ref{FriedrichsDefinition}) and distance (Def.~\ref{GapMetricDef}) between subspaces as well as a (stable) uniqueness result in matrix analysis (Lem.~\ref{MainLemma}).
-Let ${[m] \choose k}$ be all subsets of $[m]$ of size $k$, and let $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ be the $\mathbb{R}$-linear span of vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$. Given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$, let $M_S$ be the submatrix with columns $M_j$ for $j \in S$, which will also denote its column span when appropriate.  
-%[ ** TODO: Should we state canonical basis vectors $\mathbf{e}_i$ here? ** ]
-% we did before earlier 
-% no we didn't....
+Given a set $\mathcal{X}$, let ${\mathcal{X} \choose k}$ denote the set of all subsets of $\mathcal{X}$ of size $k$. Denote by $\mathbf{e}_i$ for $i \in [m]$ the canonical basis vectors in $\mathbb{R}^m$ and let $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ be the $\mathbb{R}$-linear span of vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$. Given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$, let $M_S$ be the submatrix with columns $M_j$ for $j \in S$, which will also denote its column space when appropriate.  
+%Note: the gap is not a metric
+% we did before earlier. no we didn't....
 
-% Between any pair of subspaces in Euclidean space one can define the following generalized ``angle''.
 \begin{definition}\label{FriedrichsDefinition}
-The \textbf{Friedrichs angle} $\theta_F = \theta_F(U,V) \in [0,\frac{\pi}{2}]$ between subspaces $U,V \subseteq \mathbb{R}^n$ is defined by its cosine \cite{Deutsch12}:
+The \textbf{angle} between subspaces $U,V \subseteq \mathbb{R}^n$ is the angle $\theta(U,V)$ in $[0,\frac{\pi}{2}]$ whose cosine is given by \cite[Def.~9.4]{Deutsch12}:
 \begin{align*}
-\cos{\theta_F} := \max\left\{ \langle \mathbf{u}, \mathbf{v} \rangle: \substack{ \mathbf{u} \in U \cap (U \cap V)^\perp \cap \mathcal{B} \\ \mathbf{v} \in V \cap (U \cap V)^\perp \cap \mathcal{B} } \right\},
+\cos{\theta(U,V)} := \max\left\{ |\langle \mathbf{u}, \mathbf{v} \rangle|: \substack{ \mathbf{u} \in U \cap (U \cap V)^\perp \cap \mathcal{B} \\ \mathbf{v} \in V \cap (U \cap V)^\perp \cap \mathcal{B} } \right\},
 \end{align*}
-where $\mathcal{B} = \{ \mathbf{x} \in \mathbb{R}^n: |\mathbf{x}|_2 \leq 1\}$. %\cite[Def.~9.4]{Deutsch12}.
+where $\mathcal{B} = \{ \mathbf{x} \in \mathbb{R}^n: |\mathbf{x}|_2 \leq 1\}$.\footnote{ $\theta$ is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations \cite{?}.}
+% Some source had said: these angles are all zero if and only if one subspace is a subset of the other; otherwise, $\theta$ is the smallest nonzero such angle \cite{?}.} %\cite[Def.~9.4]{Deutsch12}.
 \end{definition}
-%CUT OK?: For example, when $n=3$ and $k=1$, this is simply the angle between vectors; and for $k=2$, it is the angle between the normal vectors of two planes. In higher dimensions, the Friedrichs angle is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, the Friedrichs angle is the smallest nonzero such angle. 
+% The concept of principal angles between subspaces was first introduced by Jordan in 1875 \cite{?}. The definition of $\theta$ is attributed to Friedrichs \cite{Friedrichs1937OnCertainInequalitiesAnd}}
 
-The Friedrichs angle $\theta_F$ is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, $\theta_F$ is the smallest nonzero such angle \cite{?}. %TODO: reference for this last fact?
+%For example, when $n=3$ and $k=1$, this is simply the angle between vectors; and for $k=2$, it is the angle between the normal vectors of two planes. In higher dimensions, the Friedrichs angle is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, the Friedrichs angle is the smallest nonzero such angle. 
 
-[** Wait, hold up - this statement contradicts Lemma 9.5 (8) in Deutsch which says the *cosine* is zero if the subspaces are subsets of one another, in which case the angle is $\pi/2$. **]
+%[** Wait, hold up - this statement contradicts Lemma 9.5 (8) in Deutsch which says the *cosine* is zero if the subspaces are subsets of one another, in which case the angle is $\pi/2$. **]
 
 The next quantity is based on one used in \cite{Deutsch12} to analyze the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces.
 % We use it to bound the distance between a point and the intersection of a set of subspaces given an upper bound on the distance from that point to each individual subspace. 
@@ -252,35 +249,34 @@ Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$. Setting $\phi_1(A) := 1$, defin
 \end{align*}
 where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of subspaces of $\mathbb{R}^m$, 
 \begin{align*}
-\xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 -  \prod_{i=1}^{k-1} \sin^2  \theta_F \left(V_{\sigma(i)}, \cap_{j=i+1}^k V_{\sigma(j)} \right)  \right)^{1/2},
+\xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 -  \prod_{i=1}^{k-1} \sin^2  \theta \left(V_{\sigma(i)}, \cap_{j=i+1}^k V_{\sigma(j)} \right)  \right)^{1/2},
 \end{align*}
 and $\frak{S}_{k}$ are the permutations (bijections) on $k$ elements. 
 \end{definition}
 % TODO: Error! If we set all the supports to be equal then phi_k(A) = 0. They must be distinct. In the proof of Lemma 1 they are all intervals in a cyclic order. I think this only needs to be taken over the cyclic order for which the a_i are supported.
+% cos\theta = 0 if and only if Pv and Pu commute -> sin\theta = 1 if and only if Pv and Pu commute
 
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
-We are now in a position to state explicitly the constant $C$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem}. Let $T$ be the set of intervals on which sufficiently many vectors $\mathbf{a}_i$ must be supported, as in the statement of the theorem. Let $X$ be the $m \times N$ matrix with columns $\mathbf{a}_i$ and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$. Then:
+The constant $C > 0$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem} is then:
 \begin{align}\label{Cdef}
-C = \left( \frac{ \sqrt{k^3}}{ \phi_T(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
+C = \left( \frac{ \sqrt{k^3}}{ \phi_T(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})},
 \end{align}
+%
+where $T$ is the set intervals of length $k$ in a cyclic order on $[m]$, $X$ is the $m \times N$ matrix with columns $\mathbf{a}_i$, and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$.\footnote{We can be sure $C > 0$ and is well-defined. First, $|A_j|_2 > 0$ for all $j$ by \eqref{SparkCondition}. Next, $\min_{S \in T} L_k(AX_{I(S)}) > 0$ by the fact that $L_k(A) > 0$ and every $k$ columns of $X_{I(S)}$ are linearly independent. Finally, $\phi_k(A) = 0$ implies ???}
 
-
-\begin{remark}\label{nonzero}
-We can be sure $C$ is positive and well-defined. First, $|A_j|_2 > 0$ for all $j$ by \eqref{SparkCondition}. Next, $\min_{S \in T} L_k(AX_{I(S)}) > 0$ by the fact that $L_k(A) > 0$ and every $k$ columns of $X_{I(S)}$ are linearly independent. Finally, $\phi_k(A) = 0$ implies [ ** TODO ** ]
+%OLD:
 %implies that $\theta_F(A_{S_1}, A_{S_2}) = 0$ for some $S_1 \in {[m] \choose k}$ and $S_2 \in {[m] \choose \ell}, \ \ \ell \leq k$, which would contradict \eqref{SparkCondition}.
 %$\text{Span}(A_{S_1}) \supseteq \cap_{j=2}^k \text{Span}(A_{S_j})$ for some $S_1, \ldots, S_k \in {[m] \choose k}$, which would contradict \eqref{SparkCondition}.
-\end{remark}
 
 \begin{definition}\label{GapMetricDef}
-Let $U, V$ be subspaces of $\mathbb{R}^m$ and let $d(\mathbf{u},V) := \inf\{|\mathbf{u}-\mathbf{v}|_2: \mathbf{v} \in V\} = |\mathbf{u} - \Pi_V \mathbf{u}|_2$, where $\Pi_V$ is orthogonal projection onto $V$. The \textbf{gap metric} $\Theta$ is defined as \cite{Akhiezer13}:\footnote{In fact, $\Theta(U,V)$ is equal to the sine of the largest Jordan angle between $U$ and $V$.} 
+The \textbf{gap} (or \textbf{aperture}) $\Theta(U,V)$ between subspaces $U, V \subseteq \mathbb{R}^m$ is given by \cite{Kato p.197}: %\cite{Akhiezer13}:
 \begin{equation*}
-\Theta(U,V) := \max \big\{ \sup_{\substack{\mathbf{u} \in U \\ |\mathbf{u}|_2 = 1}} d(\mathbf{u},V), \sup_{\substack{\mathbf{v} \in V \\ |\mathbf{v}|_2 = 1}} d(\mathbf{v},U) \big\}.
+\Theta(U,V) := \max \big\{ \sup_{\mathbf{u} \in U, |\mathbf{u}|_2 = 1} d(\mathbf{u},V), \sup_{\mathbf{v} \in V, |\mathbf{v}|_2 = 1} d(\mathbf{v},U) \big\},
 \end{equation*}
-%\begin{equation*}
-%\Theta(U,V) := \max\left( \sup_{u \in U \cap \mathcal{S}} d(u,V), \sup_{v \in V \cap \mathcal{S}} d(v,U) \right).
-%\end{equation*}
+%
+where $d(\mathbf{u},V) := \inf\{|\mathbf{u}-\mathbf{v}|_2: \mathbf{v} \in V\}$.
+%TODO: Include this footnote? \footnote{In fact, $\Theta(U,V)$ is equal to the sine of the largest Jordan angle between $U$ and $V$ \cite{?} and also $\Theta(U,V) = \|\Pi_V - \Pi_U\|$ \cite{?}.} 
 \end{definition}
-% TODO: reference for footnote?
 
 We now state our uniqueness result in matrix analysis, generalizing \cite[Lem.~1]{Hillar15} to the noisy case.
 
@@ -290,9 +286,6 @@ Fix $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some c
 \begin{equation}\label{GapUpperBound}
 \Theta(A_{S}, B_{\pi(S)}) \leq \frac{ \phi_k(A) }{\rho k} \delta, \indent \text{for all } S \in T,
 \end{equation}
-%\begin{equation}\label{GapUpperBound}
-%\Theta(A_{S}, B_{\pi(S)}) \leq \phi_k(A) \delta / \rho k , \indent \text{for all } S \in T,
-%\end{equation}
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
 \begin{align}\label{MainLemmaBPD}
@@ -300,14 +293,12 @@ then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an inv
 \end{align}
 \end{lemma}
 
-We will also use a few facts about $d$ in Def.~\ref{GapMetricDef}. The first, 
+We will also use a few facts about $d$ in Def.~\ref{GapMetricDef}. The first, proven in \cite[Lem.~3.2]{Morris10}, is that if $\dim(W) = \dim(V)$ then:
 \begin{equation}\label{SubspaceMetricSameDim}
-\dim(W) = \dim(V) \implies \sup_{\substack{\mathbf{v} \in V \\ |\mathbf{v}|_2 = 1}}  d(\mathbf{v},W)  = \sup_{\substack{\mathbf{w} \in W \\ |\mathbf{w}|_2 = 1}} d(\mathbf{w},V),
+\sup_{\mathbf{v} \in V, |\mathbf{v}|_2 = 1}  d(\mathbf{v},W)  = \sup_{\mathbf{w} \in W, |\mathbf{w}|_2 = 1} d(\mathbf{w},V),
 \end{equation}
-%\begin{equation}\label{SubspaceMetricSameDim}
-%\dim(W) = \dim(V) \implies \sup_{v \in V \cap \mathcal{S}}  d(v,W)  = \sup_{w \in W \cap \mathcal{S}} d(w,V),
-%\end{equation}
-can be found in \cite[Lem.~3.3]{Morris10}. The second is:
+% Actually, in Morris' paper it is |v| <= 1 and |u| <= 1. Cool for us to just make this change, right?
+The second is:
 \begin{lemma}\label{MinDimLemma}
 If $U, V$ are subspaces of $\mathbb{R}^{m}$, then
 \begin{equation*}
@@ -315,10 +306,6 @@ d(\mathbf{u},V) < |\mathbf{u}|_2 \ \text{and} \  \mathbf{u} \in U \setminus{\{\m
 \end{equation*}
 \end{lemma}
 Finally, we often use $|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2$ for $k$-sparse $\mathbf{x} \in \mathbb{R}^m$.
-%\begin{align}\label{sqrtk}
-%|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2, \ \ \text{for $k$-sparse $\mathbf{x} \in \mathbb{R}^m$}.
-%\end{align}
-% CUT: OK? Was referred to only once..
 
 %===================================
 % 			Deterministic Identifiability
@@ -375,7 +362,7 @@ From above, we may assume that $k > 1$. Let $T$ be the set of intervals of lengt
 
 Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse \mbox{$\mathbf{b}_i \in \mathbb{R}^m$} such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in T$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of $k$ indices $J(S)$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S'$, respectively.
 
-Let $X$ and $X'$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\mathbf{b}_i$, respectively. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that $L(AX_{J(S)}) > 0$; that is, the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent and therefore form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{y} \in \text{Span}\{A_{S}\}$, there exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{y} = AX_{J(S)}\mathbf{c}$. Letting \mbox{$\mathbf{y'} = BX'_{J(S)}\mathbf{c}$}, which is in $\text{Span}\{B_{S'}\}$, we have:
+Let $X$ and $X'$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\mathbf{b}_i$, respectively. It follows from the general linear position of the $\mathbf{a}_i$ and the linear independence of every $k$ columns of $A$ that $L(AX_{J(S)}) > 0$; that is, the columns of the $n \times k$ matrix $AX_{J(S)}$ are linearly independent and thus form a basis for $\text{Span}\{A_{S}\}$. Fixing $\mathbf{y} \in \text{Span}\{A_{S}\}$, there then exists a unique $\mathbf{c} = (c_1, \ldots, c_k) \in \mathbb{R}^k$ such that $\mathbf{y} = AX_{J(S)}\mathbf{c}$. Letting \mbox{$\mathbf{y'} = BX'_{J(S)}\mathbf{c}$}, which is in $\text{Span}\{B_{S'}\}$, we have:
 \begin{align*}
 |\mathbf{y} - \mathbf{y'}|_2 
 = |\sum_{i=1}^k c_i(AX_{J(S)} - BX'_{J(S)})_i|_2 
@@ -419,7 +406,8 @@ The result \eqref{Cstable} follows by application of Lem.~\ref{MainLemma} and, a
 In this note, we generalize recent results \cite{Hillar15} on the uniqueness of solutions to Problem~\ref{InverseProblem} to the case of noisy measurements, while also significantly reducing the number of required samples.
 % from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$. 
 % CUT OK? Surprisingly, almost all $n \times m$ dictionaries satisfying the standard assumption \eqref{CScondition} from compressed sensing (CS) are identifiable from enough generic noisy $k$-sparse linear combinations of their elements, up to an error linear in the noise. Moreover, if solutions are constrained to satisfy \eqref{SparkCondition}, then only an upper bound on the number of dictionary elements need be taken as given. 
-We note that these results extend trivially to the case where certain point-wise injective nonlinearities are applied to the data. We close by outlining  four diverse application areas.
+We remark that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise, whereas the ``effective'' noise might be much smaller when it is sampled from a given distribution; in such cases, the constant $C$ may be much smaller with high probability.
+We note also that these results extend trivially to the case where certain point-wise injective nonlinearities are applied to the data. We close by outlining  four diverse application areas.
 
 %\textbf{Compressed Sensing}.
 %The goal of compressed sensing is to recover a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse enough in some known basis (i.e., $\mathbf{a} = \Psi^{-1} \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) via a stable and efficient reconstruction process after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x} + \mathbf{n}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$ and noise $\mathbf{n}$. If $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition}, then $\mathbf{a}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi \mathbf{a}$. But what if $\Phi$ is unknown? Our theorems show that the matrix $A$ and sparse codes can still be estimated up to noise and an inherent permutation-scaling ambiguity if samples $\mathbf{y}_1, \ldots, \mathbf{y}_N$ are sufficiently diverse. 
@@ -511,14 +499,19 @@ Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly i
 
 % This can be made tighter by using Pythagoras' Thm for first projection instead of triangle inequality. 
 \begin{lemma}\label{DistanceToIntersectionLemma}
-Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be subspaces of $\mathbb{R}^m$ and let $V = \bigcap \mathcal{V}$. For every $\mathbf{x} \in \mathbb{R}^m$, we have:
+Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be subspaces of $\mathbb{R}^m$ and let $V = \cap \mathcal{V}$. For every $\mathbf{x} \in \mathbb{R}^m$, we have:
 \begin{align}\label{DTILeq}
-|\mathbf{x} - \Pi_V \mathbf{x}|_2 \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k |\mathbf{x} - \Pi_{V_i} \mathbf{x}|_2,
+d(\mathbf{x}, V) \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k d(\mathbf{x}, V_i),
 \end{align}
 provided $\xi(\mathcal{V}) < 1$, where $\xi$ is given in Def.~\ref{SpecialSupportSet}.
 \end{lemma}
 \begin{proof} 
-Fix $\mathbf{x} \in \mathbb{R}^m$ and $k \geq 2$. The proof consists of two parts. First, we shall show that: 
+Fix $\mathbf{x} \in \mathbb{R}^m$ and $k \geq 2$. Recall that the orthogonal projection onto a closed subspace $V \subseteq \mathbb{R}^m$ is the mapping $\Pi_V: \mathbb{R}^m \rightarrow V$ which associates with each $\mathbf{x} \in \mathbb{R}^m$ its unique nearest point in $V$:
+\begin{align*}
+|\mathbf{x} - \Pi_V\mathbf{x}|_2 = d(\mathbf{x}, V) := \inf\{|\mathbf{u}-\mathbf{v}|_2: \mathbf{v} \in V\}.
+\end{align*}
+
+The proof consists of two parts. First, we shall show that: 
 \begin{equation}\label{induction}
 |\mathbf{x} - \Pi_V\mathbf{x}|_2 \leq \sum_{\ell=1}^k |\mathbf{x} - \Pi_{V_{\ell}} \mathbf{x}|_2 + |\Pi_{V_{k}}\Pi_{V_{k-1}}\cdots\Pi_{V_{1}} \mathbf{x} - \Pi_V \mathbf{x}|_2.
 \end{equation}
@@ -534,7 +527,7 @@ Next, we show how the result \eqref{DTILeq} follows from \eqref{induction} and t
 \begin{align}\label{dti2}
 |\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V\mathbf{x}|_2 \leq z |\mathbf{x}|_2 \indent \text{for } \mathbf{x} \in \mathbb{R}^m,
 \end{align}
-for \mbox{$z^2= 1 - \prod_{\ell =1}^{k-1}(1-z_{\ell}^2)$} and \mbox{$z_{\ell} = \cos\theta_F\left(V_{\ell}, \cap_{s=\ell+1}^k V_s\right)$}. 
+for \mbox{$z^2= 1 - \prod_{\ell =1}^{k-1}(1-z_{\ell}^2)$} and \mbox{$z_{\ell} = \cos\theta\left(V_{\ell}, \cap_{s=\ell+1}^k V_s\right)$}. 
 %for \mbox{$z = \left[ 1 - \prod_{\ell =1}^{k-1}\left(1-\cos^2\theta_F\left(V_{\ell}, \cap_{s=\ell+1}^k V_s\right)\right) \right]^\frac{1}{2}$}. 
 To see this, note that:
 \begin{align}\label{dti1}
@@ -594,7 +587,7 @@ d\left( \mathbf{u}, \bigcap_{j \in J} \text{Span}\{A_{S_j}\} \right)
 \end{align*}
 %
 where the 2nd inequality follows from the definition of $\phi_k(A)$. 
-% TODO: explain why \xi is not 1
+% TODO: How do we know that \xi < 1? Well, if $\Xi = 1 only when the second argument is a (nontrivial) subset of the first, this never happens with 
 
 Now, since \mbox{$\text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\} \subseteq \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$} and (by Lem.~\ref{SpanIntersectionLemma}) $\cap_{j \in J}  \text{Span}\{A_{S_j}\} = \text{Span}\{A_{\cap_{j \in J}  S_j}\}$, we have:
 \begin{align}\label{fact1}
