@@ -32,7 +32,7 @@
 \begin{document}
 
 %\title{When is Sparse Coding Well-Posed?}
-\title{When is sparse coding via dictionary learning well-posed?}
+\title{When is dictionary learning for sparse coding well-posed?}
 % FRITZ2: The title doesn't reflect the amount of new stuff, it seems incremental from the last one. It's not very meaningful.
 % FRITZ: Not everyone knows what well-posed means. You should mention recovery from noisy data in the title.
 
@@ -44,7 +44,7 @@ Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA
 \maketitle
 
 \begin{abstract}
-Dictionary learning for sparse coding has exposed underlying structure in many kinds of natural signals.  However, universal theorems guaranteeing the statistical consistency of inference in this model are lacking.  Here, we prove that for almost all diverse enough datasets consistent with this model, the latent dictionary and sparse codes are uniquely identifiable up to an error commensurate with measurement noise. Applications are given to data analysis, neuroscience, and engineering.
+Methods for optimizing dictionaries for sparse coding expose underlying structure in many kinds of natural signals.  However, universal theorems guaranteeing the statistical consistency of inference in this model are lacking.  Here, we prove that for almost all diverse enough datasets consistent with this model, the latent dictionary and sparse codes are uniquely identifiable up to an error commensurate with measurement noise. Applications are given to data analysis, neuroscience, and engineering.
 \end{abstract}
 
 %\begin{IEEEkeywords}
@@ -70,7 +70,7 @@ Certain applications may require an understanding of when a dataset admits a uni
 % It could be that a forgery has sparse structure with respect to the dictionary but lies in some subspace where no training data lies. 
 % A descriptive model would be able to sparse code all of the data, but drawing samples from it would yield nonsense unless the model was actually a good generative model of the data.
 
-The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is uniquely identifiable from enough generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $(n, m, k)$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, in almost all cases the dictionary learning problem is well-posed (Cor.~\ref{ProbabilisticCor}). These guarantees are easily extended to the case when only an upper bound on $m$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). We hope the explicit, algorithm-independent criteria contained herein may serve as a theoretical tool in future analyses of dictionary learning procedures.
+The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is identifiable from $N = m + m(k-1){m \choose k}$ generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $(n, m, k)$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, in almost all cases the dictionary learning problem is well-posed given enough data (Cor.~\ref{ProbabilisticCor}). These guarantees extend easily to the case when only an upper bound on $m$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). We hope the explicit, algorithm-independent criteria which we provide may serve as a useful tool in analyses of dictionary learning procedures.
 
 % FRITZ: Cite applications of algorithms (e.g. gautam) that use algorithms as blind source separation techniques. And then: what about theoretical justifications of this approach. There is a body of work on guarantees for zero error, but there is nothing for noisy case. Don't assume that everyone is assuming ground truth. Many algorithms have been designed, and yet in the presence of measurement errors there are no theoretical guarantees. Then set up problem, cite Aharon etc.
 % CHRIS: Citing Gautam is ok! We give reason to believe it's unique. Alright, soften up 'ground truth' statement assumptions about people. Save Gautam for discussion? Intro: artist stroke design?
@@ -419,14 +419,14 @@ We note also that these results extend trivially to the case where certain point
 
 % FRITZ: Inverse problems instead of Data Analysis. Don't assume that everyone is assuming they are recovering ground truth. Cite results again and state implications! Focus on them (probabilistic ones too).
 \textbf{Inverse Problems}.  
-Our results provide theoretical grounding for the use of sparse coding for blind source separation, wherein the goal is to infer the generating dictionary and sparse codes (e.g., representing a rat's position on a linear track \cite{Agarwal14}) from noisy measurements (e.g., local field potentials in Hippocampus) generated as in \eqref{LinearModel}. To this end, it would be useful to determine the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimal requirements on the number and diversity of generating codes. We encourage researchers to extend our results and tighten these parameters.
+Our results provide theoretical grounding for the use of sparse coding for blind source separation, wherein the goal is to infer the generating dictionary and sparse codes (e.g., representing a rat's position on a linear track \cite{Agarwal14}) from noisy measurements (e.g., local field potentials in Hippocampus) generated as in \eqref{LinearModel}. To this end, it would be useful to determine the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimal requirements on the number and diversity of generating codes. %We encourage researchers to extend our results and tighten these parameters.
 
 \textbf{Theoretical Neuroscience}.
-Sparse coding and related methods have repeatedly been shown to recover characteristic sparse components of natural images \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}, sounds \cite{bellsejnowski1996, smithlewicki2006, Carlson12} and smells \cite{}, reproducing response properties of some cortical neurons. Together with these results, our theorems suggest that the sparse representations of these signals may indeed, in some sense, be unique. Furthermore, these theoretical guarantees justify the hypothesis of \cite{Coulter10} and \cite{Isely10} that sparse representations of natural data passed through a communication bottleneck in the brain could be recovered from random projections via (unsupervised) biologically plausible sparse-coding algorithms (e.g., \cite{rozell2007neurally, hu2014hebbian}).   %TODO: cite Joel Z paper? Arora "simple, efficient, and neural algos for sparse coding"?
+Sparse coding and related methods have repeatedly been shown to recover characteristic sparse components of natural images \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}, sounds \cite{bellsejnowski1996, smithlewicki2006, Carlson12} and smells \cite{}, reproducing response properties of some cortical neurons. Together with these results, our theorems suggest that the sparse representations of these signals may indeed, in some sense, be unique. Furthermore, our guarantees justify the hypothesis of \cite{Coulter10} and \cite{Isely10} that sparse codes passed through a communication bottleneck in the brain could be recovered from random projections via (unsupervised) biologically plausible sparse-coding algorithms (e.g., \cite{rozell2007neurally, hu2014hebbian}).   
+%TODO: cite Joel Z paper? Arora "simple, efficient, and neural algos for sparse coding"?
+%TODO: cite olfaction sparse coding
 
 %A necessary condition for this theory to work is that the sparse coding problem has a unique solution stable with respect to noise, which our work verifies. 
-
-%The rat thing is snuck in there above with too little explanation.  could be good to fit it into Natural Images, Sound, and (Hippocampus) Nueral Activity.
 
 % Reiterate probabilistic result in the smooth analysis part?
 \textbf{Smoothed Analysis}.
@@ -522,10 +522,11 @@ We begin the proof by observing that:
 \begin{align*}
 |\mathbf{x} - \Pi_V\mathbf{x}|_2 &\leq |\mathbf{x} - \Pi_{V_k} \mathbf{x}|_2 + |\Pi_{V_k}  \mathbf{x} - \Pi_{V_k}\Pi_{V_{k-1}}\mathbf{x}|_2 \nonumber \\
 &\ \ \ + \ldots + |\Pi_{V_k} \Pi_{V_{k-1}}\cdots \Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x}|_2 \nonumber \\
-&\leq \sum_{\ell=1}^k |\mathbf{x} - \Pi_{V_{\ell}} \mathbf{x}|_2 + |\Pi_{V_k}\cdots\Pi_{V_{1}} \mathbf{x} - \Pi_V \mathbf{x}|_2.
+&\leq \sum_{\ell=1}^k |\mathbf{x} - \Pi_{V_{\ell}} \mathbf{x}|_2 + |\Pi_{V_k}\cdots\Pi_{V_{1}} \mathbf{x} - \Pi_V \mathbf{x}|_2,
 \end{align*}
 %
 by the triangle inequality and the fact that $\|\Pi_{V_{\ell}}\|_2 \leq 1$ for all $\ell$ (as $\Pi_{V_{\ell}}$ are projections).
+%TODO: Define matrix norm used above?
 
 The desired result \eqref{DTILeq} now follows by bounding the second term on the RHS using the following fact \cite[Thm.~9.33]{Deutsch12}:
 \begin{align}
@@ -595,7 +596,7 @@ Suppose now that $J = \{t-k+1, \ldots, t\}$ so that \mbox{$\cap_{j \in J} S_j = 
 \end{proof}
 
 The strategy above can be easily modified to prove the following variation of Lem.~\ref{MainLemma}, key to proving Thm.~\ref{DeterministicUniquenessTheorem2}.
-
+%TODO: Check T is right to be used for both A and B here...
 \begin{lemma}[Main Lemma~for $m < m'$]\label{MainLemma2}
 Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that for $S \in T$:
 \begin{equation}\label{GapUpperBound2}
