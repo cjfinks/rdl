@@ -65,7 +65,7 @@ Dictionary learning for sparse coding has exposed underlying structure in many k
 % FRITZ2: Painting is confusing. It's not unique, but rather unique to each painter -- still, it could be that each painter has a number of dictionaries associated to them.
 %TODO: Is Olshausen10 reference really appropriate?
 % seems not too bad
-Certain applications may require an understanding of when a dataset admits a unique such `sparse structure'. For instance, the detection of forgeries by analysis of local painting style \cite{hughes2010, Olshausen10} assumes that all dictionaries consistent with training data do not differ appreciably in their ability to sparsely encode new samples. Recently, algorithms with provable convergence to a unique solution under certain conditions have been proposed  (see \cite[Sec.~I-E]{Sun16} for a brief summary of the state-of-the-art). It remains unknown, however, when this problem is well-posed in general (as per Hadamard \cite{Hadamard1902}), independent of algorithm.
+Certain applications may require an understanding of when a dataset admits a unique such `sparse structure'. For instance, the detection of forgeries by analysis of local painting style \cite{hughes2010, Olshausen10} assumes that all dictionaries consistent with training data do not differ appreciably in their ability to sparsely encode new samples. Recently, algorithms with provable convergence to a unique solution under certain conditions have been proposed  (see \cite[Sec.~I-E]{Sun16} for a brief summary of the state-of-the-art). It remains unknown, however, when this problem is well-posed (in the sense of Hadamard \cite{Hadamard1902}) independent of any algorithm.
 %rests on brush stroke primitives uniquely specifying an artist. 
 % It could be that a forgery has sparse structure with respect to the dictionary but lies in some subspace where no training data lies. 
 % A descriptive model would be able to sparse code all of the data, but drawing samples from it would yield nonsense unless the model was actually a good generative model of the data.
@@ -231,9 +231,11 @@ The \textbf{angle} between subspaces $U,V \subseteq \mathbb{R}^n$ is the angle $
 \cos{\theta(U,V)} := \max\left\{ |\langle \mathbf{u}, \mathbf{v} \rangle|: \substack{ \mathbf{u} \in U \cap (U \cap V)^\perp \cap \mathcal{B} \\ \mathbf{v} \in V \cap (U \cap V)^\perp \cap \mathcal{B} } \right\},
 \end{align*}
 % max replaces sup since we are in a real vector space
-where $\mathcal{B} = \{ \mathbf{x} \in \mathbb{R}^n: |\mathbf{x}|_2 \leq 1\}$.%\footnote{ $\theta$ is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations \cite{?}.} 
-% Some source had said: these angles are all zero if and only if one subspace is a subset of the other; otherwise, $\theta$ is the smallest nonzero such angle \cite{?}.} But this contradicts the definition, since theta is pi/2 when one subspace is contained in the other.%\cite[Def.~9.4]{Deutsch12}.
+where $\mathcal{B} = \{ \mathbf{x} \in \mathbb{R}^n: |\mathbf{x}|_2 \leq 1\}$.\footnote{It is easy to check that $\cos\theta(U,V) < 1$ for all subspaces $U,V \subseteq \mathbb{R}^m$.}
+%\footnote{ $\theta$ is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations \cite{?}.} 
 \end{definition}
+ % See Theorem 9.35(1) in Deutsch
+%TODO: mention that we have subbed max for sup because real subspaces are closed?
 % The concept of principal angles between subspaces was first introduced by Jordan in 1875 \cite{?}. The definition of $\theta$ is attributed to Friedrichs \cite{Friedrichs1937OnCertainInequalitiesAnd}}
 %For example, when $n=3$ and $k=1$, this is simply the angle between vectors; and for $k=2$, it is the angle between the normal vectors of two planes. In higher dimensions, the Friedrichs angle is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, the Friedrichs angle is the smallest nonzero such angle. 
 
@@ -252,9 +254,9 @@ where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of subspaces of $\mathbb{
 \xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 -  \prod_{i=1}^{k-1} \sin^2  \theta \left(V_{\sigma(i)}, \cap_{j>i} V_{\sigma(j)} \right)  \right)^{1/2},
 \end{align*} 
 %
-and $\phi_T(A) := 1$ for $k=1$. 
+and $\phi_T(A) := 1$ for $k=1$.\footnote{Note that we always have $\phi_T(A) > 0$, since $\xi(\mathcal{V}) < 1$ always; otherwise, we would have $\cos \theta(U,V) = 1$ for some subspaces $U,V \subseteq \mathbb{R}^m$.}%, in contradiction with $(U \cap V) \cap (U \cap V)^\perp = \emptyset$.
 \end{definition}
-Note that we always have $\phi_T(A) > 0$, since $\xi(\mathcal{V}) = 1$ implies that $\cos \theta(U,V) = 1$ for some pair of subspaces $U,V \in \mathbb{R}^m$, in contradiction with $(U \cap V) \cap (U \cap V)^\perp = \emptyset$.
+
 % TODO: Does contiguous really convey shifting by 1? Or does it convey actual side by side intervals?
 
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
@@ -263,13 +265,14 @@ The constant $C > 0$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem} i
 C = \left( \frac{ \sqrt{k^3}}{ \phi_T(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})},
 \end{align}
 %
-where $T$ is the set intervals of length $k$ in a cyclic order on $[m]$, $X$ is the $m \times N$ matrix with columns $\mathbf{a}_i$, and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$.\footnote{We can be sure that $C$ is positive and well-defined, since $|A_j|_2 > 0$ for all $j$ by \eqref{SparkCondition} and $\min_{S \in T} L_k(AX_{I(S)}) > 0$ by the fact that $L_k(A) > 0$ and every $k$ columns of $X_{I(S)}$ are linearly independent.}
+where $T$ is the set intervals in the cyclic order, $X$ is the $m \times N$ matrix with columns $\mathbf{a}_i$, and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$.\footnote{We can be sure that $C$ is positive and well-defined, since $|A_j|_2 > 0$ for all $j$ by \eqref{SparkCondition} and $\min_{S \in T} L_k(AX_{I(S)}) > 0$ by the fact that $L_k(A) > 0$ and every $k$ columns of $X_{I(S)}$ are linearly independent.}
 
 
 %OLD:
 %implies that $\theta_F(A_{S_1}, A_{S_2}) = 0$ for some $S_1 \in {[m] \choose k}$ and $S_2 \in {[m] \choose \ell}, \ \ \ell \leq k$, which would contradict \eqref{SparkCondition}.
 %$\text{Span}(A_{S_1}) \supseteq \cap_{j=2}^k \text{Span}(A_{S_j})$ for some $S_1, \ldots, S_k \in {[m] \choose k}$, which would contradict \eqref{SparkCondition}.
 
+%TODO: cite Kato
 \begin{definition}\label{GapMetricDef}
 The \textbf{gap} (or \textbf{aperture}) $\Theta(U,V)$ between subspaces $U, V \subseteq \mathbb{R}^m$ is given by \cite{Kato p.197}: %\cite{Akhiezer13}:
 \begin{equation*}
