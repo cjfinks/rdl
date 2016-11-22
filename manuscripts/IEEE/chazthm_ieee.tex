@@ -221,42 +221,41 @@ In other words, the columns of $B$ contain (up to noise, after appropriate scali
 % 			Preliminaries
 %===================================
 We first briefly outline our main tools, which include general notions of angle (Def.~\ref{FriedrichsDefinition}) and distance (Def.~\ref{GapMetricDef}) between subspaces as well as a (stable) uniqueness result in matrix analysis (Lem.~\ref{MainLemma}).
-Given a set $\mathcal{X}$, let ${\mathcal{X} \choose k}$ denote the set of all subsets of $\mathcal{X}$ of size $k$. Denote by $\mathbf{e}_i$ for $i \in [m]$ the canonical basis vectors in $\mathbb{R}^m$ and let $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ be the $\mathbb{R}$-linear span of vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$. Given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$, let $M_S$ be the submatrix with columns $M_j$ for $j \in S$, which will also denote its column space when appropriate.  
+Given a set $\mathcal{X}$, let ${\mathcal{X} \choose k}$ denote the set of all subsets of $\mathcal{X}$ of size $k$. Denote by $\mathbf{e}_i$ for $i \in [m]$ the canonical basis vectors in $\mathbb{R}^m$ and let $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ be the $\mathbb{R}$-linear span of vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$. Given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$, let $M_S$ be the submatrix with columns $M_j$ for $j \in S$, which will also denote its column space when appropriate. Let $\frak{S}_{k}$ denote the set of permutations (bijections) on $k$ elements.
 %Note: the gap is not a metric
 % we did before earlier. no we didn't....
 
 \begin{definition}\label{FriedrichsDefinition}
-The \textbf{angle} between subspaces $U,V \subseteq \mathbb{R}^n$ is the angle $\theta(U,V)$ in $[0,\frac{\pi}{2}]$ whose cosine is given by \cite[Def.~9.4]{Deutsch12}:
+The \textbf{angle} between subspaces $U,V \subseteq \mathbb{R}^n$ is the angle $\theta(U,V)$ in $(0,\frac{\pi}{2}]$ whose cosine is given by \cite[Def.~9.4]{Deutsch12}:
 \begin{align*}
 \cos{\theta(U,V)} := \max\left\{ |\langle \mathbf{u}, \mathbf{v} \rangle|: \substack{ \mathbf{u} \in U \cap (U \cap V)^\perp \cap \mathcal{B} \\ \mathbf{v} \in V \cap (U \cap V)^\perp \cap \mathcal{B} } \right\},
 \end{align*}
-where $\mathcal{B} = \{ \mathbf{x} \in \mathbb{R}^n: |\mathbf{x}|_2 \leq 1\}$.\footnote{ $\theta$ is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations \cite{?}.}
-% Some source had said: these angles are all zero if and only if one subspace is a subset of the other; otherwise, $\theta$ is the smallest nonzero such angle \cite{?}.} %\cite[Def.~9.4]{Deutsch12}.
+% max replaces sup since we are in a real vector space
+where $\mathcal{B} = \{ \mathbf{x} \in \mathbb{R}^n: |\mathbf{x}|_2 \leq 1\}$.%\footnote{ $\theta$ is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations \cite{?}.} 
+% Some source had said: these angles are all zero if and only if one subspace is a subset of the other; otherwise, $\theta$ is the smallest nonzero such angle \cite{?}.} But this contradicts the definition, since theta is pi/2 when one subspace is contained in the other.%\cite[Def.~9.4]{Deutsch12}.
 \end{definition}
 % The concept of principal angles between subspaces was first introduced by Jordan in 1875 \cite{?}. The definition of $\theta$ is attributed to Friedrichs \cite{Friedrichs1937OnCertainInequalitiesAnd}}
-
 %For example, when $n=3$ and $k=1$, this is simply the angle between vectors; and for $k=2$, it is the angle between the normal vectors of two planes. In higher dimensions, the Friedrichs angle is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations. These angles are all zero if and only if one subspace is a subset of the other; otherwise, the Friedrichs angle is the smallest nonzero such angle. 
-
-%[** Wait, hold up - this statement contradicts Lemma 9.5 (8) in Deutsch which says the *cosine* is zero if the subspaces are subsets of one another, in which case the angle is $\pi/2$. **]
 
 The next quantity is based on one used in \cite{Deutsch12} to analyze the convergence of the alternating projections algorithm for projecting a point onto the intersection of a set of subspaces.
 % We use it to bound the distance between a point and the intersection of a set of subspaces given an upper bound on the distance from that point to each individual subspace. 
 
 %The minimization over permutations in \eqref{xidef} below is done only to remove the dependence the convergence result has on the order in which subspaces are inputted to the alternating projections algorithm.
 \begin{definition}\label{SpecialSupportSet}
-Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$. Setting $\phi_1(A) := 1$, define for $k > 1$:
+Fix $A \in \mathbb{R}^{n \times m}$, fix a cyclic order on $[m]$, and let $T$ denote the set of contiguous intervals of length $k$ in the order for some $k < m$. For $k > 1$, define:
 \begin{align*}
 %\phi_k(A) := \min_{ S_1 \neq \ldots \neq S_k \in {[m] \choose k} } 1 - \xi( A_{S_1}, \ldots, A_{S_k}),
 \phi_T(A) :=  \min_{R \in {T \choose k}} 1 - \xi( \{ A_{S}: S \in R\}),
 \end{align*}
 where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of subspaces of $\mathbb{R}^m$, 
 \begin{align*}
-\xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 -  \prod_{i=1}^{k-1} \sin^2  \theta \left(V_{\sigma(i)}, \cap_{j=i+1}^k V_{\sigma(j)} \right)  \right)^{1/2},
-\end{align*}
-and $\frak{S}_{k}$ are the permutations (bijections) on $k$ elements. 
+\xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 -  \prod_{i=1}^{k-1} \sin^2  \theta \left(V_{\sigma(i)}, \cap_{j>i} V_{\sigma(j)} \right)  \right)^{1/2},
+\end{align*} 
+%
+and $\phi_T(A) := 1$ for $k=1$. 
 \end{definition}
-% TODO: Error! If we set all the supports to be equal then phi_k(A) = 0. They must be distinct. In the proof of Lemma 1 they are all intervals in a cyclic order. I think this only needs to be taken over the cyclic order for which the a_i are supported.
-% cos\theta = 0 if and only if Pv and Pu commute -> sin\theta = 1 if and only if Pv and Pu commute
+Note that we always have $\phi_T(A) > 0$, since $\xi(\mathcal{V}) = 1$ implies that $\cos \theta(U,V) = 1$ for some pair of subspaces $U,V \in \mathbb{R}^m$, in contradiction with $(U \cap V) \cap (U \cap V)^\perp = \emptyset$.
+% TODO: Does contiguous really convey shifting by 1? Or does it convey actual side by side intervals?
 
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
 The constant $C > 0$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem} is then:
@@ -264,7 +263,8 @@ The constant $C > 0$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem} i
 C = \left( \frac{ \sqrt{k^3}}{ \phi_T(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})},
 \end{align}
 %
-where $T$ is the set intervals of length $k$ in a cyclic order on $[m]$, $X$ is the $m \times N$ matrix with columns $\mathbf{a}_i$, and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$.\footnote{We can be sure that $C > 0$ is well-defined. First, $|A_j|_2 > 0$ for all $j$ by \eqref{SparkCondition}. Next, $\min_{S \in T} L_k(AX_{I(S)}) > 0$ by the fact that $L_k(A) > 0$ and every $k$ columns of $X_{I(S)}$ are linearly independent. Finally, $\phi_k(A) = 0$ implies ???}
+where $T$ is the set intervals of length $k$ in a cyclic order on $[m]$, $X$ is the $m \times N$ matrix with columns $\mathbf{a}_i$, and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$.\footnote{We can be sure that $C$ is positive and well-defined, since $|A_j|_2 > 0$ for all $j$ by \eqref{SparkCondition} and $\min_{S \in T} L_k(AX_{I(S)}) > 0$ by the fact that $L_k(A) > 0$ and every $k$ columns of $X_{I(S)}$ are linearly independent.}
+
 
 %OLD:
 %implies that $\theta_F(A_{S_1}, A_{S_2}) = 0$ for some $S_1 \in {[m] \choose k}$ and $S_2 \in {[m] \choose \ell}, \ \ \ell \leq k$, which would contradict \eqref{SparkCondition}.
@@ -286,7 +286,7 @@ We now state our uniqueness result in matrix analysis, generalizing \cite[Lem.~1
 \begin{lemma}[Main Lemma]\label{MainLemma}
 Fix $n, m$, $k < m$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} and has maximum column $\ell_2$-norm $\rho$.  If there exists a map $\pi: T \to {[m] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that: 
 \begin{equation}\label{GapUpperBound}
-\Theta(A_{S}, B_{\pi(S)}) \leq \frac{ \phi_k(A) }{\rho k} \delta, \indent \text{for all } S \in T,
+\Theta(A_{S}, B_{\pi(S)}) \leq \frac{ \phi_T(A) }{\rho k} \delta, \indent \text{for all } S \in T,
 \end{equation}
 %
 then there exist a permutation matrix $P \in \mathbb{R}^{m \times m}$ and an invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$ with
@@ -382,16 +382,16 @@ We now show that \eqref{Cstable} follows if $\varepsilon < \frac{L_2(A)}{\sqrt{2
 \begin{align}\label{rhs}
 \sup_{ \substack{ \mathbf{y} \in \text{Span}\{A_{S}\} \\ |\mathbf{y}|_2 = 1} } d(\mathbf{y}, B_{S'}) \leq \frac{\varepsilon\sqrt{k}}{L(AX_{J(S)})}
 %&<  \frac{\phi_k(A) L_2(A)}{\rho k \sqrt{2}} \left( \frac{\min_{S \in T}L_k(AX_{I(S)})}{L(AX_{J(S)})} \right) \nonumber \\
-&\leq \frac{\phi_k(A) L_2(A)}{\rho k \sqrt{2}}.
+&\leq \frac{\phi_T(A) L_2(A)}{\rho k \sqrt{2}}.
 \end{align}
-Since $L_2(A) \leq \rho \sqrt{2}$ and $\phi_k(A) \leq 1$, the RHS of \eqref{rhs} is strictly less than one. It follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$. % (since every $k$ columns of $A$ are linearly independent). 
+Since $L_2(A) \leq \rho \sqrt{2}$ and $\phi_T(A) \leq 1$, the RHS of \eqref{rhs} is strictly less than one. It follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$. % (since every $k$ columns of $A$ are linearly independent). 
 Since $|S'| = k$, we also have $\dim(\text{Span}\{B_{S'}\}) \leq k$; hence, $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see that the association $S \mapsto S'$ therefore defines a map $\pi: T \to {[m] \choose k}$ satisfying:
 \begin{align}\label{yeyeye}
 %\Theta(A_{S}, B_{\pi(S)}) \leq \frac{\phi_k(A) L_2(A)}{\rho k \sqrt{2}} \indent \text{for } S \in T.
 \Theta(A_{S}, B_{\pi(S)}) \leq \frac{\varepsilon\sqrt{k}}{ L(AX_{J(S)})}, \indent \text{for } S \in T.
 \end{align}
 
-Thus, from \eqref{rhs} and \eqref{yeyeye} it follows that, for any particular $S \in T$, the inequality in \eqref{GapUpperBound} is satisfied for $\delta < L_2(A)/\sqrt{2}$ by setting $\delta = \frac{ \rho k}{ \phi_k(A) } \left(  \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} \right)$ (see Rem.~\ref{nonzero} for why \mbox{$\phi_k(A) > 0$}). Hence, \eqref{GapUpperBound} holds (for all $S \in T$) when $\delta = C\varepsilon$. %, with $C$ as defined in \eqref{Cdef}.
+Thus, from \eqref{rhs} and \eqref{yeyeye} it follows that, for any particular $S \in T$, the inequality in \eqref{GapUpperBound} is satisfied for $\delta < L_2(A)/\sqrt{2}$ by setting $\delta = \frac{ \rho k}{ \phi_T(A) } \left(  \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} \right)$ (see Rem.~\ref{nonzero} for why \mbox{$\phi_T(A) > 0$}). Hence, \eqref{GapUpperBound} holds (for all $S \in T$) when $\delta = C\varepsilon$. %, with $C$ as defined in \eqref{Cdef}.
 %\begin{align*}
 %\delta = \left( \frac{ \varepsilon \sqrt{k^3}}{ \phi_k(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}
 %= C\varepsilon.
@@ -515,6 +515,7 @@ Fix $\mathbf{x} \in \mathbb{R}^m$ and $k \geq 2$. Recall that the orthogonal pro
 % Since subspaces of real vector spaces are closed, we can replace inf with min in def. of orthogonal projection
 
 We begin the proof by observing that:
+%Use Pythagoras' Theorem first?
 \begin{align*}
 |\mathbf{x} - \Pi_V\mathbf{x}|_2 &\leq |\mathbf{x} - \Pi_{V_k} \mathbf{x}|_2 + |\Pi_{V_k}  \mathbf{x} - \Pi_{V_k}\Pi_{V_{k-1}}\mathbf{x}|_2 \nonumber \\
 &\ \ \ + \ldots + |\Pi_{V_k} \Pi_{V_{k-1}}\cdots \Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x}|_2 \nonumber \\
@@ -534,12 +535,12 @@ for \mbox{$z^2= 1 - \prod_{\ell =1}^{k-1}(1-z_{\ell}^2)$} and \mbox{$z_{\ell} = 
 &\leq z|\mathbf{x} - \Pi_V\mathbf{x}|_2.
 \end{align*}
 
-Since $z$ may depend on the arbitrary labelling of the $V_i \in \mathcal{V}$, we may substitute $\xi(\mathcal{V})$ for $z$ to obtain \eqref{DTILeq}.
+Since $z$ may depend on the arbitrary labelling of the $V_i \in \mathcal{V}$, we substitute $\xi(\mathcal{V})$ for $z$ to obtain \eqref{DTILeq}.
 \end{proof}
 
 %======= GRAPH THEORY LEMMA =======
 
-\begin{lemma}\label{NonEmptyLemma} Fix integers $k < m$, and let $T = \{S_1, \ldots, S_m\}$ be the set of contiguous length $k$ intervals in some cyclic order of $[m]$. Suppose there exists a map $\pi: T \to {[m] \choose k}$ such that:
+\begin{lemma}\label{NonEmptyLemma} Fix integers $k < m$, and let $T = \{S_1, \ldots, S_m\}$ be the set of contiguous intervals of length $k$ in some cyclic order of $[m]$. Suppose there exists a map $\pi: T \to {[m] \choose k}$ such that:
 \begin{align}\label{NonEmpty}
 |\bigcap_{j \in J} \pi(S_j)| \leq |\bigcap_{j \in J} S_j | \ \ \text{for } \ J \in {[m] \choose k}.
 \end{align}
@@ -557,28 +558,28 @@ By iterating the above arguments, we arrive at a partitioning of $Q_m$ into sets
 %==== PROOF OF MAIN LEMMA =======
 \begin{proof}[Proof of Lem.~\ref{MainLemma} (Main Lemma)]
 We assume $k \geq 2$ since the case $k = 1$ was proven in Sec.~\ref{DUT}. We assume w.l.o.g. that the cyclic order on $[m]$ is simply $[m]$ and let $T = \{S_1, \ldots, S_m\}$ so that $S_i = \{i, \ldots, i+k-1\}$ are contiguous intervals of length $k$ in the order. We begin by showing that $\dim(\text{Span}\{B_{\pi(S)}\}) = k$ for all $S \in T$. 
-Fix $S \in T$ and note that by \eqref{GapUpperBound}, all unit vectors $\mathbf{u} \in \text{Span}\{A_{S}\}$ satisfy $d(\mathbf{u}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for $\delta < \frac{L_2(A)}{ \sqrt{2}}$. By definition of $L_2(A)$, for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
+Fix $S \in T$ and note that by \eqref{GapUpperBound}, all unit vectors $\mathbf{u} \in \text{Span}\{A_{S}\}$ satisfy $d(\mathbf{u}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\phi_T(A)}{\rho k} \delta$ for $\delta < \frac{L_2(A)}{ \sqrt{2}}$. By definition of $L_2(A)$, for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
 \begin{align*}
 L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}.
 \end{align*}
 
-Hence, $\delta < \rho$. Since $\phi_k(A) \leq 1$, we also have $d(\mathbf{u}, \text{Span}\{B_{\pi(S)}\}) < 1$, and it follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S)}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$. Since $|\pi(S)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
+Hence, $\delta < \rho$. Since $\phi_T(A) \leq 1$, we also have $d(\mathbf{u}, \text{Span}\{B_{\pi(S)}\}) < 1$, and it follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S)}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$. Since $|\pi(S)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
 
 We will now show that:
 \begin{align}\label{fact2}
 |\bigcap_{j \in J} \pi(S_j)| \leq |\bigcap_{j \in J} S_j | \ \ \text{for } \ J \in {[m] \choose k}.
 \end{align}
 
-Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound}, for all unit vectors \mbox{$\mathbf{u} \in \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$}, we have  that $d(\mathbf{u}, A_{S_j}) \leq \frac{\phi_k(A)}{\rho k} \delta$ for all $j \in J$, where $\delta < \frac{L_2(A)}{\sqrt{2}}$. It follows from Lem.~\ref{DistanceToIntersectionLemma} that:
+Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound}, for all unit vectors \mbox{$\mathbf{u} \in \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$}, we have  that $d(\mathbf{u}, A_{S_j}) \leq \frac{\phi_T(A)}{\rho k} \delta$ for all $j \in J$, where $\delta < \frac{L_2(A)}{\sqrt{2}}$. It follows from Lem.~\ref{DistanceToIntersectionLemma} that:
 \begin{align*}
 d\left( \mathbf{u}, \bigcap_{j \in J} \text{Span}\{A_{S_j}\} \right) 
-\leq \frac{\delta}{\rho} \left( \frac{ \phi_k(A) }{1 - \xi( \{ A_{S_j}: j \in J\} ) } \right) \leq \frac{\delta}{\rho},
+\leq \frac{\delta}{\rho} \left( \frac{ \phi_T(A) }{1 - \xi( \{ A_{S_j}: j \in J\} ) } \right) \leq \frac{\delta}{\rho},
 \end{align*}
 %
-where the 2nd inequality follows from the definition of $\phi_k(A)$. We can be sure in the above that $\xi < 1$, as required by Lem.~\ref{DistanceToIntersectionLemma}, since ** TODO **.
+where the second inequality follows from the Def.~\ref{SpecialSupportSet}. We can be sure in the above that $\xi < 1$, as required by Lem.~\ref{DistanceToIntersectionLemma}, since $\phi_T(A) > 0$ always.
 % TODO: 
-%1) Show that $\xi < 1$. Suppose $\xi = 1$. Then for all ordering of the arguments V_i, we have sin^2 \theta (V_i, intersect of j > i) = 0 for some i, or equivalently cos\theta(V_i, intersect of j > i) = 1 for some i. 
-then the second argument is a (nontrivial) subset of the first. This never happens with...?
+%1) Show that $\xi < 1$. Suppose $\xi = 1$. Then for every ordering of the arguments V_i, we have cos^2 \theta (V_i,  \cap_j V_{j > i}) = 1 for some i. 
+%then the second argument is a (nontrivial) subset of the first. This never happens with...?
 %2) Show that $\phi_k > 0$.  
 
 Now, since \mbox{$\text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\} \subseteq \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$} and (by Lem.~\ref{SpanIntersectionLemma}) $\cap_{j \in J}  \text{Span}\{A_{S_j}\} = \text{Span}\{A_{\cap_{j \in J}  S_j}\}$, we have:
@@ -595,7 +596,7 @@ The strategy above can be easily modified to prove the following variation of Le
 \begin{lemma}[Main Lemma~for $m < m'$]\label{MainLemma2}
 Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that for $S \in T$:
 \begin{equation}\label{GapUpperBound2}
-\Theta(A_{S}, B_{\pi(S)}) \leq \frac{ \delta }{\rho k} \min(\phi_k(A), \phi_k(B)),
+\Theta(A_{S}, B_{\pi(S)}) \leq \frac{ \delta }{\rho k} \min(\phi_T(A), \phi_T(B)),
 \end{equation}
 then \eqref{MainLemmaBPD} holds for some $n \times m$ submatrix of $B$. 
 \end{lemma}
@@ -610,7 +611,7 @@ We state the required modifications briefly. Since $m' > m$, we may not invoke L
 \section{Proofs of Thms.~\ref{robustPolythm} \& \ref{DeterministicUniquenessTheorem2} and Cors.~\ref{DeterministicUniquenessCorollary} \& \ref{ProbabilisticCor}}\label{AppendixB}
 
 \begin{proof}[Proof of Cor.~\ref{DeterministicUniquenessCorollary}]
-We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ such that for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^{\ell}_i)^{k,N}_{\ell,i=1}$ are in general linear position (since the $\gamma_i$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of contiguous length $k$ intervals in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each contains $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$) by setting the nonzero values $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
+We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ such that for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^{\ell}_i)^{k,N}_{\ell,i=1}$ are in general linear position (since the $\gamma_i$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of contiguous intervals of length $k$ in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each contains $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$) by setting the nonzero values $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 \end{proof}
 
 %For the proof of Thm.~\ref{ProbabilisticTheorem}, as in \cite{Hillar15}, consider ``symbolic" datasets $Y$ involving indeterminates $A$ and $\mathbf{a}_i$.
@@ -644,7 +645,7 @@ First, note that if a set of measure spaces $\{(X_{\ell}, \Sigma_{\ell}, \nu_{\e
 \begin{proof}[Proof of Thm.~\ref{DeterministicUniquenessTheorem2}]
 The proof is very similar to the proof of Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT}, the main difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lem.~\ref{MainLemma2} by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$ and eventually applying Lem.~\ref{MainLemma2} in place of Lem.~\ref{MainLemma}. The value of $C$ in this case can be taken to be:
 \begin{align}\label{Cdef2}
-C= \left( \frac{ \sqrt{k^3}}{ \min(\phi_k(A), \phi_k(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
+C= \left( \frac{ \sqrt{k^3}}{ \min(\phi_T(A), \phi_T(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
 \end{align}
 %This insures that we can establish a one-to-one correspondence between subspaces spanned by the $m'$ columns of $B$ and nearby subspaces spanned by the $m$ columns of $A$ despite the fact that $m < m'$. 
 \end{proof}
