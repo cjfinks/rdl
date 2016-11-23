@@ -31,8 +31,12 @@
 
 \begin{document}
 
-%\title{When is Sparse Coding Well-Posed?}
-\title{When is dictionary learning for sparse coding well-posed?}
+%\title{When can a generating dictionary and sparse codes be recovered from noisy data?}
+%\title{When is the dictionary learning problem well-posed?}
+\title{When is dictionary learning for sparse coding a well-posed problem?}
+%\title{When is the dictionary learning problem for sparse coding well-posed?}
+%\title{When is the sparsest representation unique?}
+%\title{When are sparse codes identifiable from their unknown noisy compressive measurements?}
 % FRITZ2: The title doesn't reflect the amount of new stuff, it seems incremental from the last one. It's not very meaningful.
 % FRITZ: Not everyone knows what well-posed means. You should mention recovery from noisy data in the title.
 
@@ -44,7 +48,7 @@ Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA
 \maketitle
 
 \begin{abstract}
-Methods for optimizing dictionaries for sparse coding expose underlying structure in many kinds of natural signals.  However, universal theorems guaranteeing the statistical consistency of inference in this model are lacking.  Here, we prove that for almost all diverse enough datasets consistent with this model, the latent dictionary and sparse codes are uniquely identifiable up to an error commensurate with measurement noise. Applications are given to data analysis, neuroscience, and engineering.
+Dictionary learning methods for sparse coding have exposed underlying structure in many kinds of natural signals.  However, universal theorems guaranteeing the statistical consistency of inference in this model are lacking.  Here, we prove that for almost all diverse enough datasets consistent with this model, the latent dictionary and sparse codes are uniquely identifiable up to an error commensurate with measurement noise. Applications are given to data analysis, neuroscience, and engineering.
 \end{abstract}
 
 %\begin{IEEEkeywords}
@@ -58,19 +62,19 @@ Methods for optimizing dictionaries for sparse coding expose underlying structur
 \section{Introduction}\label{Intro}
 
 %\IEEEPARstart{E}{ver} since sparse coding emerged as a compelling explanation for the response properties of neurons in mammalian primary visual cortex \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}, the process of optimizing a dictionary for sparse representation of vector-valued data has become an important step in many signal processing and machine learning applications (see \cite{Zhang15} for a comprehensive review). In the sparse coding via dictionary learning framework, each point in a dataset $Z = \{\mathbf{z}_1, \ldots, \mathbf{z}_N\} \subset \mathbb{R}^n$ is coded as a linear combination of at most $k$ vectors drawn from a learned dictionary $\mathcal{A} \subset \mathbb{R}^n$, where $k < |\mathcal{A}| \ll N$. 
-\IEEEPARstart{A}{n} exciting development in neuroscience took place when the first algorithms to optimize dictionaries for sparse coding were applied to natural images and reproduced response properties of neurons in mammalian visual cortex \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}. Since then, many so-called `dictionary learning' algorithms have been developed and applied to a variety of problems in signal processing and machine learning (see \cite{Zhang15} for a comprehensive review). A popular approach is to encode each vector in a dataset $Z = \{\mathbf{z}_1, \ldots, \mathbf{z}_N\} \subset \mathbb{R}^n$ as a linear combination of at most $k$ vectors drawn from an inferred dictionary $\mathcal{A} \subset \mathbb{R}^n$ of size $m$, where $k < m \ll N$ \cite{Aharon06}. 
+\IEEEPARstart{A}{n} exciting development in neuroscience took place when the first algorithms to optimize dictionaries for sparse coding were applied to natural images and reproduced response properties of neurons in mammalian visual cortex \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}. Since then, many dictionary learning algorithms have been developed and applied to a variety of problems in signal processing and machine learning (see \cite{Zhang15} for a comprehensive review). A popular idea is to encode each vector in a dataset $Z = \{\mathbf{z}_1, \ldots, \mathbf{z}_N\} \subset \mathbb{R}^n$ as a linear combination of at most $k$ vectors drawn from an inferred dictionary $\mathcal{A} \subset \mathbb{R}^n$ of size $m$, where $k < m \ll N$ \cite{Aharon06}. 
 %\IEEEPARstart{E}{ver} since sparse coding of natural images with an optimized dictionary reproduced response properties of neurons in mammalian primary visual cortex \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}, a plethora of dictionary learning algorithms have been developed and applied to a variety of problems in signal processing and machine learning (see \cite{Zhang15} for a comprehensive review). In this model, each vector in a dataset $Z = \{\mathbf{z}_1, \ldots, \mathbf{z}_N\} \subset \mathbb{R}^n$ is encoded by a linear combination of at most $k$ vectors drawn from an inferred dictionary $\mathcal{A} \subset \mathbb{R}^n$ of size $m$, where $k < m \ll N$. 
 % 'encoded by' different from 'approximated by'. Encoded just means any map from data to representation, approximation means this map is determined by finding the closest point of the model to the data. 
 
 % FRITZ2: Painting is confusing. It's not unique, but rather unique to each painter -- still, it could be that each painter has a number of dictionaries associated to them.
 %TODO: Is Olshausen10 reference really appropriate?
 % seems not too bad
-Certain applications may require an understanding of when a dataset admits a unique such `sparse structure'. For instance, the detection of forgeries by analysis of local painting style \cite{hughes2010, Olshausen10} assumes that all dictionaries consistent with training data do not differ appreciably in their ability to sparsely encode new samples. Recently, algorithms with provable convergence to a unique solution under certain conditions have been proposed  (see \cite[Sec.~I-E]{Sun16} for a brief summary of the state-of-the-art). It remains unknown, however, when this problem is well-posed (in the sense of Hadamard \cite{Hadamard1902}) independent of any algorithm.
+Certain applications demand a better understanding of when data admit a unique such `sparse structure'. For instance, detecting forgeries by analysis of local painting style \cite{hughes2010, Olshausen10} requires that all dictionaries consistent with training data do not differ appreciably in their ability to sparsely encode new samples. Recently, algorithms with provable convergence guarantees under certain conditions have been proposed  (see \cite[Sec.~I-E]{Sun16} for a brief summary of the state-of-the-art). It remains unknown, however, when the problem is well-posed in general (as per Hadamard \cite{Hadamard1902}), independent of any algorithm.
 %rests on brush stroke primitives uniquely specifying an artist. 
 % It could be that a forgery has sparse structure with respect to the dictionary but lies in some subspace where no training data lies. 
 % A descriptive model would be able to sparse code all of the data, but drawing samples from it would yield nonsense unless the model was actually a good generative model of the data.
 
-The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is identifiable from $N = m + m(k-1){m \choose k}$ generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $(n, m, k)$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, in almost all cases the dictionary learning problem is well-posed given enough data (Cor.~\ref{ProbabilisticCor}). These guarantees extend easily to the case when only an upper bound on $m$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). We hope the explicit, algorithm-independent criteria which we provide may serve as a useful tool in analyses of dictionary learning procedures.
+The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is identifiable from $N = m + m(k-1){m \choose k}$ generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $(n, m, k)$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, in almost all cases the dictionary learning problem is well-posed given enough data (Cor.~\ref{ProbabilisticCor}). Moreover, these guarantees extend easily to the case when only an upper bound on $m$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). We hope the explicit, algorithm-independent criteria we provide here may serve as a useful tool in analyses of dictionary learning procedures.
 
 % FRITZ: Cite applications of algorithms (e.g. gautam) that use algorithms as blind source separation techniques. And then: what about theoretical justifications of this approach. There is a body of work on guarantees for zero error, but there is nothing for noisy case. Don't assume that everyone is assuming ground truth. Many algorithms have been designed, and yet in the presence of measurement errors there are no theoretical guarantees. Then set up problem, cite Aharon etc.
 % CHRIS: Citing Gautam is ok! We give reason to believe it's unique. Alright, soften up 'ground truth' statement assumptions about people. Save Gautam for discussion? Intro: artist stroke design?
@@ -231,9 +235,10 @@ The \textbf{angle} between subspaces $U,V \subseteq \mathbb{R}^n$ is the angle $
 \cos{\theta(U,V)} := \max\left\{ |\langle \mathbf{u}, \mathbf{v} \rangle|: \substack{ \mathbf{u} \in U \cap (U \cap V)^\perp \cap \mathcal{B} \\ \mathbf{v} \in V \cap (U \cap V)^\perp \cap \mathcal{B} } \right\},
 \end{align*}
 % max replaces sup since we are in a real vector space
-where $\mathcal{B} = \{ \mathbf{x} \in \mathbb{R}^n: |\mathbf{x}|_2 \leq 1\}$.\footnote{It is easy to check that $\cos\theta(U,V) < 1$ for all subspaces $U,V \subseteq \mathbb{R}^m$.}
+where $\mathcal{B} = \{ \mathbf{x} \in \mathbb{R}^n: |\mathbf{x}|_2 \leq 1\}$.\footnote{Note that $\cos\theta(U,V) < 1$ for all subspaces $U,V \subseteq \mathbb{R}^m$.}
 %\footnote{ $\theta$ is one out of a set of \textit{principal} (or \textit{canonical} or \textit{Jordan}) angles between subspaces that are invariant to orthogonal transformations \cite{?}.} 
 \end{definition}
+
  % See Theorem 9.35(1) in Deutsch
 %TODO: mention that we have subbed max for sup because real subspaces are closed?
 % The concept of principal angles between subspaces was first introduced by Jordan in 1875 \cite{?}. The definition of $\theta$ is attributed to Friedrichs \cite{Friedrichs1937OnCertainInequalitiesAnd}}
@@ -244,7 +249,7 @@ The next quantity is based on one used in \cite{Deutsch12} to analyze the conver
 
 %The minimization over permutations in \eqref{xidef} below is done only to remove the dependence the convergence result has on the order in which subspaces are inputted to the alternating projections algorithm.
 \begin{definition}\label{SpecialSupportSet}
-Fix $A \in \mathbb{R}^{n \times m}$, fix a cyclic order on $[m]$, and let $T$ denote the set of contiguous intervals of length $k$ in the order for some $k < m$. For $k > 1$, define:
+Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$ and let $T \subseteq 2^{[m] \choose k}$ contain at least $k$ elements. For $k > 1$, define:
 \begin{align*}
 %\phi_k(A) := \min_{ S_1 \neq \ldots \neq S_k \in {[m] \choose k} } 1 - \xi( A_{S_1}, \ldots, A_{S_k}),
 \phi_T(A) :=  \min_{R \in {T \choose k}} 1 - \xi( \{ A_{S}: S \in R\}),
@@ -254,13 +259,12 @@ where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of subspaces of $\mathbb{
 \xi(\mathcal{V}) := \min_{\sigma \in \frak{S}_k} \left(1 -  \prod_{i=1}^{k-1} \sin^2  \theta \left(V_{\sigma(i)}, \cap_{j>i} V_{\sigma(j)} \right)  \right)^{1/2},
 \end{align*} 
 %
-and $\phi_T(A) := 1$ for $k=1$.\footnote{Note that we always have $\phi_T(A) > 0$, since $\xi(\mathcal{V}) < 1$ always; otherwise, we would have $\cos \theta(U,V) = 1$ for some subspaces $U,V \subseteq \mathbb{R}^m$.}%, in contradiction with $(U \cap V) \cap (U \cap V)^\perp = \emptyset$.
+and set $\phi_T(A) := 1$ for $k=1$.
 \end{definition}
-
-% TODO: Does contiguous really convey shifting by 1? Or does it convey actual side by side intervals?
+Note that we always have $\phi_T(A) > 0$, since $\xi(\mathcal{V}) < 1$ always. (Otherwise, we would have $\cos \theta(U,V) = 1$ for some subspaces $U,V \subseteq \mathbb{R}^m$, which is easily shown to lead to a contradiction.)%, in contradiction with $(U \cap V) \cap (U \cap V)^\perp = \emptyset$.
 
 %=== SPECIFICS OF DETERMINISTIC THEOREM ===%
-The constant $C > 0$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem} is then:
+We are now in a position to state the constant $C > 0$ referred to in Thm. ~\ref{DeterministicUniquenessTheorem}:
 \begin{align}\label{Cdef}
 C = \left( \frac{ \sqrt{k^3}}{ \phi_T(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})},
 \end{align}
@@ -394,7 +398,7 @@ Since $|S'| = k$, we also have $\dim(\text{Span}\{B_{S'}\}) \leq k$; hence, $\di
 \Theta(A_{S}, B_{\pi(S)}) \leq \frac{\varepsilon\sqrt{k}}{ L(AX_{J(S)})}, \indent \text{for } S \in T.
 \end{align}
 
-Thus, from \eqref{rhs} and \eqref{yeyeye} it follows that, for any particular $S \in T$, the inequality in \eqref{GapUpperBound} is satisfied for $\delta < L_2(A)/\sqrt{2}$ by setting $\delta = \frac{ \rho k}{ \phi_T(A) } \left(  \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} \right)$ (see Rem.~\ref{nonzero} for why \mbox{$\phi_T(A) > 0$}). Hence, \eqref{GapUpperBound} holds (for all $S \in T$) when $\delta = C\varepsilon$. %, with $C$ as defined in \eqref{Cdef}.
+Thus, from \eqref{rhs} and \eqref{yeyeye} it follows that, for any particular $S \in T$, the inequality in \eqref{GapUpperBound} is satisfied for $\delta < L_2(A)/\sqrt{2}$ by setting $\delta = \frac{ \rho k}{ \phi_T(A) } \left(  \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} \right)$. Hence, \eqref{GapUpperBound} holds (for all $S \in T$) when $\delta = C\varepsilon$. %, with $C$ as defined in \eqref{Cdef}.
 %\begin{align*}
 %\delta = \left( \frac{ \varepsilon \sqrt{k^3}}{ \phi_k(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}
 %= C\varepsilon.
@@ -479,7 +483,7 @@ We thank Fritz Sommer for turning our attention to the sparse coding problem, Da
 \appendices
 \section{Combinatorial Matrix Analysis}\label{appendixA}
 
-Here, we prove Lem.~\ref{MainLemma}, which is the main ingredient in our proof of Thm.~\ref{DeterministicUniquenessTheorem}. We then outline how additionally assuming the spark condition for $B$ simplifies the proof and also allows for its extension to the case where only an upper bound on the number of columns $m$ of $A$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). 
+Here, we prove Lem.~\ref{MainLemma}, which is the main ingredient in our proof of Thm.~\ref{DeterministicUniquenessTheorem}. We then outline how additionally assuming the spark condition \eqref{SparkCondition} for $B$ simplifies the proof and also allows for its extension to the case where only an upper bound on the number of columns $m$ of $A$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). 
 %This extension is applied to the proof of  Thm.~\ref{DeterministicUniquenessTheorem2} in Appendix~\ref{AppendixB}. 
 
 We first prove some auxiliary lemmas, starting with a proof of Lem.~\ref{MinDimLemma}, which was stated in Section \ref{DUT}. 
@@ -525,7 +529,7 @@ We begin the proof by observing that:
 &\leq \sum_{\ell=1}^k |\mathbf{x} - \Pi_{V_{\ell}} \mathbf{x}|_2 + |\Pi_{V_k}\cdots\Pi_{V_{1}} \mathbf{x} - \Pi_V \mathbf{x}|_2,
 \end{align*}
 %
-by the triangle inequality and the fact that $\|\Pi_{V_{\ell}}\|_2 \leq 1$ for all $\ell$ (as $\Pi_{V_{\ell}}$ are projections).
+by the triangle inequality and the fact that $\|\Pi_{V_{\ell}}\|_2 \leq 1$ for all $\ell$ (since $\Pi_{V_{\ell}}$ are projections).
 %TODO: Define matrix norm used above?
 
 The desired result \eqref{DTILeq} now follows by bounding the second term on the RHS using the following fact \cite[Thm.~9.33]{Deutsch12}:
@@ -544,7 +548,7 @@ Since $z$ may depend on the arbitrary labelling of the $V_i \in \mathcal{V}$, we
 
 %======= GRAPH THEORY LEMMA =======
 
-\begin{lemma}\label{NonEmptyLemma} Fix integers $k < m$, and let $T = \{S_1, \ldots, S_m\}$ be the set of contiguous intervals of length $k$ in some cyclic order of $[m]$. Suppose there exists a map $\pi: T \to {[m] \choose k}$ such that:
+\begin{lemma}\label{NonEmptyLemma} Fix integers $k < m$, and let $T = \{S_1, \ldots, S_m\}$ be the set of intervals of length $k$ in some cyclic order of $[m]$. Suppose there exists a map $\pi: T \to {[m] \choose k}$ such that:
 \begin{align}\label{NonEmpty}
 |\bigcap_{j \in J} \pi(S_j)| \leq |\bigcap_{j \in J} S_j | \ \ \text{for } \ J \in {[m] \choose k}.
 \end{align}
@@ -561,13 +565,13 @@ By iterating the above arguments, we arrive at a partitioning of $Q_m$ into sets
 
 %==== PROOF OF MAIN LEMMA =======
 \begin{proof}[Proof of Lem.~\ref{MainLemma} (Main Lemma)]
-We assume $k \geq 2$ since the case $k = 1$ was proven in Sec.~\ref{DUT}. We assume w.l.o.g. that the cyclic order on $[m]$ is simply $[m]$ and let $T = \{S_1, \ldots, S_m\}$ so that $S_i = \{i, \ldots, i+k-1\}$ are contiguous intervals of length $k$ in the order. We begin by showing that $\dim(\text{Span}\{B_{\pi(S)}\}) = k$ for all $S \in T$. 
+We assume $k \geq 2$ since the case $k = 1$ was proven in Sec.~\ref{DUT}. We assume w.l.o.g. that the cyclic order on $[m]$ is simply $[m]$ and let $T = \{S_1, \ldots, S_m\}$ so that $S_i = \{i, \ldots, i+k-1\}$ for $i \in [m]$ are the intervals of length $k$ in the order. We begin by showing that $\dim(\text{Span}\{B_{\pi(S)}\}) = k$ for all $S \in T$. 
 Fix $S \in T$ and note that by \eqref{GapUpperBound}, all unit vectors $\mathbf{u} \in \text{Span}\{A_{S}\}$ satisfy $d(\mathbf{u}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\phi_T(A)}{\rho k} \delta$ for $\delta < \frac{L_2(A)}{ \sqrt{2}}$. By definition of $L_2(A)$, for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
 \begin{align*}
 L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}.
 \end{align*}
 
-Hence, $\delta < \rho$. Since $\phi_T(A) \leq 1$, we also have $d(\mathbf{u}, \text{Span}\{B_{\pi(S)}\}) < 1$, and it follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S)}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$. Since $|\pi(S)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S)}\}) = k$. %, i.e. the columns of $B_{\pi(S_\sigma(i))}$ are linearly independent. 
+Hence, $\delta < \rho$. Since $\phi_T(A) \leq 1$, we also have $d(\mathbf{u}, \text{Span}\{B_{\pi(S)}\}) < 1$, and it follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{\pi(S)}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$. Since $|\pi(S)| = k$, we in fact have $\dim(\text{Span}\{B_{\pi(S)}\}) = k$, i.e. the columns of $B_{\pi(S)}$ are linearly independent. 
 
 We will now show that:
 \begin{align}\label{fact2}
@@ -580,7 +584,7 @@ d\left( \mathbf{u}, \bigcap_{j \in J} \text{Span}\{A_{S_j}\} \right)
 \leq \frac{\delta}{\rho} \left( \frac{ \phi_T(A) }{1 - \xi( \{ A_{S_j}: j \in J\} ) } \right) \leq \frac{\delta}{\rho},
 \end{align*}
 %
-where the second inequality follows from the Def.~\ref{SpecialSupportSet}. We can be sure in the above that $\xi < 1$, as required by Lem.~\ref{DistanceToIntersectionLemma}, since $\phi_T(A) > 0$ always.
+where the second inequality follows from the Def.~\ref{SpecialSupportSet}. Recall that $\xi < 1$ always.
 % TODO: 
 %1) Show that $\xi < 1$. Suppose $\xi = 1$. Then for every ordering of the arguments V_i, we have cos^2 \theta (V_i,  \cap_j V_{j > i}) = 1 for some i. 
 %then the second argument is a (nontrivial) subset of the first. This never happens with...?
@@ -592,20 +596,21 @@ d\left( \mathbf{u}, A_{\cap_{j \in J} S_j} \right) \leq \frac{\delta}{\rho} \ind
 \end{align}
 In particular, Lem.~\ref{MinDimLemma} (since $\delta/\rho < 1$) implies that $\dim(\text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\}) \leq \dim(\text{Span}\{A_{\cap_{j \in J} S_j}\})$ and \eqref{fact2} follows from the linear independence of the columns of $A_{S_j}$ and $B_{\pi(S_j)}$ for all $j \in [m]$.
 
-Suppose now that $J = \{t-k+1, \ldots, t\}$ so that \mbox{$\cap_{j \in J} S_j = \{t\}$}. By \eqref{fact2}, we have that $\cap_{j \in J} \pi(S_j)$ is either empty or it contains a single element. Lem.~\ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $t \mapsto \cap_{j \in J} \pi(S_j)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_t\}$, we have $d\left( \mathbf{u}, B_{\hat \pi(t)}\right) \leq \delta/\rho$ also. Since $t$ is arbitrary, it follows that for every basis vector $\mathbf{e}_t \in \mathbb{R}^m$, letting $c_t = |A\mathbf{e}_t|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_t \in \mathbb{R}$ such that $|c_tA\mathbf{e}_t - c'_tB\mathbf{e}_{\hat \pi(t)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{\ell \in [m]} c_{\ell}$. This is exactly the supposition in \eqref{1D}, and the result follows from the subsequent arguments of Sec.~\ref{DUT}.
+Fix $t \in [m]$ and suppose now that $J = \{t-k+1, \ldots, t\}$ so that \mbox{$\cap_{j \in J} S_j = \{t\}$}. By \eqref{fact2}, we have that $\cap_{j \in J} \pi(S_j)$ is either empty or it contains a single element. Lem.~\ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $t \mapsto \cap_{j \in J} \pi(S_j)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_t\}$, we have $d\left( \mathbf{u}, B_{\hat \pi(t)}\right) \leq \delta/\rho$ also. Since $t$ is arbitrary, it follows that for every basis vector $\mathbf{e}_t \in \mathbb{R}^m$, letting $c_t = |A\mathbf{e}_t|_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_t \in \mathbb{R}$ such that $|c_tA\mathbf{e}_t - c'_tB\mathbf{e}_{\hat \pi(t)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{\ell \in [m]} c_{\ell}$. This is exactly the supposition in \eqref{1D}, and the result follows from the subsequent arguments of Sec.~\ref{DUT}.
 \end{proof}
 
-The strategy above can be easily modified to prove the following variation of Lem.~\ref{MainLemma}, key to proving Thm.~\ref{DeterministicUniquenessTheorem2}.
+The strategy above can be easily modified to prove the following variation of Lem.~\ref{MainLemma}, key to proving Thm.~\ref{DeterministicUniquenessTheorem2}. 
 %TODO: Check T is right to be used for both A and B here...
 \begin{lemma}[Main Lemma~for $m < m'$]\label{MainLemma2}
-Fix positive integers $n, m, m'$, and $k$ where $k < m < m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that for $S \in T$:
+Fix positive integers $n, m, m'$ and $k$, where $k < m < m'$, and let $T$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: T \to {[m'] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that for $S \in T$:
 \begin{equation}\label{GapUpperBound2}
-\Theta(A_{S}, B_{\pi(S)}) \leq \frac{ \delta }{\rho k} \min(\phi_T(A), \phi_T(B)),
+\Theta(A_{S}, B_{\pi(S)}) \leq \frac{ \delta }{\rho k} \min(\phi_T(A), \phi_{\pi[T]}(B)),
 \end{equation}
 then \eqref{MainLemmaBPD} holds for some $n \times m$ submatrix of $B$. 
 \end{lemma}
+%TODO: Is this set function notation ok? \pi[T]
 
-We state the required modifications briefly. Since $m' > m$, we may not invoke Lem.~\ref{NonEmptyLemma} (which requires $m = m'$) to show that $|\cap_{j \in J} \pi(S_j)| = 1$ for $J = \{t-k+1, \ldots, t\}$. Instead, under the additional assumption that $B$ satisfies the spark condition, we may simply swap the roles of $A$ and $B$ in the proof of \eqref{fact1} to show that $\dim(\text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\}) = \dim(\text{Span}\{A_{\cap_{j \in J} S_j}\})$, from which the required fact then follows. The map $\hat \pi$ is then defined similarly, only now with codomain $[m']$, thereby reducing the proof to the $k=1$ case where the $n \times m$ submatrix of $B$ is formed from the columns indexed by the image of $\hat \pi$. 
+We state the required modifications briefly. Since $m' > m$, we may not invoke Lem.~\ref{NonEmptyLemma} (which requires $m = m'$) to show that $|\cap_{j \in J} \pi(S_j)| = 1$ when $J = \{t-k+1, \ldots, t\}$ for any $t \in [m]$. Instead, under the additional assumption that $B$ satisfies the spark condition, we may simply swap the roles of $A$ and $B$ in the proof of \eqref{fact1} to show that $\dim(\text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\}) = \dim(\text{Span}\{A_{\cap_{j \in J} S_j}\})$, from which the required fact then follows. The map $\hat \pi$ is then defined similarly, only now with codomain $[m']$, thereby reducing the proof to the $k=1$ case where the $n \times m$ submatrix of $B$ is formed from the columns indexed by the image of $\hat \pi$. 
 
 % TODO: Can we prove theorem 3 without spark condition on B via the inductive method of the last paper, i.e. filling all the supports instead of just those in T?
 
@@ -615,7 +620,7 @@ We state the required modifications briefly. Since $m' > m$, we may not invoke L
 \section{Proofs of Thms.~\ref{robustPolythm} \& \ref{DeterministicUniquenessTheorem2} and Cors.~\ref{DeterministicUniquenessCorollary} \& \ref{ProbabilisticCor}}\label{AppendixB}
 
 \begin{proof}[Proof of Cor.~\ref{DeterministicUniquenessCorollary}]
-We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ such that for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^{\ell}_i)^{k,N}_{\ell,i=1}$ are in general linear position (since the $\gamma_i$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of contiguous intervals of length $k$ in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each contains $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$) by setting the nonzero values $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
+We need only demonstrate how to produce $N$ vectors $\mathbf{a}_i$ such that for every interval of length $k$ in some cyclic order on $[m]$, there are  \mbox{$(k-1){m \choose k}+1$} vectors in general linear position supported there. Let $\gamma_1, \ldots, \gamma_N$ be any distinct numbers. Then the columns of the $k \times N$ matrix $V = (\gamma^{\ell}_i)^{k,N}_{\ell,i=1}$ are in general linear position (since the $\gamma_i$ are distinct, any $k \times k$ ``Vandermonde" sub-determinant is nonzero). Next, fix a cyclic order on $[m]$ and let $T$ be the set of intervals of length $k$ in the order. Finally, form the $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ with supports $S \in T$ (partitioning the $a_i$ evenly among these supports so that each contains $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$) by setting the nonzero values $\mathbf{a}_i$ to be those contained in the $i$th column of $V$.
 \end{proof}
 
 %For the proof of Thm.~\ref{ProbabilisticTheorem}, as in \cite{Hillar15}, consider ``symbolic" datasets $Y$ involving indeterminates $A$ and $\mathbf{a}_i$.
@@ -649,7 +654,7 @@ First, note that if a set of measure spaces $\{(X_{\ell}, \Sigma_{\ell}, \nu_{\e
 \begin{proof}[Proof of Thm.~\ref{DeterministicUniquenessTheorem2}]
 The proof is very similar to the proof of Thm.~\ref{DeterministicUniquenessTheorem} in Sec.~\ref{DUT}, the main difference being that now we establish a map $\pi: [m] \to [m']$ satisfying the requirements of Lem.~\ref{MainLemma2} by pigeonholing $(k-1){m' \choose k} + 1$ vectors with respect to holes $[m']$ and eventually applying Lem.~\ref{MainLemma2} in place of Lem.~\ref{MainLemma}. The value of $C$ in this case can be taken to be:
 \begin{align}\label{Cdef2}
-C= \left( \frac{ \sqrt{k^3}}{ \min(\phi_T(A), \phi_T(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
+C= \left( \frac{ \sqrt{k^3}}{ \min(\phi_T(A), \phi_{\pi[T]}(B)) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in T} L_k(AX_{I(S)})}.
 \end{align}
 %This insures that we can establish a one-to-one correspondence between subspaces spanned by the $m'$ columns of $B$ and nearby subspaces spanned by the $m$ columns of $A$ despite the fact that $m < m'$. 
 \end{proof}
