@@ -48,7 +48,11 @@ Redwood Center for Theoretical Neuroscience, Berkeley, CA, USA
 \maketitle
 
 \begin{abstract}
-Dictionary learning methods for sparse coding have exposed underlying structure in many kinds of natural signals.  However, universal theorems guaranteeing the statistical consistency of inference in this model are lacking.  Here, we prove that for almost all diverse enough datasets consistent with the model, latent dictionary and sparse codes are uniquely identifiable up to an error commensurate with measurement noise. Applications are given to data analysis, neuroscience, and engineering.
+Dictionary learning methods for sparse coding have exposed underlying structure in many kinds of natural signals.  
+However, universal theorems guaranteeing the statistical consistency of inference in this model are lacking.  
+Here, we prove that for almost all diverse enough datasets generated from the model latent dictionaries and sparse 
+codes are uniquely identifiable up to an error commensurate with measurement noise. 
+Applications are given to data analysis, neuroscience, and engineering.
 \end{abstract}
 
 %\begin{IEEEkeywords}
@@ -61,20 +65,22 @@ Dictionary learning methods for sparse coding have exposed underlying structure 
 
 %Sparse coding is a concept originally developed in neuroscience to account for sensory representations in the brain, which now sees widespread use in many image and signal processing and data analysis tasks. %copied word-for-word from the grant Bruno, Fritz, Yubei, Saeed and I submitted.
 \section{Introduction}\label{Intro}
-\IEEEPARstart{A}{n} exciting development took place in neuroscience when the first algorithms to optimize dictionaries for sparse coding were applied to natural images and reproduced response properties of neurons in mammalian visual cortex \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}. Since then, many dictionary learning algorithms have been developed and applied to a variety of problems in signal processing and machine learning (see \cite{Zhang15} for a comprehensive review). A popular idea is to encode each datum as a linear combination of at most $k$ $n$-dimensional vectors drawn from an inferred dictionary of size $m$, where $k < m \ll N$ \cite{Aharon06}. 
+%\IEEEPARstart{A}{n} exciting development in computational neuroscience when the first algorithms to optimize dictionaries for sparse coding were applied to natural images and reproduced response properties of neurons in mammalian visual cortex \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}.
+%\IEEEPARstart{A}{n} exciting development in computational neuroscience was the reproduction of response properties of neurons in the mammalian visual cortex by the first algorithms to optimize dictionaries for sparse coding \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}.
+\IEEEPARstart{A}{n} exciting discovery in computational neuroscience was that the response properties of neurons in the mammalian visual cortex could be reproduced by algorithms designed to optimize dictionaries for sparse coding  of natural images \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}. Since then, many dictionary learning algorithms have been developed and applied to a variety of problems in signal processing and machine learning (see \cite{Zhang15} for a comprehensive review). A popular formulation of the idea is to encode each datum as a linear combination of at most $k$ $n$-dimensional vectors from an inferred dictionary of size $m$, where $k < m \ll N$. 
 % 'encoded by' different from 'approximated by'. Encoded just means any map from data to representation, approximation means this map is determined by finding the closest point of the model to the data. 
 
-Certain applications demand an understanding of when a dataset admits a unique such `sparse structure'. For instance, detecting forgeries by analysis of local painting style \cite{hughes2010, Olshausen10} requires that all dictionaries consistent with training data do not differ appreciably in their ability to sparsely encode new samples. Recently, algorithms with provable convergence guarantees under certain conditions have been proposed  (see \cite[Sec.~I-E]{Sun16} for a brief summary of the state-of-the-art). It remains unknown, however, when the problem is well-posed (as per Hadamard \cite{Hadamard1902}) in general -- that is, independent of constraints idiosyncratic to any particular algorithm.
+Certain applications call for a unique such ``sparse structure". For instance, detecting forgeries by analysis of local painting style \cite{hughes2010, Olshausen10} requires that all dictionaries consistent with training data do not differ appreciably in their ability to sparsely encode new samples. Recently, algorithms with provable convergence guarantees under certain conditions have been proposed  (see \cite[Sec.~I-E]{Sun16} for a brief summary of the state-of-the-art). It has remained unknown, however, when the problem is well-posed in general (as per Hadamard \cite{Hadamard1902}) -- that is, independent of constraints specific to a particular algorithm.
 %rests on brush stroke primitives uniquely specifying an artist. 
 % It could be that a forgery has sparse structure with respect to the dictionary but lies in some subspace where no training data lies. 
 % A descriptive model would be able to sparse code all of the data, but drawing samples from it would yield nonsense unless the model was actually a good generative model of the data.
 
-The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is identifiable from $N = m + m(k-1){m \choose k}$ generic noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $(n, m, k)$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, in almost all cases the dictionary learning problem is well-posed given enough data (Cor.~\ref{ProbabilisticCor}). Moreover, these guarantees extend easily to the case when only an upper bound on $m$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). We hope the explicit, algorithm-independent criteria we provide here may serve as a useful tool in analyses of dictionary learning procedures.
+The main finding of this work is that any dictionary satisfying the spark condition \eqref{SparkCondition} from compressed sensing (CS) is identifiable from as few as $N = m + m(k-1){m \choose k}$ noisy sparse linear combinations of its elements up to an error linear in the noise (Thm.~\ref{DeterministicUniquenessTheorem}). In fact, provided $(n, m, k)$ satisfy the nearly-optimal CS inequality \eqref{CScondition}, in almost all cases the dictionary learning problem is well-posed given enough data (Cor.~\ref{ProbabilisticCor}). Moreover, these guarantees extend easily to the case when only an upper bound on $m$ is known (Thm.~\ref{DeterministicUniquenessTheorem2}). We hope the explicit, algorithm-independent criteria we provide here may serve as a useful tool in analyses of dictionary learning procedures.
 
 % FRITZ: Cite applications of algorithms (e.g. gautam) that use algorithms as blind source separation techniques. And then: what about theoretical justifications of this approach. There is a body of work on guarantees for zero error, but there is nothing for noisy case. Don't assume that everyone is assuming ground truth. Many algorithms have been designed, and yet in the presence of measurement errors there are no theoretical guarantees. Then set up problem, cite Aharon etc.
 % CHRIS: Citing Gautam is ok! We give reason to believe it's unique. Alright, soften up 'ground truth' statement assumptions about people. Save Gautam for discussion? Intro: artist stroke design?
 
-We state the dictionary learning problem considered here more precisely as follows. Fix a dictionary represented as the columns $A_j$ of a matrix $A \in \mathbb R^{n \times m}$ and suppose the dataset $Z$ consists of measurements:
+We state the dictionary learning problem considered here more precisely as follows. Fix a dictionary represented as the columns $A_j$ of a matrix $A \in \mathbb R^{n \times m}$ and suppose a dataset $Z$ consists of measurements:
 \begin{align}\label{LinearModel}
 \mathbf{z}_i = A\mathbf{a}_i + \mathbf{n}_i,\indent \text{$i=1,\ldots,N$},
 \end{align}
@@ -93,7 +99,7 @@ A\mathbf{x}_1 = A\mathbf{x}_2 \implies \mathbf{x}_1 = \mathbf{x}_2,\indent \text
 \end{align}
 %
 % [ *** Can we motivate more necessary conditions using theorems of Li15, too? Thm.~2.8. *** ] 
-which is evidently a necessary condition given that the $\mathbf{a}_i$ are known only to be $k$-sparse. %TODO: Is it though?? The matrix just has to be injective on *these* a_i...
+which is evidently a necessary condition given that the $\mathbf{a}_i$ are known only to be $k$-sparse.\footnote{For example, no such uniqueness exists when $A$ has rank 1.} %TODO: Make PERFECT
 Matrices of the form $PD$ thus form the \emph{ambiguity transformation group} inherent to the noiseless problem subject to these constraints \cite{Li15}. 
 
 We introduce the following terminology to handle $\eta > 0$.
@@ -111,10 +117,10 @@ Fix $Y = \{ \mathbf{y}_1, \ldots, \mathbf{y}_N\} \subset \mathbb{R}^n$. We say $
 \end{align}
 \end{definition}
 
-We ask here: \emph{When does $Y \subset \mathbb{R}^n$ have a stable $k$-sparse representation in $\mathbb{R}^m$?} To see how a positive answer to this question informs the interpretation of solutions to Problem \ref{InverseProblem}, suppose that \mbox{$Y = \{A \mathbf{a}_1, \ldots, A\mathbf{a}_N\}$} has a stable $k$-sparse representation in $\mathbb R^m$, and fix $\delta_1, \delta_2$ to be the desired accuracy in recovery \eqref{def1}. Consider now any dataset $Z$ generated as in \eqref{LinearModel} that has $\eta \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$. Then, any dictionary $B$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N$ solving Problem \ref{InverseProblem} are necessarily close to the original matrix $A$ and codes $\mathbf{a}_i$ (i.e., satisfy \eqref{def1}).  
+We ask here: \emph{When does $Y \subset \mathbb{R}^n$ have a stable $k$-sparse representation in $\mathbb{R}^m$?} To see how an affirmative answer to this question informs the interpretation of solutions to Problem \ref{InverseProblem}, suppose that \mbox{$Y = \{A \mathbf{a}_1, \ldots, A\mathbf{a}_N\}$} has a stable $k$-sparse representation in $\mathbb R^m$, and fix $\delta_1, \delta_2$ to be the desired accuracy in recovery \eqref{def1}. Consider now any dataset $Z$ generated as in \eqref{LinearModel} that has $\eta \leq \frac{1}{2} \varepsilon(\delta_1, \delta_2)$. Then, any dictionary $B$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N$ solving Problem \ref{InverseProblem} are necessarily close to the original matrix $A$ and codes $\mathbf{a}_i$ (i.e., satisfy \eqref{def1}).  
 
 %Our results, outlined in Sec.~\ref{Results}, include an explicit form for $\varepsilon(\delta_1, \delta_2)$ in Thm.~\ref{DeterministicUniquenessTheorem}. 
-In the next section, we give precise statements of our main results, which include an explicit form for $\varepsilon(\delta_1, \delta_2)$. We then prove our main theorem (Thm.~\ref{DeterministicUniquenessTheorem}) in Sec.~\ref{DUT} after listing some additional definitions and lemmas required for the proof, including our main tool from combinatorial matrix analysis (Lem.~\ref{MainLemma}). Our proof is a refinement of the arguments in \cite{Hillar15} to handle noise and to reduce the sufficient number of samples from $N=k{m \choose k}^2$ to $N = m + m(k-1){m \choose k}$. All other proofs are relegated to the appendices. Finally, several potential applications are discussed in our discussion, Sec.~\ref{Discussion}.
+In the next section, we give precise statements of our main results, which include an explicit form for $\varepsilon(\delta_1, \delta_2)$. We then prove our main theorem (Thm.~\ref{DeterministicUniquenessTheorem}) in Sec.~\ref{DUT} after listing some additional definitions and lemmas required for the proof, including our main tool from combinatorial matrix analysis (Lem.~\ref{MainLemma}). Our proof is a refinement of the arguments in \cite{Hillar15} to handle noise and to reduce the sufficient number of samples from $N=k{m \choose k}^2$ to $N = m + m(k-1){m \choose k}$. All other proofs are relegated to the appendices. Finally, several potential applications are considered in our discussion, Sec.~\ref{Discussion}.
 
 \section{Results}\label{Results}
 
@@ -135,11 +141,12 @@ Specifically, there exists a constant $C > 0$ for which the following holds for 
 |A_j-(BPD)_j|_2 \leq C\varepsilon,
 \end{align}
 %
-for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Moreover, if $\varepsilon < \varepsilon_0 := \frac{L_{2k}(A)}{\sqrt{2k}}C^{-1}$, then $L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \frac{\varepsilon}{\varepsilon_0} \right)$ and for all $i \in [N]$:
+for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diagonal matrix $D \in \mathbb{R}^{m \times m}$. Moreover, if $\varepsilon < \varepsilon_0 := \frac{L_{2k}(A)}{\sqrt{2k}}C^{-1}$, then $L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \varepsilon / \varepsilon_0 \right)$ and for all $i \in [N]$:
 \begin{align}\label{b-PDa}
 |\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_1 &\leq \frac{\varepsilon }{ \varepsilon_0 - \varepsilon} \left( C^{-1}+|\mathbf{a}_i|_1 \right).
 \end{align}
-\end{theorem}
+\end{theorem} 
+The constant $C$ is explicitly defined in \eqref{Cdef} below.
 
 % NOTE: The upper bound on eps is due to the fact that any two vectors in the plane can be a permutation-scaling away from each other if this bound is exceeded.
 
@@ -153,11 +160,15 @@ for some permutation matrix $P \in \mathbb{R}^{m \times m}$ and invertible diago
 %[ *** So inference is stable for small enough error! There is no multiplicity of alternative models that also happen to work. Regression models have a fixed $A$ (i.e. the values of the variables we are regressing on). Here, in this model, we don't specify the $A$, instead we learn what the best regressor variables would be if they existed. And we want to combine regressors for different problems so as to save resources. Thought of all this reading section 8 of the Breiman paper on data models vs. algorithmic models.***]
 
 %TODO: Add epsilon_0 into the max?
-An important consequence, with $C$  explicitly defined in \eqref{Cdef} below, is that \eqref{def1} is guaranteed provided $\varepsilon$ does not exceed:
+
+ 
+An important consequence of this result is that \eqref{def1} is guaranteed provided $\varepsilon$ does not exceed:
 \begin{align*}
 %\varepsilon(\delta_1, \delta_2) := \min \left\{ \frac{\delta_1}{ C }, \frac{ \delta_2 \varepsilon_0}{\delta_2 + \max_{i \in [N]} |\mathbf{a}_i|_1 + C^{-1}} \right\}. \\
 \varepsilon(\delta_1, \delta_2) := \min \left\{ \frac{\delta_1}{ C }, \frac{ \delta_2 L_{2k}(A) / \sqrt{2k}}{ 1 + C \left( \max_{i \in [N]} |\mathbf{a}_i|_1  + \delta_2 \right) } \right\}.
 \end{align*}
+
+
 %
 %at least for $\delta_1, \delta_2 \geq 0$ small enough to satisfy $\varepsilon(\delta_1, \delta_2) < \varepsilon_0$. 
 % The constant $C$ is explicitly defined in \eqref{Cdef}, below.
@@ -184,18 +195,18 @@ f(A) = \prod_{S \in {[m] \choose k}} \sum_{S' \in {[n] \choose k}} (\det A_{S',S
 %
 where for any $S' \in {[n] \choose k}$ and $S \in {[m] \choose k}$, the symbol $A_{S',S}$ denotes the submatrix of entries $A_{ij}$ with $(i,j) \in S' \times S$. 
 
-Since $f$ is a real analytic function, it is enough to show that at least \emph{one} substitution of real numbers satisfies $f(A) \neq 0$ to conclude that its zeroes form a set with measure zero. Hence, \emph{every} $n \times m$ matrix $A$ satisfies \eqref{SparkCondition} (outside a set of measure zero) provided \eqref{CScondition} holds for a value of $\gamma$ for \emph{some}  distribution. 
+Since $f$ is a real analytic function, it is enough to show that at least \emph{one} substitution of real numbers satisfies $f(A) \neq 0$ to conclude that its zeroes form a set with measure zero. Hence, \emph{every} $n \times m$ matrix $A$ outside a set of measure zero satisfies \eqref{SparkCondition} provided \eqref{CScondition} holds for a value of $\gamma$ for \emph{some} distribution. We remark that the precise relationship between $m$, $n$, and $k$ guaranteeing that $f$ is not identically zero is still an open problem in real algebraic geometry. In any case, we set $\gamma_0$ to be the smallest known such $\gamma$.
 
 It so happens that a similar statement applies to sets of vectors with a stable sparse representation. As in \cite[Sec.~IV]{Hillar15}, consider the ``symbolic" dataset $Y = \{A\mathbf{a}_1,\ldots,A \mathbf{a}_N\}$ generated by indeterminate $A$ and $k$-sparse $\mathbf{a}_1, \ldots, \mathbf{a}_N$. 
 \begin{theorem}\label{robustPolythm} 
-Fix $n, m$, $k < m$. There is a polynomial in the entries of $A$ and the $\mathbf{a}_i$ with the following property:  if the polynomial evaluates to a nonzero number and for every interval of length $k$ in some cyclic order on $[m]$ at least \mbox{$(k-1){m \choose k}+1$} of the resulting vectors $\mathbf{a}_i$ are supported on that interval, then $Y$ has a stable $k$-sparse representation in $\mathbb{R}^m$. In particular, either no substitutions impart to $Y$ this property or all but a Borel set of measure zero do. 
+Fix $n, m$, $k < m$. There is a polynomial in the entries of $A$ and the $\mathbf{a}_i$ with the following property:  if the polynomial evaluates to a nonzero number and for every interval of length $k$ in some cyclic order on $[m]$ at least \mbox{$(k-1){m \choose k}+1$} of the resulting vectors $\mathbf{a}_i$ are supported on that interval, then $Y$ has a stable $k$-sparse representation in $\mathbb{R}^m$ (Def.~\ref{Uniqueness}). In particular, either no substitutions impart to $Y$ this property or all but a Borel set of measure zero do. 
 \end{theorem}
 
 % this is cool, but let's just save it for later...i can ask around.  -cjh
 %An interesting open question in real algebraic geometry is which collections of $(m,n,k)$ determine this last ``or".
 
 \begin{corollary}\label{ProbabilisticCor}
-Fix $n, m$, and $k$ satisfying \eqref{CScondition} for a value of $\gamma$ associated to any particular distribution (e.g., that with the smallest known $\gamma$), and let the entries of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures absolutely continuous with respect to the standard Borel measure $\mu$. If at least $(k-1){m \choose k} + 1$ of the vectors $\mathbf{a}_i$ are supported on each interval of length $k$ in some cyclic order on $[m]$, then $Y$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with probability one.
+Fix $n, m$, and $k$ satisfying \eqref{CScondition} for $\gamma = \gamma_0$, and let the entries of the matrix $A \in \mathbb{R}^{n \times m}$ and $k$-sparse vectors $\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$ be drawn independently from probability measures absolutely continuous with respect to the standard Borel measure $\mu$. If at least $(k-1){m \choose k} + 1$ of the vectors $\mathbf{a}_i$ are supported on each interval of length $k$ in some cyclic order on $[m]$, then $Y$ has a stable $k$-sparse representation in $\mathbb{R}^m$ with probability one.
 \end{corollary}
 
 %The argument in \cite{Hillar15} shows that if $k+1$ random $\mathbf{a}_i$ are drawn for \emph{each} support in ${[m] \choose k}$, then $Y$ has a unique $k$-sparse representation in $\mathbb{R}^m$ (up to symmetries) with probability one. This representation can now be said to be stable as well. %[ ** TODO: Double check this...see last steps of proof of Theorem 2 in \cite{Hillar15} ** ] 
@@ -219,7 +230,7 @@ In other words, the columns of $B$ contain (up to noise, after appropriate scali
 % 			Preliminaries
 %===================================
 We first briefly outline our main tools, which include general notions of angle (Def.~\ref{FriedrichsDefinition}) and distance (Def.~\ref{GapMetricDef}) between subspaces as well as a (stable) uniqueness result in matrix analysis (Lem.~\ref{MainLemma}).
-Given a set $\mathcal{X}$, let ${\mathcal{X} \choose k}$ denote the set of all subsets of $\mathcal{X}$ of size $k$. Denote by $\mathbf{e}_i$ for $i \in [m]$ the canonical basis vectors in $\mathbb{R}^m$ and let $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ be the $\mathbb{R}$-linear span of vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$. Given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$, let $M_S$ be the submatrix with columns $M_j$ for $j \in S$, which will also denote its column space when appropriate. Let $\frak{S}_{k}$ denote the set of permutations (bijections) on $k$ elements.
+Given a set $\mathcal{T}$, let ${\mathcal{T} \choose k}$ denote the set of all subsets of $\mathcal{T}$ of size $k$. Denote by $\mathbf{e}_i$ for $i \in [m]$ the canonical basis vectors in $\mathbb{R}^m$ and let $\text{Span}\{\mathbf{v}_1, \ldots, \mathbf{v}_\ell\}$ be the $\mathbb{R}$-linear span of vectors $\mathbf{v}_1, \ldots, \mathbf{v}_\ell$. Given $S \subseteq [m]$ and $M \in \mathbb{R}^{n \times m}$, let $M_S$ be the submatrix with columns $M_j$ for $j \in S$, which will also denote its column space when appropriate. Let $\frak{S}_{k}$ denote the set of permutations (bijections) on $k$ elements.
 %Note: the gap is not a metric
 % we did before earlier. no we didn't....
 
@@ -243,10 +254,10 @@ The next quantity is based on one used in \cite{Deutsch12} to analyze the conver
 
 %The minimization over permutations in \eqref{xidef} below is done only to remove the dependence the convergence result has on the order in which subspaces are inputted to the alternating projections algorithm.
 \begin{definition}\label{SpecialSupportSet}
-Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$ and let $T \subseteq {[m] \choose k}$ be of size at least $k$. For $k > 1$, define:
+Fix $A \in \mathbb{R}^{n \times m}$ and $k < m$ and let $\mathcal{T} \subseteq {[m] \choose k}$ be of size at least $k$. For $k > 1$, define:
 \begin{align*}
 %\phi_k(A) := \min_{ S_1 \neq \ldots \neq S_k \in {[m] \choose k} } 1 - \xi( A_{S_1}, \ldots, A_{S_k}),
-\phi_\mathcal{T}(A) :=  \min_{R \in {T \choose k}} 1 - \xi( \{ A_{S}: S \in R\}),
+\phi_\mathcal{T}(A) :=  \min_{T \in {\mathcal{T} \choose k}} 1 - \xi( \{ A_{S}: S \in T\}),
 \end{align*}
 where for any set $\mathcal{V} = \{V_1, \ldots, V_k\}$ of subspaces of $\mathbb{R}^m$:
 \begin{align*}
@@ -263,7 +274,7 @@ We now state the constant $C > 0$ referred to in Thm. ~\ref{DeterministicUniquen
 C = \left( \frac{ \sqrt{k^3}}{ \phi_\mathcal{T}(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in \mathcal{T}} L_k(AX_{I(S)})},
 \end{align}
 %
-where $\mathcal{T}$ is the set intervals in the cyclic order, $X$ is the $m \times N$ matrix with columns $\mathbf{a}_i$, and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$.\footnote{We can be sure that $C$ is positive and well-defined, since $|A_j|_2 > 0$ for all $j$ by \eqref{SparkCondition} and $\min_{S \in \mathcal{T}} L_k(AX_{I(S)}) > 0$ by the fact that $L_k(A) > 0$ and every $k$ columns of $X_{I(S)}$ are linearly independent.}
+where $\mathcal{T}$ is the set intervals in the cyclic order, $X$ is the $m \times N$ matrix with columns $\mathbf{a}_i$, and $I(S) := \{i : \text{supp}(\mathbf{a}_i) = S\}$.\footnote{That $C > 0$ is well-defined follows from $L_k(A) > 0$ and the general linear position of the $\mathbf{a}_i$, since then $|A_j|_2 > 0$ for all $j$ and $\min_{S \in \mathcal{T}} L_k(AX_{I(S)}) > 0$.}
 
 
 %OLD:
@@ -271,7 +282,7 @@ where $\mathcal{T}$ is the set intervals in the cyclic order, $X$ is the $m \tim
 %$\text{Span}(A_{S_1}) \supseteq \cap_{j=2}^k \text{Span}(A_{S_j})$ for some $S_1, \ldots, S_k \in {[m] \choose k}$, which would contradict \eqref{SparkCondition}.
 
 \begin{definition}\label{GapMetricDef}
-The \textbf{gap} (or \textbf{aperture}) $\Theta(U,V)$ between subspaces $U, V \subseteq \mathbb{R}^m$ is given by \cite{Kato2013}: 
+The \textbf{gap} (or \textbf{aperture}) $\Theta(U,V)$ between subspaces $U, V \subseteq \mathbb{R}^m$ is given by \cite[Sec.~2]{Kato2013}: 
 \begin{equation*}
 \Theta(U,V) := \max \big\{ \sup_{\mathbf{u} \in U, |\mathbf{u}|_2 = 1} d(\mathbf{u},V), \sup_{\mathbf{v} \in V, |\mathbf{v}|_2 = 1} d(\mathbf{v},U) \big\},
 \end{equation*}
@@ -284,7 +295,7 @@ We now state our uniqueness result in matrix analysis, generalizing \cite[Lem.~1
 
 %===========          MAIN LEMMA (K > 1)             =================
 \begin{lemma}[Main Lemma]\label{MainLemma}
-Fix $n, m$, $k < m$, and let $\mathcal{T}$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} and has maximum column $\ell_2$-norm $\rho$.  If there exists a map $\pi: \mathcal{T} \to {[m] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that: 
+Fix $n, m$, $k < m$, and let $\mathcal{T}$ be the set of intervals of length $k$ in some cyclic order on $[m]$. Let $A, B \in \mathbb{R}^{n \times m}$ and suppose that $A$ satisfies the spark condition \eqref{SparkCondition} and has maximum column $\ell_2$-norm $\rho$.  If there exists a map $\pi: \mathcal{T} \to {[m] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that: 
 \begin{equation}\label{GapUpperBound}
 \Theta(A_{S}, B_{\pi(S)}) \leq \frac{ \phi_\mathcal{T}(A) }{\rho k} \delta, \indent \text{for all } S \in \mathcal{T},
 \end{equation}
@@ -307,6 +318,7 @@ If $U, V$ are subspaces of $\mathbb{R}^{m}$, then:
 d(\mathbf{u},V) < |\mathbf{u}|_2 \ \text{and} \  \mathbf{u} \in U \setminus{\{\mathbf{0}\}} \implies \dim(U) \leq \dim(V).
 \end{equation*}
 \end{lemma}
+%
 Finally, we often use $|\mathbf{x}|_1 \leq \sqrt{k} |\mathbf{x}|_2$ for $k$-sparse $\mathbf{x} \in \mathbb{R}^m$.
 
 %===================================
@@ -322,18 +334,18 @@ C
 \geq \left( \min_{\ell \in [m]} |c_{\ell}| \right)^{-1}.
 \end{align}
 
-Suppose that for some $B \in \mathbb{R}^{n \times m}$ and $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ for $i \in [m]$. Since the $\mathbf{b}_i$ are 1-sparse, there are $c'_1, \ldots, c'_m \in \mathbb{R}$ and $\pi: [m] \to [m]$ with:
+Suppose that for some $B \in \mathbb{R}^{n \times m}$ and $1$-sparse $\mathbf{b}_i \in \mathbb{R}^m$ we have  $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ for $i \in [m]$. Then there are $c'_1, \ldots, c'_m \in \mathbb{R}$ and $\pi: [m] \to [m]$ with:
 \begin{align}\label{1D}
 |c_jA_j - c'_jB_{\pi(j)}|_2 \leq \varepsilon, \ \ \text{for } \  j \in [m].
 \end{align} 
 Note that $c'_j \neq 0$ for all $j$ since otherwise (by definition of $L_2(A)$), we would have $|c_jA_j|_2 < \min_{\ell \in [m]}|c_{\ell}A_{\ell}|_2$. 
 
 We  now show that $\pi$ is injective (and thus is a permutation).
-Suppose that $\pi(j_1) = \pi(j_2) = \ell$ for some $j_1 \neq j_2$ and $\ell$. Then, $|c_{j_2}A_{j_2} - c'_{j_2}B_{\ell}|_2 \leq \varepsilon$ and $|c_{j_1}A_{j_1} - c'_{j_1} B_{\ell}|_2  \leq \varepsilon$. Scaling and summing these inequalities by $|c'_{j_1}|$ and $|c'_{j_2}|$, respectively, and applying the triangle inequality, we obtain:
+Suppose that $\pi(i) = \pi(j) = \ell$ for some $i \neq j$ and $\ell$. Then, $|c_{j}A_{j} - c'_{j}B_{\ell}|_2 \leq \varepsilon$ and $|c_{i}A_{i} - c'_{i} B_{\ell}|_2  \leq \varepsilon$. Scaling and summing these inequalities by $|c'_{i}|$ and $|c'_{j}|$, respectively, and applying the triangle inequality, we obtain:
 \begin{align}\label{contra}
-(|c'_{j_1}| + |c'_{j_2}|) \varepsilon
-&\geq |A(c'_{j_1}c_{j_2} \mathbf{e}_{j_2} - c'_{j_2}c_{j_1}\mathbf{e}_{j_1})|_2 \nonumber \\ 
-&\geq \frac{L_2(A)}{\sqrt{2}} \left( |c'_{j_1}| + |c'_{j_2}| \right) \min_{\ell \in [m]} |c_\ell |.
+(|c'_{i}| + |c'_{j}|) \varepsilon
+&\geq |A(c'_{i}c_{j} \mathbf{e}_{j} - c'_{j}c_{i}\mathbf{e}_{i})|_2 \nonumber \\ 
+&\geq \frac{L_2(A)}{\sqrt{2}} \left( |c'_{i}| + |c'_{j}| \right) \min_{\ell \in [m]} |c_\ell |.
 \end{align}
 %
 %where the last inequality follows from the definition of $L_2(A)$ and (\ref{sqrtk}). 
@@ -345,7 +357,7 @@ Since \eqref{contra} contradicts \eqref{C1} and our upper bound on $\varepsilon$
 
 % ======== b - PDa =========
 
-It turns out that \eqref{Cstable} already implies in general the recovery result \eqref{b-PDa} for $k \geq 1$. To see why, note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$, the triangle inequality gives \mbox{$|(A-BPD)\mathbf{x}|_2  \leq C\varepsilon|\mathbf{x}|_1 \leq C \varepsilon \sqrt{2k}  |\mathbf{x}|_2$}. Thus, $|BPD\mathbf{x}|_2 \geq | |A\mathbf{x}|_2 - |(A-BPD)\mathbf{x}|_2 | \geq (L_{2k}(A) - \sqrt{2k}C\varepsilon ) |\mathbf{x}|_2$, where we drop the absolute value since $\varepsilon < \varepsilon_0 := \frac{L_{2k}(A)}{\sqrt{2k}}C^{-1}$. Hence, $L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \varepsilon/\varepsilon_0 \right) > 0$ and \eqref{b-PDa} follows from:
+It turns out that \eqref{Cstable} already implies in general the recovery result \eqref{b-PDa} for $k \geq 1$ when $\varepsilon < \varepsilon_0 := \frac{L_2(A)}{2k}C^{-1}$. To see why, note that for all $2k$-sparse $\mathbf{x} \in \mathbb{R}^m$, the triangle inequality gives \mbox{$|(A-BPD)\mathbf{x}|_2  \leq C\varepsilon|\mathbf{x}|_1 \leq C \varepsilon \sqrt{2k}  |\mathbf{x}|_2$}. Thus, $|BPD\mathbf{x}|_2 \geq | |A\mathbf{x}|_2 - |(A-BPD)\mathbf{x}|_2 | \geq (L_{2k}(A) - \sqrt{2k}C\varepsilon ) |\mathbf{x}|_2$, where we drop the absolute value since $\varepsilon < \varepsilon_0$. Hence, $L_{2k}(BPD) \geq L_{2k}(A)\left( 1 - \varepsilon/\varepsilon_0 \right) > 0$ and \eqref{b-PDa} then follows from:
 \begin{align*}
 |D^{-1}P^{\top}\mathbf{b}_i - \mathbf{a}_i|_1
 %&\leq \sqrt{2k} |\mathbf{a}_i - D^{-1}P^{\top}\mathbf{b}_i|_2 \\
@@ -360,7 +372,7 @@ It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows f
 
 %========          PROOF OF THEOREM 1        ============
 \begin{proof}[Proof of Thm.~\ref{DeterministicUniquenessTheorem}]
-From above, we may assume that $k > 1$. Let $\mathcal{T}$ be the set of intervals of length $k$ in the given cyclic order of $[m]$, and fix $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^m$ and $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} as in the statement of the theorem. %We claim $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$. 
+From above, we may assume that $k > 1$. Let $\mathcal{T}$ be the set of intervals of length $k$ in the given cyclic order on $[m]$, and fix $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^m$ and $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} as in the statement of the theorem. %We claim $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$. 
 
 Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse \mbox{$\mathbf{b}_i \in \mathbb{R}^m$} such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in \mathcal{T}$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of $k$ indices $J(S)$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S'$, respectively.
 
@@ -373,7 +385,7 @@ Let $X$ and $X'$ be the $m \times N$ matrices with columns $\mathbf{a}_i$ and $\
 \leq \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |AX_{J(S)}\mathbf{c}|_2 
 = \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} |\mathbf{y}|_2.
 \end{align*}
-In particular, we have $d(\mathbf{y}, B_{S'}) \leq \varepsilon\sqrt{k} / L(AX_{J(S)})$ for all unit $\ell_2$-norm $\mathbf{y} \in \text{Span}\{A_{S}\}$.
+In particular, the inequality $d(\mathbf{y}, B_{S'}) \leq \varepsilon\sqrt{k} / L(AX_{J(S)})$ holds for all $\mathbf{y} \in \text{Span}\{A_{S}\}$ having unit $\ell_2$-norm.
 %\begin{align}\label{ABSubspaceDistance}
 %\sup_{ \substack{ \mathbf{y} \in \text{Span}\{A_{S}\} \\ |\mathbf{y}|_2 = 1} } d(\mathbf{y}, B_{S'}) \leq \frac{\varepsilon\sqrt{k}}{L(AX_{J(S)})}.
 %\end{align}
@@ -382,7 +394,7 @@ We now show that \eqref{Cstable} follows if $\varepsilon < \frac{L_2(A)}{\sqrt{2
 \begin{align}\label{rhs}
 \sup_{ \substack{ \mathbf{y} \in \text{Span}\{A_{S}\} \\ |\mathbf{y}|_2 = 1} } d(\mathbf{y}, B_{S'}) \leq \frac{\varepsilon\sqrt{k}}{L(AX_{J(S)})}
 %&<  \frac{\phi_k(A) L_2(A)}{\rho k \sqrt{2}} \left( \frac{\min_{S \in \mathcal{T}}L_k(AX_{I(S)})}{L(AX_{J(S)})} \right) \nonumber \\
-&\leq \frac{\phi_\mathcal{T}(A) L_2(A)}{\rho k \sqrt{2}}.
+&< \frac{\phi_\mathcal{T}(A) L_2(A)}{\rho k \sqrt{2}}.
 \end{align}
 Since $L_2(A) \leq \rho \sqrt{2}$ and $\phi_\mathcal{T}(A) \leq 1$, the RHS of \eqref{rhs} is strictly less than one. It follows by Lem.~\ref{MinDimLemma} that $\dim(\text{Span}\{B_{S'}\}) \geq \dim(\text{Span}\{A_{S}\}) = k$. % (since every $k$ columns of $A$ are linearly independent). 
 Since $|S'| = k$, we also have $\dim(\text{Span}\{B_{S'}\}) \leq k$; hence, $\dim(\text{Span}\{B_{S'}\}) = \dim(\text{Span}\{A_{S}\})$. Recalling \eqref{SubspaceMetricSameDim},  we see that the association $S \mapsto S'$ therefore defines a map $\pi: \mathcal{T} \to {[m] \choose k}$ satisfying:
@@ -391,7 +403,9 @@ Since $|S'| = k$, we also have $\dim(\text{Span}\{B_{S'}\}) \leq k$; hence, $\di
 \Theta(A_{S}, B_{\pi(S)}) \leq \frac{\varepsilon\sqrt{k}}{ L(AX_{J(S)})}, \indent \text{for } S \in \mathcal{T}.
 \end{align}
 
-Thus, from \eqref{rhs} and \eqref{yeyeye} it follows that, for any particular $S \in \mathcal{T}$, the inequality in \eqref{GapUpperBound} is satisfied for $\delta < L_2(A)/\sqrt{2}$ by setting $\delta = \frac{ \rho k}{ \phi_\mathcal{T}(A) } \left(  \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} \right)$. Hence, \eqref{GapUpperBound} holds (for all $S \in \mathcal{T}$) when $\delta = C\varepsilon$. %, with $C$ as defined in \eqref{Cdef}.
+Thus, from \eqref{rhs} and \eqref{yeyeye} it follows that, for any particular $S \in \mathcal{T}$, the inequality in \eqref{GapUpperBound} is satisfied for:
+\[ \delta = \frac{ \rho k}{ \phi_\mathcal{T}(A) } \left(  \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} \right) = C\varepsilon < L_2(A)/\sqrt{2}. \]
+Hence, \eqref{GapUpperBound} holds (for all $S \in \mathcal{T}$) when $\delta = C\varepsilon$. %, with $C$ as defined in \eqref{Cdef}.
 %\begin{align*}
 %\delta = \left( \frac{ \varepsilon \sqrt{k^3}}{ \phi_k(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in \mathcal{T}} L_k(AX_{I(S)})}
 %= C\varepsilon.
@@ -408,18 +422,18 @@ The result \eqref{Cstable} follows by application of Lem.~\ref{MainLemma} and, a
 In this note, we generalize recent results \cite{Hillar15} on the uniqueness of solutions to Problem~\ref{InverseProblem} to the case of noisy measurements while also significantly reducing the number of required samples.
 % from $N=k{m \choose k}^2$ to $N = m(k-1){m \choose k}+m$. 
 % CUT OK? Surprisingly, almost all $n \times m$ dictionaries satisfying the standard assumption \eqref{CScondition} from compressed sensing (CS) are identifiable from enough generic noisy $k$-sparse linear combinations of their elements, up to an error linear in the noise. Moreover, if solutions are constrained to satisfy \eqref{SparkCondition}, then only an upper bound on the number of dictionary elements need be taken as given. 
-We remark that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise, whereas the ``effective'' noise might be much smaller when it is sampled from a given distribution; in such cases, the constant $C$ may be much smaller with high probability.
-We note also that these results extend trivially to the case where certain point-wise injective nonlinearities are applied to the data. We close by outlining  four diverse application areas.
+We remark that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise, whereas the ``effective'' noise might be much smaller when it is sampled from a given distribution; in such cases, the constants $C$ in Thms.~\ref{DeterministicUniquenessTheorem},~\ref{DeterministicUniquenessTheorem2} may be much smaller with high probability.
+We note also that these results extend trivially to when point-wise injective nonlinearities are applied to the data. We close by outlining  four diverse application areas.
 
 %\textbf{Compressed Sensing}.
 %The goal of compressed sensing is to recover a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse enough in some known basis (i.e., $\mathbf{a} = \Psi^{-1} \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) via a stable and efficient reconstruction process after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x} + \mathbf{n}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$ and noise $\mathbf{n}$. If $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition}, then $\mathbf{a}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi \mathbf{a}$. But what if $\Phi$ is unknown? Our theorems show that the matrix $A$ and sparse codes can still be estimated up to noise and an inherent permutation-scaling ambiguity if samples $\mathbf{y}_1, \ldots, \mathbf{y}_N$ are sufficiently diverse. 
 
 % FRITZ: Inverse problems instead of Data Analysis. Don't assume that everyone is assuming they are recovering ground truth. Cite results again and state implications! Focus on them (probabilistic ones too).
 \textbf{Inverse Problems}.  
-Our results provide theoretical grounding for the use of sparse dictionary learning for blind source separation, wherein the goal is to infer the generating dictionary and sparse codes (e.g., representing a rat's position on a linear track \cite{Agarwal14}) from noisy measurements (e.g., local field potentials in Hippocampus) generated as in \eqref{LinearModel}. It would be of practical utility therefore to determine the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Def. \ref{Uniqueness}) as well as the minimal requirements on the number and diversity of generating codes. %We encourage researchers to extend our results and tighten these parameters.
+Our results provide theoretical grounding for the use of sparse dictionary learning in blind source separation, wherein the goal is to infer the generating dictionary and sparse codes from noisy measurements generated as in \eqref{LinearModel} (e.g., recovering a rat's position on a linear track from local field potentials in Hippocampus \cite{Agarwal14}). It would be of practical utility therefore to determine the best possible dependence of $\varepsilon$ on $\delta_1, \delta_2$ (see Thm.~\ref{DeterministicUniquenessTheorem}) as well as the minimal requirements on the number and diversity of generating codes. %We encourage researchers to extend our results and tighten these parameters.
 
 \textbf{Theoretical Neuroscience}.
-Sparse dictionary learning and related methods have repeatedly been shown to recover characteristic sparse components of natural images \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent} and sounds \cite{bellsejnowski1996, smithlewicki2006, Carlson12}, reproducing response properties of some cortical neurons. Our theorems suggest that this correspondence could be due to the uniqueness of sparse representations. Furthermore, our guarantees justify the hypothesis of \cite{Coulter10} and \cite{Isely10} that sparse codes passed through a communication bottleneck in the brain can be recovered from random projections via (unsupervised) biologically plausible sparse coding algorithms (e.g., \cite{rozell2007neurally, hu2014hebbian}).   
+Sparse dictionary learning and related methods have recovered characteristic components of natural images \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent} and sounds \cite{bellsejnowski1996, smithlewicki2006, Carlson12}, reproducing response properties of cortical neurons. Our theorems suggest that this correspondence could be due to the uniqueness of sparse representations. Furthermore, our guarantees justify the hypothesis of \cite{Coulter10} and \cite{Isely10} that sparse codes passed through a communication bottleneck in the brain can be recovered from random projections via (unsupervised) biologically plausible sparse dictionary learning (e.g., \cite{rozell2007neurally, hu2014hebbian}).   
 
 %A necessary condition for this theory to work is that the sparse coding problem has a unique solution stable with respect to noise, which our work verifies. 
 
@@ -432,7 +446,7 @@ The main concept in smoothed analysis \cite{Spielman04} is that certain algorith
 %This was already verified in the case of data sampled without noise in \eqref{Hillar15}.  Our work extends this theory to the more realistic case of sampling error.
 
 \textbf{Engineering}.
-Several groups utilize CS for signal processing tasks: MRI analysis \cite{lustig2008compressed},  image compression \cite{Duarte08}  and, more recently, the design of an ultrafast camera \cite{Gao14}. Given such effective uses of CS, it is only a matter of time before these systems incorporate sparse dictionary learning to encode and process data. Guarantees such as those offered by our theorems allow any such device to be equivalent to any other (having different initial parameters and data samples) as long as enough data originates from a statistically identical system.
+Several groups utilize compressed sensing for signal processing tasks: MRI analysis \cite{lustig2008compressed},  image compression \cite{Duarte08}, and, more recently, the design of an ultrafast camera \cite{Gao14}. Given such effective uses of compressed sensing, it is only a matter of time before these systems incorporate sparse dictionary learning to encode and process data. Guarantees such as those offered by our theorems allow any such device to be equivalent to any other (having different initial parameters and data samples) as long as enough data originate from a statistically identical system.
 % MENTION THE PEOPLE AT CARNEGIE MELON WHO CONTACTED US?
 
 % FRITZ: Cite Mickey Lustig
@@ -499,16 +513,16 @@ Let $M \in \mathbb{R}^{n \times m}$. If every $2k$ columns of $M$ are linearly i
 
 % This can be made tighter by using Pythagoras' Thm for first projection instead of triangle inequality. 
 \begin{lemma}\label{DistanceToIntersectionLemma}
-Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be subspaces of $\mathbb{R}^m$ and let $V = \cap \mathcal{V}$. For every $\mathbf{x} \in \mathbb{R}^m$, we have:
+Fix $k \geq 2$. Let $\mathcal{V} = \{V_1, \ldots, V_k\}$ be subspaces of $\mathbb{R}^m$ and set $V = \cap \mathcal{V}$. For every $\mathbf{x} \in \mathbb{R}^m$, we have:
 \begin{align}\label{DTILeq}
 d(\mathbf{x}, V) \leq \frac{1}{1 - \xi(\mathcal{V})} \sum_{i=1}^k d(\mathbf{x}, V_i),
 \end{align}
-provided $\xi(\mathcal{V}) < 1$, where $\xi$ is given in Def.~\ref{SpecialSupportSet}.
+where $\xi$ is given in Def.~\ref{SpecialSupportSet}.
 \end{lemma}
 \begin{proof} 
-Fix $\mathbf{x} \in \mathbb{R}^m$ and $k \geq 2$. Recall that the orthogonal projection onto a subspace $V \subseteq \mathbb{R}^m$ is the mapping $\Pi_V$ from $\mathbb{R}^m$ to $V$ that associates with each $\mathbf{x} \in \mathbb{R}^m$ its unique nearest point in $V$:
+Fix $\mathbf{x} \in \mathbb{R}^m$ and $k \geq 2$. Recall that the orthogonal projection onto a subspace $V \subseteq \mathbb{R}^m$ is the mapping $\Pi_V$ from $\mathbb{R}^m$ to $V$ that associates with each $\mathbf{x}$ its unique nearest point in $V$:
 \begin{align*}
-|\mathbf{x} - \Pi_V\mathbf{x}|_2 = d(\mathbf{x}, V) := \min\{|\mathbf{u}-\mathbf{v}|_2: \mathbf{v} \in V\}.
+|\mathbf{x} - \Pi_V\mathbf{x}|_2 = d(\mathbf{x}, V) := \min\{|\mathbf{x}-\mathbf{v}|_2: \mathbf{v} \in V\}.
 \end{align*}
 % Since subspaces of real vector spaces are closed, we can replace inf with min in def. of orthogonal projection
 
@@ -516,15 +530,15 @@ We begin the proof by observing that:
 %Use Pythagoras' Theorem first?
 \begin{align*}
 |\mathbf{x} - \Pi_V\mathbf{x}|_2 &\leq |\mathbf{x} - \Pi_{V_k} \mathbf{x}|_2 + |\Pi_{V_k}  \mathbf{x} - \Pi_{V_k}\Pi_{V_{k-1}}\mathbf{x}|_2 \nonumber \\
-&\ \ \ + \ldots + |\Pi_{V_k} \Pi_{V_{k-1}}\cdots \Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x}|_2 \nonumber \\
+&\ \ \ + \cdots + |\Pi_{V_k} \Pi_{V_{k-1}}\cdots \Pi_{V_1} \mathbf{x} - \Pi_V \mathbf{x}|_2 \nonumber \\
 &\leq \sum_{\ell=1}^k |\mathbf{x} - \Pi_{V_{\ell}} \mathbf{x}|_2 + |\Pi_{V_k}\cdots\Pi_{V_{1}} \mathbf{x} - \Pi_V \mathbf{x}|_2,
 \end{align*}
 %
-by the triangle inequality and the fact that the spectral norm $\|\Pi_{V_{\ell}}\|_2 \leq 1$ for all $\ell$ (since $\Pi_{V_{\ell}}$ are projections).
+by the triangle inequality and the fact that the spectral norm $\|\Pi_{V_{\ell}}\|_2 \leq 1$ for all $\ell$ (since $\Pi_{V_{\ell}}$ are orthogonal projections).
 
 The desired result \eqref{DTILeq} now follows by bounding the second term on the RHS using the following fact \cite[Thm.~9.33]{Deutsch12}:
 \begin{align}
-|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V\mathbf{x}|_2 \leq z |\mathbf{x}|_2 \indent \text{for } \mathbf{x} \in \mathbb{R}^m,
+|\Pi_{V_k}\Pi_{V_{k-1}}\cdots\Pi_{V_1} \mathbf{x} - \Pi_V\mathbf{x}|_2 \leq z |\mathbf{x}|_2, %  \indent \text{for } \mathbf{x} \in \mathbb{R}^m,
 \end{align}
 for \mbox{$z^2= 1 - \prod_{\ell =1}^{k-1}(1-z_{\ell}^2)$} and \mbox{$z_{\ell} = \cos\theta\left(V_{\ell}, \cap_{s=\ell+1}^k V_s\right)$}. Together with $\Pi_{V_\ell} \Pi_V = \Pi_V$ for all $\ell = 1, \ldots, k$ and $\Pi_V^2 = \Pi_V$, this yields:
 \begin{align*}
@@ -538,24 +552,24 @@ Since $z$ may depend on the arbitrary labelling of the $V_i \in \mathcal{V}$, we
 
 %======= GRAPH THEORY LEMMA =======
 
-\begin{lemma}\label{NonEmptyLemma} Fix integers $k < m$, and let $\mathcal{T} = \{S_1, \ldots, S_m\}$ be the set of intervals of length $k$ in some cyclic order of $[m]$. Suppose there exists a map $\pi: \mathcal{T} \to {[m] \choose k}$ such that:
+\begin{lemma}\label{NonEmptyLemma} Fix integers $k < m$, and let $\mathcal{T} = \{S_1, \ldots, S_m\}$ be the set of intervals of length $k$ in some cyclic order on $[m]$. Suppose there exists a map $\pi: \mathcal{T} \to {[m] \choose k}$ such that:
 \begin{align}\label{NonEmpty}
 |\bigcap_{j \in J} \pi(S_j)| \leq |\bigcap_{j \in J} S_j | \ \ \text{for } \ J \in {[m] \choose k}.
 \end{align}
 %
-Then, $|\pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})| = 1$ for all consecutive (modulo $m$) indices $j_1,\ldots,j_k$.
+Then, $|\pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})| = 1$ for all consecutive indices $j_1,\ldots,j_k$ in the order on $[m]$.
 \end{lemma}
 
-\begin{proof} Consider the set $Q_m = \{ (r,t) : r \in \pi(S_\mathcal{T}), t \in [m] \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $q \in [m]$ and $J \in {[m] \choose k}$ such that $(q, j) \in Q_m$ for all $j \in J$. In particular, we have $q \in \cap_{j \in J} \pi(S_j)$ so that from \eqref{NonEmpty} there must be some $p \in [m]$ with $p \in \cap_{j \in J} S_j$. Since $|J| = k$, this is only possible if the elements of $J = \{j_1, \ldots, j_k\}$ are consecutive modulo $m$, in which case $|\cap_{j \in J} S_j| = 1$. Hence, it follows that $|\cap_{j \in J} \pi(S_j)| = 1$ as well.
+\begin{proof} Consider the set $Q_m = \{ (r,\ell) : r \in \pi(S_{\ell}), \ell \in [m] \}$, which has $mk$ elements. By the pigeon-hole principle, there is some $q \in [m]$ and $J \in {[m] \choose k}$ such that $(q, j) \in Q_m$ for all $j \in J$. In particular, we have $q \in \cap_{j \in J} \pi(S_j)$, so that from \eqref{NonEmpty} there must be some $p \in [m]$ with $p \in \cap_{j \in J} S_j$. Since $|J| = k$, this is only possible if the elements of $J = \{j_1, \ldots, j_k\}$ are consecutive modulo $m$, in which case $|\cap_{j \in J} S_j| = 1$. Hence, it follows that $|\cap_{j \in J} \pi(S_j)| = 1$ as well.
 
-We next consider if any other $t \notin J$ is such that $q \in \pi(S_\mathcal{T})$. Suppose there were such a $\mathcal{T}$; then, we have \mbox{$q \in \pi(S_\mathcal{T}) \cap \pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})$} and \eqref{NonEmpty} would imply that the intersection of every $k$-element subset of $\{S_\mathcal{T}\} \cup \{S_j: j \in J\}$ is nonempty. This would only be possible if $\{t\} \cup J = [m]$, in which case the result then trivially holds since then $q \in \pi(S_j)$ for all $j \in [m]$.  Suppose now there exists no such $\mathcal{T}$; then, letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $q$ as a first coordinate, we have $|Q_{m-1}| = (m-1)k$. 
+We next consider if any other $\ell \notin J$ is such that $q \in \pi(S_\mathcal{T})$. Suppose there were such a $\mathcal{T}$; then, we have \mbox{$q \in \pi(S_\mathcal{T}) \cap \pi(S_{j_1}) \cap \cdots \cap \pi(S_{j_k})$} and \eqref{NonEmpty} would imply that the intersection of every $k$-element subset of $\{S_\mathcal{T}\} \cup \{S_j: j \in J\}$ is nonempty. This would only be possible if $\{\ell\} \cup J = [m]$, in which case the result then trivially holds since then $q \in \pi(S_j)$ for all $j \in [m]$.  Suppose now there exists no such $\mathcal{T}$; then, letting $Q_{m-1} \subset Q_m$ be the set of elements of $Q_m$ not having $q$ as a first coordinate, we have $|Q_{m-1}| = (m-1)k$. 
 
-By iterating the above arguments, we arrive at a partitioning of $Q_m$ into sets $R_i = Q_i \setminus Q_{i-1}$ for $i = 1, \ldots, m$, each having a unique element of $[m]$ as a first coordinate common to all $k$ elements while having second coordinates which form a consecutive set modulo $m$. In fact, every set of $k$ consecutive integers modulo $m$ is the set of second coordinates of some $R_i$. This must be the case because for every consecutive set $J$ we have $|\cap_{j \in J} S_j| = 1$, whereas if $J$ is the set of second coordinates for two distinct sets $R_i$, we would have \mbox{$|\cap_{j \in J} \pi(S_j)| > 1$}, violating \eqref{NonEmpty}. 
+By iterating the above arguments, we arrive at a partitioning of $Q_m$ into sets $R_i = Q_i \setminus Q_{i-1}$ for $i = 1, \ldots, m$, each having a unique element of $[m]$ as a first coordinate common to all $k$ elements while having second coordinates which form a consecutive set. In fact, every set of $k$ consecutive integers in the order is the set of second coordinates of some $R_i$. This must be the case because for every consecutive set $J$ we have $|\cap_{j \in J} S_j| = 1$, whereas if $J$ is the set of second coordinates for two distinct sets $R_i$, we would have \mbox{$|\cap_{j \in J} \pi(S_j)| > 1$}, violating \eqref{NonEmpty}. 
 \end{proof}
 
 %==== PROOF OF MAIN LEMMA =======
 \begin{proof}[Proof of Lem.~\ref{MainLemma} (Main Lemma)]
-We assume $k \geq 2$ since the case $k = 1$ was proven in Sec.~\ref{DUT}. We assume without loss of generality that the cyclic order on $[m]$ is the trivial one so that $\mathcal{T} = \{S_1, \ldots, S_m\}$ has $S_i = \{i, \ldots, i+k-1\}$ for $i \in [m]$ as the intervals of length $k$ in the order. We begin by showing that $\dim(\text{Span}\{B_{\pi(S)}\}) = k$ for all $S \in \mathcal{T}$. 
+We assume $k \geq 2$ since the case $k = 1$ was proven in Sec.~\ref{DUT}. For simplicity, we also assume without loss of generality that the cyclic order on $[m]$ is the trivial one so that $\mathcal{T} = \{S_1, \ldots, S_m\}$ has $S_i = \{i, \ldots, i+k-1\}$ for $i \in [m]$ as the intervals of length $k$ in the order. We begin by showing that $\dim(\text{Span}\{B_{\pi(S)}\}) = k$ for all $S \in \mathcal{T}$. 
 Fix $S \in \mathcal{T}$ and note that by \eqref{GapUpperBound}, all unit vectors $\mathbf{u} \in \text{Span}\{A_{S}\}$ satisfy $d(\mathbf{u}, \text{Span}\{B_{\pi(S)}\}) \leq \frac{\phi_\mathcal{T}(A)}{\rho k} \delta$ for $\delta < \frac{L_2(A)}{ \sqrt{2}}$. By definition of $L_2(A)$, for all $2$-sparse $\mathbf{x} \in \mathbb{R}^m$:
 \begin{align*}
 L_2(A) \leq \frac{|A\mathbf{x}|_2}{|\mathbf{x}|_2} \leq \rho \frac{|\mathbf{x}|_1}{|\mathbf{x}|_2} \leq \rho \sqrt{2}.
@@ -565,7 +579,7 @@ It follows that $\delta < \rho$. Since $\phi_\mathcal{T}(A) \leq 1$, we also hav
 
 We will now show that:
 \begin{align}\label{fact2}
-|\bigcap_{j \in J} \pi(S_j)| \leq |\bigcap_{j \in J} S_j | \ \ \text{for } \ J \in {[m] \choose k}.
+|\bigcap_{j \in J} \pi(S_j)| \leq |\bigcap_{j \in J} S_j |, \ \ \text{for } \ J \in {[m] \choose k}.
 \end{align}
 
 Fix $J \in {[m] \choose k}$. By \eqref{GapUpperBound}, for all unit vectors \mbox{$\mathbf{u} \in \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$}, we have  that $d(\mathbf{u}, A_{S_j}) \leq \frac{\phi_\mathcal{T}(A)}{\rho k} \delta$ for all $j \in J$, where $\delta < \frac{L_2(A)}{\sqrt{2}}$. It follows from Lem.~\ref{DistanceToIntersectionLemma} that:
@@ -574,20 +588,20 @@ d\left( \mathbf{u}, \bigcap_{j \in J} \text{Span}\{A_{S_j}\} \right)
 \leq \frac{\delta}{\rho} \left( \frac{ \phi_\mathcal{T}(A) }{1 - \xi( \{ A_{S_j}: j \in J\} ) } \right) \leq \frac{\delta}{\rho},
 \end{align*}
 %
-where the second inequality follows from Def.~\ref{SpecialSupportSet}. Recall that $\xi < 1$ always.
+where the second inequality follows from Def.~\ref{SpecialSupportSet}. % Recall that $\xi < 1$ always.
 
 Now, since \mbox{$\text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\} \subseteq \cap_{j \in J} \text{Span}\{B_{\pi(S_j)}\}$} and (by Lem.~\ref{SpanIntersectionLemma}) $\cap_{j \in J}  \text{Span}\{A_{S_j}\} = \text{Span}\{A_{\cap_{j \in J}  S_j}\}$, we have:
 \begin{align}\label{fact1}
-d\left( \mathbf{u}, A_{\cap_{j \in J} S_j} \right) \leq \frac{\delta}{\rho} \indent \text{for unit } \mathbf{u} \in \text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\}.
+d\left( \mathbf{u}, A_{\cap_{j \in J} S_j} \right) \leq \frac{\delta}{\rho}, \indent \text{for unit } \mathbf{u} \in \text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\}.
 \end{align}
 In particular, Lem.~\ref{MinDimLemma} (since $\delta/\rho < 1$) implies that $\dim(\text{Span}\{B_{\cap_{j \in J}\pi(S_j)}\}) \leq \dim(\text{Span}\{A_{\cap_{j \in J} S_j}\})$ and \eqref{fact2} follows from the linear independence of the columns of $A_{S_j}$ and $B_{\pi(S_j)}$ for all $j \in [m]$.
 
-Suppose now that $J = \{\ell-k+1, \ldots, \ell\}$ for some $\ell \in [m]$ so that \mbox{$\cap_{j \in J} S_j = \{t\}$}. By \eqref{fact2}, we have that $\cap_{j \in J} \pi(S_j)$ is either empty or it contains a single element. Lem.~\ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $\ell \mapsto \cap_{j \in J} \pi(S_j)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_\ell\}$, we have $d\left( \mathbf{u}, B_{\hat \pi(\ell)}\right) \leq \delta/\rho$ also. Since $\ell$ is arbitrary, it follows that for every basis vector $\mathbf{e}_\ell \in \mathbb{R}^m$, letting $c_\ell = |A\mathbf{e}_\ell |_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_\ell \in \mathbb{R}$ such that $|c_\ell A\mathbf{e}_\ell - c'_\ell B\mathbf{e}_{\hat \pi(\ell)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{\ell \in [m]} c_{\ell}$. This is exactly the supposition in \eqref{1D}, and the result follows from the subsequent arguments of Sec.~\ref{DUT}.
+Suppose now that $J = \{\ell-k+1, \ldots, \ell\}$ for some $\ell \in [m]$ so that \mbox{$\cap_{j \in J} S_j = \{\ell\}$}. By \eqref{fact2}, we have that $\cap_{j \in J} \pi(S_j)$ is either empty or it contains a single element. Lem.~\ref{NonEmptyLemma} ensures that the latter case is the only possibility. Thus, the association $\ell \mapsto \cap_{j \in J} \pi(S_j)$ defines a map $\hat \pi: [m] \to [m]$. Recalling \eqref{SubspaceMetricSameDim}, it follows from \eqref{fact1} that for all unit vectors $\mathbf{u} \in \text{Span}\{A_\ell\}$, we have $d\left( \mathbf{u}, B_{\hat \pi(\ell)}\right) \leq \delta/\rho$ also. Since $\ell$ is arbitrary, it follows that for every basis vector $\mathbf{e}_\ell \in \mathbb{R}^m$, letting $c_\ell = |A\mathbf{e}_\ell |_2^{-1}$ and $\varepsilon = \delta/\rho$, there exists some $c'_\ell \in \mathbb{R}$ such that $|c_\ell A\mathbf{e}_\ell - c'_\ell B\mathbf{e}_{\hat \pi(\ell)}|_2 \leq \varepsilon$ where $\varepsilon < \frac{L_2(A)}{\sqrt{2}} \min_{\ell \in [m]} c_{\ell}$. This is exactly the supposition in \eqref{1D}, and the result follows from the subsequent arguments of Sec.~\ref{DUT}.
 \end{proof}
 
 The strategy above can be easily modified to prove the following variation of Lem.~\ref{MainLemma}, key to proving Thm.~\ref{DeterministicUniquenessTheorem2}. Let $\pi(\mathcal{T})$ denote the set $\{ \pi(S): S \in \mathcal{T}\}$. 
 \begin{lemma}[Main Lemma~for $m < m'$]\label{MainLemma2}
-Fix positive integers $n, m, m'$ and $k$, where $k < m < m'$, and let $\mathcal{T}$ be the set of intervals of length $k$ in some cyclic ordering of $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: \mathcal{T} \to {[m'] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that for $S \in \mathcal{T}$:
+Fix positive integers $n, m, m'$ and $k$, where $k < m < m'$, and let $\mathcal{T}$ be the set of intervals of length $k$ in some cyclic order on $[m]$. Let $A \in \mathbb{R}^{n \times m}$ and $B \in \mathbb{R}^{n \times m'}$ both satisfy spark condition \eqref{SparkCondition} with $A$ having maximum column $\ell_2$-norm $\rho$. If there exists a map $\pi: \mathcal{T} \to {[m'] \choose k}$ and some $\delta < \frac{L_{2}(A)}{\sqrt{2}}$ such that for $S \in \mathcal{T}$:
 \begin{equation}\label{GapUpperBound2}
 \Theta(A_{S}, B_{\pi(S)}) \leq \frac{ \delta }{\rho k} \min(\phi_\mathcal{T}(A), \phi_{\pi(\mathcal{T})}(B)),
 \end{equation}
@@ -630,7 +644,7 @@ It can be checked that when $g$ is nonzero for a substitution of real numbers fo
 \end{proof}
 
  \begin{proof}[Proof of Cor.~\ref{ProbabilisticCor}]
-First, note that if a set of measure spaces $\{(X_{\ell}, \Sigma_{\ell}, \nu_{\ell})\}_{\ell=1}^p$ is such that $\nu_{\ell}$ is absolutely continuous with respect to $\mu$ for all $\ell = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{\ell=1}^p \nu_{\ell}$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$ (e.g.,  \cite{folland2013real}). By Thm.~\ref{robustPolythm}, there is a polynomial that is nonzero whenever $Y$ has a stable $k$-sparse representation in $\mathbb R^m$; in particular, this property (stability) holds with probability one.
+First, note that if a set of measure spaces $\{(X_{\ell}, \Sigma_{\ell}, \nu_{\ell})\}_{\ell=1}^p$ is such that $\nu_{\ell}$ is absolutely continuous with respect to $\mu$ for all $\ell = 1, \ldots, p$, where $\mu$ is the standard Borel measure on $\mathbb{R}$, then the product measure $\prod_{\ell=1}^p \nu_{\ell}$ is absolutely continuous with respect to the standard Borel product measure on $\mathbb{R}^p$ (e.g.,  \cite[Ex. ***]{folland2013real}). By Thm.~\ref{robustPolythm}, there is a polynomial that is nonzero whenever $Y$ has a stable $k$-sparse representation in $\mathbb R^m$; in particular, this property (stability) holds with probability one.
 %form a set of Borel measure 0. Therefore, any matrix $A$ with samples drawn according to probability measures $\nu_{ij}$ which are absolutely continuous with respect to $\mu$ satisfy the spark condition with probability one.  Finally, apply Thm.~\ref{robustPolythm}.
 \end{proof}
 
