@@ -66,8 +66,12 @@ Applications are given to data analysis, neuroscience, and engineering.
 
 %Sparse coding is a concept originally developed in neuroscience to account for sensory representations in the brain, which now sees widespread use in many image and signal processing and data analysis tasks. %copied word-for-word from the grant Bruno, Fritz, Yubei, Saeed and I submitted.
 \section{Introduction}\label{Intro}
+%The reproduction of response properties of neurons in the mammalian visual cortex by algorithms designed to optimize dictionaries for sparse coding of natural images marked an exciting development in computational neuroscience.
+% The discovery that response response properties of neurons in the mammalian visual cortex are reproducible by algorithms designed to optimize dictionaries for sparse coding of natural images marked an exciting development in computational neuroscience.
+% The discovery that response response properties of neurons in the mammalian visual cortex emerge from algorithms designed to optimize dictionaries for sparse coding of natural images marked an exciting development in computational neuroscience. [Since then? Or Many dictionary learning algorithms have since...]
+
 %\IEEEPARstart{A}{n} exciting discovery in computational neuroscience was that response properties of neurons in the mammalian visual cortex can be reproduced by algorithms designed to optimize dictionaries for sparse coding  of natural images \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}. 
-\IEEEPARstart{T}{he} discovery that response properties of neurons in the mammalian visual cortex are reproducible by algorithms designed to optimize dictionaries for sparse coding of natural images marked an exciting development in computational neuroscience \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}. Since then, many dictionary learning algorithms have been developed and applied to a variety of problems in signal processing and machine learning (see \cite{Zhang15} for a comprehensive review). A popular formulation of the idea is to encode each datum (out of $N$) as a linear combination of at most $k$ $n$-dimensional vectors from an inferred dictionary of size $m$, where $k < m \ll N$. 
+\IEEEPARstart{T}{he} discovery that response properties of neurons in the mammalian visual cortex emerge from algorithms designed to optimize dictionaries for sparse coding of natural images marked an exciting development in computational neuroscience \cite{Olshausen96, hurri1996image, bell1997independent, van1998independent}. Since then, many dictionary learning algorithms have been developed and applied to a variety of problems in signal processing and machine learning (see \cite{Zhang15} for a comprehensive review). A popular formulation of the idea is to encode each datum (out of $N$) as a linear combination of at most $k$ $n$-dimensional vectors from an inferred dictionary of size $m$, where $k < m \ll N$. 
 % 'encoded by' different from 'approximated by'. Encoded just means any map from data to representation, approximation means this map is determined by finding the closest point of the model to the data. 
 
 Certain applications to data analysis call for a unique such ``sparse structure". For instance, detecting forgeries by analysis of local painting style \cite{hughes2010, Olshausen10} requires that all dictionaries consistent with training data do not differ appreciably in their ability to sparsely encode new samples. Recently, algorithms with proven convergence under certain conditions have been proposed  (see \cite[Sec.~I-E]{Sun16} for a brief summary of the state-of-the-art). It has remained unknown, however, when the problem is well-posed in general (as per Hadamard \cite{Hadamard1902}) -- that is, independent of constraints specific to a particular algorithm.
@@ -99,7 +103,7 @@ A\mathbf{x}_1 = A\mathbf{x}_2 \implies \mathbf{x}_1 = \mathbf{x}_2,\indent \text
 \end{align}
 %
 % [ *** Can we motivate more necessary conditions using theorems of Li15, too? Thm.~2.8. *** ] 
-which is evidently a necessary condition given that the $\mathbf{a}_i$ are known only to be $k$-sparse.\footnote{For example, consider $A$ with collinear columns.} 
+which is evidently a necessary condition given $k$-sparse $\mathbf{a}_i$.\footnote{I'm insane, you do this.} 
 %TODO: Make PERFECT. Basically, we need this to ensure that any two a_i don't get mapped to the same thing. but what if our constraints on the a_i already ensure that? We don't 'only know the a_i are k-sparse'. We know they'r distributed over supports in a cyclic order and in general linear position over each support.
 % MAYBE: If $A$ does not satisfy the spark condition, we can always add the two delinquent a_i to the dataset. 
 Matrices of the form $PD$ thus form the \emph{ambiguity transformation group} inherent to the noiseless problem subject to these constraints \cite{Li15}. 
@@ -135,9 +139,8 @@ Clearly, $L_k(A) \geq L_{k'}(A)$ whenever $k < k'$, and for any $A$ satisfying \
 A \textit{cyclic order} on $[m] := \{1, \ldots,m\}$ is an arrangement of $[m]$ in a circular necklace, and an \textit{interval} in the order is any subset of contiguous elements. A vector $\mathbf{a} \in \mathbb{R}^m$ is said to be \emph{supported} on $S \subseteq [m]$ when $\mathbf{a} \in \text{Span}_{\mathbb R}\{ \{\mathbf{e}_j\}_{j\in S}\}$, where $\mathbf{e}_j$ are the standard basis vectors.  Also, recall that $M_j$ denotes the $j$th column of a matrix $M$. The following result gives an answer to our question from the introduction.
 
 %=== STATEMENT OF DETERMINISTIC UNIQUENESS THEOREM ===%
-% TODO: Is "at least" below redundant? if there are N+1, there still are N. We don't say "exactly". 
 \begin{theorem}\label{DeterministicUniquenessTheorem}
-Fix $n, m$, and $k < m$. If $A \in \mathbb{R}^{n \times m}$ is injective on $k$-sparse vectors and $k$-sparse \mbox{$\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$} are such that for every interval of length $k$ in some cyclic order on $[m]$ there are at least \mbox{$(k-1){m \choose k}+1$} vectors $\mathbf{a}_i$ in general linear position (i.e., any $k$ of them are linearly independent) supported there, then $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
+Fix $n, m$, and $k < m$. If $A \in \mathbb{R}^{n \times m}$ is injective on $k$-sparse vectors and $k$-sparse \mbox{$\mathbf{a}_1, \ldots, \mathbf{a}_N \in \mathbb{R}^m$} are such that for every interval of length $k$ in some cyclic order on $[m]$ there are \mbox{$(k-1){m \choose k}+1$} vectors $\mathbf{a}_i$ in general linear position (i.e., any $k$ of them are linearly independent) supported there, then $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$.
 
 Specifically, there exists a constant $C > 0$ for which the following holds for all $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$.\footnote{The condition $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ is necessary; otherwise,  with \mbox{$A$ = $I$} and $\mathbf{a}_i = \mathbf{e}_i$, there is a $B$ and $1$-sparse $\mathbf{b}_i$ with $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ violating \eqref{Cstable}.} If any matrix $B \in \mathbb{R}^{n \times m}$ and $k$-sparse $\mathbf{b}_1, \ldots, \mathbf{b}_N \in \mathbb{R}^m$ are such that \mbox{$|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$} for all $i \in [N]$, then for all $j \in [m]$:
 \begin{align}\label{Cstable}
@@ -291,7 +294,6 @@ The \textbf{gap} (or \textbf{aperture}) $\Theta(U,V)$ between subspaces $U, V \s
 \end{equation*}
 %
 where $d(\mathbf{u},V) := \inf\{|\mathbf{u}-\mathbf{v}|_2: \mathbf{v} \in V\}$.
-%TODO: Include this footnote? \footnote{In fact, $\Theta(U,V)$ is equal to the sine of the largest Jordan angle between $U$ and $V$ \cite{?} and also $\Theta(U,V) = \|\Pi_V - \Pi_U\|$ \cite{?}.} 
 \end{definition}
 
 We now state our uniqueness result in matrix analysis, generalizing \cite[Lem.~1]{Hillar15} to the noisy case.
@@ -374,9 +376,8 @@ It turns out that \eqref{Cstable} already implies in general the recovery result
 It remains to show that \eqref{Cstable} with $C$ given in \eqref{Cdef} follows from $\varepsilon < \frac{L_2(A)}{\sqrt{2}}C^{-1}$ for $k > 1$. Our main tool is Lem.~\ref{MainLemma}.
 
 %========          PROOF OF THEOREM 1        ============
-% TODO: Add "Since there are *at least* N = ... vectors for each support. Because the theorem statement uses the words "at least". Fix N \geq ...? Then C needs to be defined with respect to the N data points that we use. 
 \begin{proof}[Proof of Thm.~\ref{DeterministicUniquenessTheorem}]
-From above, we may assume that $k > 1$. Let $\mathcal{T}$ be the set of intervals of length $k$ in the given cyclic order on $[m]$, and fix $N = m(k-1){m \choose k}+m$ vectors in $\mathbb{R}^m$ and $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} as in the statement of the theorem. %We claim $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$. 
+From above, we may assume that $k > 1$. Let $\mathcal{T}$ be the set of intervals of length $k$ in the given cyclic order on $[m]$, and fix $A \in \mathbb{R}^{n \times m}$ satisfying \eqref{SparkCondition} and $N = m(k-1){m \choose k}+m$ vectors $\mathbf{a}_i \in \mathbb{R}^m$ as in the statement of the theorem. %We claim $Y = \{A\mathbf{a}_1, \ldots, A\mathbf{a}_N\}$ has a stable $k$-sparse representation in $\mathbb{R}^m$. 
 
 Suppose that for some $B \in \mathbb{R}^{n \times m}$ there exist $k$-sparse \mbox{$\mathbf{b}_i \in \mathbb{R}^m$} such that $|A\mathbf{a}_i - B\mathbf{b}_i|_2 \leq \varepsilon$ for all $i \in [N]$. Since there are $(k-1){m \choose k}+1$ vectors $\mathbf{a}_i$ with a given support $S \in \mathcal{T}$, the pigeon-hole principle implies that there exists some $S' \in {[m] \choose k}$ and some set of $k$ indices $J(S)$ such that all $\mathbf{a}_i$ and $\mathbf{b}_i$ with $i \in J(S)$ have supports $S$ and $S'$, respectively.
 
@@ -407,9 +408,8 @@ Since $|S'| = k$, we also have $\dim(\text{Span}\{B_{S'}\}) \leq k$; hence, $\di
 \Theta(A_{S}, B_{\pi(S)}) \leq \frac{\varepsilon\sqrt{k}}{ L(AX_{J(S)})}, \indent \text{for } S \in \mathcal{T}.
 \end{align}
 
-% TODO: I changed what's below:
 Thus, from \eqref{rhs} and \eqref{yeyeye} it follows that, for any particular $S \in \mathcal{T}$, the inequality in \eqref{GapUpperBound} is satisfied for:
-\[ \delta = \frac{ \rho k}{ \phi_\mathcal{T}(A) } \left(  \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} \right) < \frac{L_2(A)}{\sqrt{2}}. \] %TODO: tell chris. took out Ce because that's for all S, not particular S
+\[ \delta = \frac{ \rho k}{ \phi_\mathcal{T}(A) } \left(  \frac{\varepsilon \sqrt{k}}{L(AX_{J(S)})} \right) < \frac{L_2(A)}{\sqrt{2}}. \] 
 Hence, \eqref{GapUpperBound} holds (for all $S \in \mathcal{T}$) when $\delta = C\varepsilon$. %, with $C$ as defined in \eqref{Cdef}.
 %\begin{align*}
 %\delta = \left( \frac{ \varepsilon \sqrt{k^3}}{ \phi_k(A) } \right) \frac{\max_{j \in [m]} |A_j|_2}{\min_{S \in \mathcal{T}} L_k(AX_{I(S)})}
@@ -429,7 +429,6 @@ In this note, we generalize recent results \cite{Hillar15} on the uniqueness of 
 % CUT OK? Surprisingly, almost all $n \times m$ dictionaries satisfying the standard assumption \eqref{CScondition} from compressed sensing (CS) are identifiable from enough generic noisy $k$-sparse linear combinations of their elements, up to an error linear in the noise. Moreover, if solutions are constrained to satisfy \eqref{SparkCondition}, then only an upper bound on the number of dictionary elements need be taken as given. 
 We remark that our result in the deterministic case (Thm.~\ref{DeterministicUniquenessTheorem}) accounts for \emph{worst-case} noise, whereas the ``effective'' noise might be much smaller when it is sampled from a given distribution; in such cases, the constants $C$ in Thms.~\ref{DeterministicUniquenessTheorem},~\ref{DeterministicUniquenessTheorem2} may be much smaller with high probability.
 We note also that these results extend trivially to when point-wise injective nonlinearities are applied to the data. We close by outlining  four diverse application areas.
-% TODO: to when? Not, to the case when?
 
 %\textbf{Compressed Sensing}.
 %The goal of compressed sensing is to recover a signal $\mathbf{x} \in \mathbb{R}^n$ that is sparse enough in some known basis (i.e., $\mathbf{a} = \Psi^{-1} \mathbf{x}$ is $k$-sparse for some invertible $\Psi$) via a stable and efficient reconstruction process after it has been linearly subsampled as $\mathbf{y} = \Phi \mathbf{x} + \mathbf{n}$ by a known compression matrix $\Phi \in \mathbb{R}^{n \times m}$ and noise $\mathbf{n}$. If $A = \Phi\Psi$ satisfies the spark condition \eqref{SparkCondition}, then $\mathbf{a}$ is identifiable given $\mathbf{y}$ and the signal $\mathbf{x}$ can then be reconstructed as $\Psi \mathbf{a}$. But what if $\Phi$ is unknown? Our theorems show that the matrix $A$ and sparse codes can still be estimated up to noise and an inherent permutation-scaling ambiguity if samples $\mathbf{y}_1, \ldots, \mathbf{y}_N$ are sufficiently diverse. 
