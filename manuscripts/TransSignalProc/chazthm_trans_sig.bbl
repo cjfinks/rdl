@@ -1,0 +1,193 @@
+\begin{thebibliography}{10}
+
+\bibitem{sato1975method}
+Sato Y (1975) A method of self-recovering equalization for multilevel
+  amplitude-modulation systems.
+\newblock {\em IEEE Trans. Commun.} 23(6):679--682.
+
+\bibitem{Zhang15}
+Zhang Z, Xu Y, Yang J, Li X, Zhang D (2015) A survey of sparse representation:
+  algorithms and applications.
+\newblock {\em Access, IEEE} 3:490--530.
+
+\bibitem{wang2015sparse}
+Wang Z, et~al. (2015) {\em Sparse coding and its applications in computer
+  vision}.
+\newblock (World Scientific).
+
+\bibitem{Olshausen96}
+Olshausen B, Field D (1996) {Emergence of simple-cell receptive field
+  properties by learning a sparse code for natural images}.
+\newblock {\em Nature} 381(6583):607--609.
+
+\bibitem{hurri1996image}
+Hurri J, Hyv{\"a}rinen A, Karhunen J, Oja E (1996) Image feature extraction
+  using independent component analysis in {\em Proc. NORSIG '96 (Nordic Signal
+  Proc. Symposium)}.
+\newblock pp. 475--478.
+
+\bibitem{bell1997independent}
+Bell A, Sejnowski T (1997) The ``independent components" of natural scenes are
+  edge filters.
+\newblock {\em Vision Res.} 37(23):3327--3338.
+
+\bibitem{van1998independent}
+van Hateren J, van~der Schaaf A (1998) Independent component filters of natural
+  images compared with simple cells in primary visual cortex.
+\newblock {\em Proc. R Soc. Lond. [Biol.]} 265(1394):359--366.
+
+\bibitem{donoho2001can}
+Donoho D, Flesia A (2001) Can recent innovations in harmonic analysis 'explain'
+  key findings in natural image statistics?
+\newblock {\em Network Comp. Neural} 12(3):371--393.
+
+\bibitem{Isely10}
+Isely G, Hillar C, Sommer F (2010) Deciphering subsampled data: adaptive
+  compressive sampling as a principle of brain communication in {\em Adv.
+  Neural Inf. Process. Syst.}
+\newblock pp. 910--918.
+
+\bibitem{hughes2010}
+Hughes J, Graham D, Rockmore D (2010) Quantification of artistic style through
+  sparse coding analysis in the drawings of {P}ieter {B}ruegel the {E}lder.
+\newblock {\em Proc. Natl. Acad. Sci.} 107(4):1279--1283.
+
+\bibitem{Sun16}
+Sun J, Qu Q, Wright J (2016) {Complete dictionary recovery over the sphere I:
+  Overview and the geometric picture}.
+\newblock {\em IEEE Trans. Inf. Theory} pp. 853 -- 884.
+
+\bibitem{Hadamard1902}
+Hadamard J (1902) Sur les probl{\`e}mes aux d{\'e}riv{\'e}es partielles et leur
+  signification physique.
+\newblock {\em Princeton University Bulletin} 13(49-52):28.
+
+\bibitem{li2004analysis}
+Li Y, Cichocki A, Amari SI (2004) Analysis of sparse representation and blind
+  source separation.
+\newblock {\em Neural Comput.} 16(6):1193--1234.
+
+\bibitem{Georgiev05}
+Georgiev P, Theis F, Cichocki A (2005) Sparse component analysis and blind
+  source separation of underdetermined mixtures.
+\newblock {\em IEEE Trans. Neural Netw.} 16:992--996.
+
+\bibitem{Aharon06}
+Aharon M, Elad M, Bruckstein A (2006) On the uniqueness of overcomplete
+  dictionaries, and a practical way to retrieve them.
+\newblock {\em Linear Algebra Appl.} 416(1):48--67.
+
+\bibitem{Hillar15}
+Hillar C, Sommer F (2015) When can dictionary learning uniquely recover sparse
+  data from subsamples?
+\newblock {\em IEEE Trans. Inf. Theory} 61(11):6290--6297.
+
+\bibitem{Grcar10}
+Grcar J (2010) A matrix lower bound.
+\newblock {\em Linear Algebra Appl.} 433(1):203--220.
+
+\bibitem{vidal2005generalized}
+Vidal R, Ma Y, Sastry S (2005) Generalized principal component analysis
+  ({GPCA}).
+\newblock {\em IEEE Trans. Pattern Anal. Mach. Intell.} 27(12):1945--1959.
+
+\bibitem{Blanchard2011}
+Blanchard J, Cartis C, Tanner J (2011) Compressed sensing: How sharp is the
+  restricted isometry property?
+\newblock {\em SIAM Rev.} 53(1):105--125.
+
+\bibitem{tillmann2014computational}
+Tillmann A, Pfetsch M (2014) The computational complexity of the restricted
+  isometry property, the nullspace property, and related concepts in compressed
+  sensing.
+\newblock {\em IEEE Trans. Inf. Theory} 60(2):1248--1259.
+
+\bibitem{rehnsommer2007}
+Rehn M, Sommer F (2007) {A network that uses few active neurones to code visual
+  input predicts the diverse shapes of cortical receptive fields}.
+\newblock {\em J. Comput. Neurosci.} 22(2):135--146.
+
+\bibitem{rozell2007neurally}
+Rozell C, Johnson D, Baraniuk R, Olshausen B (2008) Neurally plausible sparse
+  coding via thresholding and local competition.
+\newblock {\em Neural Comput.} 20(10):2526--2563.
+
+\bibitem{pehlevan2015normative}
+Pehlevan C, Chklovskii D (2015) A normative theory of adaptive dimensionality
+  reduction in neural networks in {\em Advances in Neural Information
+  Processing Systems}.
+\newblock pp. 2269--2277.
+
+\bibitem{arias2013fundamental}
+Arias-Castro E, Candes E, Davenport M (2013) On the fundamental limits of
+  adaptive sensing.
+\newblock {\em IEEE Trans. Inf. Theory} 59(1):472--481.
+
+\bibitem{Tillmann15}
+Tillmann A (2015) On the computational intractability of exact and approximate
+  dictionary learning.
+\newblock {\em IEEE Signal Process. Lett.} 22(1):45--49.
+
+\bibitem{Kato2013}
+Kato T (2013) {\em Perturbation theory for linear operators}.
+\newblock (Springer Science \& Business Media) Vol.{} 132.
+
+\bibitem{Morris10}
+Morris I (2010) A rapidly-converging lower bound for the joint spectral radius
+  via multiplicative ergodic theory.
+\newblock {\em Adv. Math.} 225(6):3425--3445.
+
+\bibitem{Deutsch12}
+Deutsch F (2012) {\em Best approximation in inner product spaces}.
+\newblock (Springer Science \& Business Media).
+
+\bibitem{ganguli2012compressed}
+Ganguli S, Sompolinsky H (2012) Compressed sensing, sparsity, and
+  dimensionality in neuronal information processing and data analysis.
+\newblock {\em Annu. Rev. Neurosci.} 35:485--508.
+
+\bibitem{lustig2008compressed}
+Lustig M, Donoho D, Santos J, Pauly J (2008) Compressed sensing {MRI}.
+\newblock {\em IEEE Signal Process. Mag.} 25(2):72--82.
+
+\bibitem{Duarte08}
+Duarte M, et~al. (2008) Single-pixel imaging via compressive sampling.
+\newblock {\em IEEE Signal Process. Mag.} 25(2):83--91.
+
+\bibitem{Gao14}
+Gao L, Liang J, Li C, Wang L (2014) Single-shot compressed ultrafast
+  photography at one hundred billion frames per second.
+\newblock {\em Nature} 516(7529):74--77.
+
+\bibitem{kong2016prior}
+Kong C, Lucey S (2016) Prior-less compressible structure from motion in {\em
+  Proc. IEEE Comput. Soc. Conf. Comput. Vis. Pattern Recognit.}
+\newblock pp. 4123--4131.
+
+\bibitem{jung2001imaging}
+Jung TP, et~al. (2001) Imaging brain dynamics using independent component
+  analysis.
+\newblock {\em Proc. IEEE} 89(7):1107--1122.
+
+\bibitem{Agarwal14}
+Agarwal G, et~al. (2014) Spatially distributed local fields in the hippocampus
+  encode rat position.
+\newblock {\em Science} 344(6184):626--630.
+
+\bibitem{lee2016sparse}
+Lee YB, et~al. (2016) Sparse spm: Group sparse-dictionary learning in spm
+  framework for resting-state functional connectivity mri analysis.
+\newblock {\em Neuroimage} 125:1032--1045.
+
+\bibitem{wu2016stability}
+Wu S, et~al. (2016) Stability-driven nonnegative matrix factorization to
+  interpret spatial gene expression and build local gene networks.
+\newblock {\em Proc. Natl. Acad. Sci.} 113(16):4290--4295.
+
+\bibitem{goodfellow2014explaining}
+Goodfellow I, Shlens J, Szegedy C (2014) Explaining and harnessing adversarial
+  examples.
+\newblock {\em Proc. International Conference on Learning Representations, 11
+  pp.}
+
+\end{thebibliography}
